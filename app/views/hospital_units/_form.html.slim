@@ -1,0 +1,8 @@
+            
+         .hospital-form.well   
+            = simple_form_for @hospital_unit,remote: true do |f|
+            
+                = f.input :hospital_unit_name,label: false, placeholder: 'Name'
+                = f.input :hospital_unit_description,label: false, placeholder: 'Description'
+                = f.button :submit, "Save"
+            

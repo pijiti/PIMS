@@ -1,0 +1,16 @@
+= simple_form_for @patient  do |f| 
+ 
+
+    = f.association :title, collection: Title.all, label_method: :title_name,value_method: :id, prompt: "Select Title"
+    = f.input :patient_surname
+    = f.input :patient_firstname 
+    = f.input :patient_hospital_id
+    = f.input :patient_mobile
+    /!= f.input :gender, collection: @genders.collect{ |s| [s[0].titleize, s[0]] }, prompt: "Select Gender"
+    = f.input :patient_age
+    = f.input :nok_name
+    = f.input :nok_mobile
+    
+    
+    = f.button :submit, 'Save'
+

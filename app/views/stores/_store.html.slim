@@ -1,0 +1,11 @@
+ tr
+        td = store.store_name 
+        td = store.store_location 
+        td = store.store_type.try(:store_type_name) 
+        td = store.parent.try(:store_name) 
+        td = store.store_operation.try(:store_operation_name)
+        td = store.roles.collect(&:name).to_sentence
+        td = store.try(:open_time).strftime('%R')
+        td = store.try(:close_time).strftime('%R')
+        td = link_to 'Edit', edit_store_path(store) 
+        td = link_to 'Destroy', store, method: :delete, data: { confirm: 'Are you sure?' } 

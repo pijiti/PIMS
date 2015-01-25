@@ -1,0 +1,6 @@
+        tr.hospital
+                
+                td.name = hospital_unit.hospital_unit_name 
+                td.description = hospital_unit.hospital_unit_description 
+                td.edit = link_to 'Edit', edit_hospital_unit_path(hospital_unit),remote: true
+                td.destroy = link_to 'Destroy', hospital_unit, method: :delete, data: { confirm: 'Are you sure?' } 

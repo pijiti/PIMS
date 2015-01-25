@@ -1,0 +1,51 @@
+    section#hospital-units-index    
+         h10  Hospital Unit
+        
+         div
+         br
+        
+         div#link
+          = link_to new_hospital_unit_path,remote: true do
+             button.btn.btn-primary href="#" New
+        
+         br
+        
+         div#form
+        
+         hr
+        
+         div
+         br
+         = form_tag method: :get do
+             = text_field_tag :search, params[:query], :id => 'search_field'
+             = submit_tag "Search", :name => nil, class: "btn btn-primary" 
+        
+        
+         div.right
+         br
+         = link_to new_hospital_unit_path,remote: true do
+             button.btn.btn-primary href="#" Download Excel
+             
+         = link_to new_hospital_unit_path,remote: true do
+             button.btn.btn-primary href="#" Download PDF
+         p
+         = will_paginate @hospital_units, renderer: BootstrapPagination::Rails
+        
+              
+        
+         br
+         table.table
+          thead
+            tr
+              th Name
+              th Description
+        
+        
+        
+          tbody.hospitals
+             - @hospital_units.each  do |hospital_unit|
+                = render hospital_unit
+         = will_paginate @hospital_units, renderer: BootstrapPagination::Rails
+         
+        
+        

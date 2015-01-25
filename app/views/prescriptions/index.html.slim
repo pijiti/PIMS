@@ -1,0 +1,30 @@
+h3 Prescriptions
+
+
+= form_tag search_prescriptions_path, method: :get do
+p
+  = text_field_tag :query, params[:query]
+  = submit_tag "Search!" 
+
+
+
+=will_paginate @prescriptions
+= page_entries_info @prescriptions
+
+table
+  thead
+    tr
+      th SN
+      th User
+      th Hospital Unit
+      th Prescription Code
+      th Item No
+     
+  tbody
+    - @prescriptions.each_with_index do |prescription,index|
+       = render prescription, index: index
+       
+=will_paginate @prescriptions
+= page_entries_info @prescriptions
+h6 = link_to "Download Excel",prescriptions_path(format: :xlsx)
+h6 = link_to "Download PDF",prescriptions_path(format: :pdf)

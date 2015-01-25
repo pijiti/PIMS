@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  gender_id: 1
+  DoB: 2014-08-26
+  address: MyString
+  next_of_kin: MyString
+  next_of_kin_mobile: MyString
+  state_id: 1
+  local_id: 1
+
+two:
+  gender_id: 1
+  DoB: 2014-08-26
+  address: MyString
+  next_of_kin: MyString
+  next_of_kin_mobile: MyString
+  state_id: 1
+  local_id: 1

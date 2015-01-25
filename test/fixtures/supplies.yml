@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  vendor_id: 
+  invoice_reference: MyString
+  invoice_date: 2014-10-05
+  invoice_value: 9.99
+  signed_off_by: 1
+
+two:
+  vendor_id: 
+  invoice_reference: MyString
+  invoice_date: 2014-10-05
+  invoice_value: 9.99
+  signed_off_by: 1

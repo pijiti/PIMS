@@ -1,0 +1,12 @@
+
+ tr
+ 	    td.pharm-item = item_supply.try(:pharm_item).try(:pharm_item_name )
+        td.brand = item_supply.try(:brand).try(:brand_name )
+        td.rate = item_supply.rate
+        td.batch-sum = item_supply.batches.sum(:qty)
+        td.batch-count = item_supply.batches.count
+        td.batch-number = item_supply.batches.collect(&:batch_number).to_sentence
+        td.edit = link_to 'Edit', edit_item_supply_path( item_supply)
+        td.destroy = link_to 'Destroy' ,item_supply_path( item_supply), method: :delete, data: { confirm: 'Are you sure?' }
+        
+

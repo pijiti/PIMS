@@ -1,0 +1,11 @@
+    hr
+    .well
+     = f.input :brand_name 
+     = f.association :marketer, label_method: :marketer_name, value_method: :id, prompt: "Marketer"
+     = f.association :unit_dose, label_method: :unit_dose_name, value_method: :id, prompt: "Unit Dose" 
+     = f.input :concentration
+     = f.association :item_concentration_unit, value_method: :id, label_method: :conc_unit_name, prompt: "Conc Unit" 
+     = f.input :pack_size   
+     = f.input :pack_bundle   
+     = f.input :min_dispensable
+  

@@ -1,0 +1,18 @@
+h3 Item Concentration Units
+
+=render 'form'
+
+-if @item_concentration_units.size == 0
+ = "There are no records available for listing"
+
+
+table
+	thead
+		tr
+		  th Conc unit name
+	
+	tbody
+		 - @item_concentration_units.each do |item_concentration_unit| 
+		    = render item_concentration_unit
+		 
+

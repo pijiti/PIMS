@@ -1,0 +1,10 @@
+   
+   
+   = r.association :pharm_item,label_method: :pharm_item_name, value_method: :id, prompt: 'Pharm Item'
+   = r.input :qty
+   = r.input :comments
+   hr
+   = r.simple_fields_for :batches do |batch|
+     = render 'request_items/batch_fields', b: batch
+   hr  
+   

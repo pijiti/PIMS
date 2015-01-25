@@ -1,0 +1,13 @@
+= simple_form_for @vendor  do |f|
+
+    = f.input :vendor_name 
+    = f.input :reg_number 
+    = f.input :address  
+    = f.association :state,value_method: :id, label_method: :state_name,:include_blank => "Select"
+    = f.input :contact_name  
+    = f.input :contact_mobile  
+    = f.input :contact_email 
+    = f.association :vendor_category, value_method: :id , label_method: :vendorcategory_name , :include_blank =>"Select Category"
+    = f.association  :store, collection: @stores, value_method: :id , label_method: :store_name , :include_blank =>"Select"
+    = f.button :submit 
+

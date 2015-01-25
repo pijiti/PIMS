@@ -1,0 +1,19 @@
+h4 Requests
+
+
+= render 'form'
+
+table
+  thead
+    tr
+      th Request Code
+      th No of Request
+      
+      
+  tbody
+   - @requests.each_with_index do |request,index|
+     tr
+      td = request.try(:request_code)
+      td = request.request_items.size
+      td = request.created_at
+      td = link_to 'Edit', edit_request_path(request)

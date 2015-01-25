@@ -1,0 +1,51 @@
+<div id="MainMenu">
+  <div class="list-group panel">
+  	<%= link_to '<i class="fa fa-table fa-fw x3 blue"></i>&nbsp;<br/>Dashboard</br><i class="fa"></i>'.html_safe, dashboard_index_path, class: "list-group-item text-center"%>
+  	<%= link_to '<i class="fa fa-pie-chart fa-fw x3 blue"></i>&nbsp;<br/>Reports <br/><i class="fa fa-caret-down"></i>'.html_safe, "#reports", class: "list-group-item list-group-item-success text-center","data-toggle" =>"collapse", "data-parent" => "#MainMenu"%>
+    <div class="collapse" id="reports">
+    	<%= link_to '<i class="fa fa-user-md fa-fw"></i>&nbsp;Medical'.html_safe, front_pages_help_doc_path, class: "list-group-item"%>
+    	<%= link_to '<i class="fa fa-dollar fa-fw"></i>&nbsp;Commercial'.html_safe, new_user_profile_path, class: "list-group-item"%>
+    	<%= link_to '<i class="fa fa-sitemap fa-fw"></i>&nbsp;Demographics'.html_safe, new_user_profile_path, class: "list-group-item"%>
+    </div>
+    <%= link_to '<i class="fa fa-plus-square fa-fw x3 blue"></i>&nbsp;</br>PIMS Management <br/><i class="fa fa-caret-down"></i>'.html_safe, "#application", class: "list-group-item list-group-item-success text-center","data-toggle" =>"collapse", "data-parent" => "#MainMenu"%>
+    <div class="collapse" id="application">
+      <%= link_to '<i class="fa fa-bank fa-fw blue"></i>&nbsp;Store'.html_safe, stores_path, class: "list-group-item"%>
+      <%= link_to '<i class="fa fa-user fa-fw blue"></i>&nbsp;User'.html_safe, users_path, class: "list-group-item"%>
+      <%= link_to '<i class="fa fa-cube fa-fw blue"></i>&nbsp;General Setup&nbsp;<i class="fa fa-caret-down"></i>'.html_safe, "#general", class: "list-group-item" , "data-toggle" =>"collapse" ,"data-parent"=>"#SubMenu1"%>
+      		<div class="collapse list-group-submenu" id="general">
+      			<%= link_to "Vendor", vendors_path, class: "list-group-item", "data-parent"=>"#SubMenu1"%>
+      			<%= link_to "Marketer", marketers_path, class: "list-group-item", "data-parent"=>"#SubMenu1"%>
+      			<%= link_to "Hospital Unit", hospital_units_path, class: "list-group-item", "data-parent"=>"#SubMenu1"%>
+
+         </div>
+      <%= link_to '<i class="fa fa-cube fa-fw blue"></i>&nbsp;Item Setup&nbsp;<i class="fa fa-caret-down"></i>'.html_safe, "#pharm_item", class: "list-group-item" , "data-toggle" =>"collapse" ,"data-parent"=>"#SubMenu1"%>
+      		<div class="collapse list-group-submenu" id="pharm_item">
+      			<%= link_to "Pharm Item", pharm_items_path, class: "list-group-item", "data-parent"=>"#SubMenu1"%>
+      			<%= link_to "Unit Doses", unit_doses_path, class: "list-group-item", "data-parent"=>"#SubMenu1"%>
+      			<%= link_to "Item Class", item_classes_path, class: "list-group-item", "data-parent"=>"#SubMenu1"%>
+      			<%= link_to "Item Conc Unit", item_concentration_units_path, class: "list-group-item", "data-parent"=>"#SubMenu1"%>
+         </div>
+      <%= link_to '<i class="fa fa-dollar fa-fw blue"></i>&nbsp;Commercial'.html_safe, surcharges_path, class: "list-group-item"%>
+    </div>
+    <%= link_to '<i class="fa fa-exchange fa-fw x3 blue"></i>&nbsp;</br>Items Management <br/><i class="fa fa-caret-down"></i>'.html_safe, "#item", class: "list-group-item list-group-item-success text-center","data-toggle" =>"collapse", "data-parent" => "#MainMenu"%>
+    <div class="collapse" id="item">
+    	<%= link_to '<i class="fa fa-sign-in fa-fw"></i>&nbsp;Supply'.html_safe, supplies_path, class: "list-group-item"%>
+    	<%= link_to '<i class="fa fa-sign-in fa-fw"></i>&nbsp;Approval'.html_safe, approval_index_approvals_path, class: "list-group-item"%>
+    	<%= link_to '<i class="fa fa-sign-in fa-fw"></i>&nbsp;Request Service'.html_safe, new_user_profile_path, class: "list-group-item"%>
+    </div>
+    <%= link_to '<i class="fa fa-stethoscope fa-fw x3 blue"></i>&nbsp;</br>Patient Management <br/><i class="fa fa-caret-down"></i>'.html_safe, "#patient", class: "list-group-item list-group-item-success text-center","data-toggle" =>"collapse", "data-parent" => "#MainMenu"%>
+    <div class="collapse" id="patient">
+      <%= link_to '<i class="fa fa-file-text fa-fw blue"></i>&nbsp;Invoicing'.html_safe, patients_path, class: "list-group-item"%>
+      <%= link_to '<i class="fa fa-file-text fa-fw blue"></i>&nbsp;Collate'.html_safe, patients_path, class: "list-group-item"%>
+      <%= link_to '<i class="fa fa-medkit fa-fw blue"></i>&nbsp;Dispense'.html_safe, new_user_profile_path, class: "list-group-item"%>
+      <%= link_to '<i class="fa fa-repeat fa-fw blue"></i>&nbsp;Request Items'.html_safe, requests_path, class: "list-group-item"%>
+      <%= link_to '<i class="fa fa-repeat fa-fw blue"></i>&nbsp;Return'.html_safe, new_user_profile_path, class: "list-group-item"%>
+    </div>
+    <%= link_to '<i class="fa fa-history fa-fw x3 blue"></i>&nbsp;</br>Audit <br/><i class="fa"></i>'.html_safe, "#audit", class: "list-group-item text-center"%>
+    <%= link_to '<i class="fa fa-suitcase fa-fw x3 blue"></i>&nbsp;</br>My Account <br/><i class="fa fa-caret-down blue"></i>'.html_safe, "#account", class: "list-group-item list-group-item-success text-center","data-toggle" =>"collapse", "data-parent" => "#MainMenu"%>
+    <div class="collapse" id="account">
+    	<%= link_to '<i class="fa fa-user fa-fw blue"></i>&nbsp;User Information'.html_safe, user_profiles_path, class: "list-group-item"%>
+    	<%= link_to '<i class="fa fa-lock fa-fw blue"></i>&nbsp;Password'.html_safe, user_profiles_path, class: "list-group-item"%>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+
+    
+      table.table.well         
+        tbody 
+           tr
+            /!td    = b.input :approved, as: :boolean, label: false
+            td.col-sm-3    = b.association :brand, collection: Brand.all, value_method: :id, label_method: :detailed_info, label: false, prompt: "Select Brand"
+            td.col-sm-1    = b.input :batch_number, as: :string, placeholder: "Batch No", label: false, maxlength: 10
+            td.col-sm-1    = b.input :rate, label: false, placeholder: "Rate", as: :string, maxlength: 15   
+            td.col-sm-1    = b.input :qty, label: false, placeholder: "Quantity", as: :string, maxlength: 10   
+            /!td.col-sm-1    = b.input :mfd_date, as: :string, label: false
+            /!td.col-sm-1    = b.input :expiry_date,as: :string,label: false
+            /!td    = b.input :comment,label: false,placeholder: "Comment"
+            = b.input :recipient_store, as: :hidden

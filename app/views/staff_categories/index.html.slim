@@ -1,0 +1,15 @@
+h3 Listing staff_categories
+
+table
+  thead
+    tr
+      th SN
+      th Staff category name
+
+
+
+  tbody
+    - @staff_categories.each_with_index do |staff_category,index| 
+      = render staff_category, index: index
+      
+

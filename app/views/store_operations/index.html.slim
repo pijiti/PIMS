@@ -1,0 +1,16 @@
+h3 Store Operations
+
+table
+  thead
+    tr
+      th SN
+      th Store operation name
+      th Payment required
+     
+
+  tbody
+    - @store_operations.each_with_index do |store_operation,index| 
+       = render store_operation, index: index
+
+
+

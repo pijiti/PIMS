@@ -1,0 +1,6 @@
+tr
+        td = unit_dose.unit_dose_name
+        td = unit_dose.unit_dose_type 
+        td = unit_dose.unit_type
+        td = link_to 'Edit', edit_unit_dose_path(unit_dose) 
+        td = link_to 'Destroy', unit_dose, method: :delete, data: { confirm: 'Are you sure?' }

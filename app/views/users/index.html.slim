@@ -1,0 +1,27 @@
+            h10 User
+            
+            =render 'pims_devise/registrations/new'
+            
+            = will_paginate @users
+            
+            table.table
+             thead
+                tr
+                  th Name
+                  th Tel No
+                  th Staff Category
+                  th Validity Duration
+                  th Active Status
+                  th View More Records
+                  th Action
+           
+            
+             tbody.users
+                  - @users.each do |user| 
+                      = render user
+                      
+            = will_paginate @users
+            
+            
+            
+            

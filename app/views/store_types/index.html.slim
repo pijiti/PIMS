@@ -1,0 +1,14 @@
+h3 Store Types
+
+table
+  thead
+    tr
+      th SN
+      th Storetype name
+      
+      
+  tbody
+    - @store_types.each_with_index do |store_type,index| 
+       = render store_type, index: index
+     
+     

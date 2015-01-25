@@ -1,0 +1,2 @@
+module StoreSelectionHelper
+end

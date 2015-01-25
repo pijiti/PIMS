@@ -1,0 +1,24 @@
+h10 Vendor Management
+
+= render 'form'
+
+table.table
+  thead
+     tr
+     th Vendor name 
+     th Reg Number 
+     th Address 
+     th State 
+     th Contact name 
+     th Contact mobile 
+     th Contact Email 
+     th Vendor Category 
+     th Store 
+    
+  tbody
+    - @vendors.each do |vendor|
+      = render vendor
+      
+    
+
+

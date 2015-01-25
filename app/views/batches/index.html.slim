@@ -1,0 +1,21 @@
+h1 Listing batches
+-if @batches.size == 0
+ ="There are no records for listing"
+-else
+
+table
+  thead
+    tr
+      th Qty
+      th Rate
+      th Brand Name
+      th Mfd Date
+      th Expiry Date
+
+  tbody
+    - @batches.each do |batch|
+      = render batch
+      
+
+
+

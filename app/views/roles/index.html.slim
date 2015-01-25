@@ -1,0 +1,16 @@
+h1 index
+
+
+table
+  thead
+    tr
+      th SN
+      th Name
+   
+     
+  tbody
+-@roles.each_with_index do |role,index|
+    tr
+      td.index = index + 1
+      td.name = role.name
+      td.edit = link_to "Edit", edit_role_path(role)

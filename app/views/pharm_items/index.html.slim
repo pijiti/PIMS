@@ -1,0 +1,18 @@
+h3 Pharm Items
+
+= render 'form'
+
+table.table.table-bordered
+  thead
+    tr
+      th Pharm Item name
+      th Available brands
+      th Classes
+      th Brands
+     
+
+  tbody.pharm-items
+    - @pharm_items.each do |pharm_item| 
+      = render pharm_item
+      
+

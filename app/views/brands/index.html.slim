@@ -1,0 +1,22 @@
+h3  brands
+-if @brands.size == 0
+ = "There are no records available for listing"
+- else
+table
+	thead
+		tr
+			th Brand name
+			th Marketer
+			th Unit Dose
+			th Pharm Item
+			th Concentration
+			th Item Concentration Unit
+			th Pack Size
+
+
+
+	tbody
+		- @brands.each_with_index do |brand,index|
+		    = render brand, index: index
+
+

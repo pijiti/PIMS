@@ -1,0 +1,19 @@
+h4 Listing item_supplies
+=link_to "Supplies", supplies_path
+table
+  thead
+    tr
+       th Pharm. Item
+       th Brand
+       th Rate
+       th Qty
+       th Number of batches
+       th Batch Information
+
+  tbody
+      = render @item_supplies
+
+
+br
+= render 'form'
+

@@ -1,0 +1,18 @@
+-if user_signed_in?
+ p
+	=current_user.username
+    li
+    = link_to 'Logout', destroy_user_session_path, :method => :delete
+-else
+   li
+    = link_to 'Login', new_user_session_path
+
+
+= form_tag controller: "store_selections", action: "select_store", method: 'post', :remote => true do
+  = select_tag "active_store", options_from_collection_for_select(@stores, :id, :store_name),:prompt => "Select Store", onchange: "this.form.submit();"
+
+
+
+
+
+

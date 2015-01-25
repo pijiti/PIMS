@@ -1,0 +1,10 @@
+= simple_form_for @request, :html=> {class: "form-inline"}  do |f|
+  = f.input :request_code, as: :hidden
+  = f.input :store_id, as: :hidden
+  = f.input :user_id, as: :hidden
+  
+  = f.simple_fields_for :request_items do |request_item|
+    =render 'request_items/request_item_fields', r: request_item
+    
+  = f.button :submit
+  

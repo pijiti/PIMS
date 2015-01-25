@@ -1,0 +1,53 @@
+  
+   section#supplies-index
+      
+        
+        h10 Supplies
+        
+        hr
+        br
+        
+        div#show-btn
+          = link_to show_form_supplies_path ,remote: true do
+             button.btn.btn-primary href="#" Show Form
+             
+        div#hide-btn
+          = link_to hide_form_supplies_path ,remote: true do
+             button.btn.btn-primary href="#" Hide Form
+             
+        div#form
+        /!= render 'form'
+        
+        br
+        = form_tag search_supplies_path, :method => :get  do 
+          p
+            = search_field_tag 'search_query', nil, :autosave => true 
+            = submit_tag "Search"
+         
+        div
+        br
+        .text-center   
+          = will_paginate @supplies,renderer: BootstrapPagination::Rails
+        
+        table.table
+          thead
+            tr       
+               th Vendor
+               th Brand
+               th Supply Date
+               th  Value
+               th Number of batches
+               th Signed Off by
+               th Approval Status
+                
+          tbody.supplies
+          -@supplies.each do |supply|
+           = render supply
+     
+        .text-center   
+          = will_paginate @supplies,renderer: BootstrapPagination::Rails
+        
+        
+        
+        
+        

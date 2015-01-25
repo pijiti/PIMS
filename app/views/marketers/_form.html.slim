@@ -1,0 +1,11 @@
+       
+     .marketer.well  
+        = simple_form_for @marketer,:html=>{class: "form-vertical"} do |f| 
+        
+            = f.input :marketer_name 
+            = f.input :description
+            = f.check_box :foreign
+            span Foreign
+            
+            = f.button :submit, "Save"
+ 

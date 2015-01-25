@@ -1,0 +1,17 @@
+
+ tr
+    td.index = index + 1 
+	td.brand-name = brand.try(:brand_name )
+	td.marketer = brand.marketer.try(:markerter_name)
+	td.unit-dose = brand.unit_dose.try(:unit_dose_name) 
+	td.pharm-item = brand.pharm_item.try(:pharm_item_name )
+	td.conc = brand.concentration
+	td.item-conc = brand.item_concentration_unit.try(:conc_unit_name)
+	td.pack-size = brand.pack_size
+	td.show = link_to 'Show', brand_path(brand)
+	td.edit = link_to 'Edit', edit_brand_path(brand) 
+	td.destroy = link_to 'Destroy', (brand), method: :delete, data: { confirm: 'Are you sure?' } 
+		
+
+
+

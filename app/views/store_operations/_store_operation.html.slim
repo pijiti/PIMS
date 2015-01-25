@@ -1,0 +1,6 @@
+ tr 
+        td.index = index + 1
+        td.name = store_operation.store_operation_name 
+        td.required = store_operation.payment_required 
+        td.edit = link_to 'Edit', edit_store_operation_path(store_operation) 
+        td.destroy = link_to 'Destroy', store_operation, method: :delete, data: { confirm: 'Are you sure?' } 

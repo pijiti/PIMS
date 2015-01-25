@@ -1,0 +1,5 @@
+tr
+        td.index = index + 1
+        td.name = staff_category.staff_category_name 
+        td.edit = link_to 'Edit', edit_staff_category_path(staff_category) 
+        td.destroy = link_to 'Destroy', staff_category, method: :delete, data: { confirm: 'Are you sure?' } 

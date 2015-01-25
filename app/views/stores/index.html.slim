@@ -1,0 +1,26 @@
+       
+    section#store-index   
+        h10 Store Management
+        
+        = render 'form'
+        
+ 
+        
+        table.table 
+          thead
+            tr
+             th Store name
+             th Store location
+             th Store Type
+             th Parent Store
+             th Operation Mode
+             th Open time
+             th Close time
+        
+        
+        
+          tbody.stores
+             - @stores.each do |store|
+                = render store 
+        
+        

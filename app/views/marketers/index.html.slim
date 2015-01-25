@@ -1,0 +1,22 @@
+        
+    section#marketers-index   
+        h10 Marketers
+        
+        div
+        br
+        #form
+        
+        =render 'form'
+        
+        table.table
+          thead
+            tr
+              th Marketer name
+              th Description
+              th Foreign brand
+            
+          tbody.marketers
+           - @marketers.each do |marketer| 
+              = render marketer
+             
+      

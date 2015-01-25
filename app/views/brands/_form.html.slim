@@ -1,0 +1,10 @@
+= simple_form_for @brand do |f|
+
+    = f.input :brand_name 
+    = f.association :marketer,label_method: :marketer_name, value_method: :id,prompt: true
+    = f.association :unit_dose, label_method: :unit_dose_name, value_method: :id,prompt: true
+    = f.input :concentration
+    = f.association :item_concentration_unit,label_method: :conc_unit_name, value_method: :id,prompt: true 
+    = f.input :pack_size
+    = f.button :submit 
+

@@ -1,0 +1,33 @@
+           
+     section#devise-registration-new
+        
+        #devise-registration-new-body     
+            = simple_form_for(resource, as: resource_name, url: registration_path(resource_name),:html=> {class: "form-horizontal"}) do |f|
+              
+               = f.association :title , value_method: :id, label_method: :title_name, prompt: 'Title',label: false
+               = f.input :first_name,label: false
+               = f.input :last_name,label: false
+               = f.input :username,label: false
+               = f.association :staff_category, value_method: :id, label_method: :staff_category_name, prompt: 'Category',label: false
+               = f.input :validity, as: :select, collection: User::Validity, prompt: 'Validity Period',label: false
+               = f.input :password, as: :hidden
+               = f.input :password_confirmation, as: :hidden
+               
+               ul.nav.nav-tabs
+            
+                  - @stores.each do |store|
+                    li : a href="#tab-pane-create-#{store.id}" data-toggle='tab' = store.try(:store_name)
+            
+               .tab-content
+            
+                  - @stores.each do |store|
+                    .tab-pane id="tab-pane-create-#{store.id}" = f.association :roles, collection: store.roles, as: :check_boxes
+                    
+                    
+               .actions
+                 = f.button :submit, 'Save',class: 'btn btn-primary btn-small'
+            
+        #devise-registration-new-footer
+          #devise-registration-new-footer-inner
+              
+            = render "devise/shared/links"

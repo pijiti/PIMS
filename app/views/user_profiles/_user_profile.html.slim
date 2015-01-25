@@ -1,0 +1,12 @@
+
+     tr
+       td  = user_profile.gender.try(:gender_name)
+       td  = user_profile.DoB 
+       td  = user_profile.address 
+       td  = user_profile.next_of_kin 
+       td  = user_profile.next_of_kin_mobile 
+       td  = user_profile.state_id 
+       td  = user_profile.local_id 
+       td  = link_to 'Edit', edit_user_profile_path(user_profile) 
+       td  = link_to 'Destroy', user_profile, method: :delete, data: { confirm: 'Are you sure?' } 
+

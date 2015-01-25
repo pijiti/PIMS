@@ -1,0 +1,4 @@
+tr
+        td.class-name = item_class.item_class_name
+        td.edit = link_to 'Edit', edit_item_class_path(item_class)
+        td.destroy = link_to 'Destroy', item_class, method: :delete, data: { confirm: 'Are you sure?' } 

@@ -1,0 +1,13 @@
+tr
+     
+       td = vendor.vendor_name
+       td = vendor.try(:reg_number)
+       td = vendor.address
+       td = vendor.state.try(:state_name)
+       td = vendor.contact_name
+       td = vendor.contact_mobile
+       td = vendor.contact_email
+       td = vendor.vendor_category.try(:vendorcategory_name)
+       td = vendor.store.try(:store_name)
+       td = link_to 'Edit', edit_vendor_path(vendor) 
+       td = link_to 'Destroy', vendor, method: :delete, data: { confirm: 'Are you sure?' }

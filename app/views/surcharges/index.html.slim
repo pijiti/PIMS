@@ -1,0 +1,16 @@
+h3 Surcharges list
+
+= render 'form'
+
+table
+  thead
+   tr
+     td Surcharge Name
+     td Surcharge Type
+     td Status
+     
+  tbody
+   - @surcharges.each do |surcharge|
+     = render surcharge
+
+

@@ -1,0 +1,18 @@
+= simple_form_for @pharm_item  do |f| 
+
+  
+    = f.input :pharm_item_name
+    = f.association :item_classes, label_method: :item_class_name, value_method: :id, prompt: " Item Class" 
+    = f.input :central_restock_level
+    = f.input :central_critical_level,as: :hidden
+    = f.input :main_restock_level
+    = f.input :main_critical_level,as: :hidden
+    = f.input :dispensary_restock_level
+    = f.input :dispensary_critical_level,as: :hidden
+    = f.input :ward_restock_level
+    = f.input :ward_critical_level,as: :hidden
+    = f.simple_fields_for :brands do |brand|
+       = render 'brand_fields', f: brand
+	div
+    = f.button :submit 
+

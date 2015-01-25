@@ -1,0 +1,45 @@
+.form
+
+  &.extend
+
+    form
+
+      .form-group
+
+        .controls
+
+          textarea.form-control
+            height: 77px !important
+
+      .actions
+        display: block
+
+      .count
+        display: block
+
+  form
+
+    .btn-file
+      position: relative
+      overflow: hidden
+
+      input[type=file]
+        position:   absolute
+        top:        0
+        right:      0
+        min-width:  100%
+        min-height: 100%
+        font-size:  999px
+        text-align: right
+        filter:     alpha(opacity=0)
+        opacity:    0
+        background: red
+        cursor:     inherit
+        display:    block
+
+    .form-group
+
+      .controls
+
+        textarea.form-control
+          resize: none

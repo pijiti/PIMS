@@ -1,0 +1,38 @@
+.list
+
+  .list-header
+    +border-top-radius($border-radius-base)
+    +clearfix
+    background: white
+    border:     1px solid $border-color
+    padding:    12px
+
+    .filters
+      float: right
+
+      a
+        font-size: $font-size-small
+
+      .divider-vertical
+        height:       10px
+        margin:       0 9px
+        border-right: 1px solid #ffffff
+        border-left:  1px solid #f2f2f2
+
+    .title
+      font-size: $font-size-large
+      margin-right: 5px
+
+    .actions
+      font-size: $font-size-large
+      float: right
+
+  .list-footer
+    +border-bottom-radius($border-radius-base)
+    background: white
+    border:     1px solid $border-color
+    color:      $gray-light
+    height:     65px
+    margin-top: -1px
+    padding:    12px
+    text-align: center

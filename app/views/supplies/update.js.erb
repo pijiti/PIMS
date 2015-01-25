@@ -1,0 +1,4 @@
+var newSupply = $("<%= j (render @supply) %>");
+$('#supplies').prepend(newSupply);
+$('#supply-form').slideUp(550);
+$('#supply-link').show();

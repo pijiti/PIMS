@@ -1,0 +1,20 @@
+h10 User Management
+
+= render 'form'
+
+table.table
+
+  thead
+    tr
+      th Gender
+      th Dob
+      th Address
+      th Next of kin
+      th Next of kin mobile
+      th State
+      th Local
+   
+  tbody.user-profiles
+   - @user_profiles.each do |user_profile|
+     = render user_profile
+

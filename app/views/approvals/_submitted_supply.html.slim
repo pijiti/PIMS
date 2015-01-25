@@ -1,0 +1,14 @@
+ tr   
+           td.index = index + 1
+           td.vendor = submitted_supply.vendor.try(:vendor_name)
+           td.supply-reference = submitted_supply.invoice_reference
+           td.invoice-date = submitted_supply.invoice_date 
+           td.invoice-value = submitted_supply.invoice_value
+           td.supply = submitted_supply.batches.count 
+           td.sign-off = submitted_supply.user.try(:first_name) 
+           /! td.status= submitted_supply.try(:approval_status) 
+           td.add-item = link_to 'View Items', submitted_item_approval_path( submitted_supply) 
+           td.edit = link_to 'Edit', edit_supply_path(submitted_supply)
+           -unless supply.approval_status != "NOT SENT FOR APPROVAL"
+               td.send-for-approval = link_to 'Submit For Approval', submit_supply_path(submitted_supply),method: :patch
+           td.destroy= link_to 'Destroy', supply,:remote => true, method: :delete, data: { confirm: 'Are you sure?' } 

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  Qty: 1
+  Rate: 9.99
+  subtotal: 9.99
+
+two:
+  Qty: 1
+  Rate: 9.99
+  subtotal: 9.99

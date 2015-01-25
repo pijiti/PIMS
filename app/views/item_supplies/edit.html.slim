@@ -1,0 +1,18 @@
+  h4  Editing item_supply
+
+  = simple_form_for (@item_supply),url: item_supply_path(id: @item_supply), :html => {:class => "form-inline"} do |f|
+
+         = f.input :pharm_item_id, label: false, placeholder: "Pharm. Item", collection: @pharm_items, label_method: :pharm_item_name, value_method: :id, prompt: "Select Pharm. Item" 
+         = f.input :brand_id, label: false, placeholder: "Brand Information", collection: @brands, label_method: :detailed_info, value_method: :id, include_blank: true
+         = f.input :rate, label: false, placeholder: "Rate"
+         = f.hidden_field :supply_id
+     
+     
+         = f.simple_fields_for :batches do |batch|
+            = render 'batch_field', b: batch
+         div
+         hr
+         = f.button :submit
+         
+         
+  = link_to 'Back', item_supplies_path

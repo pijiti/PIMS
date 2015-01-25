@@ -1,0 +1,5 @@
+ tr
+        td.index =  index + 1
+        td.name = store_type.store_type_name 
+        td.edit = link_to 'Edit', edit_store_type_path(store_type) 
+        td.destroy = link_to 'Destroy', store_type, method: :delete, data: { confirm: 'Are you sure?' } 

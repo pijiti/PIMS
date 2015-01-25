@@ -1,0 +1,8 @@
+hr
+            = b.input :approved, as: :boolean,label: false 
+            = b.input :pharm_item_id, collection: PharmItem.all, value_method: :id, label_method: :pharm_item_name, prompt: "Select Pharm Item", label: false
+            = b.input :brand_id, collection: Brand.all, value_method: :id, label_method: :detailed_info, label: false, prompt: "Select Brand"
+            = b.input :rate, label: false, placeholder: "Rate", as: :string, maxlength: 5
+            = b.input :qty, label: false, placeholder: "Quantity", as: :string, maxlength: 5
+            = b.input :batch_number, as: :string, placeholder: "Batch Number", label: false, maxlength: 10
+            

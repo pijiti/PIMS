@@ -1,0 +1,19 @@
+h3 Organisation
+
+= render 'form'
+
+table.table
+  thead
+    tr
+      th Organisation name
+      th Address
+      th Contact person
+      th Contact phone
+      th Contact email
+     
+
+  tbody.organisations
+     - @organisations.each do |organisation|
+      = render organisation
+     
+

@@ -1,0 +1,8 @@
+tr
+        td.index = index + 1
+        td.user = prescription.user.try(:first_name)
+        td.hospital = prescription.hospital_unit.try(:hospital_unit_name  )
+        td.code = prescription.try(:prescription_code)
+        td.batch = prescription.batches.size
+        td.edit = link_to 'Edit', edit_prescription_path(prescription)
+        td.destroy = link_to 'Destroy', (prescription), method: :delete, data: { confirm: 'Are you sure?' }

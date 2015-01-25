@@ -1,0 +1,7 @@
+= simple_form_for @store_operation  do |f|
+  
+    = f.input :store_operation_name
+    = f.input :description
+    = f.input :payment_required, as: :boolean
+    = f.button :submit
+

@@ -1,0 +1,13 @@
+
+
+                  tr
+                      td = user.try(:full_name) 
+                      td = user.username
+                      td = user.staff_category.try(:staff_category_name)
+                      td = user.validity 
+                      td = user.validity_status
+                      td = user.valid_duration.try(:strftime ,"%d-%m-%y" )  
+                      td = link_to "PS" , password_reset_user_path(user),method: :patch
+                  
+                      
+                     

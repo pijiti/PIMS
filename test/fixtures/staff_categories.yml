@@ -1,0 +1,7 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  staff_category_name: MyString
+
+two:
+  staff_category_name: MyString

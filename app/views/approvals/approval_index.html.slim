@@ -1,0 +1,29 @@
+h3 Approval
+
+table.table
+  thead
+    tr 
+       th Vendor
+       th Brand
+       th Supply Date
+       th Supply Value
+       th Number of batches
+       th Signed Off by
+       th Approval Status
+        
+  tbody
+    - @submitted_supplies.each do |submitted_supply|
+      tr   
+         
+           td.vendor = submitted_supply.vendor.try(:vendor_name)
+           td.supply-reference = submitted_supply.invoice_reference
+           td.invoice-date = submitted_supply.invoice_date 
+           td.invoice-value = submitted_supply.invoice_value
+           td.supply = submitted_supply.batches.count 
+           td.supply = submitted_supply.batches.try(:collect){|batch| [batch.brand_id]}.count 
+           td.sign-off = submitted_supply.user.try(:first_name) 
+           /! td.status= submitted_supply.try(:approval_status) 
+           td.add-item = link_to 'View Items', submitted_item_approval_path( submitted_supply) 
+           td.add-item = link_to  'Approve', submitted_item_approval_path( submitted_supply) 
+           td.add-item = link_to 'Disapprove', submitted_item_approval_path( submitted_supply) 
+         

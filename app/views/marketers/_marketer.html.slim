@@ -1,0 +1,6 @@
+tr
+       td.name = marketer.marketer_name 
+       td.description = marketer.description
+       td.foreign = marketer.foreign.to_s.capitalize
+       td.edit = link_to 'Edit', edit_marketer_path(marketer) 
+       td.destroy = link_to 'Destroy', marketer, method: :delete, data: { confirm: 'Are you sure?' } 

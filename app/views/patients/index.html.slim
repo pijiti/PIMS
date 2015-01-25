@@ -1,0 +1,24 @@
+    section#patients-index    
+        h3 Listing patients
+        
+        = render 'form'
+        
+        
+        table.table
+          thead
+            tr
+              th Title
+              th Surname
+              th Firstname
+              /!th Gender
+              th Age
+              th Hospital ID
+              th Mobile
+              th NoK Name
+              th NoK Mobile
+        
+          tbody.patients
+            - for patient in @patients
+             = render patient
+             
+        

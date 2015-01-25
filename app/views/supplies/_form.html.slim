@@ -1,0 +1,46 @@
+= simple_form_for @supply, :remote => true do |f|
+  table.table
+   thead
+    tr
+      th.col-sm-2.text-center Vendor
+      th.col-sm-2.text-center Reference
+      th.col-sm-2.text-center Value
+      th.col-sm-2.text-center Date
+      th.col-sm-2.text-center Signed Off by
+   tbody
+    tr
+      td   = f.association :vendor, collection: @vendors, label_method: :vendor_name,value_method: :id,  include_blank: "Select Vendor"  ,input_html: { maxlength: 20 },label: false
+      td   = f.input :invoice_value, as: :string, label: false, placeholder: "Invoice Value" ,input_html: { maxlength: 12 }
+      td   = f.input :invoice_reference, label: false,input_html: { maxlength: 15 } ,placeholder: "Invoice Ref"
+      td   = f.input :invoice_date, as: :string, label: false   
+      td   = f.input :signed_off_by, collection: @users, value_method: :id, label_method: :full_name, include_blank: "Select Name" ,label: false
+      td   = f.input :user_id, as: :hidden,input_html: {value: 10}
+      td   = f.input :store_id, as: :hidden,input_html: { value: session[:active_store]}
+      td   = f.input :approval_status, as: :hidden
+  table.table
+        thead
+           tr
+            th.col-sm-3.text-center Brand
+            th.col-sm-1.text-center Batch No
+            th.col-sm-1.text-center Rate
+            th.col-sm-1.text-center Qty
+            th.col-sm-1.text-center Mfd Date
+            th.col-sm-1.text-center Expiry Date
+        tbody.well           
+          = f.simple_fields_for :batches do |batch|   
+        
+           tr
+            td.col-sm-3    = batch.association :brand, collection: Brand.all, value_method: :id, label_method: :detailed_info, label: false, prompt: "Select Brand"
+            td.col-sm-1    = batch.input :batch_number, as: :string, placeholder: "Batch No", label: false, maxlength: 10
+            td.col-sm-1    = batch.input :rate, label: false, placeholder: "Rate", as: :string, maxlength: 15   
+            td.col-sm-1    = batch.input :qty, label: false, placeholder: "Quantity", as: :string, maxlength: 10   
+            /!td.col-sm-1    = batch.input :mfd_date, as: :string, label: false
+            /!td.col-sm-1    = batch.input :expiry_date,as: :string,label: false
+            = batch.input :recipient_store, as: :hidden
+
+  div
+  br
+ 
+     = f.button :submit
+
+

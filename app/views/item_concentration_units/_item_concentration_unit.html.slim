@@ -1,0 +1,5 @@
+tr
+  td.conc_name = item_concentration_unit.conc_unit_name
+  td.conc_name = item_concentration_unit.try(:description)
+  td.edit = link_to 'Edit', edit_item_concentration_unit_path(item_concentration_unit)
+  td.destroy = link_to 'Destroy', item_concentration_unit, method: :delete, data: { confirm: 'Are you sure?' }

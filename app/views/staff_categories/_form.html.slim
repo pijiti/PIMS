@@ -1,6 +1,7 @@
-= simple_form_for @staff_category ,html => {class: "form-inline"}  do |f| 
+= simple_form_for @staff_category   do |f| 
 
 
-    = f.input :staff_category_name %>
-    = f.button :submit %>
+    = f.input :staff_category_name
+    = f.input :description
+    = f.button :submit, 'Save'
 

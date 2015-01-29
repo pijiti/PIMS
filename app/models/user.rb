@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
 
 	before_create :default_password,:user_active_status,:capitalize_attr
 	before_update :user_active_status
-	devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable
+	devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable,:validatable
 
 
 	validates_uniqueness_of  :username
@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
  end
 
  def password_reset
- 	update! password: 'password',
+ 	update! password: 'password'.strip,
  	reset_password_sent_at: Time.now,
  	sign_in_count: 0,
  	current_sign_in_at:  nil,
@@ -58,10 +58,15 @@ class User < ActiveRecord::Base
      return status
     end
 
+ def password_change_check?(current_password, new_password)
+  	current_password == new_password
+  end
+
+
  private
  def default_password
- 	self.password = 'password'
- 	self.password_confirmation = 'password'
+ 	self.password = 'password'.strip
+ 	self.password_confirmation = 'password'.strip
  end
 
  def capitalize_attr

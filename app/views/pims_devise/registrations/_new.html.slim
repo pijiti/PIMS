@@ -21,7 +21,7 @@
                .tab-content
             
                   - @stores.each do |store|
-                    .tab-pane id="tab-pane-create-#{store.id}" = f.association :roles, collection: store.roles, as: :check_boxes
+                    .tab-pane id="tab-pane-create-#{store.id}" = f.association :roles, collection: store.roles.map{|r| r.name.titleize}, as: :check_boxes
                     
                     
                .actions

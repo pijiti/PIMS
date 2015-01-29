@@ -1,22 +1,11 @@
   
-   section#supplies-index
+ section#supplies-index
       
         
         h10 Supplies
-        
-        hr
-        br
-        
-        div#show-btn
-          = link_to show_form_supplies_path ,remote: true do
-             button.btn.btn-primary href="#" Show Form
-             
-        div#hide-btn
-          = link_to hide_form_supplies_path ,remote: true do
-             button.btn.btn-primary href="#" Hide Form
-             
+                  
         div#form
-        /!= render 'form'
+        = render 'form'
         
         br
         = form_tag search_supplies_path, :method => :get  do 
@@ -30,10 +19,10 @@
           = will_paginate @supplies,renderer: BootstrapPagination::Rails
         
         table.table
-          thead
+          thead.supplies-table-header
             tr       
                th Vendor
-               th Brand
+               th Reference
                th Supply Date
                th  Value
                th Number of batches

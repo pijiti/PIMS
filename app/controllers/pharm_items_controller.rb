@@ -32,7 +32,6 @@ class PharmItemsController < ApplicationController
     @pharm_item = PharmItem.new(pharm_item_params)
     @pharm_item.itemclass_pharmitems.build(params[:item_class_ids])unless (params[:item_class_ids]).blank?
     @pharm_item.critical_levels
-
     if @pharm_item.has_brand?
         @pharm_item.save
           logger.debug " is saved "
@@ -41,19 +40,23 @@ class PharmItemsController < ApplicationController
     else
       redirect_to pharm_items_path
       logger.debug " #{@pharm_item.has_brand?}"
-      logger.debug " is no saved"
+      logger.debug " is not saved"
    end
   end
 
 
   def update
 
-      if @pharm_item.update(pharm_item_params)
+     if @pharm_item.has_brand?
+     	 if @pharm_item.update(pharm_item_params)
       	@pharm_item.critical_levels
       	@pharm_item.save!
          redirect_to pharm_items_path
       else
-         render :edit
+        render :edit
+    end
+    else
+    	render :edit
     end
   end
 

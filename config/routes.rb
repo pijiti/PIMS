@@ -48,7 +48,7 @@ Rails.application.routes.draw do
 
 
 
-  get 'dashboard/index'
+  resource :dashboard, only: :show
 
   get 'front_pages/home'
 

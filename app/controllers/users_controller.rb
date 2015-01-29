@@ -42,22 +42,24 @@ class UsersController < ApplicationController
 
 
   def password_change
-  	@user = User.find(current_user.id)
-  	valid_password = @user.valid_password?(params[:user][:current_password])
-   logger.debug "before_update: #{valid_password}"
-   @user.update_with_password(user_password)
-    	 logger.debug "user_id: #{@user.id}"
-    	  logger.debug "after_update: #{@user.updated_at}"
-    	 # logger.debug "New article: #{@user.username}"
-      #sign_in @user, :bypass => true
-          # if user.has_role? :admin
-          # 	redirect_to dashboard_path
-        #   else
+  	@user = User.find(params[:id])
+    pass_value = @user.valid_password?(params[:user][:current_password])
+  	passed_value = params[:user][:current_password]
+  	logger.debug "current password: #{passed_value}"
+  		logger.debug "password status: #{pass_value}"
+   password_status = @user.password_change_check?(params[:user][:current_password],params[:user][:password])
+   logger.debug " #{password_status}"
+
+   	 if @user.update_with_password(user_password)&& (password_status == false)
+      sign_in @user, :bypass => true
+       if @user.has_role? :admin
+          	redirect_to dashboard_path
+           else
            	 redirect_to store_selections_index_path
-         #  end
-    #else
-     # render :password_edit
-    #end
+          end
+      else
+      	  render :password_edit
+   end
   end
 
   def destroy

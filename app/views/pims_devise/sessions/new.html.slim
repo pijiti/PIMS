@@ -1,15 +1,21 @@
 
-section#devise-session-new
+section#devise-sessions-new
  
-   header#devise-session-new-header
-        = link_to "Home",root_path
-        p Sign In
-   #devise-session-new-body
+   #devise-sessions-new-header
+       h2 Pharmaceutical Items Management System
+       h4 State Specialist Hospital,Ondo
+   #devise-sessions-new-header-inner-homepath
+          = link_to "Home",root_path
+          
+   #devise-sessions-new-header-inner-label
+          p Sign In
+          
+   #devise-sessions-new-body
         
         = simple_form_for(resource,
                                        as: resource_name, 
                                        url: session_path(resource_name)) do |f|
-             = f.input :username
+             = f.input :username, placeholder: 'Your registered mobile number'
              = f.input :password
              
              .checkbox
@@ -23,7 +29,7 @@ section#devise-session-new
              .actions
               = f.button :submit, 'Sign In', class: "btn-medium btn-primary"
       
-   footer#devise-sessions-footer
+   footer#devise-sessions-new-footer
       
-      #devise-sessions-new-inner    
+      #devise-sessions-new-footer-inner    
         = render "devise/shared/links"

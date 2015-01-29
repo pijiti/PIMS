@@ -4,11 +4,10 @@ class SuppliesController < ApplicationController
  # rescue_from ActiveRecord::RecordNotFound, with:  :invalid_supplier
 	before_action :set_supply, only: [:edit,:update,:destroy,:submit]
 	before_action :set_all_supplies, only: [:index,:create,:update,:destroy]
-	before_action :set_store, only: [:new]
+	#before_action :set_store, only: [:new,:index]
 	respond_to :html,:js,:csv
 
 
-	#before_action :user_reference, only: [:create]
 
 	def index
 	@supplies = Supply.paginate(:page => params[:page])
@@ -32,11 +31,11 @@ class SuppliesController < ApplicationController
 
 	def new
 		@supply = Supply.new
-		@current_store = Store.where(id: session[:active_store]).take!
-		@vendors = @current_store.vendors.all
+		current_store = Store.find(session[:active_store])
+		@vendors = current_store.vendors.all
 		@users = User.all
 		10.times  do
-     	    @supply.batches.new
+     	    @supply.batches.build
      end
 	end
 
@@ -50,8 +49,12 @@ class SuppliesController < ApplicationController
 
 
 	def edit
-		@vendors = Vendor.all
+		current_store = Store.find(session[:active_store])
+		@vendors = current_store.vendors.all
 		@users = User.all
+		10.times  do
+     	    @supply.batches.build
+     end
 	end
 
 
@@ -59,7 +62,13 @@ class SuppliesController < ApplicationController
 			@supply = Supply.new(supply_params)
 			@supply.assign_recipient_store
 			@supply.assign_pharmitem_id
-			@supply.save! if @supply.amount_check?
+			if @supply.save
+				redirect_to supplies_path
+			else
+				@error = @supply.errors.full_messages
+				flash[:error] = "#{@error.to_sentence}"
+				redirect_to supplies_path
+			end #if @supply.amount_check?
 	end
 
 

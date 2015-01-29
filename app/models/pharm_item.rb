@@ -8,13 +8,13 @@ class PharmItem < ActiveRecord::Base
 
   before_create :modify_attrs
   before_update :modify_attrs
+  before_validation :name_unique
 
   validates :pharm_item_name, presence: true, uniqueness: true, length: {in:3..25}
-  validates :item_class_id, presence: true
-  validates :central_restock_level, presence: true, numericality:{only_integer: true,greater_than: 0},length: {maximum:5}
-  validates :main_restock_level, presence: true, numericality:{only_integer: true,greater_than: 0},length: {maximum:5}
-  validates :dispensary_restock_level, presence: true, numericality:{only_integer: true,greater_than: 0},length: {maximum:5}
-  validates :ward_restock_level, presence: true, numericality:{only_integer: true,greater_than: 0},length: {maximum:5}
+  validates :central_restock_level, presence: true, numericality:{greater_than: 0},length: {maximum:5}
+  validates :main_restock_level, presence: true, numericality:{greater_than: 0},length: {maximum:5}
+  validates :dispensary_restock_level, presence: true, numericality:{greater_than: 0},length: {maximum:5}
+  validates :ward_restock_level, presence: true, numericality:{greater_than: 0},length: {maximum:5}
 
 
 	accepts_nested_attributes_for :brands, allow_destroy: true,reject_if: :reject_brands
@@ -23,12 +23,19 @@ class PharmItem < ActiveRecord::Base
 		self.pharm_item_name =  pharm_item_name .try(:titleize).strip
 	end
 
+	def name_unique
+		self.pharm_item_name =  pharm_item_name .try(:titleize).strip
+	end
+
 	def critical_levels
-		self.central_critical_level = self.main_critical_level = self.dispensary_critical_level = self.ward_critical_level = 0
-		self.central_critical_level ||= (central_restock_level * 0.5).ceil
-		self.main_critical_level ||= (main_restock_level * 0.5).ceil
-		self.dispensary_critical_level ||= (main_restock_level * 0.5).ceil
-		self.ward_critical_level ||= (ward_restock_level * 0.5).ceil
+		self.central_critical_level = (central_restock_level * 0.5).ceil
+			self.central_critical_level ||= 0
+		self.main_critical_level = (main_restock_level * 0.5).ceil
+			self.main_critical_level ||= 0
+		self.dispensary_critical_level = (main_restock_level * 0.5).ceil
+		self.dispensary_critical_level ||= 0
+		self.ward_critical_level = (ward_restock_level * 0.5).ceil
+		self.ward_critical_level ||= 0
 	end
 
 	def has_brand?
@@ -38,7 +45,12 @@ class PharmItem < ActiveRecord::Base
  private
 
   def reject_brands(attributed)
-    attributed['brand_name'].blank?
+      attributed[:brand_name].blank? ||
+      attributed[:pack_size].blank? ||
+      attributed[:pack_bundle].blank? ||
+      attributed[:min_dispensable].blank? ||
+      attributed[:marketer_id].blank? ||
+      attributed[:unit_dose_id].blank?
   end
 
 end

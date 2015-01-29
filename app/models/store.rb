@@ -18,8 +18,8 @@ class Store < ActiveRecord::Base
 	end
 
 	def time_zone
-		self.open_time = open_time.in_time_zone
-	  self.close_time = close_time.in_time_zone
+		self.open_time = open_time.to_time
+	  self.close_time = close_time.to_time
 	end
 
 

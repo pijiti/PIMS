@@ -2,14 +2,14 @@ h3 Surcharges list
 
 = render 'form'
 
-table
+table.table
   thead
    tr
      td Surcharge Name
      td Surcharge Type
      td Status
      
-  tbody
+  tbody.surcharges
    - @surcharges.each do |surcharge|
      = render surcharge
 

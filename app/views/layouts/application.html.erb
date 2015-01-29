@@ -9,6 +9,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+<div class = "container">
 
 
 <div class="row">
@@ -17,11 +18,18 @@
 		</div>
 </div>
 
+
+
 <div class="row">
 	<div class="col-md-2">
 		<%= render(:partial => 'shared/sidebar') %>
 	</div>
 	<div class="col-md-10">
+		<% flash.each do |key, value| %>
+        <div class="<%= flash_class(key) %>">
+              <%= value %>
+            </div>
+         <% end %>
 		<%= yield %>
 	</div
 </div>
@@ -33,7 +41,7 @@
 
 
 
-
+</div>
 
 </body>
 </html>

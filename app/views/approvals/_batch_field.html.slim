@@ -4,7 +4,6 @@
                 
         tbody.well
            tr
-            td    = b.input :id,label: false
             td.col-sm-1    = b.input :approved, as: :boolean, label: false
             td.col-sm-1    = b.association :brand, collection: Brand.all, value_method: :id, label_method: :detailed_info, label: false, prompt: "Select Brand",disabled: true
             td.col-sm-1    = b.input :batch_number, as: :string, placeholder: "Batch No", label: false, maxlength: 10,disabled: true

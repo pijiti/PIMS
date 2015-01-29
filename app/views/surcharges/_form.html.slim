@@ -1,4 +1,4 @@
-= simple_form_for @surcharge , :html => { :class => 'form-inline' }do |f|
+= simple_form_for @surcharge  do |f|
  
    =f.input :surcharge_name, label: false, placeholder: "Surcharge Name"
    =f.input :surcharge_type, label: false, as: :select, collection: Surcharge::SURCHARGE_TYPES, prompt: "Select Charge Type"

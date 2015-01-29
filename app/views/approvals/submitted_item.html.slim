@@ -1,37 +1,37 @@
-
-table.table
-  thead
-     tr
-       th Vendor
-       th Supply Ref
-       th Supply Date
-       th Supply Value
-       th Signed Off by
-       th Sign Off Date
-       th Approval Request by
-       th Awaiting Approval Since
-   
-  tbody
-     tr
-       td  #{ @supply.vendor.vendor_name}
-       td  #{@supply.invoice_reference}
-       td  #{@supply.invoice_date.strftime('%D')}
-       td  #{@supply.invoice_value}
-       td  #{@supply.user.try(:full_name)}
-       td  #{@supply.created_at.strftime('%D')}
-       td  #{@supply.user.try(:full_name)}
-       td  = time_ago_in_words(@supply.approval_sent)
-
-= simple_form_for(@supply, :html =>{class: "form-inline"})do |f|
-     
-    = f.simple_fields_for :batches do |batch|
-            = render 'approvals/batch_field', b: batch
- 
-    div
-    br
-    hr
-     = submit_tag 'Save' , class: "btn btn-primary"
-     = submit_tag 'Save and Approve' , class: "btn btn-primary"
-     = submit_tag 'Disapprove' , class: "btn btn-primary"
-
-
+section#supplies-approval-submitted
+            table.table
+              thead
+                 tr
+                   th Vendor
+                   th Supply Ref
+                   th Supply Date
+                   th Supply Value
+                   th Signed Off by
+                   th Sign Off Date
+                   th Approval Request by
+                   th Awaiting Approval Since
+               
+              tbody
+                 tr
+                   td  #{ @supply.vendor.vendor_name}
+                   td  #{@supply.invoice_reference}
+                   td  #{@supply.invoice_date.strftime('%D')}
+                   td  #{@supply.invoice_value}
+                   td  #{@supply.user.try(:full_name)}
+                   td  #{@supply.created_at.strftime('%D')}
+                   td  #{@supply.user.try(:full_name)}
+                   td  = time_ago_in_words(@supply.approval_sent)
+            
+            = simple_form_for(@supply, :html =>{class: "form-inline"})do |f|
+                 
+                = f.simple_fields_for :batches do |batch|
+                        = render 'approvals/batch_field', b: batch
+             
+                div
+                br
+                hr
+                 = submit_tag 'Save' , class: "btn btn-primary"
+                 = submit_tag 'Save and Approve' , class: "btn btn-primary"
+                 = submit_tag 'Disapprove' , class: "btn btn-primary"
+            
+            

@@ -9,16 +9,22 @@ class Supply < ActiveRecord::Base
 
     before_create :set_approval_status, :workflow_initial_state
 
+    validates :vendor, presence: true
+    validates :invoice_value, presence: true
+    validates :invoice_reference, presence: true
+    validates :invoice_date, presence:true
+    validates :user, presence: true
+
     accepts_nested_attributes_for :batches , allow_destroy: true,  reject_if: :all_blank
 
     scope :submitted, -> {where(workflow_state: "submitted")}
 
  def set_approval_status
- 	 self.approval_status = "NOT SENT FOR APPROVAL"
+ 	 self.approval_status = "NOT SENT"
  end
 
  def submit
- 	 update! approval_status: "AWAITING APPROVAL",
+ 	 update! approval_status: "AWAITING",
  	             approval_sent: Time.now
  	   save!
  end

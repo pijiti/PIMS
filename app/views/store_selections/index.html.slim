@@ -1,17 +1,29 @@
--if user_signed_in?
- p
-	=current_user.username
-    li
-    = link_to 'Logout', destroy_user_session_path, :method => :delete
--else
-   li
-    = link_to 'Login', new_user_session_path
+section#store-selections-new
 
-
-= form_tag controller: "store_selections", action: "select_store", method: 'post', :remote => true do
-  = select_tag "active_store", options_from_collection_for_select(@stores, :id, :store_name),:prompt => "Select Store", onchange: "this.form.submit();"
-
-
+ 
+      header#store-selections-new-header
+            -if user_signed_in?  
+                - current_hour = Time.now.hour
+                - if (0..11).include?(current_hour)
+                   h1 Good Morning, #{current_user.full_name}
+                - elsif (12..16).include?(current_hour)
+                   h1 Good Afternoon, #{current_user.full_name}
+                - else
+                   h1 Good Evening, #{current_user.full_name}
+            	h6 Your last log in : #{current_user.last_sign_in_at.strftime("%e-%m-%y %H:%M")}
+             
+      #store-selections-new-body   
+            
+            = form_tag controller: "store_selections", action: "select_store", method: 'post', :remote => true do
+              = select_tag "store_id", options_from_collection_for_select(@stores, :id, :store_name),
+                 :prompt => "Select Store", onchange: "this.form.submit();"
+                 
+      #store-selections-new-footer
+        
+        
+          #store-selections-new-footer-inner
+         
+            
 
 
 

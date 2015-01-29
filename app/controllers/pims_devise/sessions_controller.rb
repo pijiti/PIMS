@@ -29,11 +29,11 @@ class PimsDevise::SessionsController < Devise::SessionsController
 
 
  def after_sign_in_path_for(user)
- 	if me.valid_duration >= Time.now && me.sign_in_count == 1
+ 	if me.valid_duration >= Time.now && me.valid_password?(params[:user][:password]) == me.valid_password?('password')
 			      password_edit_user_path(me.id)
 	elsif me.valid_duration < Time.now
 		       redirect_to destroy_user_session_path, notice: 'Your Validaty Period Has Expired!,Speak to Admin'
-	else  me.valid_duration >= Time.now  &&  me.sign_in_count > 1
+	else  me.valid_duration >= Time.now  &&  me.valid_password?(params[:user][:password]) != me.valid_password?('password')
 		       if me.has_role? :admin
 		           marketers_path
 		      else

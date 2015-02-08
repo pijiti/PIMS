@@ -3,6 +3,6 @@ tr
         td.name = pharm_item.pharm_item_name
         td.brand-count = pharm_item.brands.count
         td.item-classes = pharm_item.item_classes.collect(&:item_class_name).to_sentence
-        td.brand = pharm_item.brands.collect(&:brand_name).to_sentence
+        td.brand = pharm_item.brands.collect(&:name).to_sentence
         td.edit = link_to 'Edit', edit_pharm_item_path(pharm_item)
         td.destroy = link_to 'Destroy', pharm_item, method: :delete, data: { confirm: 'Are you sure?' }

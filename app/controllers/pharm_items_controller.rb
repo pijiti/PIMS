@@ -16,15 +16,14 @@ class PharmItemsController < ApplicationController
     @itemclasses = ItemClass.all
     @marketers = Marketer.all
     @unit_doses = UnitDose.all
-    3.times{@pharm_item.brands.build}
-  end
-
+    @pharm_item.brands.build
+ end
 
   def edit
   	@itemclasses = ItemClass.all
   	@marketers = Marketer.all
     @unit_doses = UnitDose.all
-    @item_concentration_units = ItemConcentrationUnit.all
+
   end
 
 
@@ -75,6 +74,6 @@ class PharmItemsController < ApplicationController
     def pharm_item_params
       params.require(:pharm_item).permit(:pharm_item_name,{:item_class_ids=>[]},:central_restock_level,:central_critical_level,:main_restock_level,
       :main_critical_level,:dispensary_restock_level,:dispensary_critical_level,:ward_restock_level,:ward_critical_level,
-      brands_attributes: [:id, :brand_name,:pack_bundle, :marketer_id, :unit_dose_id, :concentration, :item_concentration_unit_id, :pack_size,:pharm_item_id,:min_dispensable])
+      brands_attributes: [:id, :name,:pack_bundle, :marketer_id, :unit_dose_id, :concentration, :item_concentration_unit_id, :pack_size,:pharm_item_id,:min_dispensable])
     end
 end

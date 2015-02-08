@@ -1,24 +1,26 @@
-h10 Vendor Management
+.title Vendor
 
-= render 'form'
-
-table.table
-  thead
-     tr
-     th Vendor name 
-     th Reg Number 
-     th Address 
-     th State 
-     th Contact name 
-     th Contact mobile 
-     th Contact Email 
-     th Vendor Category 
-     th Store 
-    
-  tbody
-    - @vendors.each do |vendor|
-      = render vendor
-      
+section#pims-index
+        .vendors-form
+          = render 'form'
+        
+        table.table.table-striped.table-condensed
+          thead
+             tr
+             th Name 
+             th Reg No
+             th Address 
+             th State 
+             th Contact name 
+             th Contact mobile 
+             th Contact Email 
+             th Vendor Category 
+             th Store 
+            
+          tbody.vendors
+            - @vendors.each do |vendor|
+              = render vendor
+              
     
 
 

@@ -1,7 +1,7 @@
 h1 index
 
 
-table
+table.table
   thead
     tr
       th SN
@@ -9,8 +9,10 @@ table
    
      
   tbody
--@roles.each_with_index do |role,index|
-    tr
-      td.index = index + 1
-      td.name = role.name
-      td.edit = link_to "Edit", edit_role_path(role)
+    -@roles.each do |role|
+      tr
+
+       td.name = role.name
+       td.resource_id = role.try(:resource_id)
+       td.resource = role.try(:resource_type)
+       td.edit = link_to "Edit", edit_role_path(role)

@@ -1,8 +1,7 @@
-section#staff-categories-index  
-      
-        h5 Staff Category
-        
-        
+.title Staff Category
+
+
+section#staff-categories-index         
         = render 'form'
         
         table.table
@@ -11,7 +10,7 @@ section#staff-categories-index
               th Name
               th Description
         
-          tbody
+          tbody.staff-categories
             - @staff_categories.each do |staff_category| 
               = render staff_category
               

@@ -23,7 +23,7 @@ class StaffCategoriesController < ApplicationController
       if @staff_category.save
          redirect_to staff_categories_path
       else
-        format.html { render :new }
+       redirect_to staff_categories_path
     end
   end
 
@@ -32,7 +32,7 @@ class StaffCategoriesController < ApplicationController
       if @staff_category.update(staff_category_params)
         redirect_to staff_categories_path
       else
-      render :edit
+       redirect_to staff_categories_path
     end
   end
 

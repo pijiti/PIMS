@@ -1,18 +1,8 @@
- section#hospital-units-index    
-         h10  Hospital Unit
-        
-         div
-         br
-        
-         div#link
-          = link_to new_hospital_unit_path,remote: true do
-             button.btn.btn-primary href="#" New
-        
-         br
-        
-         div#form
-        
-         hr
+.title Hospital Unit
+
+section#pims-index    
+
+         = render 'form'
         
          div
          br
@@ -34,7 +24,7 @@
               
         
          br
-         table.table
+         table.table.table-striped.table-condensed
           thead
             tr
               th Name

@@ -1,18 +1,20 @@
-section#store-operations-index       
-        
-        .title Store Operations
-        
+.title Store Operations
+
+section#store-operations-index      
+
+        =render 'form'
+                
         table.table
-          thead
-            tr
-              th SN
-              th Store operation name
+           thead
+             tr
+              th Name
+              th Description
               th Payment required
-             
-        
-          tbody
-            - @store_operations.each_with_index do |store_operation,index| 
-               = render store_operation, index: index
-        
+                     
+                
+           tbody.store-operations
+              - @store_operations.each do |store_operation| 
+                 = render store_operation
+                
         
         

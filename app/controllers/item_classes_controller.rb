@@ -48,6 +48,6 @@ class ItemClassesController < ApplicationController
     end
 
     def item_class_params
-      params.require(:item_class).permit(:item_class_name)
+      params.require(:item_class).permit(:item_class_name,:description)
     end
 end

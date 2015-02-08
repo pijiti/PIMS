@@ -1,16 +1,18 @@
-h3 Surcharges list
+.title Surcharge
 
-= render 'form'
-
-table.table
-  thead
-   tr
-     td Surcharge Name
-     td Surcharge Type
-     td Status
-     
-  tbody.surcharges
-   - @surcharges.each do |surcharge|
-     = render surcharge
-
+section#pims-index
+     = render 'form'
+        
+     table.table.table-striped.table-condensed
+          thead
+           tr
+             td Surcharge Name
+             td Surcharge Type
+             td Status
+             td Items
+             
+          tbody.surcharges
+             - @surcharges.each do |surcharge|
+                = render surcharge
+        
 

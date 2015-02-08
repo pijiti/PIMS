@@ -1,4 +1,9 @@
-hr
-=s.input :surcharge_item_name,label: false,placeholder: "Surcharge Item name"
-=s.input :value, label: false, placeholder: "Value"
-=s.input :description, as: :text, label: false, placeholder: "Description"
+   .nested-fields
+
+        =f.input :surcharge_item_name
+
+        =f.input :value
+
+        =f.input :description, as: :text
+
+        = link_to_remove_association "Remove item", f, class: 'btn btn-primary'

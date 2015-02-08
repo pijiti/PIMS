@@ -1,7 +1,7 @@
 = simple_form_for @user_profile  do |f| 
 
 
-    = f.association :gender, value_method: :id, label_method: :gender_name, :prompt=>"Select Gender"
+    /!= f.association :gender, value_method: :id, label_method: :gender_name, :prompt=>"Select Gender"
     = f.input :DoB,as: :date 
     = f.input :address 
     = f.input :next_of_kin 

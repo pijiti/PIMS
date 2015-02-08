@@ -5,6 +5,7 @@ class HospitalUnitsController < ApplicationController
 
   def index
     @hospital_units = HospitalUnit.paginate(:page => params[:page])
+    new
   end
 
 

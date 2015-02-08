@@ -22,11 +22,8 @@ class VendorsController < ApplicationController
 
   def create
     @vendor = Vendor.new(vendor_params)
-      if @vendor.save
-       redirect_to vendors_path
-      else
-         render :new
-    end
+     #authorize @vendor
+    @error = @vendor.errors.full_messages.to_sentence unless @vendor.save
   end
 
 
@@ -52,6 +49,6 @@ class VendorsController < ApplicationController
 
 
     def vendor_params
-      params.require(:vendor).permit(:vendor_name, :address,:reg_number,:state_id,:store_id,:contact_email, :contact_name, :contact_mobile,:vendor_category_id)
+      params.require(:vendor).permit(:name, :address,:reg_number,:state_id,:store_id,:contact_email, :contact_name, :contact_mobile,:vendor_category_id)
     end
 end

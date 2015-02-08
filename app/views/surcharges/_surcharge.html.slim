@@ -1,6 +1,8 @@
  tr
        td.name = surcharge.try(:surcharge_name)
        td.type = surcharge.try(:surcharge_type)
+       th.value = surcharge.surcharge_items.try(:map){|v| v.value}.sum
        td.active1 = surcharge.try(:active)
+       td = surcharge.try(:surcharge_items).length
        td.edit = link_to "Edit",edit_surcharge_path(surcharge)
        

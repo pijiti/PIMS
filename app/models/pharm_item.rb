@@ -45,7 +45,7 @@ class PharmItem < ActiveRecord::Base
  private
 
   def reject_brands(attributed)
-      attributed[:brand_name].blank? ||
+      attributed[:name].blank? ||
       attributed[:pack_size].blank? ||
       attributed[:pack_bundle].blank? ||
       attributed[:min_dispensable].blank? ||

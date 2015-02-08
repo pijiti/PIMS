@@ -1,5 +1,6 @@
 class FrontPagesController < ApplicationController
 	layout "frontpage"
+
   def home
 
   end

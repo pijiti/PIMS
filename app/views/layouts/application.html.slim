@@ -1,47 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
+doctype html
+html
+	=render 'layouts/head'
+	body
+	  .container
+	  	 #application-main
 
-  <title>Pharmaceutical Items Management System</title>
-  <%= favicon_link_tag 'favicon.ico' %>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-<div class = "container">
+	  	    #application-main-body
+				.col-md-12
+					= render 'shared/navbar'
+				#application-main-body-sidebar
+				.col-md-2
+					= render 'shared/sidebar'
+				#application-main-body-yield
+				.col-md-10
+					- flash.each do |_, msg|
+	          			= render 'notifies/notify', msg: msg
+					= yield
 
-
-<div class="row">
-	<div class="col-md-12">
-		<%= render(:partial => 'shared/navbar') %>
-		</div>
-</div>
-
-
-
-<div class="row">
-	<div class="col-md-2">
-		<%= render(:partial => 'shared/sidebar') %>
-	</div>
-	<div class="col-md-10">
-		<% flash.each do |key, value| %>
-        <div class="<%= flash_class(key) %>">
-              <%= value %>
-            </div>
-         <% end %>
-		<%= yield %>
-	</div
-</div>
-<div class="row">
-	<div class="col-md-12">
-	<%= render(:partial => 'shared/footer') %>
-	</div>
-</div>
-
-
-
-</div>
-
-</body>
-</html>

@@ -1,11 +1,16 @@
 = simple_form_for @surcharge  do |f|
- 
-   =f.input :surcharge_name, label: false, placeholder: "Surcharge Name"
-   =f.input :surcharge_type, label: false, as: :select, collection: Surcharge::SURCHARGE_TYPES, prompt: "Select Charge Type"
-   =f.input :active, as: :boolean
-   div
-    =f.simple_fields_for :surcharge_items do |surcharge_item|
-      = render 'surcharge_item', s: surcharge_item
-   div
-     =f.button :submit
+         .col-sm-4
+           =f.input :surcharge_name
+         .col-sm-4
+           =f.input :surcharge_type, as: :select, collection: Surcharge::SURCHARGE_TYPES, prompt: "Charge Type"
+         .col-sm-4
+           =f.check_box :active,label: "Active"
+         .col-sm-12
+          #surcharge-items        
+                =f.simple_fields_for :surcharge_items do |surcharge_item|
+                  = render 'surcharge_item_fields', f: surcharge_item
+                  .links
+                    = link_to_add_association 'Add Item', f, :surcharge_items, class: 'btn btn-primary'
+         .actions
+             =f.button :submit,'Save'
 

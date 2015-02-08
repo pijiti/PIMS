@@ -1,6 +1,6 @@
 class StoreSelectionsController < ApplicationController
 
-	rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+	#rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
 
 	before_action :set_store, only: [:select_store]
@@ -15,7 +15,7 @@ class StoreSelectionsController < ApplicationController
 
 
   def select_store
-    #authorize current_store
+    authorize current_store
 		logger.debug{"Epitome #{ current_store.id}" }
 		c_time =  @current_store.close_time
 		o_time = @current_store.open_time
@@ -33,8 +33,8 @@ class StoreSelectionsController < ApplicationController
   private
 
   def user_not_authorized
-  	flash.now[:alert] = "You are not authorized to access that store.Speak to the PIMS admin."
-    redirect_to store_selections_index_path
+  	flash[:alert] = "You are not authorized to access the selected store.Speak to the PIMS admin."
+    redirect_to(:back)
   end
 
 

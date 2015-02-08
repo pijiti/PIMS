@@ -1,8 +1,7 @@
-    hr
-    .well
+ 
 
-
-               = f.input :brand_name        
+          .nested-fields
+               = f.input :name        
                = f.association :marketer, label_method: :marketer_name, value_method: :id, prompt: "Marketer"      
                = f.association :unit_dose, label_method: :unit_dose_name, value_method: :id, prompt: "Unit Dose"        
                = f.input :concentration
@@ -10,4 +9,5 @@
                = f.input :pack_size        
                = f.input :pack_bundle            
                = f.input :min_dispensable
+               = link_to_remove_association "Remove brand", f,class: 'btn btn-primary'
             

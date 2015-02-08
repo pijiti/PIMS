@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
    include AuthorizationConcern
-
+   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   protect_from_forgery with: :exception
 
     alias_method :me, :current_user
@@ -15,6 +15,10 @@ class ApplicationController < ActionController::Base
       @current_store ||= Store.find(session[:active_store]) if session[:active_store]
     end
     helper_method :current_store
+
+    def user_not_authorized
+    	flash[:notice] = "No"
+   end
 
 
 

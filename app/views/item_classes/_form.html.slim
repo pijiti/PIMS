@@ -1,5 +1,6 @@
 = simple_form_for(@item_class) do |f| 
 
-    = f.input :item_class_name 
-    = f.button :submit
+    = f.input :item_class_name,label: 'Name'
+    = f.input :description
+    = f.button :submit,'Save'
 

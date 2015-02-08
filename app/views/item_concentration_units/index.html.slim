@@ -1,18 +1,21 @@
-h3 Item Concentration Units
+.title Unit Concentration
 
-=render 'form'
+section#pims-index
 
--if @item_concentration_units.size == 0
- = "There are no records available for listing"
-
-
-table
-	thead
-		tr
-		  th Conc unit name
-	
-	tbody
-		 - @item_concentration_units.each do |item_concentration_unit| 
-		    = render item_concentration_unit
-		 
-
+    =render 'form'
+    
+    -if @item_concentration_units.size == 0
+     = "There are no records available for listing"
+    
+    
+    table.table.table-striped.table-condensed
+    	thead
+    		tr
+    		  th Name
+    		  th Description
+    	
+    	tbody
+    		 - @item_concentration_units.each do |item_concentration_unit| 
+    		    = render item_concentration_unit
+    		 
+    

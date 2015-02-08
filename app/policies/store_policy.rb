@@ -8,7 +8,7 @@ class StorePolicy < ApplicationPolicy
 
 
 	def select_store?
-    user.is_Technical_of?@store or user.is_principal_of?@store
+		user.is_Technical_of?@store or user.is_principal_of?@store
   end
 
 end

@@ -10,10 +10,13 @@ class SurchargesController < ApplicationController
 
   def new
   	@surcharge = Surcharge.new
-     3.times  do
-     	    @surcharge.surcharge_items.build
-     end
+    @surcharge.surcharge_items.build
   end
+
+   def edit
+   	@surcharge.surcharge_items.build
+  end
+
 
   def create
   	@surcharge = Surcharge.create!(surcharge_params)
@@ -21,7 +24,7 @@ class SurchargesController < ApplicationController
   end
 
   def update
-  	@surcharge = update(surcharge_params)
+  	@surcharge.update_attributes(surcharge_params)
   	 redirect_to surcharges_path
   end
 

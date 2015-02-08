@@ -26,7 +26,7 @@ test:
 production:
   database: PIMS
   adapter: postgresql
-  encoding: unicode
+  encoding: uft8
   pool: 5
   username: ondopimsadmin
   password: mission

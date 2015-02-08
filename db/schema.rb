@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150127071827) do
+ActiveRecord::Schema.define(version: 20150205122345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 20150127071827) do
   end
 
   create_table "brands", force: true do |t|
-    t.string   "brand_name"
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "pharm_item_id"
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 20150127071827) do
     t.string   "item_class_name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "description"
   end
 
   create_table "item_concentration_units", force: true do |t|
@@ -219,6 +220,7 @@ ActiveRecord::Schema.define(version: 20150127071827) do
     t.string   "store_type_name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "description"
   end
 
   create_table "stores", force: true do |t|
@@ -337,7 +339,7 @@ ActiveRecord::Schema.define(version: 20150127071827) do
   end
 
   create_table "vendors", force: true do |t|
-    t.string   "vendor_name"
+    t.string   "name"
     t.string   "address"
     t.string   "contact_name"
     t.string   "contact_mobile",     limit: 11

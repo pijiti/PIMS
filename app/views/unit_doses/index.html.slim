@@ -1,17 +1,19 @@
-h10 Unit Dose Management
+.title Unit Dose
 
-= render 'form'
-
-table.table.table-bordered
-  thead
-    tr
-    th Unit dose name
-    th Type
-    th Cont
-      
-
-  tbody.unit-doses
-    - @unit_doses.each do |unit_dose|
-     = render unit_dose
-      
-    
+section#unit-doses-index
+        
+        = render 'form'
+        
+        table.table
+          thead
+            tr
+            th Unit dose name
+            th Type
+            th Cont
+              
+        
+          tbody.unit-doses
+            - @unit_doses.each do |unit_dose|
+             = render unit_dose
+              
+            

@@ -23,6 +23,7 @@ gem 'workflow', '~> 1.2.0'
 gem 'will_paginate', '~> 3.0.7'
 gem 'thin', '~> 1.6.3'
 gem 'simple_form', '~> 3.1.0.rc2'
+gem 'cocoon', '~> 1.2.6'
 
 
 
@@ -45,7 +46,10 @@ gem 'quiet_assets', '~> 1.1.0', group: :development
 gem 'capistrano', '~> 3.3.5', group: :development
 gem 'capistrano-rails', '~> 1.1.2', group: :development
 gem 'capistrano-bundler',group: :development
+gem 'capistrano-rvm', '~> 0.1.0',group: :development
+gem 'capistrano-passenger', '~> 0.0.1'
 gem 'tzinfo-data', platforms: [:mingw, :mswin]
+gem 'eventmachine', '~> 1.0.6'
 
 
 #Docs gems

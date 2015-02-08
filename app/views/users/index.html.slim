@@ -1,12 +1,9 @@
-section#users-index
+.title User
 
-            h10 User
-            
-            =render 'pims_devise/registrations/new'
-            
-            = will_paginate @users
-            
-            table.table
+
+section#pims-index        
+            =render 'pims_devise/registrations/new'       
+            table.table.table-striped.table-condensed
              thead
                 tr
                   th Name

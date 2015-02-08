@@ -1,18 +1,20 @@
-h3 Pharm Items
+.title Generic
 
-= render 'form'
+section#pims-index
 
-table.table.table-bordered
-  thead
-    tr
-      th Pharm Item name
-      th Available brands
-      th Classes
-      th Brands
-     
-
-  tbody.pharm-items
-    - @pharm_items.each do |pharm_item| 
-      = render pharm_item
-      
-
+        = render 'form'
+        
+        table.table.table-striped.table-condensed
+          thead
+            tr
+              th Pharm Item name
+              th Available brands
+              th Classes
+              th Brands
+             
+        
+          tbody.pharm-items
+            - @pharm_items.each do |pharm_item| 
+              = render pharm_item
+              
+        

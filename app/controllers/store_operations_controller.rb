@@ -4,6 +4,7 @@ class StoreOperationsController < ApplicationController
 
   def index
     @store_operations = StoreOperation.all
+    new
   end
 
 
@@ -18,11 +19,9 @@ class StoreOperationsController < ApplicationController
 
   def create
     @store_operation = StoreOperation.new(store_operation_params)
-      if @store_operation.save
-         redirect_to store_operations_path
-      else
-        render :new
-    end
+    #authorize @store_operation
+     @store_operation.save!
+     @error = @store_operation.errors.full_messages
   end
 
 

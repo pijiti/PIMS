@@ -1,6 +1,7 @@
 
- = simple_form_for @store_type, html: {class: "form-inline"} do |f|
+ = simple_form_for @store_type do |f|
   
-    = f.input :store_type_name
-    = f.button :submit
+    = f.input :store_type_name,label: "Name"
+    = f.input :description
+    = f.button :submit,'Save'
  

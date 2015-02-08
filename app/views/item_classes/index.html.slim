@@ -1,19 +1,22 @@
-h4 Pharmaceutical Item Class
+.title Item Class
 
-= render 'form'
+section#pims-index
 
--if @item_classes.size == 0
-  = "There are no records available for listing"
-
-table
-  thead
-    tr
-      th Item class name
-   
- 
-  tbody
-    - @item_classes.each do |item_class| 
-       = render item_class
+        = render 'form'
+        
+        -if @item_classes.size == 0
+          = "There are no records available for listing"
+        
+        table.table.table-striped.table-condensed
+          thead
+            tr
+              th Name
+              th Description
+           
+         
+          tbody
+            - @item_classes.each do |item_class| 
+               = render item_class
 
 
 

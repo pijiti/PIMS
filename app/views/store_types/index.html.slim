@@ -1,14 +1,18 @@
-h3 Store Types
+.title Store Types
 
-table
-  thead
-    tr
-      th SN
-      th Storetype name
-      
-      
-  tbody
-    - @store_types.each_with_index do |store_type,index| 
-       = render store_type, index: index
-     
-     
+section#store-types-index 
+
+        =render 'form'
+            
+        table.table
+          thead
+            tr
+              th Name
+              th description
+              
+              
+          tbody.store-types
+            - @store_types.each  do |store_type| 
+               = render store_type
+             
+             

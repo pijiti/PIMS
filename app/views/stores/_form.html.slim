@@ -1,12 +1,13 @@
 = simple_form_for @store,remote: true  do |f|
 
-    = f.input :store_name
-    = f.input :store_location
-    = f.association :store_type, value_method: :id, label_method: :store_type_name, include_blank: "Store Type"
-    = f.association :parent , value_method: :id, label_method: :store_name
-    = f.association :store_operation,value_method: :id,label_method: :store_operation_name, include_blank: "Select Operation"
-    = f.association :roles, collection: Role::ROLES.map(&:titleize), as: :check_boxes
+    = f.input :name
+    = f.input :location
+    = f.association :store_type, value_method: :id, label_method: :name, include_blank: "Store Type"
+    = f.association :parent , value_method: :id, label_method: :name
+    = f.association :store_operation,value_method: :id,label_method: :name, include_blank: "Select Operation"
     = f.input :open_time, as: :time
+
     = f.input :close_time, as: :time
+    = f.association :roles, collection: Role::ROLES.map(&:titleize), as: :check_boxes
     = f.button :submit
 

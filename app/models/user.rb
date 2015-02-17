@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
  end
 
  def full_name
- 	"#{title.try(:title_name)}" + "  "+ " #{first_name}"+"  "+ "#{last_name}"
+ 	"#{title.try(:name)}" + "  "+ " #{first_name}"+"  "+ "#{last_name}"
  end
 
  def status
@@ -41,7 +41,7 @@ class User < ActiveRecord::Base
  	end
  end
 
- def password_reset
+ def password_reset!
  	update! password: 'password'.strip,
  	reset_password_sent_at: Time.now,
  	sign_in_count: 0,

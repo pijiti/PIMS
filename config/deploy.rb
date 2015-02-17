@@ -8,7 +8,7 @@ set :user, "admin"
 set :use_sudo, true
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-
+set :rails_env, "production"
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, '/opt/PIMS'
 

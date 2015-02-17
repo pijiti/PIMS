@@ -1,8 +1,32 @@
-tr
+tr.pharm-item
 
         td.name = pharm_item.pharm_item_name
-        td.brand-count = pharm_item.brands.count
-        td.item-classes = pharm_item.item_classes.collect(&:item_class_name).to_sentence
-        td.brand = pharm_item.brands.collect(&:name).to_sentence
-        td.edit = link_to 'Edit', edit_pharm_item_path(pharm_item)
-        td.destroy = link_to 'Destroy', pharm_item, method: :delete, data: { confirm: 'Are you sure?' }
+        td.item-classes
+            a href = '#' =  pharm_item.item_classes.size
+            table.table.item-classes.hide
+                thead
+                    tr
+                        th #
+                        th Name
+                tbody
+                 -pharm_item.item_classes.each_with_index do |item_class,index|
+                    tr
+                        td.index = index + 1
+                        td.name = item_class.try(:item_class_name)
+                        
+        td.brand
+            a href = '#' = pharm_item.brands.size
+            table.table.brands.hide
+                thead
+                    tr
+                        th #
+                        th Name
+                tbody
+                 -pharm_item.brands.each_with_index do | brand,index|
+                    tr
+                        td.index = index + 1
+                        td.name = brand.try(:name)
+        td.action
+            a.btn.btn-primary.btn-xs href = edit_pharm_item_path(pharm_item) Edit
+            span = '|'
+            a.btn.btn-danger.btn-xs href = pharm_item_path(pharm_item) data-method = 'delete'  Destroy

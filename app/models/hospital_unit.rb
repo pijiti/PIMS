@@ -2,8 +2,9 @@ class HospitalUnit < ActiveRecord::Base
 
 	has_many :prescriptions
 
-	validates :hospital_unit_name, presence: true, uniqueness: true, length: { in: 2..15 }
-	validates :hospital_unit_description,presence: true,length: { maximum: 50 }
+	default_scope{order(name: :asc)}
+	validates :name, presence: true, uniqueness: true, length: { in: 2..15 }
+	validates :description,presence: true,length: { maximum: 50 }
 
 	before_create :modify_attrs
 	before_update :modify_attrs
@@ -11,12 +12,12 @@ class HospitalUnit < ActiveRecord::Base
 
 
 	def modify_attrs
-		self.hospital_unit_name = hospital_unit_name.upcase.strip
-		self.hospital_unit_description = hospital_unit_description.capitalize.strip
+		self.name = name.upcase.strip
+		self.description = description.capitalize.strip
 	end
 
 	def name_unique
-		self.hospital_unit_name = hospital_unit_name.upcase.strip
+		self.name = name.upcase.strip
 	end
 
 end

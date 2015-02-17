@@ -1,11 +1,13 @@
        
      
-        = simple_form_for @marketer  do |f| 
-        
-            = f.input :marketer_name 
+       = simple_form_for @marketer,remote:true  do |f| 
+          .col-md-4
+            = f.input :name 
+          .col-md-4
             = f.input :description
+          .col-md-4
             = f.check_box :foreign
-            span Foreign
-            
-            = f.button :submit, "Save"
+         
+          .actions 
+            = f.button :submit, "Save", class: 'btn btn-success btn-sm'
  

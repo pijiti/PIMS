@@ -1,8 +1,10 @@
             
          . 
-            = simple_form_for @hospital_unit,remote: true do |f|
-            
-                = f.input :hospital_unit_name,label: false, placeholder: 'Name'
-                = f.input :hospital_unit_description,label: false, placeholder: 'Description'
-                = f.button :submit, "Save"
+         = simple_form_for @hospital_unit,remote: true do |f|
+              .col-md-6
+                = f.input :name
+              .col-md-6
+                = f.input :description
+              .actions
+                = f.button :submit, "Save",class:'btn btn-success btn-sm'
             

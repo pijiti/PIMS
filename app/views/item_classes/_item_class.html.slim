@@ -1,5 +1,6 @@
 tr
-        td.class-name = item_class.item_class_name
+        td.class-name = item_class.try(:name)
         td.description = item_class.description
-        td.edit = link_to 'Edit', edit_item_class_path(item_class)
-        td.destroy = link_to 'Destroy', item_class, method: :delete, data: { confirm: 'Are you sure?' } 
+        td.text-right
+            a.btn.btn-primary.btn-xs href =  edit_item_class_path(item_class) data-remote='true'  Edit
+            a.btn.btn-danger.btn-xs href = item_class_path(item_class) data-method='delete'  data-remote='true'  Destroy

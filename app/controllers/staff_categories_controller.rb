@@ -19,27 +19,20 @@ class StaffCategoriesController < ApplicationController
 
 
   def create
-    @staff_category = StaffCategory.new(staff_category_params)
-      if @staff_category.save
-         redirect_to staff_categories_path
-      else
-       redirect_to staff_categories_path
-    end
+    @staff_category = StaffCategory.create!(staff_category_params)
+    @error = @staff_category.error.full_messages
   end
 
 
   def update
-      if @staff_category.update(staff_category_params)
-        redirect_to staff_categories_path
-      else
-       redirect_to staff_categories_path
-    end
+      @staff_category.update!(staff_category_params)
+      @error = @staff_category.error.full_messages
   end
 
 
   def destroy
-    @staff_category.destroy
-    redirect_to staff_categories_path
+    @staff_category.destroy!
+    @error = @staff_category.error.full_messages
   end
 
   private
@@ -50,6 +43,6 @@ class StaffCategoriesController < ApplicationController
 
 
     def staff_category_params
-      params.require(:staff_category).permit(:staff_category_name,:description)
+      params.require(:staff_category).permit(:name,:description)
     end
 end

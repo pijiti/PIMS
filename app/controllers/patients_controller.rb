@@ -22,25 +22,18 @@ class PatientsController < ApplicationController
 
   def create
     @patient = Patient.new(patient_params)
-      if @patient.save
-       redirect_to patients_path
-      else
-       render :new
-    end
+     @error = @patient.error.full_messages
   end
 
   def update
-      if @patient.update(patient_params)
-       redirect_to patients_path
-      else
-       render :edit
-    end
+    @patient.update!(patient_params)
+     @error = @patient.error.full_messages
   end
 
 
   def destroy
-    @patient.destroy
-     redirect_to patients_path
+    @patient.destroy!
+   @error = @patient.error.full_messages
   end
 
   private
@@ -50,6 +43,6 @@ class PatientsController < ApplicationController
 
 
     def patient_params
-      params.require(:patient).permit(:title_id, :patient_surname,:patient_firstname, :gender, :patient_age, :patient_hospital_id, :patient_mobile,:nok_name,:nok_mobile)
+      params.require(:patient).permit(:title_id, :surname,:firstname, :gender, :age, :hospital_number, :mobile,:nok_name,:nok_mobile)
     end
 end

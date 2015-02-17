@@ -22,26 +22,18 @@ class StoreTypesController < ApplicationController
   def create
     @store_type = StoreType.new(store_type_params)
     logger.debug{"Epitome #{ session[:store_id]}" }
-      if @store_type.save
-        redirect_to store_types_path
-      else
-        render :new
-    end
+     @store_type.save!
   end
 
 
   def update
-      if @store_type.update(store_type_params)
-         redirect_to store_types_path
-      else
-         render :edit
-       end
+      @store_type.update!(store_type_params)
   end
 
 
   def destroy
-    @store_type.destroy
-      redirect_to store_types_path
+    @store_type.destroy!
+   @error = @store_type.errors.full_messages
   end
 
   private
@@ -52,6 +44,6 @@ class StoreTypesController < ApplicationController
 
 
     def store_type_params
-      params.require(:store_type).permit(:store_type_name,:description)
+      params.require(:store_type).permit(:name,:description)
     end
 end

@@ -1,0 +1,9 @@
+
+
+         = simple_form_for @hospital_unit,remote: true do |f|
+              .col-md-6
+                = f.input :name
+              .col-md-6
+                = f.input :description
+              .actions
+                = f.button :submit, "Save",class:'btn btn-success btn-sm'

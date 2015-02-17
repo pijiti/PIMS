@@ -1,5 +1,6 @@
 tr
-  td.conc_name = item_concentration_unit.conc_unit_name
+  td.conc_name = item_concentration_unit.try(:name)
   td.conc_name = item_concentration_unit.try(:description)
-  td.edit = link_to 'Edit', edit_item_concentration_unit_path(item_concentration_unit)
-  td.destroy = link_to 'Destroy', item_concentration_unit, method: :delete, data: { confirm: 'Are you sure?' }
+  td.text-right
+    a.btn.btn-primary.btn-xs href = edit_item_concentration_unit_path(item_concentration_unit) data-remote='true'   Edit
+    a.btn.btn-danger.btn-xs href = item_concentration_unit_path(item_concentration_unit)  data-method='delete'  data-remote='true'  Destroy

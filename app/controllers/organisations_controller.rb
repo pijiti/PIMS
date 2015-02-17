@@ -17,27 +17,20 @@ class OrganisationsController < ApplicationController
 
 
   def create
-    @organisation = Organisation.new(organisation_params)
-      if @organisation.save
-        redirect_to organisations_path
-      else
-         render :new
-    end
+    @organisation = Organisation.create!(organisation_params)
+    @error = @organisation.error.full_messages
   end
 
 
   def update
-      if @organisation.update(organisation_params)
-         redirect_to organisations_path
-      else
-         render :edit
-    end
+    @organisation.update!(organisation_params)
+    @error = @organisation.error.full_messages
   end
 
 
   def destroy
-    @organisation.destroy
-     redirect_to organisations_path
+    @organisation.destroy!
+    @error = @organisation.error.full_messages
   end
 
   private
@@ -46,6 +39,6 @@ class OrganisationsController < ApplicationController
     end
 
     def organisation_params
-      params.require(:organisation).permit(:organisation_name, :address, :logo, :contact_person,:contact_phone,:contact_email)
+      params.require(:organisation).permit(:name, :address, :logo, :contact_person,:contact_phone,:contact_email)
     end
 end

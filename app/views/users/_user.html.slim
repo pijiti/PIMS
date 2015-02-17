@@ -1,13 +1,36 @@
 
 
-                  tr
+                  tr.user data-id=user.id
                       td = user.try(:full_name) 
                       td = user.username
-                      td = user.staff_category.try(:staff_category_name)
+                      td = user.staff_category.try(:name)
                       td = user.validity 
                       td = user.validity_status
-                      td = user.valid_duration.try(:strftime ,"%d-%m-%y" )  
-                      td = link_to "PS" , password_reset_user_path(user),method: :patch
+                      td = user.valid_duration.try(:strftime ,"%d-%m-%y" )
+                      td
+                            a.link-roles href='#' = "#{user.roles.size}"
+                            
+                            table.table.roles.hide
+                                thead
+                                  tr
+                                    th Role
+                                    th Store
+                                tbody
+                                -user.roles.each do |role|
+                                  tr
+                                    td.name = role.try(:name)
+                                    td.store-name = role.resource.try(:store_name)
+                                  
+                      td.text-right
+                         a.btn.btn-info.btn-xs href=password_reset_user_path(user) data-method='patch'  data-remote=true  Change Password
+                      
+                         a.btn.btn-primary.btn-xs href=edit_user_path(user) data-remote='true'  Edit
+                     
+                         a.btn.btn-danger.btn-xs href=user_path(user) data-method='delete' data-remote='true' Destroy
+                               
+                            
+                         
+    
                   
                       
                      

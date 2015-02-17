@@ -15,7 +15,7 @@ section#store-selections-new
              
       #store-selections-new-body   
             = form_tag controller: "store_selections", action: "select_store", method: 'post', :remote => true  do
-                  = select_tag "store_id", options_from_collection_for_select(@stores, :id, :store_name),
+                  = select_tag "store_id", options_from_collection_for_select(@stores, :id, :name),
                      :prompt => "Select Store", onchange: "this.form.submit();",class: 'form-control'
                  
       #store-selections-new-footer

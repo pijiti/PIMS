@@ -1,41 +1,24 @@
 .title Hospital Unit
 
 section#pims-index    
-
-         = render 'form'
+         .hospitals-form
+            = render 'form'
+         .text-right
+            a href = new_hospital_unit_path Download Excel        
         
-         div
-         br
-         = form_tag method: :get do
-             = text_field_tag :search, params[:query], :id => 'search_field'
-             = submit_tag "Search", :name => nil, class: "btn btn-primary" 
-        
-        
-         div.right
-         br
-         = link_to new_hospital_unit_path,remote: true do
-             button.btn.btn-primary href="#" Download Excel
-             
-         = link_to new_hospital_unit_path,remote: true do
-             button.btn.btn-primary href="#" Download PDF
-         p
-         = will_paginate @hospital_units, renderer: BootstrapPagination::Rails
-        
-              
-        
-         br
          table.table.table-striped.table-condensed
           thead
             tr
               th Name
               th Description
+              th Actions
         
         
         
-          tbody.hospitals
+          tbody.hospital-units
              - @hospital_units.each  do |hospital_unit|
                 = render hospital_unit
-         = will_paginate @hospital_units, renderer: BootstrapPagination::Rails
+        
          
         
         

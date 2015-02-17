@@ -1,11 +1,13 @@
  tr
-        td = store.store_name 
-        td = store.store_location 
-        td = store.store_type.try(:store_type_name) 
-        td = store.parent.try(:store_name) 
-        td = store.store_operation.try(:store_operation_name)
-        td = store.roles.collect(&:name).to_sentence
+        td = store.try(:name) 
+        td = store.try(:location) 
+        td = store.store_type.try(:name) 
+        td = store.parent.try(:name) 
+        td = store.store_operation.try(:name)
+        td = store.roles.size
         td = store.try(:open_time).strftime('%R')
         td = store.try(:close_time).strftime('%R')
-        td = link_to 'Edit', edit_store_path(store) 
-        td = link_to 'Destroy', store, method: :delete, data: { confirm: 'Are you sure?' } 
+        td.text-right
+            a.btn.btn-primary.btn-xs  href = edit_store_path(store) data-remote='true'  Edit 
+        
+            a.btn.btn-danger.btn-xs  href = store_path( store) data-method='delete'   data-remote='true'  Destroy

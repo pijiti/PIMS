@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150205122345) do
+ActiveRecord::Schema.define(version: 20150216154211) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,27 +53,27 @@ ActiveRecord::Schema.define(version: 20150205122345) do
   end
 
   create_table "countries", force: true do |t|
-    t.string   "country_name"
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "hospital_units", force: true do |t|
-    t.string   "hospital_unit_name"
-    t.text     "hospital_unit_description"
+    t.string   "name"
+    t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "item_classes", force: true do |t|
-    t.string   "item_class_name"
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "description"
   end
 
   create_table "item_concentration_units", force: true do |t|
-    t.string   "conc_unit_name"
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "description"
@@ -96,22 +96,22 @@ ActiveRecord::Schema.define(version: 20150205122345) do
   end
 
   create_table "locals", force: true do |t|
-    t.string   "local_name"
+    t.string   "name"
     t.integer  "state_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "marketers", force: true do |t|
-    t.string   "marketer_name"
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "description"
-    t.boolean  "foreign",       default: false, null: false
+    t.boolean  "foreign",     default: false, null: false
   end
 
   create_table "organisations", force: true do |t|
-    t.string   "organisation_name"
+    t.string   "name"
     t.string   "address"
     t.binary   "logo"
     t.string   "contact_person"
@@ -122,21 +122,21 @@ ActiveRecord::Schema.define(version: 20150205122345) do
   end
 
   create_table "patients", force: true do |t|
-    t.integer  "patient_age"
-    t.string   "patient_mobile"
+    t.integer  "age"
+    t.string   "mobile"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "title_id"
-    t.string   "patient_hospital_id"
-    t.string   "patient_firstname"
-    t.string   "patient_surname"
-    t.integer  "gender",              default: 0, null: false
+    t.string   "hospital_number"
+    t.string   "firstname"
+    t.string   "surname"
+    t.integer  "gender",          default: 0, null: false
     t.string   "nok_name"
     t.string   "nok_mobile"
   end
 
   create_table "pharm_items", force: true do |t|
-    t.string   "pharm_item_name"
+    t.string   "name"
     t.integer  "number_of_brands"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -157,7 +157,7 @@ ActiveRecord::Schema.define(version: 20150205122345) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "patient_id"
-    t.string   "prescription_code"
+    t.string   "code"
   end
 
   create_table "request_items", force: true do |t|
@@ -195,21 +195,21 @@ ActiveRecord::Schema.define(version: 20150205122345) do
   add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
 
   create_table "staff_categories", force: true do |t|
-    t.string   "staff_category_name"
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "description"
   end
 
   create_table "states", force: true do |t|
-    t.string   "state_name"
+    t.string   "name"
     t.integer  "country_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "store_operations", force: true do |t|
-    t.string   "store_operation_name"
+    t.string   "name"
     t.boolean  "payment_required"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -217,15 +217,15 @@ ActiveRecord::Schema.define(version: 20150205122345) do
   end
 
   create_table "store_types", force: true do |t|
-    t.string   "store_type_name"
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "description"
   end
 
   create_table "stores", force: true do |t|
-    t.string   "store_name"
-    t.string   "store_location"
+    t.string   "name"
+    t.string   "location"
     t.time     "open_time"
     t.time     "close_time"
     t.datetime "created_at"
@@ -256,33 +256,33 @@ ActiveRecord::Schema.define(version: 20150205122345) do
   end
 
   create_table "surcharge_items", force: true do |t|
-    t.string   "surcharge_item_name"
     t.text     "description"
-    t.decimal  "value",               precision: 4, scale: 2
+    t.decimal  "value",        precision: 4, scale: 2
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "surcharge_id"
+    t.string   "name"
   end
 
   create_table "surcharges", force: true do |t|
-    t.string   "surcharge_name"
-    t.boolean  "active",         default: false, null: false
+    t.boolean  "active",     default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "surcharge_type"
+    t.string   "type"
+    t.string   "name"
   end
 
   create_table "titles", force: true do |t|
-    t.string   "title_name"
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "unit_doses", force: true do |t|
-    t.string   "unit_dose_name"
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "unit_dose_type"
+    t.string   "type"
   end
 
   create_table "user_profiles", force: true do |t|

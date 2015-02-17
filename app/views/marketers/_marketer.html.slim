@@ -1,6 +1,7 @@
 tr
-       td.name = marketer.marketer_name 
+       td.name = marketer.try(:name )
        td.description = marketer.description
        td.foreign = marketer.foreign.to_s.capitalize
-       td.edit = link_to 'Edit', edit_marketer_path(marketer) 
-       td.destroy = link_to 'Destroy', marketer, method: :delete, data: { confirm: 'Are you sure?' } 
+       td.text-right
+        a.btn.btn-primary.btn-xs href = edit_marketer_path(marketer) data-remote='true'  Edit 
+        a.btn.btn-danger.btn-xs href = marketer_path(marketer) data-method='delete'    data-remote=true   Destroy   

@@ -1,6 +1,8 @@
-= simple_form_for(@item_class) do |f| 
-
-    = f.input :item_class_name,label: 'Name'
+= simple_form_for @item_class, remote:true  do |f| 
+   .col-md-6
+    = f.input :name
+   .col-md-6
     = f.input :description
-    = f.button :submit,'Save'
+   .actions
+    = f.button :submit,'Save',class:'btn btn-success btn-sm'
 

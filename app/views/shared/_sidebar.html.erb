@@ -5,10 +5,10 @@
 
     <div class="collapse" id="reports">
     	<%= link_to '<i class="fa fa-user-md fa-fw"></i>&nbsp;Medical'.html_safe, front_pages_help_doc_path, class: "list-group-item"%>
-    		<%if policy(current_user).interact?%>
+
     	<%= link_to '<i class="fa fa-dollar fa-fw"></i>&nbsp;Commercial'.html_safe, new_user_profile_path, class: "list-group-item"%>
     	<%= link_to '<i class="fa fa-sitemap fa-fw"></i>&nbsp;Demographics'.html_safe, new_user_profile_path, class: "list-group-item"%>
-    	<%end%>
+
     </div>
 
     <%= link_to '<i class="fa fa-plus-square fa-fw x3 blue"></i>&nbsp;</br>PIMS Management <br/><i class="fa fa-caret-down"></i>'.html_safe, "#application", class: "list-group-item list-group-item-success text-center","data-toggle" =>"collapse", "data-parent" => "#MainMenu"%>

@@ -17,25 +17,18 @@ class ItemConcentrationUnitsController < ApplicationController
 
   def create
     @item_concentration_unit = ItemConcentrationUnit.new(item_concentration_unit_params)
-      if @item_concentration_unit.save
-        redirect_to item_concentration_units_path
-      else
-        render :new
-    end
+    @error = @item_concentration_unit.error.full_messages
   end
 
   def update
-      if @item_concentration_unit.update(item_concentration_unit_params)
-         redirect_to item_concentration_units_path
-      else
-        render :edit
-    end
+      @item_concentration_unit.update!(item_concentration_unit_params)
+      @error = @item_concentration_unit.error.full_messages
   end
 
 
   def destroy
-    @item_concentration_unit.destroy
-     redirect_to item_concentration_units_path
+    @item_concentration_unit.destroy!
+    @error = @item_concentration_unit.error.full_messages
   end
 
   private
@@ -45,6 +38,6 @@ class ItemConcentrationUnitsController < ApplicationController
     end
 
     def item_concentration_unit_params
-      params.require(:item_concentration_unit).permit(:conc_unit_name,:description)
+      params.require(:item_concentration_unit).permit(:name,:description)
     end
 end

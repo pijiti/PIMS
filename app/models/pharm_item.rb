@@ -6,6 +6,8 @@ class PharmItem < ActiveRecord::Base
 	has_many :batches
 	has_many :request_items
 
+	default_scope  { order(:pharm_item_name => :asc) }
+
   before_create :modify_attrs
   before_update :modify_attrs
   before_validation :name_unique

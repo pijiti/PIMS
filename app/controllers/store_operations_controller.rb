@@ -26,17 +26,14 @@ class StoreOperationsController < ApplicationController
 
 
   def update
-      if @store_operation.update(store_operation_params)
-     redirect_to store_operations_path
-      else
-        render :edit
-    end
+      @store_operation.update!(store_operation_params)
+      @error = @store_operation.errors.full_messages
   end
 
 
   def destroy
-    @store_operation.destroy
-    redirect_to store_operations_url
+    @store_operation.destroy!
+    @error = @store_operation.errors.full_messages
   end
 
   private
@@ -46,6 +43,6 @@ class StoreOperationsController < ApplicationController
 
 
     def store_operation_params
-      params.require(:store_operation).permit(:store_operation_name, :description,:payment_required)
+      params.require(:store_operation).permit(:name, :description,:payment_required)
     end
 end

@@ -4,7 +4,7 @@ class HospitalUnitsController < ApplicationController
 
 
   def index
-    @hospital_units = HospitalUnit.paginate(:page => params[:page])
+    @hospital_units = HospitalUnit.all
     new
   end
 
@@ -20,16 +20,19 @@ class HospitalUnitsController < ApplicationController
 
   def create
     @hospital_unit = HospitalUnit.create!(hospital_unit_params)
+    @error = @hospital_unit.error.full_messages
   end
 
 
   def update
       @hospital_unit.update!(hospital_unit_params)
+      @error = @hospital_unit.error.full_messages
   end
 
 
   def destroy
     @hospital_unit.destroy!
+    @error = @hospital_unit.error.full_messages
   end
 
   private
@@ -39,7 +42,7 @@ class HospitalUnitsController < ApplicationController
     end
 
     def hospital_unit_params
-      params.require(:hospital_unit).permit(:hospital_unit_name, :hospital_unit_description)
+      params.require(:hospital_unit).permit(:name, :description)
     end
 
 end

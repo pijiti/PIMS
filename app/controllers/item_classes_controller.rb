@@ -18,27 +18,20 @@ class ItemClassesController < ApplicationController
 
 
   def create
-    @item_class = ItemClass.new(item_class_params)
-      if @item_class.save
-        redirect_to item_classes_path
-      else
-        render :new
-    end
+    @item_class = ItemClass.create!(item_class_params)
+    @error = @item_class.error.full_messages
   end
 
 
   def update
-      if @item_class.update(item_class_params)
-         redirect_to item_classes_path
-      else
-         render :edit
-    end
+     @item_class.update!(item_class_params)
+     @error = @item_class.error.full_messages
   end
 
 
   def destroy
-    @item_class.destroy
-      redirect_to item_classes_path
+    @item_class.destroy!
+    @error = @item_class.error.full_messages
   end
 
   private
@@ -48,6 +41,6 @@ class ItemClassesController < ApplicationController
     end
 
     def item_class_params
-      params.require(:item_class).permit(:item_class_name,:description)
+      params.require(:item_class).permit(:name,:description)
     end
 end

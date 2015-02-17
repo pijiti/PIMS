@@ -15,9 +15,6 @@ class UsersController < ApplicationController
   end
 
 
-  def show
-  end
-
   def update
     @user.update! user_params
     @user.roles.destroy_all
@@ -26,39 +23,31 @@ class UsersController < ApplicationController
 
 
   def password_reset
-  		begin
-  			@user.password_reset
-  			 redirect_to users_path
-  		rescue=> e
-  			 flash[:alert] = e.message
-  			 render :new
+  			@user.password_reset!
+  			@error = @user.errors.full_messages
   	end
 
-  end
+
 
   def password_edit
-     @user = User.find(me.id)
+     @user = me
   end
 
 
   def password_change
-  	@user = User.find(params[:id])
-    pass_value = @user.valid_password?(params[:user][:current_password])
-  	passed_value = params[:user][:current_password]
-  	logger.debug "current password: #{passed_value}"
-  		logger.debug "password status: #{pass_value}"
-   password_status = @user.password_change_check?(params[:user][:current_password],params[:user][:password])
-   logger.debug " #{password_status}"
-
+  	me = params[:id].to_i
+  	@user = User.find(me)
+  	logger.debug{"User ID: #{@user.id }"}
+     password_status = @user.password_change_check?(params[:user][:current_password],params[:user][:password])
    	 if @user.update_with_password(user_password)&& (password_status == false)
-      sign_in @user, :bypass => true
+     sign_in @user, :bypass => true
        if @user.has_role? :admin
           	redirect_to dashboard_path
            else
            	 redirect_to store_selections_index_path
           end
       else
-      	  render :password_edit
+      	 render :password_edit
    end
   end
 

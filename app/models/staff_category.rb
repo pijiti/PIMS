@@ -6,15 +6,15 @@ class StaffCategory < ActiveRecord::Base
 	before_update :modify_attrs
 	before_validation :name_unique
 
-	validates :staff_category_name, presence: true, uniqueness: true
+	validates :name, presence: true, uniqueness: true
 
 
 	def modify_attrs
-		self.staff_category_name = staff_category_name.titleize.strip
+		self.name = name.titleize.strip
 		self.description = description.capitalize.strip
 	end
 
 	def name_unique
-		self.staff_category_name = staff_category_name.titleize.strip
+		self.name = name.titleize.strip
 	end
 end

@@ -1,7 +1,7 @@
 class UserPolicy < ApplicationPolicy
 
 	def interact?
-		user.is_admin?
+		#user.is_admin?
 	end
 
   class Scope < Scope

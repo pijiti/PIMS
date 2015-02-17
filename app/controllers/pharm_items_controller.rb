@@ -21,49 +21,33 @@ class PharmItemsController < ApplicationController
 
   def edit
   	@itemclasses = ItemClass.all
+  	@pharm_item.itemclass_pharmitems.build
   	@marketers = Marketer.all
     @unit_doses = UnitDose.all
-
+    @pharm_item.brands.build
   end
 
 
   def create
-    @pharm_item = PharmItem.new(pharm_item_params)
+    @pharm_item = PharmItem.create!(pharm_item_params)
     @pharm_item.itemclass_pharmitems.build(params[:item_class_ids])unless (params[:item_class_ids]).blank?
     @pharm_item.critical_levels
-    if @pharm_item.has_brand?
-        @pharm_item.save
-          logger.debug " is saved "
-          logger.debug " #{@pharm_item.has_brand?}"
-           redirect_to pharm_items_path
-    else
-      redirect_to pharm_items_path
-      logger.debug " #{@pharm_item.has_brand?}"
-      logger.debug " is not saved"
-   end
+    @pharm_item.save! unless @pharm_item.has_brand? == false
+    @error = @pharm_item.error.full_messages
   end
 
 
   def update
-
-     if @pharm_item.has_brand?
-     	 if @pharm_item.update(pharm_item_params)
+     	  @pharm_item.update!(pharm_item_params)
       	@pharm_item.critical_levels
-      	@pharm_item.save!
-         redirect_to pharm_items_path
-      else
-        render :edit
-    end
-    else
-    	render :edit
-    end
+      	@pharm_item.save! unless @pharm_item.has_brand? == false
+				@error = @pharm_item.error.full_messages
   end
 
 
   def destroy
-    @pharm_item.destroy
-     redirect_to pharm_items_path
-
+    @pharm_item.destroy!
+    @error = @pharm_item.error.full_messages
   end
 
   private
@@ -72,7 +56,7 @@ class PharmItemsController < ApplicationController
     end
 
     def pharm_item_params
-      params.require(:pharm_item).permit(:pharm_item_name,{:item_class_ids=>[]},:central_restock_level,:central_critical_level,:main_restock_level,
+      params.require(:pharm_item).permit(:name,{:item_class_ids=>[]},:central_restock_level,:central_critical_level,:main_restock_level,
       :main_critical_level,:dispensary_restock_level,:dispensary_critical_level,:ward_restock_level,:ward_critical_level,
       brands_attributes: [:id, :name,:pack_bundle, :marketer_id, :unit_dose_id, :concentration, :item_concentration_unit_id, :pack_size,:pharm_item_id,:min_dispensable])
     end

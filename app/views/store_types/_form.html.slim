@@ -1,7 +1,7 @@
 
- = simple_form_for @store_type do |f|
+ = simple_form_for @store_type,remote:true do |f|
   
-    = f.input :store_type_name,label: "Name"
+    = f.input :name
     = f.input :description
     = f.button :submit,'Save'
  

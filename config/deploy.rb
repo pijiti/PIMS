@@ -3,9 +3,9 @@ lock '3.3.5'
 
 set :application, 'PIMS'
 set :repo_url, "https://pijiti@github.com/pijiti/PIMS.git"
-#set :local_repository,"file:///C:/RailsProjects/PIMS/.git"
+
 set :user, "admin"
-set :use_sudo, true
+
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 set :rails_env, "production"

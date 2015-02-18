@@ -24,6 +24,7 @@ gem 'will_paginate', '~> 3.0.7'
 gem 'thin', '~> 1.6.3'
 gem 'simple_form', '~> 3.1.0.rc2'
 gem 'cocoon', '~> 1.2.6'
+gem 'nokogiri', '~> 1.6.6.2'
 
 
 

@@ -21,19 +21,21 @@ class StoreTypesController < ApplicationController
 
   def create
     @store_type = StoreType.new(store_type_params)
-    logger.debug{"Epitome #{ session[:store_id]}" }
-     @store_type.save!
+    authorize @store_type
+    @error = @store_type.errors.full_messages.to_sentence unless @store_type.save!
   end
 
 
   def update
-      @store_type.update!(store_type_params)
+      @store_type.attributes = store_type_params
+      authorize @store_type
+      @error = @store_type.errors.full_messages.to_sentence unless @store_type.save!
   end
 
 
   def destroy
-    @store_type.destroy!
-   @error = @store_type.errors.full_messages
+    authorize @store_type
+   @error = @store_type.errors.full_messages.to_sentence unless @store_type.destroy!
   end
 
   private

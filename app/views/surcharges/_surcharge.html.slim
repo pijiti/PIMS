@@ -1,8 +1,19 @@
  tr
-       td.name = surcharge.try(:surcharge_name)
-       td.type = surcharge.try(:surcharge_type)
-       th.value = surcharge.surcharge_items.try(:map){|v| v.value}.sum
+       td.name = surcharge.try(:name)
+       td.type = surcharge.try(:charge_type)
+       td
+          a href ='#' = surcharge.surcharge_items.try(:map){|v| v.value}.sum
+          table.table.table-striped.table-condensed.hide
+            thead
+                tr
+                    th Name
+                    th Value
+            tbody
+             -surcharge.surcharge_items.each do |surcharge_item|
+                tr
+                    td = surcharge_item.try(:name)
+                    td = surcharge_item.try(:value)
        td.active1 = surcharge.try(:active)
-       td = surcharge.try(:surcharge_items).length
-       td.edit = link_to "Edit",edit_surcharge_path(surcharge)
-       
+       td.text-right
+            a.btn.btn-primary.btn-xs href = edit_surcharge_path(surcharge) data-remote='true'  Edit
+            a.btn.btn-danger.btn-xs href = surcharge_path(surcharge) data-method='delete'   data-remote='true'  Destroy       

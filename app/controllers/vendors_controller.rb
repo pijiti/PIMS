@@ -10,35 +10,36 @@ class VendorsController < ApplicationController
 
   def new
     @vendor = Vendor.new
-    @vendor_categories = VendorCategory.order("vendorcategory_name")
+    @vendor_categories = VendorCategory.order(:name)
     @states = State.all
     @stores = Store.where(store_type_id:1)
   end
 
 
   def edit
+  	@vendor_categories = VendorCategory.order(:name)
+    @states = State.all
+    @stores = Store.where(store_type_id:1)
   end
 
 
   def create
     @vendor = Vendor.new(vendor_params)
      #authorize @vendor
-    @error = @vendor.errors.full_messages.to_sentence unless @vendor.save
+    @error = @vendor.errors.full_messages.to_sentence unless @vendor.save!
   end
 
 
   def update
-      if @vendor.update(vendor_params)
-       redirect_to vendors_path
-      else
-        render :edit
-    end
+   @vendor.attributes = vendor_params
+    #authorize @vendor
+    @error = @vendor.errors.full_messages.to_sentence unless @vendor.save!
   end
 
 
   def destroy
-    @vendor.destroy
-      redirect_to vendors_path
+  	authorize @vendor
+    @error = @vendor.errors.full_messages.to_sentence  unless @vendor.destroy!
   end
 
   private

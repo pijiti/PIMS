@@ -1,3 +1,20 @@
+  .vendor-edit-form data-id= vendor.id
+        = simple_form_for @vendor,remote: true do |f|
+          .col-sm-4
+            = f.input :name 
+            = f.input :reg_number 
+            = f.input :address ,as: :text
+          .col-sm-4
+            = f.association :state,value_method: :id, label_method: :name,:include_blank => "Select"
+            = f.association :vendor_category, value_method: :id , label_method: :name , :include_blank =>"Select Category"
+            = f.association  :store, collection: @stores, value_method: :id , label_method: :name , :include_blank =>"Select"
+          .col-sm-4 
+            = f.input :contact_name  
+            = f.input :contact_mobile 
+            = f.input :contact_email 
+           
+          .action
+            = f.button :submit,'Save'
+        
 
-= render 'form'
 

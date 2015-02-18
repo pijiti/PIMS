@@ -4,9 +4,19 @@
         td = store.store_type.try(:name) 
         td = store.parent.try(:name) 
         td = store.store_operation.try(:name)
-        td = store.roles.size
-        td = store.try(:open_time).strftime('%R')
-        td = store.try(:close_time).strftime('%R')
+        td 
+            a href ='#' = store.roles.size
+            table.table.table-striped.table-condensed.hide
+             thead
+                tr
+                    th Name
+             tbody
+               -store.roles.each do |role|
+                tr
+                    td = role.try(:name)
+                
+        /!td = store.try(:open_time).strftime('%R')
+        /!td = store.try(:close_time).strftime('%R')
         td.text-right
             a.btn.btn-primary.btn-xs  href = edit_store_path(store) data-remote='true'  Edit 
         

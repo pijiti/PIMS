@@ -1,5 +1,6 @@
 tr
-        td.name = staff_category.try(:staff_category_name )
+        td.name = staff_category.try(:name )
         td.description = staff_category.try(:description)
-        td.edit = link_to 'Edit', edit_staff_category_path(staff_category) 
-        td.destroy = link_to 'Destroy', staff_category, method: :delete, data: { confirm: 'Are you sure?' } 
+        td.text-right
+            a.btn.btn-primary.btn-xs href = edit_staff_category_path(staff_category) data-remote='true'  Edit
+            a.btn.btn-danger.btn-xs href = staff_category_path(staff_category) data-method='delete'   data-remote='true'  Destroy

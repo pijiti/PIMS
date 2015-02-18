@@ -1,8 +1,9 @@
  tr
-        td.name = organisation.organisation_name
+        td.name = organisation.name
         td.address = organisation.address
         td.contact_person = organisation.contact_person
         td.contact_phone = organisation.contact_phone
         td.contact_email = organisation.contact_email
-        td.edit = link_to 'Edit', edit_organisation_path(organisation)
-        td.destroy = link_to 'Destroy', organisation, method: :delete, data: { confirm: 'Are you sure?' }
+        td.text-right
+            a.btn.btn-primary.btn-xs href = edit_organisation_path(organisation) data-remote='true'  Edit
+            a.btn.btn-danger.btn-xs href = organisation_path(organisation) data-method='delete'   data-remote='true'  Destroy

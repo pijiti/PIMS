@@ -29,25 +29,32 @@ class PharmItemsController < ApplicationController
 
 
   def create
-    @pharm_item = PharmItem.create!(pharm_item_params)
+    @pharm_item = PharmItem.new(pharm_item_params)
+    authorize @pharm_item
     @pharm_item.itemclass_pharmitems.build(params[:item_class_ids])unless (params[:item_class_ids]).blank?
     @pharm_item.critical_levels
-    @pharm_item.save! unless @pharm_item.has_brand? == false
-    @error = @pharm_item.error.full_messages
+    if @pharm_item.has_brand? == true
+    	@pharm_item.save!
+       @error = @pharm_item.errors.full_messages.to_sentence
+    end
   end
 
 
   def update
-     	  @pharm_item.update!(pharm_item_params)
+     	  @pharm_item.attributes = pharm_item_params
+     	  authorize @pharm_item
       	@pharm_item.critical_levels
-      	@pharm_item.save! unless @pharm_item.has_brand? == false
-				@error = @pharm_item.error.full_messages
+      	if  @pharm_item.has_brand? == true
+      		@pharm_item.save!
+      		@error = @pharm_item.errors.full_messages.to_sentence
+      	end
+
   end
 
 
   def destroy
-    @pharm_item.destroy!
-    @error = @pharm_item.error.full_messages
+   	authorize @pharm_item
+    @error = @pharm_item.errors.full_messages.to_sentence unless   @pharm_item.destroy!
   end
 
   private

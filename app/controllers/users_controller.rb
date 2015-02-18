@@ -3,28 +3,31 @@ class UsersController < ApplicationController
 
 
   def index
-  	@users = User.paginate(:page => params[:page])
+  	@users = User.all
   	@stores = Store.all
   end
 
 
   def edit
-    @titles = Title.order(:title_name)
-		@staffcategories = StaffCategory.all.order(:staff_category_name)
-		@stores = Store.all.order(:store_name)
+    @titles = Title.order(:name)
+		@staffcategories = StaffCategory.all.order(:name)
+		@stores = Store.all.order(:name)
   end
 
 
   def update
-    @user.update! user_params
+    @user.attributes = user_params
+    authorize @user
+    @error = @user.errors.full_messages.to_sentence unless @user.save!
     @user.roles.destroy_all
     @user.roles << Role.find(params[:user][:role_ids].select{|i| i.present? })
+
   end
 
 
   def password_reset
   			@user.password_reset!
-  			@error = @user.errors.full_messages
+  			@error = @user.errors.full_messages.to_sentence
   	end
 
 
@@ -52,7 +55,8 @@ class UsersController < ApplicationController
   end
 
   def destroy
-  	@user.destroy
+  	authorize @user
+  	@error = @user.errors.full_messages.to_sentence unless @user.destroy!
   end
 
   private

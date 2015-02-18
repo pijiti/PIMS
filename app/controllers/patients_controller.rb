@@ -22,18 +22,20 @@ class PatientsController < ApplicationController
 
   def create
     @patient = Patient.new(patient_params)
-     @error = @patient.error.full_messages
+     authorize @patient
+    @error = @patient.error.full_messages.to_sentence unless @patient.save!
   end
 
   def update
-    @patient.update!(patient_params)
-     @error = @patient.error.full_messages
+    @patient.attributes = patient_params
+    authorize @patient
+    @error = @patient.error.full_messages.to_sentence unless @patient.save!
   end
 
 
   def destroy
-    @patient.destroy!
-   @error = @patient.error.full_messages
+    authorize @patient
+   @error = @patient.error.full_messages.to_sentence unless @patient.destroy!
   end
 
   private

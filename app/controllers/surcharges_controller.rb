@@ -1,7 +1,7 @@
 class SurchargesController < ApplicationController
 	before_action :set_surcharge, only: [:edit,:update,:destroy]
 	before_action :set_all_surcharges, only: [:index]
-	respond_to :html
+	#respond_to :html
 
 
   def index
@@ -19,18 +19,20 @@ class SurchargesController < ApplicationController
 
 
   def create
-  	@surcharge = Surcharge.create!(surcharge_params)
-  	 redirect_to surcharges_path
+  	@surcharge = Surcharge.new(surcharge_params)
+  	 authorize @surcharge
+  	@error = @surcharge.errors.full_messages.to_sentence unless @surcharge.save!
   end
 
   def update
-  	@surcharge.update_attributes(surcharge_params)
-  	 redirect_to surcharges_path
+  	@surcharge.attributes = surcharge_params
+  	 authorize @surcharge
+  	 @error = @surcharge.errors.full_messages.to_sentence unless @surcharge.save!
   end
 
   def destroy
-  	@surcharge.destroy
-  	 redirect_to surcharges_path
+  	authorize @surcharge
+  	@error = @surcharge.errors.full_messages.to_sentence unless @surcharge.destroy!
   end
 
 
@@ -45,8 +47,8 @@ class SurchargesController < ApplicationController
   end
 
   def surcharge_params
-      params.require(:surcharge).permit(:surcharge_name, :surcharge_type, :active,
-                                                                    surcharge_items_attributes: [:id,:surcharge_item_name, :description,:value])
+      params.require(:surcharge).permit(:name, :type, :active,
+                                                                    surcharge_items_attributes: [:id,:name, :description,:value])
     end
 
 end

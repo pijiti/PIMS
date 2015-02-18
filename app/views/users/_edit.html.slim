@@ -1,17 +1,17 @@
-.users-form-update data-id=user.id
+.users-form-update data-id=@user.id
  h4.title = "Update User #{@user.full_name}"
   = simple_form_for @user, remote: true do |f|
-    = f.association :title, collection: @titles, value_method: :id,label_method: :title_name, prompt: 'Select Title', label: false
+    = f.association :title, collection: @titles, value_method: :id,label_method: :name, prompt: 'Select Title'
     = f.input :first_name
     = f.input :last_name
     = f.input :username
-    = f.association :staff_category, value_method: :id, label_method: :staff_category_name, include_blank: 'Select Category'
+    = f.association :staff_category, value_method: :id, label_method: :name, include_blank: 'Select Category'
     = f.input :validity,as: :select, collection: User::Validity
 
     ul.nav.nav-tabs
       li : a href="#tab-pane-update-system" data-toggle='tab' System
       - @stores.each do |store|
-        li : a href="#tab-pane-update-#{store.id}" data-toggle='tab' = store..try(:name)
+        li : a href="#tab-pane-update-#{store.id}" data-toggle='tab' = store.try(:name)
 
       
 

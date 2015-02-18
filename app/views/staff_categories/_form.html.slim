@@ -1,7 +1,9 @@
 = simple_form_for @staff_category   do |f| 
 
-
-    = f.input :staff_category_name,label: "Name"
-    = f.input :description
-    = f.button :submit, 'Save'
+  .col-md-6
+    = f.input :name
+  .col-md-6
+    = f.input :description, as: :text
+  .actions
+    = f.button :submit, 'Save',class: 'btn btn-success btn-sm'
 

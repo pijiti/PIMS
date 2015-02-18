@@ -5,17 +5,18 @@ class UnitDose < ActiveRecord::Base
 
 	before_create :sentence_case
 
-
+validates :name, presence: true
+validates :form_type, presence: true
 
 	Unit_Types = %w{Oral Topical Inhalational Parental Suppository}
 
 
 	def unit_type
-		"#{unit_dose_name}"+"("+"#{unit_dose_type}"+")"
+		"#{name}"+"("+"#{form_type}"+")"
 	end
 
 	def sentence_case
-		self.unit_dose_name = unit_dose_name.capitalize
+		self.name = name.capitalize
 	end
 
  end

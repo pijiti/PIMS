@@ -14,18 +14,20 @@ class MarketersController < ApplicationController
   end
 
   def create
-    @marketer = Marketer.create!(marketer_params)
-     @error = @marketer.error.full_messages
+    @marketer = Marketer.new(marketer_params)
+    authorize @marketer
+     @error = @marketer.errors.full_messages.to_sentence unless @marketer.save!
   end
 
   def update
-     @marketer.update!(marketer_params)
-     @error = @marketer.error.full_messages
+     @marketer.attributes = marketer_params
+     authorize @marketer
+     @error = @marketer.errors.full_messages.to_sentence unless @marketer.save!
   end
 
   def destroy
-    @marketer.destroy!
-    @error = @marketer.error.full_messages
+    authorize  @marketer
+    @error = @marketer.errors.full_messages.to_sentence unless @marketer.destroy!
   end
 
   private

@@ -18,20 +18,22 @@ class ItemClassesController < ApplicationController
 
 
   def create
-    @item_class = ItemClass.create!(item_class_params)
-    @error = @item_class.error.full_messages
+    @item_class = ItemClass.new(item_class_params)
+    authorize @item_class
+    @error = @item_class.errors.full_messages.to_sentence unless @item_class.save!
   end
 
 
   def update
-     @item_class.update!(item_class_params)
-     @error = @item_class.error.full_messages
+     @item_class.attributes = item_class_params
+     authorize @item_class
+     @error = @item_class.errors.full_messages.to_sentence unless @item_class.save!
   end
 
 
   def destroy
-    @item_class.destroy!
-    @error = @item_class.error.full_messages
+     authorize  @item_class
+    @error = @item_class.error.full_messages.to_sentence unless  @item_class.destroy!
   end
 
   private

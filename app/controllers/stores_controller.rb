@@ -24,28 +24,23 @@ class StoresController < ApplicationController
 
   def create
     @store = Store.new(store_params)
+    authorize @store
     params[:store][:role_ids].each do |role|
     @store.roles.build(:name => role)unless role.blank?
-    end
-      if @store.save
-        redirect_to stores_path
-      else
-        render :new
+    @error = @store.errors.full_messages.to_sentence unless @store.save!
     end
   end
 
 
   def update
-      if @store.update(store_params)
-        redirect_to stores_path
-      else
-        render :edit
-    end
+     @store.attributes = store_params
+     authorize @store
+     @error = @store.errors.full_messages.to_sentence unless @store.save!
   end
 
   def destroy
-    @store.destroy
-      redirect_to stores_url
+  	authorize @store
+    @error = @store.error.full_messages.to_sentence unless  @store.destroy!
   end
 
   private
@@ -56,6 +51,6 @@ class StoresController < ApplicationController
 
 
     def store_params
-      params.require(:store).permit(:store_name, :store_location, :store_type_id, :role_id,:parent_store,:operation_mode, :open_time, :close_time,:parent_id,:store_operation_id)
+      params.require(:store).permit(:name, :location, :store_type_id, :role_id,:parent_store,:operation_mode, :open_time, :close_time,:parent_id,:store_operation_id)
     end
 end

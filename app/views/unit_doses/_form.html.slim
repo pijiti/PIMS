@@ -1,6 +1,8 @@
 = simple_form_for @unit_dose  do |f| 
-
-    = f.input :unit_dose_name,label: "Name"
-    = f.input :unit_dose_type,as: :select,collection: UnitDose::Unit_Types
-    = f.button :submit,'Save'
+  .col-md-6
+    = f.input :name
+  .col-md-6
+    = f.input :form_type,as: :select,collection: UnitDose::Unit_Types
+  .actions
+    = f.button :submit,'Save',class: 'btn btn-success btn-sm'
 

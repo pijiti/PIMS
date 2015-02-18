@@ -17,20 +17,21 @@ class OrganisationsController < ApplicationController
 
 
   def create
-    @organisation = Organisation.create!(organisation_params)
-    @error = @organisation.error.full_messages
+    @organisation = Organisation.new(organisation_params)
+    authorize @organisation
+    @error = @organisation.errors.full_messages.to_sentence unless @organisation.save!
   end
 
 
   def update
-    @organisation.update!(organisation_params)
-    @error = @organisation.error.full_messages
+    @organisation.attributes = organisation_params
+    @error = @organisation.errors.full_messages.to_sentence unless @organisation.save!
   end
 
 
   def destroy
-    @organisation.destroy!
-    @error = @organisation.error.full_messages
+    authorize  @organisation
+    @error = @organisation.errors.full_messages.to_sentence unless  @organisation.destroy!
   end
 
   private

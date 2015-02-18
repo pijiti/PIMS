@@ -1,19 +1,20 @@
 h3 Organisation
+section#pims-index
 
-= render 'form'
-
-table.table
-  thead
-    tr
-      th Organisation name
-      th Address
-      th Contact person
-      th Contact phone
-      th Contact email
-     
-
-  tbody.organisations
-     - @organisations.each do |organisation|
-      = render organisation
-     
-
+        = render 'form'
+        
+        table.table.table-striped.table-condensed
+          thead
+            tr
+              th Organisation name
+              th Address
+              th Contact person
+              th Contact phone
+              th Contact email
+             
+        
+          tbody.organisations
+             - @organisations.each do |organisation|
+              = render organisation
+             
+        

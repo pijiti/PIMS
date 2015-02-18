@@ -10,7 +10,7 @@ class SuppliesController < ApplicationController
 
 
 	def index
-	@supplies = Supply.paginate(:page => params[:page])
+	@supplies = Supply.all
    new
   end
 

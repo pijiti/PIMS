@@ -27,6 +27,7 @@ production:
   database: pims
   adapter: postgresql
   encoding: uft8
+  timeout: 5000
   pool: 5
   username: ondopimsadmin
   password:

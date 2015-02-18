@@ -26,7 +26,7 @@ test:
 production:
   database: pims
   adapter: postgresql
-  encoding: uft8
+  encoding: utf8
   timeout: 5000
   pool: 5
   username: ondopimsadmin

@@ -20,20 +20,20 @@ class StoreOperationsController < ApplicationController
   def create
     @store_operation = StoreOperation.new(store_operation_params)
     #authorize @store_operation
-     @store_operation.save!
-     @error = @store_operation.errors.full_messages
+     @error = @store_operation.errors.full_messages.to_sentence unless @store_operation.save!
   end
 
 
   def update
-      @store_operation.update!(store_operation_params)
-      @error = @store_operation.errors.full_messages
+      @store_operation.attributes = store_operation_params
+      #authorize @store_operation
+      @error = @store_operation.errors.full_messages.to_sentence unless @store_operations.save!
   end
 
 
   def destroy
-    @store_operation.destroy!
-    @error = @store_operation.errors.full_messages
+    #authorize @store_operation
+    @error = @store_operation.errors.full_messages.to_sentence unless @store_operation.destroy!
   end
 
   private

@@ -1,6 +1,7 @@
  tr 
-        td.name = store_operation.try(:store_operation_name )
+        td.name = store_operation.try(:name )
         td.description = store_operation.try(:description)
         td.required = store_operation.payment_required 
-        td.edit = link_to 'Edit', edit_store_operation_path(store_operation) 
-        td.destroy = link_to 'Destroy', store_operation, method: :delete, data: { confirm: 'Are you sure?' } 
+        td.text-right
+            a.btn.btn-primary.btn-xs href = edit_store_operation_path(store_operation) data-remote='true'  Edit
+            a.btn.btn-danger.btn-xs href = store_operation_path(store_operation) data-method='delete'   data-remote='true'  Destroy

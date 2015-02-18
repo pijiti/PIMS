@@ -24,10 +24,10 @@ test:
   database: PIMS_test
 
 production:
-  database: PIMS
+  database: pims
   adapter: postgresql
   encoding: uft8
   pool: 5
   username: ondopimsadmin
-  password: mission
+  password:
 

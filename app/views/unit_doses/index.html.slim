@@ -1,8 +1,10 @@
 .title Unit Dose
 
 section#pims-index
-        
-        = render 'form'
+        .unit-doses-form
+            = render 'form'
+        .text-right
+            a href = '#'  Download Excel
         
         table.table.table-striped.table-condensed
           thead
@@ -10,6 +12,7 @@ section#pims-index
             th Name
             th Type
             th Combine
+            th
               
         
           tbody.unit-doses

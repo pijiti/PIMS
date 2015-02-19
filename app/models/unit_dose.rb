@@ -2,13 +2,13 @@ class UnitDose < ActiveRecord::Base
 
 	has_many :brands
 
-
+  default_scope {order(name: :asc)}
 	before_create :sentence_case
 
 validates :name, presence: true
 validates :form_type, presence: true
 
-	Unit_Types = %w{Oral Topical Inhalational Parental Suppository}
+	Unit_Types = %w{Oral Topical Inhalational Parental Suppository Accessory}
 
 
 	def unit_type

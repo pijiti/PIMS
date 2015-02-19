@@ -19,20 +19,20 @@ class UnitDosesController < ApplicationController
 
   def create
     @unit_dose = UnitDose.new(unit_dose_params)
-    authorize @unit_dose
+    #authorize @unit_dose
     @error = @unit_dose.errors.full_messages.to_sentence unless @unit_dose.save!
   end
 
 
   def update
       @unit_dose.attributes = unit_dose_params
-      authorize @unit_dose
+      #authorize @unit_dose
       @error = @unit_dose.errors.full_messages.to_sentence unless @unit_dose.save!
   end
 
 
   def destroy
-  	authorize @user
+  	#authorize @unit_dose
     @error = @unit_dose.errors.full_messages.to_sentence unless @unit_dose.destroy!
   end
 
@@ -43,6 +43,6 @@ class UnitDosesController < ApplicationController
     end
 
     def unit_dose_params
-      params.require(:unit_dose).permit(:unit_dose_name, :unit_dose_type)
+      params.require(:unit_dose).permit(:name, :form_type)
     end
 end

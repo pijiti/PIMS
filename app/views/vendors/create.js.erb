@@ -8,8 +8,7 @@ newErrorNotify.notifyRemove();
 
 <% else %>
 
-var vendor = $('.vendors');
-vendor.prepend('<%=j render @vendor %>');
+$('.vendors').prepend('<%=j render @vendor %>');
  $('.vendors-form').find('form').get(0).reset();
 var newSuccessNotify = $("<%=j render 'notifies/notify', msg: "#{@vendor.name}" + " has been created" %>");
 application.find('#application-main-body-yield').prepend(newSuccessNotify);

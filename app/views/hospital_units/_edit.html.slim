@@ -1,5 +1,6 @@
 
-
+  .hospital-unit-edit-form.well data-id = @hospital_unit.id
+         h5 Update #{@hospital_unit.name}
          = simple_form_for @hospital_unit,remote: true do |f|
               .col-md-6
                 = f.input :name

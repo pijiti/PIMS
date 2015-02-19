@@ -1,10 +1,10 @@
 tr.vendor data-id = vendor.id 
        td = vendor.name
        td = vendor.try(:reg_number)
-       td = vendor.address
        td
             a.link-detail href = '#'  More
             ul.nav.details.hide
+                li ="Address : #{ vendor.address}" 
                 li ="Contact Name : #{ vendor.contact_name}"
                 li ="Contact Mobile : #{ vendor.contact_mobile}"
                 li ="Contact Email : #{ vendor.contact_email}"

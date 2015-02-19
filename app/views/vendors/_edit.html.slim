@@ -1,5 +1,5 @@
-  .vendor-edit-form.well data-id= @vendor.id
-        h5 = "Update #{@vendor.name}" + "'s " + "record."
+  .vendor-edit-form.well  data-id= @vendor.id
+        h5 Update #{@vendor.name}
         = simple_form_for @vendor,remote: true do |f|
           .col-sm-4
             = f.input :name 
@@ -13,9 +13,9 @@
             = f.input :contact_name  
             = f.input :contact_mobile 
             = f.input :contact_email 
-           
-          .action
-            = f.button :submit,'Save',class: 'btn-success btn-sm'
+          .col-md-12 
+            .action
+              = f.button :submit,'Save',class: 'btn-success btn-sm'
         
 
 

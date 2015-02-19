@@ -20,19 +20,20 @@ class HospitalUnitsController < ApplicationController
 
   def create
     @hospital_unit = HospitalUnit.new(hospital_unit_params)
-    authorize @hospital_unit
+    #authorize @hospital_unit
     @error = @hospital_unit.errors.full_messages.to_sentence unless @hospital_unit.save!
   end
 
 
   def update
       @hospital_unit.attributes = hospital_unit_params
+      #authorize  @hospital_unit
       @error = @hospital_unit.errors.full_messages.to_sentence unless  @hospital_unit.save!
   end
 
 
   def destroy
-   authorize  @hospital_unit
+   #authorize  @hospital_unit
     @error = @hospital_unit.errors.full_messages.to_sentence unless  @hospital_unit.destroy!
   end
 

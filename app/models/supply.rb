@@ -1,6 +1,6 @@
 class Supply < ActiveRecord::Base
 
-	include Supply::WorkflowConcern
+	#include Supply::WorkflowConcern
 
 	  belongs_to :vendor
     belongs_to :user, foreign_key: "signed_off_by"

@@ -1,12 +1,15 @@
-= simple_form_for @store,remote: true  do |f|
-
-    = f.input :name
-    = f.input :location
-    = f.association :store_type, value_method: :id, label_method: :name, include_blank: "Store Type"
-    = f.association :parent , value_method: :id, label_method: :name
-    = f.association :store_operation,value_method: :id,label_method: :name, include_blank: "Select Operation"
-    /!= f.input :open_time, as: :time
-    /!= f.input :close_time, as: :time
-    = f.association :roles, collection: Role::ROLES.map(&:titleize), as: :check_boxes
-    = f.button :submit
+      .store-form.well  
+        = simple_form_for @store,remote: true  do |f|
+          .col-md-6
+            = f.input :name
+            = f.association :parent , value_method: :id, label_method: :name
+          .col-md-6
+            = f.association :store_type, value_method: :id, label_method: :name, include_blank: "Store Type"
+            = f.association :store_operation,value_method: :id,label_method: :name, include_blank: "Select Operation"
+            /!= f.input :open_time, as: :time
+            /!= f.input :close_time, as: :time
+          .col-md-12
+            = f.association :roles, collection: Role::ROLES.map(&:titleize), as: :check_boxes, inline_label: true
+          .actions
+            = f.button :submit,'Save',class:'btn-success btn-sm'
 

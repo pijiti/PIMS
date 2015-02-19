@@ -9,7 +9,7 @@ newErrorNotify.notifyRemove();
 <% else %>
 
 
-$(".store_operation[data-id='<%= @store_operation.id %>']").remove();
+$(".store-operation[data-id='<%= @store_operation.id %>']").remove();
 var newSuccessNotify = $("<%=j render 'notifies/notify', msg: "The record was deleted" %>");
 application.find('#application-main-body-yield').prepend(newSuccessNotify);
 newSuccessNotify.notifyRemove();

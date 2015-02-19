@@ -20,20 +20,20 @@ class StaffCategoriesController < ApplicationController
 
   def create
     @staff_category = StaffCategory.new(staff_category_params)
-    authorize @staff_category
+     #authorize @staff_category
     @error = @staff_category.errors.full_messages.to_sentence unless @staff_category.save!
   end
 
 
   def update
       @staff_category.attributes = staff_category_params
-      authorize @staff_category
+      #authorize @staff_category
       @error = @staff_category.errors.full_messages.to_sentence unless @staff_category.save!
   end
 
 
   def destroy
-    authorize @staff_category
+    #authorize @staff_category
     @error = @staff_category.errors.full_messages.to_sentence unless @staff_category.destroy!
   end
 

@@ -1,5 +1,5 @@
 .users-form-update data-id=@user.id
- h4.title = "Update User #{@user.full_name}"
+  h4.title = "Update User #{@user.full_name}"
   = simple_form_for @user, remote: true do |f|
     = f.association :title, collection: @titles, value_method: :id,label_method: :name, prompt: 'Select Title'
     = f.input :first_name

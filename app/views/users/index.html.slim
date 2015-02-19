@@ -1,8 +1,10 @@
 .title User
 
-
-section#pims-index        
-            =render 'pims_devise/registrations/new'       
+section#pims-index 
+            .user-form.well       
+                =render 'pims_devise/registrations/new' 
+            .text-right
+                a href = '#'  Download Excel      
             table.table.table-striped.table-condensed 
              thead
                 tr
@@ -13,7 +15,7 @@ section#pims-index
                   th Status
                   th Valid Till
                   th Role
-                  th Action
+               
            
             
              tbody.users

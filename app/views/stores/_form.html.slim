@@ -6,7 +6,6 @@
     = f.association :parent , value_method: :id, label_method: :name
     = f.association :store_operation,value_method: :id,label_method: :name, include_blank: "Select Operation"
     /!= f.input :open_time, as: :time
-
     /!= f.input :close_time, as: :time
     = f.association :roles, collection: Role::ROLES.map(&:titleize), as: :check_boxes
     = f.button :submit

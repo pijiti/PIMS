@@ -1,8 +1,13 @@
 .title Staff Category
 
 
-section#pims-index         
-        = render 'form'
+section#pims-index 
+        
+        .staff-categories-form
+            = render 'form'
+            
+        .text-right  
+            a href = '#' Download Excel
         
         table.table.table-striped.table-condensed
           thead

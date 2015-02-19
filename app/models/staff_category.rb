@@ -2,6 +2,8 @@ class StaffCategory < ActiveRecord::Base
 
 	has_many :users
 
+	default_scope {order(name: :asc) }
+
 	before_create :modify_attrs
 	before_update :modify_attrs
 	before_validation :name_unique

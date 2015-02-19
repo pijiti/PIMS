@@ -27,7 +27,7 @@ class StoreOperationsController < ApplicationController
   def update
       @store_operation.attributes = store_operation_params
       #authorize @store_operation
-      @error = @store_operation.errors.full_messages.to_sentence unless @store_operations.save!
+      @error = @store_operation.errors.full_messages.to_sentence unless @store_operation.save!
   end
 
 

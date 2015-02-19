@@ -14,10 +14,10 @@ class ApplicationController < ActionController::Base
     def current_store
       @current_store ||= Store.find(session[:active_store]) if session[:active_store]
     end
-    helper_method :current_store
+   helper_method :current_store
 
     def user_not_authorized
-    	flash[:notice] = "No"
+    	flash[:notice] = ""
    end
 
 

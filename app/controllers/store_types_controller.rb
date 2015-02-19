@@ -1,7 +1,7 @@
 class StoreTypesController < ApplicationController
 
 
-	before_action :set_store, only: [:create]
+	#before_action :set_store, only: [:create]
   before_action :set_store_type, only: [:show, :edit, :update, :destroy]
 
 
@@ -21,21 +21,22 @@ class StoreTypesController < ApplicationController
 
   def create
     @store_type = StoreType.new(store_type_params)
-    authorize @store_type
+    #authorize @store_type
     @error = @store_type.errors.full_messages.to_sentence unless @store_type.save!
   end
 
 
   def update
       @store_type.attributes = store_type_params
-      authorize @store_type
+      #authorize @store_type
       @error = @store_type.errors.full_messages.to_sentence unless @store_type.save!
   end
 
 
   def destroy
-    authorize @store_type
+    #authorize @store_type
    @error = @store_type.errors.full_messages.to_sentence unless @store_type.destroy!
+
   end
 
   private

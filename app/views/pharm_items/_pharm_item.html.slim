@@ -1,6 +1,6 @@
-tr.pharm-item
+tr.pharm-item data-id = pharm_item.id
 
-        td.name = pharm_item.pharm_item_name
+        td.name = pharm_item.try(:name)
         td.item-classes
             a href = '#' =  pharm_item.item_classes.size
             table.table.item-classes.hide

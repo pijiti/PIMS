@@ -1,8 +1,8 @@
 = simple_form_for @prescription,:html =>{class: "form-inline"} do |f| 
 
     = f.input :user_id, collection: User.where(staff_category_id:6),value_method: :id , label_method: :full_name, prompt: "Select Staff Category"
-    = f.input :hospital_unit_id, collection: HospitalUnit.all, value_method: :id ,label_method: :hospital_unit_name, prompt: "Select Hospital"
-    = f.input :prescription_code, as: :hidden
+    = f.input :hospital_unit_id, collection: HospitalUnit.all, value_method: :id ,label_method: :name, prompt: "Select Hospital"
+    = f.input :code, as: :hidden
     = f.simple_fields_for :batches do |batch|
          =render 'dispense_item', b: batch   
     hr     

@@ -1,6 +1,6 @@
 class UnitDose < ActiveRecord::Base
 
-	has_many :brands
+	has_many :brands,dependent: :restrict_with_exception
 
   default_scope {order(name: :asc)}
 	before_create :sentence_case

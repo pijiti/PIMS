@@ -1,0 +1,12 @@
+workbook = xlsx_package.workbook
+
+styles   = workbook.styles
+header   = styles.add_style(:bg_color => 'FAC090', :b => true, :alignment => {:wrap_text => false})
+
+workbook.add_worksheet(name: "Staff Category") do |sheet|
+  sheet.add_row ["#","Name", "Description"], :style => header
+  @staff_categories.each_with_index do |staff_category|
+    sheet.add_row [index+1,staff_category.try(name),staff_category.try(:description)]
+  end
+ end
+ 

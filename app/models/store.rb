@@ -16,9 +16,9 @@ class Store < ActiveRecord::Base
 
   default_scope{order(name: :asc)}
 
-	validates :name, presence: true, uniqueness: true, length: {in:2..20}
-	validates :store_type, presence: true
-	validates :store_operation, presence: true
+	#validates :name, presence: true, uniqueness: true, length: {in:2..20}
+	#validates :store_type, presence: true
+	#validates :store_operation, presence: true
 
 
 	before_create :modify_attr
@@ -26,12 +26,11 @@ class Store < ActiveRecord::Base
 	before_validation :name_unique
 
 	def modify_attr
-		self.name = name.capitalize.strip
-		self.description = description.capitalize.strip
+		self.name = name.titleize.strip
 	end
 
 	def name_unique
-		self.name = name.capitalize.strip
+		self.name = name.titleize.strip
 	end
 
 

@@ -4,7 +4,11 @@ Rails.application.routes.draw do
 
   resources :requests
 
-  resources :surcharges, only: [:index,:edit,:create,:update,:destroy,:new]
+  resources :surcharges, only: [:index,:edit,:create,:update,:destroy,:new] do
+  	collection do
+	 	get 'excel_index'
+	 end
+  end
 
   resources :roles, only: [:index,:edit,:update,:new,:destroy,:create]
 
@@ -38,11 +42,23 @@ Rails.application.routes.draw do
   end
 
 
-  resources :batches
+  resources :batches do
+  	collection do
+	 	get 'excel_index'
+	 end
+  end
 
-  resources :hospital_units
+  resources :hospital_units do
+  	collection do
+	 	get 'excel_index'
+	 end
+  end
 
-  resources :pharm_items
+  resources :pharm_items do
+  	collection do
+	 	get 'excel_index'
+	 end
+  end
 
   resources :brands
 
@@ -56,23 +72,55 @@ Rails.application.routes.draw do
 
   get 'front_pages/help_doc'
 
-  resources :staff_categories
+  resources :staff_categories do
+  	collection do
+	 	get 'excel_index'
+	 end
+  end
 
-  resources :marketers
+  resources :marketers do
+  	collection do
+	 	get 'excel_index'
+	 end
+  end
 
-  resources :item_concentration_units
+  resources :item_concentration_units do
+  	collection do
+	 	get 'excel_index'
+	 end
+  end
 
-  resources :item_classes
+  resources :item_classes do
+  	collection do
+	 	get 'excel_index'
+	 end
+  end
 
   resources :organisations
 
-  resources :store_operations
+  resources :store_operations do
+  	collection do
+	 	get 'excel_index'
+	 end
+  end
 
-  resources :store_types
+  resources :store_types do
+  	collection do
+	 	get 'excel_index'
+	 end
+  end
 
-  resources :unit_doses
+  resources :unit_doses do
+  	collection do
+	 	get 'excel_index'
+	 end
+  end
 
-  resources :vendors
+  resources :vendors do
+  	collection do
+	 	get 'excel_index'
+	 end
+  end
 
   devise_for :users, :controllers =>{:registrations => "pims_devise/registrations" ,:sessions => "pims_devise/sessions"}
 
@@ -89,7 +137,11 @@ Rails.application.routes.draw do
   get 'store_selections/index'
   post 'store_selections/select_store'
 
-  resources :stores
+  resources :stores do
+  	collection do
+	 	get 'excel_index'
+	 end
+  end
 
   root :to => 'front_pages#home'
 

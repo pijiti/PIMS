@@ -3,11 +3,11 @@
           .nested-fields
             .col-sm-4
                = f.input :name        
-               = f.association :marketer, label_method: :marketer_name, value_method: :id, prompt: "Marketer"      
-               = f.association :unit_dose, label_method: :unit_dose_name, value_method: :id, prompt: "Unit Dose"        
+               = f.association :marketer, label_method: :name, value_method: :id, prompt: "Marketer"      
+               = f.association :unit_dose, label_method: :unit_type, value_method: :id, prompt: "Unit Dose"        
             .col-sm-4
                = f.input :concentration
-               = f.association :item_concentration_unit, value_method: :id, label_method: :conc_unit_name,label:'conc unit', prompt: "Conc Unit"        
+               = f.association :item_concentration_unit, value_method: :id, label_method: :name,label:'conc unit', prompt: "Conc Unit"        
                = f.input :pack_size    
             .col-sm-4    
                = f.input :pack_bundle            

@@ -5,6 +5,9 @@ class StaffCategoriesController < ApplicationController
   def index
     @staff_categories = StaffCategory.all
     new
+   respond_to  do  |format|
+      format.xlsx {render xlsx: "index", filename: "Staff Category#{Time.zone.now}.xlsx"}
+    end
   end
 
 

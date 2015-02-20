@@ -3,7 +3,8 @@ class PrescriptionsController < ApplicationController
 	before_action :set_prescription, only: [:show, :edit, :update, :destroy]
 
   def index
-   @prescriptions = Prescription.paginate(:page => params[:page])
+   @prescriptions = Prescription.all
+     new
    @all_prescriptions = Prescription.order(:created_at)
    respond_to  do  |format|
    	  format.html
@@ -13,6 +14,7 @@ class PrescriptionsController < ApplicationController
         send_data pdf.render, filename: "#{Time.zone.now}.pdf", type: 'application/pdf'
       end
     end
+
   end
 
   def search
@@ -82,7 +84,7 @@ class PrescriptionsController < ApplicationController
 
 
     def prescription_params
-      params.require(:prescription).permit(:user_id, :hospital_unit_id,:patient_id,:prescription_code,
+      params.require(:prescription).permit(:user_id, :hospital_unit_id,:patient_id,:code,
                                                                  batches_attributes: [:id,:pharm_item_id,:brand_id,:rate,:qty, :batch_number,:comment,:approved])
     end
 end

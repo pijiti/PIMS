@@ -24,17 +24,19 @@ class StoresController < ApplicationController
 
   def create
     @store = Store.new(store_params)
-    authorize @store
-    params[:store][:role_ids].each do |role|
-    @store.roles.build(:name => role)unless role.blank?
-    end
-   @error = @store.errors.full_messages.to_sentence unless @store.save!
+    #@store.roles << Role.find(params[:store][:role_ids].select{|i| i.present? })
+    #authorize @store
+    params[:store][:role_ids].each do |role_id|
+    	logger.debug "#{role_id}"
+    @store.roles.build(:name => role_id)unless role.blank?
+  @store.save!
+   end
   end
 
 
   def update
      @store.attributes = store_params
-     authorize @store
+     #authorize @store
      @error = @store.errors.full_messages.to_sentence unless @store.save!
   end
 

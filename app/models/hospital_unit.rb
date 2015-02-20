@@ -1,6 +1,6 @@
 class HospitalUnit < ActiveRecord::Base
 
-	has_many :prescriptions
+	has_many :prescriptions, dependent: :restrict_with_exception
 
 	default_scope{order(name: :asc)}
 	validates :name, presence: true, uniqueness: true, length: { in: 2..15 }

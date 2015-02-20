@@ -1,0 +1,12 @@
+workbook = xlsx_package.workbook
+
+styles   = workbook.styles
+header   = styles.add_style(:bg_color => 'FAC090', :b => true, :alignment => {:wrap_text => false})
+
+workbook.add_worksheet(name: "Prescription") do |sheet|
+  sheet.add_row ["Name", "Last Name", "Marks", "Percentage", "Grade"], :style => header
+  @all_prescriptions.each do |prescription|
+    sheet.add_row [prescription.user.try(:first_name),prescription.hospital_unit.try(:hospital_unit_name)]
+  end
+ end
+ 

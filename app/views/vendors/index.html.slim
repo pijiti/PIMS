@@ -2,14 +2,16 @@
 
 section#pims-index
         .vendors-form
-          = render 'form'
-        
+            = render 'form'
+        .text-right
+            a href = '#'  Download Excel
         table.table.table-striped.table-condensed
           thead
              tr
              th Name 
              th Reg No
              th Detail
+             th
             
           tbody.vendors
             - @vendors.each do |vendor|

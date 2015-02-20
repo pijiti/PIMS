@@ -6,13 +6,13 @@ class PharmItem < ActiveRecord::Base
 	has_many :batches
 	has_many :request_items
 
-	default_scope  { order(:pharm_item_name => :asc) }
+	default_scope  { order(:name => :asc) }
 
   before_create :modify_attrs
   before_update :modify_attrs
   before_validation :name_unique
 
-  validates :pharm_item_name, presence: true, uniqueness: true, length: {in:3..25}
+  validates :name, presence: true, uniqueness: true, length: {in:3..25}
   validates :central_restock_level, presence: true, numericality:{greater_than: 0},length: {maximum:5}
   validates :main_restock_level, presence: true, numericality:{greater_than: 0},length: {maximum:5}
   validates :dispensary_restock_level, presence: true, numericality:{greater_than: 0},length: {maximum:5}
@@ -22,11 +22,11 @@ class PharmItem < ActiveRecord::Base
 	accepts_nested_attributes_for :brands, allow_destroy: true,reject_if: :reject_brands
 
 	def modify_attrs
-		self.pharm_item_name =  pharm_item_name .try(:titleize).strip
+		self.name =  name .try(:titleize).strip
 	end
 
 	def name_unique
-		self.pharm_item_name =  pharm_item_name .try(:titleize).strip
+		self.name =  name .try(:titleize).strip
 	end
 
 	def critical_levels

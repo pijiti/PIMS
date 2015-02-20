@@ -30,13 +30,12 @@ class PharmItemsController < ApplicationController
 
   def create
     @pharm_item = PharmItem.new(pharm_item_params)
-    authorize @pharm_item
+    #authorize @pharm_item
     @pharm_item.itemclass_pharmitems.build(params[:item_class_ids])unless (params[:item_class_ids]).blank?
     @pharm_item.critical_levels
-    if @pharm_item.has_brand? == true
-    	@pharm_item.save!
-       @error = @pharm_item.errors.full_messages.to_sentence
-    end
+    @pharm_item.save! #unless @pharm_item.has_brand? == true
+
+
   end
 
 

@@ -1,6 +1,6 @@
 class StoreType < ActiveRecord::Base
 
-has_many :stores
+has_many :stores, dependent: :restrict_with_exception
 
 default_scope{order(name: :asc)}
 

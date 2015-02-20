@@ -1,7 +1,7 @@
 class Vendor < ActiveRecord::Base
 
 	belongs_to :vendor_category
-	has_many :supplies
+	has_many :supplies, dependent: :restrict_with_exception
 	belongs_to :state
 	belongs_to :store
 

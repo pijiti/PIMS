@@ -5,14 +5,14 @@
             = f.input :reg_number 
             = f.input :address ,as: :text
           .col-md-4
-            = f.association :state,value_method: :id, label_method: :name,:include_blank => "Select"
+            /= f.association :state,value_method: :id, label_method: :name,:include_blank => "Select"
             = f.association :vendor_category, value_method: :id , label_method: :name , :include_blank =>"Select Category"
-            = f.association  :store, collection: @stores, value_method: :id , label_method: :name , :include_blank =>"Select"
+            /= f.association  :store, collection: @stores, value_method: :id , label_method: :name , :include_blank =>"Select"
           .col-md-4 
             = f.input :contact_name  
             = f.input :contact_mobile 
             = f.input :contact_email 
           .col-md-12 
-           .actions
-             = f.button :submit,'Save',class: 'btn-success btn-sm'
+          .actions
+              = f.button :submit,'Save',class: 'btn-success btn-sm'
         

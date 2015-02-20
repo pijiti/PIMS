@@ -16,7 +16,7 @@ class Prescription < ActiveRecord::Base
 
  def unique_code
  	count = 0
- 	self.prescription_code = "PLN-%.6d" % count=+1
+ 	self.code = "PLN-%.6d" % count=+1
  end
 
 end

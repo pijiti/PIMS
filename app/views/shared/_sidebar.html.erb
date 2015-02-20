@@ -4,10 +4,10 @@
   	<%= link_to '<i class="fa fa-pie-chart fa-fw x3 blue"></i>&nbsp;<br/>Reports <br/><i class="fa fa-caret-down"></i>'.html_safe, "#reports", class: "list-group-item list-group-item-success text-center","data-toggle" =>"collapse", "data-parent" => "#MainMenu"%>
 
     <div class="collapse" id="reports">
-    	<%= link_to '<i class="fa fa-user-md fa-fw"></i>&nbsp;Medical'.html_safe, front_pages_help_doc_path, class: "list-group-item"%>
+    	<%= link_to '<i class="fa fa-user-md fa-fw"></i>&nbsp;Medical'.html_safe, '#' , class: "list-group-item"%>
 
-    	<%= link_to '<i class="fa fa-dollar fa-fw"></i>&nbsp;Commercial'.html_safe, new_user_profile_path, class: "list-group-item"%>
-    	<%= link_to '<i class="fa fa-sitemap fa-fw"></i>&nbsp;Demographics'.html_safe, new_user_profile_path, class: "list-group-item"%>
+    	<%= link_to '<i class="fa fa-dollar fa-fw"></i>&nbsp;Commercial'.html_safe, '#', class: "list-group-item"%>
+    	<%= link_to '<i class="fa fa-sitemap fa-fw"></i>&nbsp;Demographics'.html_safe, '#', class: "list-group-item"%>
 
     </div>
 
@@ -20,7 +20,8 @@
       			<%= link_to "Vendor", vendors_path, class: "list-group-item", "data-parent"=>"#SubMenu1"%>
       			<%= link_to "Marketer", marketers_path, class: "list-group-item", "data-parent"=>"#SubMenu1"%>
       			<%= link_to "Hospital Unit", hospital_units_path, class: "list-group-item", "data-parent"=>"#SubMenu1"%>
-
+      			<%= link_to "Store Operation", store_operations_path, class: "list-group-item", "data-parent"=>"#SubMenu1"%>
+      			<%= link_to "Store Type", store_types_path, class: "list-group-item", "data-parent"=>"#SubMenu1"%>
          </div>
       <%= link_to '<i class="fa fa-cube fa-fw blue"></i>&nbsp;Item Setup&nbsp;<i class="fa fa-caret-down"></i>'.html_safe, "#pharm_item", class: "list-group-item" , "data-toggle" =>"collapse" ,"data-parent"=>"#SubMenu1"%>
       		<div class="collapse list-group-submenu" id="pharm_item">

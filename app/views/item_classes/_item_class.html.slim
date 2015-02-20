@@ -1,6 +1,6 @@
-tr
+tr.item-class  data-id = item_class.id
         td.class-name = item_class.try(:name)
-        td.description = item_class.description
+        td.description = item_class.try(:description)
         td.text-right
             a.btn.btn-primary.btn-xs href =  edit_item_class_path(item_class) data-remote='true'  Edit
             a.btn.btn-danger.btn-xs href = item_class_path(item_class) data-method='delete'  data-remote='true'  Destroy

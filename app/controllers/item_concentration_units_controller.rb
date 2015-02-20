@@ -17,19 +17,19 @@ class ItemConcentrationUnitsController < ApplicationController
 
   def create
     @item_concentration_unit = ItemConcentrationUnit.new(item_concentration_unit_params)
-    authorize @item_concentration_unit
+    #authorize @item_concentration_unit
     @error = @item_concentration_unit.errors.full_messages.to_sentence unless @item_concentration_unit.save!
   end
 
   def update
       @item_concentration_unit.attributes = item_concentration_unit_params
-      authorize @item_concentration_unit
+      #authorize @item_concentration_unit
       @error = @item_concentration_unit.errors.full_messages.to_sentence unless @item_concentration_unit.save!
   end
 
 
   def destroy
-    authorize @item_concentration_unit
+    #authorize @item_concentration_unit
     @error = @item_concentration_unit.error.full_messages.to_sentence unless @item_concentration_unit.destroy!
   end
 

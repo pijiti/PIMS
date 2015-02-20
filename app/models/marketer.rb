@@ -5,7 +5,6 @@ class Marketer < ActiveRecord::Base
 	default_scope{order(name: :asc)}
 
 	validates :name, presence: true, uniqueness: true, length: {in:2..20}
-	validates :description, presence: true,length: {maximum: 50}
 	validates :foreign, inclusion: { in: [true, false] }
 
 before_create :modify_attr

@@ -1,19 +1,17 @@
 .title Marketers       
 section#pims-index   
-
-        
-        div
-        br
-        #form
-        
-        =render 'form'
-        
+        .marketers-form
+           =render 'form'
+        .text-right
+            a href = '#'  Download Excel
+            
         table.table.table-striped.table-condensed
           thead
-            tr
+              tr
               th Marketer name
               th Description
               th Foreign brand
+              th
             
           tbody.marketers
            - @marketers.each do |marketer| 

@@ -1,5 +1,11 @@
-h3 Editing item_concentration_unit
-
-= render 'form'
+.item-conc-unit-edit-form.well  data-id = @item_concentration_unit.id
+        h5 Update #{@item_concentration_unit.name}
+        = simple_form_for @item_concentration_unit,remote: true  do |f| 
+          .col-md-6
+            = f.input :name
+          .col-md-6
+            = f.input :description, as: :text
+          .actions
+            = f.button :submit, 'Save', class:'btn btn-success btn-sm'
 
 

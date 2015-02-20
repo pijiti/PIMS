@@ -1,20 +1,22 @@
-.title Unit Concentration
+.title Concentration Unit
 
 section#pims-index
-
-    =render 'form'
-    
+    .item-conc-units-form
+       =render 'form'
+    .text-right
+        a href = '#'  Download Excel
     -if @item_concentration_units.size == 0
      = "There are no records available for listing"
     
     
     table.table.table-striped.table-condensed
     	thead
-    		tr
+    		  tr
     		  th Name
     		  th Description
+    		  th
     	
-    	tbody
+    	tbody.item-conc-units
     		 - @item_concentration_units.each do |item_concentration_unit| 
     		    = render item_concentration_unit
     		 

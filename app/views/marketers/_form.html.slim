@@ -1,13 +1,13 @@
-       
-     
+        
+  .marketer-form.well   
        = simple_form_for @marketer,remote:true  do |f| 
-          .col-md-4
+
             = f.input :name 
-          .col-md-4
+
             = f.input :description
-          .col-md-4
-            = f.check_box :foreign
-         
-          .actions 
-            = f.button :submit, "Save", class: 'btn btn-success btn-sm'
+
+            = f.input :foreign
+          
+            .actions 
+                = f.button :submit, "Save", class: 'btn btn-success btn-sm'
  

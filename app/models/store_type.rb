@@ -8,6 +8,7 @@ default_scope{order(name: :asc)}
 	validates :description, presence: true,length: {maximum: 50}
 
 
+
 before_create :modify_attr
 before_update :modify_attr
 before_validation :name_unique

@@ -5,6 +5,7 @@ class StoreOperation < ActiveRecord::Base
 
 	validates :name, presence: true, uniqueness: true, length: {in:2..20}
 	validates :description, presence: true,length: {maximum: 50}
+	validates :payment_required, inclusion: { in: [true, false] }
 
 
 before_create :modify_attr

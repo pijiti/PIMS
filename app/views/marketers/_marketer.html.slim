@@ -1,7 +1,7 @@
-tr
+tr.marketer data-id = marketer.id
        td.name = marketer.try(:name )
-       td.description = marketer.description
+       td.description = marketer.try(:description)
        td.foreign = marketer.foreign.to_s.capitalize
        td.text-right
-        a.btn.btn-primary.btn-xs href = edit_marketer_path(marketer) data-remote='true'  Edit 
-        a.btn.btn-danger.btn-xs href = marketer_path(marketer) data-method='delete'    data-remote=true   Destroy   
+            a.btn.btn-primary.btn-xs href = edit_marketer_path(marketer) data-remote='true'  Edit 
+            a.btn.btn-danger.btn-xs href = marketer_path(marketer) data-method='delete'    data-remote=true   Destroy   

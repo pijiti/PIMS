@@ -1,8 +1,10 @@
-= simple_form_for @item_concentration_unit,remote: true  do |f| 
-  .col-md-6
-    = f.input :name
-  .col-md-6
-    = f.input :description, as: :text
-  .actions
-    = f.button :submit, 'Save', class:'btn btn-success btn-sm'
+       
+     .item-conc-unit-form.well  
+        = simple_form_for @item_concentration_unit,remote: true  do |f| 
+          .col-md-6
+            = f.input :name
+          .col-md-6
+            = f.input :description, as: :text
+          .actions
+            = f.button :submit, 'Save', class:'btn btn-success btn-sm'
 

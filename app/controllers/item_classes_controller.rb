@@ -19,20 +19,20 @@ class ItemClassesController < ApplicationController
 
   def create
     @item_class = ItemClass.new(item_class_params)
-    authorize @item_class
+    #authorize @item_class
     @error = @item_class.errors.full_messages.to_sentence unless @item_class.save!
   end
 
 
   def update
      @item_class.attributes = item_class_params
-     authorize @item_class
+     #authorize @item_class
      @error = @item_class.errors.full_messages.to_sentence unless @item_class.save!
   end
 
 
   def destroy
-     authorize  @item_class
+     #authorize  @item_class
     @error = @item_class.error.full_messages.to_sentence unless  @item_class.destroy!
   end
 

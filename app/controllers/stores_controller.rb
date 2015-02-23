@@ -13,7 +13,9 @@ class StoresController < ApplicationController
   def new
     @store = Store.new
     @stores = Store.all
-    @store.roles.build
+    @roles = @store.roles.build
+    @store_operations = StoreOperation.all
+    @store_types = StoreType.all
   end
 
 
@@ -23,13 +25,21 @@ class StoresController < ApplicationController
 
 
   def create
-    @store = Store.new(store_params)
-    #@store.roles << Role.find(params[:store][:role_ids].select{|i| i.present? })
+
+
+    begin
+    @store = Store.create!(store_params)
     #authorize @store
-    params[:store][:role_ids].each do |role_id|
-    	logger.debug "#{role_id}"
-    @store.roles.build(:name => role_id)unless role.blank?
-  @store.save!
+    #@store.roles << params[:store][:role_ids].select{|r| r.present? }
+    params[:store][:role_ids].each do |role|
+    @role = @store.roles.build(:name => role)unless role.blank?
+    @role.save!
+   end
+  rescue
+  	   rescue ActiveRecord::RecordInvalid => invalid
+      @error = invalid.record.errors.full_messages.first
+     # rescue StandardError::Pundit::NotAuthorizedError => e
+     # @error = e.message
    end
   end
 

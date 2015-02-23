@@ -8,10 +8,9 @@ newErrorNotify.notifyRemove();
 
 <% else %>
 
-
-$('.stores').prepend('<%=j render @store %>');
+$('.stores').prepend('<%=j render @store%>');
  $('.stores-form').find('form').get(0).reset();
-var newSuccessNotify = $("<%=j render 'notifies/notify', msg: "#{@store.name}" + " has been created" %>");
+var newSuccessNotify = $("<%=j render 'notifies/notify', msg: "#{@store.name}" + " store has been created" %>");
 application.find('#application-main-body-yield').prepend(newSuccessNotify);
 newSuccessNotify.notifyRemove();
 

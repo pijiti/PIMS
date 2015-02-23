@@ -11,7 +11,7 @@ newErrorNotify.notifyRemove();
 
  $('.marketers').prepend('<%=j render @marketer %>');
  $('.marketers-form').find('form').get(0).reset();
-var newSuccessNotify = $("<%=j render 'notifies/notify', msg: "#{@marketer.name}" %>");
+var newSuccessNotify = $("<%=j render 'notifies/notify', msg: "#{@marketer.name }" +  " has been created" %>");
 application.find('#application-main-body-yield').prepend(newSuccessNotify);
 newSuccessNotify.notifyRemove();
 

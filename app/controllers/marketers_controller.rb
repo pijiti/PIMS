@@ -15,8 +15,15 @@ class MarketersController < ApplicationController
 
   def create
     @marketer = Marketer.new(marketer_params)
-    #authorize @marketer
-     @error = @marketer.errors.full_messages.to_sentence unless @marketer.save!
+
+     begin
+     	authorize @marketer
+      @marketer.save!
+      rescue ActiveRecord::RecordInvalid => invalid
+      @error = invalid.record.errors.full_messages.first
+      rescue StandardError::Pundit::NotAuthorizedError => e
+      @error = e.message
+    end
   end
 
   def update

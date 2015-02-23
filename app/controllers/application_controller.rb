@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
    include AuthorizationConcern
-   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+   #rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   protect_from_forgery with: :exception
 
     alias_method :me, :current_user

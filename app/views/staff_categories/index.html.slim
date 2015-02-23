@@ -7,7 +7,7 @@ section#pims-index
             = render 'form'
             
         .text-right  
-            a href = index_staff_categories_path  data-format=> 'xlxs'  Download Excel
+            a href = staff_categories_path(format: :xlxs)  Download Excel
         
         table.table.table-striped.table-condensed
           thead

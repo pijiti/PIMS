@@ -13,7 +13,7 @@ class StoresController < ApplicationController
   def new
     @store = Store.new
     @stores = Store.all
-    @roles = @store.roles.build
+    #@roles = @store.roles.build
     @store_operations = StoreOperation.all
     @store_types = StoreType.all
   end
@@ -26,14 +26,11 @@ class StoresController < ApplicationController
 
   def create
 
-
     begin
     @store = Store.create!(store_params)
     #authorize @store
-    #@store.roles << params[:store][:role_ids].select{|r| r.present? }
     params[:store][:role_ids].each do |role|
-    @role = @store.roles.build(:name => role)unless role.blank?
-    @role.save!
+    @store.roles.create!(:name => role)unless role.blank?
    end
   rescue
   	   rescue ActiveRecord::RecordInvalid => invalid
@@ -51,8 +48,13 @@ class StoresController < ApplicationController
   end
 
   def destroy
-  	authorize @store
-    @error = @store.error.full_messages.to_sentence unless  @store.destroy!
+  	begin
+  	#authorize @store
+  	@store.destroy!
+
+  	rescue StandardError::Pundit::NotAuthorizedError => e
+    @error = e.message
+   end
   end
 
   private
@@ -63,6 +65,6 @@ class StoresController < ApplicationController
 
 
     def store_params
-      params.require(:store).permit(:name, :store_type_id,{:role_ids => []},:parent_store,:operation_mode, :open_time, :close_time,:parent_id,:store_operation_id)
+      params.require(:store).permit(:name, :store_type_id,:role_ids,:parent_store,:operation_mode, :open_time, :close_time,:parent_id,:store_operation_id)
     end
 end

@@ -8,6 +8,10 @@ class StoreTypesController < ApplicationController
   def index
     @store_types = StoreType.all
     new
+    respond_to do |format|
+     	format.html
+      format.xlsx
+    end
   end
 
   def new

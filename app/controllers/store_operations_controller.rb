@@ -5,6 +5,10 @@ class StoreOperationsController < ApplicationController
   def index
     @store_operations = StoreOperation.all
     new
+     respond_to do |format|
+     	format.html
+      format.xlsx
+    end
   end
 
 

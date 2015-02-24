@@ -3,10 +3,10 @@ workbook = xlsx_package.workbook
 styles   = workbook.styles
 header   = styles.add_style(:bg_color => 'FAC090', :b => true, :alignment => {:wrap_text => false})
 
-workbook.add_worksheet(name: "Prescription") do |sheet|
-  sheet.add_row ["Name", "Last Name", "Marks", "Percentage", "Grade"], :style => header
-  @all_prescriptions.each do |prescription|
-    sheet.add_row [prescription.user.try(:first_name),prescription.hospital_unit.try(:hospital_unit_name)]
+workbook.add_worksheet(name: "Store Operations") do |sheet|
+  sheet.add_row ["#", "Store Operation Name", "Description","Payment Required"], :style => header
+  @store_operations.each_with_index do |store_operation,index|
+    sheet.add_row [index+1,store_operation.try(:name),store_operation.try(:description),store_operation.try(:payment_required)]
   end
  end
  

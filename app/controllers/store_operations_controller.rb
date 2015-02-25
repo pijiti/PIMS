@@ -33,15 +33,23 @@ class StoreOperationsController < ApplicationController
 
 
   def update
+  	begin
       @store_operation.attributes = store_operation_params
       #authorize @store_operation
-      @error = @store_operation.errors.full_messages.to_sentence unless @store_operation.save!
+       @store_operation.save!
+       rescue ActiveRecord::RecordInvalid => invalid
+      @error = invalid.record.errors.full_messages.first
+    end
   end
 
 
   def destroy
+  	begin
     #authorize @store_operation
-    @error = @store_operation.errors.full_messages.to_sentence unless @store_operation.destroy!
+    @store_operation.destroy!
+   	rescue ActiveRecord::DeleteRestrictionError => e
+   	@error = e.message
+   end
   end
 
   private

@@ -1,0 +1,12 @@
+workbook = xlsx_package.workbook
+
+styles   = workbook.styles
+header   = styles.add_style(:bg_color => 'FAC090', :b => true, :alignment => {:wrap_text => false})
+
+workbook.add_worksheet(name: "Hospital Unit") do |sheet|
+  sheet.add_row ["#", "Category", "Description"], :style => header
+  @hospital_units.each_with_index do |hospital_unit,index|
+    sheet.add_row [index+1,hospital_unit.try(:name),hospital_unit.try(:description)]
+  end
+ end
+ 

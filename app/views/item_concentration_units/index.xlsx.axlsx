@@ -1,0 +1,12 @@
+workbook = xlsx_package.workbook
+
+styles   = workbook.styles
+header   = styles.add_style(:bg_color => 'FAC090', :b => true, :alignment => {:wrap_text => false})
+
+workbook.add_worksheet(name: "Strength Unit") do |sheet|
+  sheet.add_row ["#", "Category", "Description"], :style => header
+  @item_concentration_units.each_with_index do |conc_unit,index|
+    sheet.add_row [index+1,conc_unit.try(:name),conc_unit.try(:description)]
+  end
+ end
+ 

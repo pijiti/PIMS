@@ -6,8 +6,8 @@ class HospitalUnit < ActiveRecord::Base
 	validates :name, presence: true, uniqueness: true, length: { in: 2..15 }
 	validates :description,presence: false,length: { maximum: 50 }
 
-	before_create :modify_attrs
-	before_update :modify_attrs
+	before_save :modify_attrs
+
 	before_validation :name_unique
 
 

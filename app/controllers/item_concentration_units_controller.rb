@@ -5,6 +5,10 @@ class ItemConcentrationUnitsController < ApplicationController
   def index
     @item_concentration_units = ItemConcentrationUnit.all
     new
+     respond_to do |format|
+     	format.html
+      format.xlsx
+    end
   end
 
 
@@ -17,20 +21,32 @@ class ItemConcentrationUnitsController < ApplicationController
 
   def create
     @item_concentration_unit = ItemConcentrationUnit.new(item_concentration_unit_params)
+    begin
     #authorize @item_concentration_unit
-    @error = @item_concentration_unit.errors.full_messages.to_sentence unless @item_concentration_unit.save!
+     @item_concentration_unit.save!
+     rescue ActiveRecord::RecordInvalid => invalid
+      @error = invalid.record.errors.full_messages.first
+    end
   end
 
   def update
       @item_concentration_unit.attributes = item_concentration_unit_params
+      begin
       #authorize @item_concentration_unit
-      @error = @item_concentration_unit.errors.full_messages.to_sentence unless @item_concentration_unit.save!
+       @item_concentration_unit.save!
+       rescue ActiveRecord::RecordInvalid => invalid
+      @error = invalid.record.errors.full_messages.first
+    end
   end
 
 
   def destroy
+  	begin
     #authorize @item_concentration_unit
-    @error = @item_concentration_unit.error.full_messages.to_sentence unless @item_concentration_unit.destroy!
+    @item_concentration_unit.destroy!
+    rescue ActiveRecord::DeleteRestrictionError => e
+   	@error = e.message
+   end
   end
 
   private

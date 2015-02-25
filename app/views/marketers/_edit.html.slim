@@ -2,7 +2,7 @@
        h5 Update#{@marketer.name}
        = simple_form_for @marketer,remote:true  do |f| 
 
-            = f.input :name 
+            = f.input :name,label: 'Marketer'
 
             = f.input :description
 

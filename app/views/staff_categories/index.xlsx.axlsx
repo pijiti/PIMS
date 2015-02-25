@@ -5,8 +5,8 @@ header   = styles.add_style(:bg_color => 'FAC090', :b => true, :alignment => {:w
 
 workbook.add_worksheet(name: "Staff Category") do |sheet|
   sheet.add_row ["#","Name", "Description"], :style => header
-  @staff_categories.each_with_index do |staff_category|
-    sheet.add_row [index+1,staff_category.try(name),staff_category.try(:description)]
+  @staff_categories.each_with_index do |staff_category,index|
+    sheet.add_row [index+1,staff_category.try(:name),staff_category.try(:description)]
   end
  end
  

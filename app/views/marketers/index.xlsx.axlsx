@@ -1,0 +1,12 @@
+workbook = xlsx_package.workbook
+
+styles   = workbook.styles
+header   = styles.add_style(:bg_color => 'FAC090', :b => true, :alignment => {:wrap_text => false})
+
+workbook.add_worksheet(name: "Marketers") do |sheet|
+  sheet.add_row ["#","Name", "Description","Foreign Brand"], :style => header
+  @marketers.each_with_index do |marketer,index|
+    sheet.add_row [index+1,marketer.try(:name),marketer.try(:description),marketer.try(:foreign).to_s.capitalize ]
+  end
+ end
+ 

@@ -4,7 +4,7 @@ section#pims-index
     .item-conc-units-form
        =render 'form'
     .text-right
-        a href = '#'  Download Excel
+        a href = item_concentration_units_path(:format => 'xlsx')  Download Excel
     -if @item_concentration_units.size == 0
      = "There are no records available for listing"
     

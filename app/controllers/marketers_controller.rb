@@ -4,6 +4,10 @@ class MarketersController < ApplicationController
   def index
     @marketers = Marketer.all
      new
+     respond_to do |format|
+     	format.html
+      format.xlsx
+    end
   end
 
   def new
@@ -37,8 +41,12 @@ class MarketersController < ApplicationController
   end
 
   def destroy
+  	begin
     #authorize  @marketer
-    @error = @marketer.errors.full_messages.to_sentence unless @marketer.destroy!
+    @marketer.destroy!
+     rescue ActiveRecord::DeleteRestrictionError => e
+   	@error = e.message
+   end
   end
 
   private

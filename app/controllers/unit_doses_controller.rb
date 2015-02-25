@@ -6,6 +6,10 @@ class UnitDosesController < ApplicationController
   def index
     @unit_doses = UnitDose.all
     new
+    respond_to do |format|
+     	format.html
+      format.xlsx
+    end
   end
 
   def new
@@ -19,21 +23,33 @@ class UnitDosesController < ApplicationController
 
   def create
     @unit_dose = UnitDose.new(unit_dose_params)
+    begin
     #authorize @unit_dose
-    @error = @unit_dose.errors.full_messages.to_sentence unless @unit_dose.save!
+    @unit_dose.save!
+    rescue ActiveRecord::RecordInvalid => invalid
+      @error = invalid.record.errors.full_messages.first
+    end
   end
 
 
   def update
       @unit_dose.attributes = unit_dose_params
+      begin
       #authorize @unit_dose
-      @error = @unit_dose.errors.full_messages.to_sentence unless @unit_dose.save!
+     @unit_dose.save!
+     rescue ActiveRecord::RecordInvalid => invalid
+      @error = invalid.record.errors.full_messages.first
+    end
   end
 
 
   def destroy
+  	begin
   	#authorize @unit_dose
-    @error = @unit_dose.errors.full_messages.to_sentence unless @unit_dose.destroy!
+    @unit_dose.destroy!
+    rescue ActiveRecord::DeleteRestrictionError => e
+   	@error = e.message
+   end
   end
 
   private

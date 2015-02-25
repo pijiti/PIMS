@@ -16,14 +16,12 @@ class VendorsController < ApplicationController
     @vendor = Vendor.new
     @vendor_categories = VendorCategory.order(:name)
     @states = State.all
-    @stores = Store.where(store_type_id:1)
   end
 
 
   def edit
   	@vendor_categories = VendorCategory.order(:name)
     @states = State.all
-    @stores = Store.where(store_type_id:1)
   end
 
 
@@ -40,14 +38,22 @@ class VendorsController < ApplicationController
 
   def update
    @vendor.attributes = vendor_params
+   begin
     #authorize @vendor
-    @error = @vendor.errors.full_messages.to_sentence unless @vendor.save!
+  @vendor.save!
+      rescue ActiveRecord::RecordInvalid => invalid
+      @error = invalid.record.errors.full_messages.first
+    end
   end
 
 
   def destroy
-  	authorize @vendor
-    @error = @vendor.errors.full_messages.to_sentence  unless @vendor.destroy!
+  	begin
+  	#authorize @vendor
+     @vendor.destroy!
+      rescue ActiveRecord::DeleteRestrictionError => e
+   	@error = e.message
+   end
   end
 
   private

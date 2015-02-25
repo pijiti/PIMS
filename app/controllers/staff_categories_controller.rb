@@ -6,8 +6,8 @@ class StaffCategoriesController < ApplicationController
     @staff_categories = StaffCategory.all
     new
      respond_to do |format|
-     	format.html
-      format.xlsx
+     	  format.html
+        format.xlsx
     end
   end
 
@@ -24,7 +24,6 @@ class StaffCategoriesController < ApplicationController
 
   def create
     @staff_category = StaffCategory.new(staff_category_params)
-
     begin
      #authorize @staff_category
      @staff_category.save!
@@ -38,8 +37,7 @@ class StaffCategoriesController < ApplicationController
       @staff_category.attributes = staff_category_params
       begin
       #authorize @staff_category
-      @staff_category.update!
-      rescue
+      @staff_category.save!
        rescue ActiveRecord::RecordInvalid => invalid
       @error = invalid.record.errors.full_messages.first
       end
@@ -47,8 +45,12 @@ class StaffCategoriesController < ApplicationController
 
 
   def destroy
+  	begin
     #authorize @staff_category
-    @error = @staff_category.errors.full_messages.to_sentence unless @staff_category.destroy!
+    @staff_category.destroy!
+    rescue ActiveRecord::DeleteRestrictionError => e
+   	@error = e.message
+   	end
   end
 
   private

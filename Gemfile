@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 
 #Base gems
-gem 'rails', '4.1.2'
+gem 'rails', '4.1.1'
 gem 'devise', '~> 3.3.0'
 gem 'rolify'
 gem 'pundit', '~> 0.3.0'

@@ -5,8 +5,8 @@ header   = styles.add_style(:bg_color => 'FAC090', :b => true, :alignment => {:w
 
 workbook.add_worksheet(name: "Vendors") do |sheet|
   sheet.add_row ["#", "Vendor", "Red Number", "Address", "Contact Person","Contact Mobile","Contact Email"], :style => header
-  @all_prescriptions.each do |prescription|
-    sheet.add_row [prescription.user.try(:first_name),prescription.hospital_unit.try(:hospital_unit_name)]
+  @vendors.each_with_index do |vendor,index|
+    sheet.add_row [index+1,vendor.try(:name),vendor.try(:reg_number),vendor.try(:address),vendor.try(:contact_person),vendor.try(:contact_mobile),vendor.try(:contact_email)]
   end
  end
  

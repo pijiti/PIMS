@@ -9,7 +9,6 @@ class Marketer < ActiveRecord::Base
 	validates :foreign, inclusion: { in: [true, false] }
 
 before_save :modify_attr
-#before_update :modify_attr
 before_validation :name_unique
 
 	def modify_attr

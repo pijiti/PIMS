@@ -35,22 +35,35 @@ class StoreTypesController < ApplicationController
 
 
   def update
+  	begin
       @store_type.attributes = store_type_params
       #authorize @store_type
-      @error = @store_type.errors.full_messages.to_sentence unless @store_type.save!
+       @store_type.save!
+       rescue ActiveRecord::RecordInvalid => invalid
+      @error = invalid.record.errors.full_messages.first
+    end
   end
 
 
   def destroy
+  	begin
     #authorize @store_type
-   @error = @store_type.errors.full_messages.to_sentence unless @store_type.destroy!
+    @store_type.destroy!
+    rescue ActiveRecord::DeleteRestrictionError => e
+   	@error = e.message
+   end
 
   end
 
   private
 
     def set_store_type
+    	begin
       @store_type = StoreType.find(params[:id])
+     rescue ActiveRecord::RecordNotFound => e
+     	@error = e.message
+     	logger.debug "Epitome: #{@error}"
+     end
     end
 
 

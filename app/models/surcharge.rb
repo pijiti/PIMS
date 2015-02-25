@@ -6,7 +6,12 @@ class Surcharge < ActiveRecord::Base
 
 	SURCHARGE_TYPES = %w(Fixed Percentage)
 
-	validate :surcharge_type, inclusion: SURCHARGE_TYPES
+	before_save :active_surcharge
 
+	validate :charge_type, inclusion: SURCHARGE_TYPES
+
+  def active_surcharge
+  		self.update_all(:active => true)
+  end
 
 end

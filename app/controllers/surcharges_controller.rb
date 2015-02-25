@@ -20,18 +20,18 @@ class SurchargesController < ApplicationController
 
   def create
   	@surcharge = Surcharge.new(surcharge_params)
-  	 authorize @surcharge
+  	 #authorize @surcharge
   	@error = @surcharge.errors.full_messages.to_sentence unless @surcharge.save!
   end
 
   def update
   	@surcharge.attributes = surcharge_params
-  	 authorize @surcharge
+  	 #authorize @surcharge
   	 @error = @surcharge.errors.full_messages.to_sentence unless @surcharge.save!
   end
 
   def destroy
-  	authorize @surcharge
+  	#authorize @surcharge
   	@error = @surcharge.errors.full_messages.to_sentence unless @surcharge.destroy!
   end
 
@@ -47,7 +47,7 @@ class SurchargesController < ApplicationController
   end
 
   def surcharge_params
-      params.require(:surcharge).permit(:name, :type, :active,
+      params.require(:surcharge).permit(:name, :charge_type, :active,
                                                                     surcharge_items_attributes: [:id,:name, :description,:value])
     end
 

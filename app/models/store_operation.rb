@@ -8,8 +8,7 @@ class StoreOperation < ActiveRecord::Base
 	validates :payment_required, inclusion: { in: [true, false] }
 
 
-before_create :modify_attr
-before_update :modify_attr
+before_save :modify_attr
 before_validation :name_unique
 
 	def modify_attr

@@ -1,7 +1,7 @@
    .vendor-form.well
        = simple_form_for @vendor,remote: true do |f|
           .col-md-6
-            = f.input :name 
+            = f.input :name,label:'Vendor' 
             = f.input :reg_number 
             = f.input :address ,as: :text
           .col-md-4

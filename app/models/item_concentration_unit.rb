@@ -3,8 +3,7 @@ class ItemConcentrationUnit < ActiveRecord::Base
 	has_many :brands
 
 	default_scope{order(name: :asc)}
-	before_create :modify_attrs
-	before_update :modify_attrs
+	before_save :modify_attrs
 	before_validation :name_unique
 
 	validates :name, presence: true, uniqueness: true,length: { in:2..30}

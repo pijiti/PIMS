@@ -6,6 +6,10 @@ class HospitalUnitsController < ApplicationController
   def index
     @hospital_units = HospitalUnit.all
     new
+    respond_to do |format|
+     	format.html
+      format.xlsx
+    end
   end
 
 
@@ -31,14 +35,22 @@ class HospitalUnitsController < ApplicationController
 
   def update
       @hospital_unit.attributes = hospital_unit_params
+      begin
       #authorize  @hospital_unit
-      @error = @hospital_unit.errors.full_messages.to_sentence unless  @hospital_unit.save!
+       @hospital_unit.save!
+        rescue ActiveRecord::RecordInvalid => invalid
+      @error = invalid.record.errors.full_messages.first
+    end
   end
 
 
   def destroy
+  	begin
    #authorize  @hospital_unit
-    @error = @hospital_unit.errors.full_messages.to_sentence unless  @hospital_unit.destroy!
+    @hospital_unit.destroy!
+    rescue ActiveRecord::DeleteRestrictionError => e
+   	@error = e.message
+   end
   end
 
   private

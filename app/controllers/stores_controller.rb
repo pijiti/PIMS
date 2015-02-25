@@ -25,10 +25,9 @@ class StoresController < ApplicationController
 
 
   def create
-
+  @store = Store.new(store_params)
     begin
-    @store = Store.new(store_params)
-    #authorize @store
+   #authorize @store
     params[:store][:role_ids].each do |role|
     @store.roles.build(:name => role)if role.present?
    end

@@ -11,8 +11,8 @@
                = f.input :username,label: "Mobile/Username"
                = f.association :staff_category, value_method: :id, label_method: :name, prompt: 'Category'
                = f.input :validity, as: :select, collection: User::Validity, prompt: 'Validity Period'
-               = f.input :password, as: :hidden
-               = f.input :password_confirmation, as: :hidden
+               = f.input :password, as: :hidden,input_html: {value: 'password'}
+               = f.input :password_confirmation, as: :hidden,input_html: {value: 'password'} 
              .col-sm-12 
                ul.nav.nav-tabs
                   li : a href="#tab-pane-create-system" data-toggle='tab' System
@@ -21,13 +21,13 @@
                 
             
                .tab-content
-                  .tab-pane id="tab-pane-create-system" = f.association :roles, collection: Role.where(name: 'admin'), as: :check_boxes
+                  .tab-pane id="tab-pane-create-system" = f.association :roles, collection: Role.where(name: 'Admin'), as: :check_boxes
                   - @stores.each do |store|
                     .tab-pane id="tab-pane-create-#{store.id}" = f.association :roles, collection: store.roles.map{|r| r.name.titleize}, as: :check_boxes
                  
                     
              .actions
-                 = f.button :submit, 'Save',class: 'btn btn-success btn-small'
+                 = f.button :submit, 'Save',class: 'btn btn-success btn-sm'
             
         #devise-registration-new-footer
           #devise-registration-new-footer-inner

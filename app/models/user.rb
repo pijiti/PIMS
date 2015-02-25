@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
 
 
 
-	before_create :default_password,:user_active_status,:capitalize_attr
+	before_save :default_password,:user_active_status,:capitalize_attr
 	before_update :user_active_status
 	devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable,:validatable
 
@@ -63,12 +63,13 @@ class User < ActiveRecord::Base
   	current_password == new_password
   end
 
-
- private
- def default_password
+def default_password
  	self.password = 'password'.strip
  	self.password_confirmation = 'password'.strip
  end
+
+ private
+
 
  def capitalize_attr
  	self.first_name = first_name.capitalize

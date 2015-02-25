@@ -12,11 +12,11 @@ class Brand < ActiveRecord::Base
 
 
 	def detailed_info
-   "#{brand_name} " + "(" + " #{pharm_item.try(:pharm_item_name)}" + " | " + " #{try(:concentration)}" + "#{item_concentration_unit.try(:conc_unit_name)}" + " #{unit_dose.try(:unit_dose_name)}" + " | " + " #{marketer.try(:marketer_name)} " + " )"
+   "#{name} " + "(" + " #{pharm_item.try(:name)}" + " | " + " #{try(:concentration)}" + "#{item_concentration_unit.try(:name)}" + " #{unit_dose.try(:name)}" + " | " + " #{marketer.try(:name)} " + " )"
 	end
 
 	def modify_attrs
-		self.brand_name = brand_name.try(:titleize)
+		self.name = name.try(:titleize)
 	end
 
 

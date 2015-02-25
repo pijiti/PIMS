@@ -9,6 +9,7 @@
             /!= f.input :open_time, as: :time
             /!= f.input :close_time, as: :time
           .col-md-12
+          .roles
             = f.association :roles, collection: Role::NAMES.map(&:titleize), as: :check_boxes
           .actions
             = f.button :submit,'Save',class:'btn-success btn-sm'

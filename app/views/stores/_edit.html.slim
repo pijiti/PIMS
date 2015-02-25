@@ -1,5 +1,5 @@
  .store-edit-form.well  data-id = @store.id
-       h5 Update #{@store.name}
+        h5 Update #{@store.name}
         = simple_form_for @store,remote: true  do |f|
           .col-md-6
             = f.input :name,label:"Store"
@@ -10,7 +10,8 @@
             /!= f.input :open_time, as: :time
             /!= f.input :close_time, as: :time
           .col-md-12
-            = f.association :roles, collection: Role::ROLES.map(&:titleize), as: :check_boxes, inline_label: true
+          .roles
+            = f.association :roles, collection: Role::NAMES.map(&:titleize), as: :check_boxes
           .actions
             = f.button :submit,'Save',class:'btn-success btn-sm'
 

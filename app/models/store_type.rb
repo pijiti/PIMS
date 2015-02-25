@@ -13,12 +13,12 @@ before_save :modify_attr
 before_validation :name_unique
 
 	def modify_attr
-		self.name = name.capitalize.strip
+		self.name = name.upcase.strip
 		self.description = description.capitalize.strip
 	end
 
 	def name_unique
-		self.name = name.capitalize.strip
+		self.name = name.upcase.strip
 	end
 
 end

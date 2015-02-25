@@ -20,8 +20,12 @@ class HospitalUnitsController < ApplicationController
 
   def create
     @hospital_unit = HospitalUnit.new(hospital_unit_params)
+    begin
     #authorize @hospital_unit
-    @error = @hospital_unit.errors.full_messages.to_sentence unless @hospital_unit.save!
+    @hospital_unit.save!
+   rescue ActiveRecord::RecordInvalid => invalid
+      @error = invalid.record.errors.full_messages.first
+    end
   end
 
 

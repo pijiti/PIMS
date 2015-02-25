@@ -27,11 +27,12 @@ class StoresController < ApplicationController
   def create
 
     begin
-    @store = Store.create!(store_params)
+    @store = Store.new(store_params)
     #authorize @store
     params[:store][:role_ids].each do |role|
-    @store.roles.create!(:name => role)unless role.blank?
+    @store.roles.build(:name => role)if role.present?
    end
+   @store.save!
   rescue
   	   rescue ActiveRecord::RecordInvalid => invalid
       @error = invalid.record.errors.full_messages.first
@@ -50,8 +51,9 @@ class StoresController < ApplicationController
   def destroy
   	begin
   	#authorize @store
+  	logger.debug"Logger Output for Store: #{@store.name}}"
+    logger.debug"Logger Output for Roles for Store: #{@store.roles.collect{|i| i.name}}"
   	@store.destroy!
-
   	rescue StandardError::Pundit::NotAuthorizedError => e
     @error = e.message
    end

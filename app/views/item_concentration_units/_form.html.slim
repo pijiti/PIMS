@@ -2,7 +2,7 @@
      .item-conc-unit-form.well  
         = simple_form_for @item_concentration_unit,remote: true  do |f| 
           .col-md-6
-            = f.input :name
+            = f.input :name,label:"Strength Unit"
           .col-md-6
             = f.input :description, as: :text
           .actions

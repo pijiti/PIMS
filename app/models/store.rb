@@ -1,5 +1,5 @@
 class Store < ActiveRecord::Base
-   resourcify
+  resourcify
 
    has_many   :substores, class_name: "Store",  foreign_key: "parent_id"
 	 belongs_to  :parent, class_name: "Store"

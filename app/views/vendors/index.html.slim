@@ -4,7 +4,7 @@ section#pims-index
         .vendors-form
             = render 'form'
         .text-right
-            a href = '#'  Download Excel
+            a href = vendors_path(:format => 'xlsx')  Download Excel
         table.table.table-striped.table-condensed
           thead
              tr

@@ -5,6 +5,10 @@ class StaffCategoriesController < ApplicationController
   def index
     @staff_categories = StaffCategory.all
     new
+     respond_to do |format|
+     	format.html
+      format.xlsx
+    end
   end
 
 
@@ -20,15 +24,25 @@ class StaffCategoriesController < ApplicationController
 
   def create
     @staff_category = StaffCategory.new(staff_category_params)
+
+    begin
      #authorize @staff_category
-    @error = @staff_category.errors.full_messages.to_sentence unless @staff_category.save!
+     @staff_category.save!
+    rescue ActiveRecord::RecordInvalid => invalid
+      @error = invalid.record.errors.full_messages.first
+    end
   end
 
 
   def update
       @staff_category.attributes = staff_category_params
+      begin
       #authorize @staff_category
-      @error = @staff_category.errors.full_messages.to_sentence unless @staff_category.save!
+      @staff_category.update!
+      rescue
+       rescue ActiveRecord::RecordInvalid => invalid
+      @error = invalid.record.errors.full_messages.first
+      end
   end
 
 

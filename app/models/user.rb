@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   rolify
 
+
 	belongs_to :title
 	belongs_to :staff_category
 	has_many :supplies

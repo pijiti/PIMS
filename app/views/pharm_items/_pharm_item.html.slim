@@ -1,7 +1,7 @@
 tr.pharm-item data-id = pharm_item.id
 
         td.name = pharm_item.try(:name)
-        td.item-classes
+        /td.item-classes
             a href = '#' =  pharm_item.item_classes.size
             table.table.item-classes.hide
                 thead
@@ -12,9 +12,9 @@ tr.pharm-item data-id = pharm_item.id
                  -pharm_item.item_classes.each_with_index do |item_class,index|
                     tr
                         td.index = index + 1
-                        td.name = item_class.try(:item_class_name)
+                        td.name = item_class.try(:name)
                         
-        td.brand
+        /td.brand
             a href = '#' = pharm_item.brands.size
             table.table.brands.hide
                 thead
@@ -26,7 +26,6 @@ tr.pharm-item data-id = pharm_item.id
                     tr
                         td.index = index + 1
                         td.name = brand.try(:name)
-        td.action
+        td.text-right
             a.btn.btn-primary.btn-xs href = edit_pharm_item_path(pharm_item) Edit
-            span = '|'
             a.btn.btn-danger.btn-xs href = pharm_item_path(pharm_item) data-method = 'delete'  Destroy

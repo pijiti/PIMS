@@ -5,6 +5,10 @@ class VendorsController < ApplicationController
   def index
     @vendors = Vendor.all
     new
+    respond_to do |format|
+     	format.html
+      format.xlsx
+    end
   end
 
 
@@ -25,8 +29,12 @@ class VendorsController < ApplicationController
 
   def create
     @vendor = Vendor.new(vendor_params)
+    begin
      #authorize @vendor
-    @error = @vendor.errors.full_messages.to_sentence unless @vendor.save!
+     @vendor.save!
+      rescue ActiveRecord::RecordInvalid => invalid
+      @error = invalid.record.errors.full_messages.first
+    end
   end
 
 

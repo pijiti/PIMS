@@ -66,7 +66,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.required(:user).permit(:title_id, :first_name, :last_name, :username,{:store_ids=>[]},:staff_category_id, {:role_ids => []},:active_status, :validity)
+    params.required(:user).permit(:title_id, :first_name, :last_name, :username,{:store_ids=>[]},:staff_category_id, :role_ids,:active_status, :validity)
   end
 
   def user_password

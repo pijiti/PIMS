@@ -8,7 +8,7 @@ class ItemConcentrationUnit < ActiveRecord::Base
 	before_validation :name_unique
 
 	validates :name, presence: true, uniqueness: true,length: { in:2..30}
-	validates :description, presence: true
+	validates :description, presence: false
 
 	def modify_attrs
 		self.name = name.downcase.strip

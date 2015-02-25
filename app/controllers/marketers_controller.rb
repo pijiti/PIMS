@@ -17,7 +17,7 @@ class MarketersController < ApplicationController
     @marketer = Marketer.new(marketer_params)
 
      begin
-     	authorize @marketer
+     	#authorize @marketer
       @marketer.save!
       rescue ActiveRecord::RecordInvalid => invalid
       @error = invalid.record.errors.full_messages.first
@@ -27,9 +27,13 @@ class MarketersController < ApplicationController
   end
 
   def update
+  	begin
      @marketer.attributes = marketer_params
      #authorize @marketer
-     @error = @marketer.errors.full_messages.to_sentence unless @marketer.save!
+    @marketer.save!
+      rescue ActiveRecord::RecordInvalid => invalid
+      @error = invalid.record.errors.full_messages.first
+    end
   end
 
   def destroy

@@ -2,7 +2,7 @@
        h5 Update #{@store.name}
         = simple_form_for @store,remote: true  do |f|
           .col-md-6
-            = f.input :name
+            = f.input :name,label:"Store"
             = f.association :parent , value_method: :id, label_method: :name
           .col-md-6
             = f.association :store_type, value_method: :id, label_method: :name, include_blank: "Store Type"

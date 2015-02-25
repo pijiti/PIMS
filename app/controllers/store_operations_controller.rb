@@ -23,8 +23,12 @@ class StoreOperationsController < ApplicationController
 
   def create
     @store_operation = StoreOperation.new(store_operation_params)
+    begin
     #authorize @store_operation
-     @error = @store_operation.errors.full_messages.to_sentence unless @store_operation.save!
+    @store_operation.save!
+   rescue ActiveRecord::RecordInvalid => invalid
+      @error = invalid.record.errors.full_messages.first
+    end
   end
 
 

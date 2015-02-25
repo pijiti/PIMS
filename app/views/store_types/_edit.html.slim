@@ -2,7 +2,7 @@
      h5 Update #{@store_type.name}
      = simple_form_for @store_type,remote:true do |f|
       
-        = f.input :name
+        = f.input :name,label:"Category"
         = f.input :description
         = f.button :submit,'Save', class:'btn-success btn-sm'
 

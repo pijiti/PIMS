@@ -5,15 +5,16 @@ class Marketer < ActiveRecord::Base
 	default_scope{order(name: :asc)}
 
 	validates :name, presence: true, uniqueness: true, length: {in:2..20}
+	validates :description, presence: false, uniqueness: true, length: {maximum:50}
 	validates :foreign, inclusion: { in: [true, false] }
 
-before_create :modify_attr
-before_update :modify_attr
+before_save :modify_attr
+#before_update :modify_attr
 before_validation :name_unique
 
 	def modify_attr
-		self.name = name.capitalize.strip
-		self.description = description.capitalize.strip
+	self.name = name.capitalize.strip
+	self.description = description.capitalize.strip
 	end
 
 	def name_unique

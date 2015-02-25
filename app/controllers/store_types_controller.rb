@@ -25,8 +25,12 @@ class StoreTypesController < ApplicationController
 
   def create
     @store_type = StoreType.new(store_type_params)
+    begin
     #authorize @store_type
-    @error = @store_type.errors.full_messages.to_sentence unless @store_type.save!
+    @store_type.save!
+    rescue ActiveRecord::RecordInvalid => invalid
+      @error = invalid.record.errors.full_messages.first
+    end
   end
 
 

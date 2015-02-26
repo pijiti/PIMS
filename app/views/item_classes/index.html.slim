@@ -1,10 +1,10 @@
-.title Item Class
+.title Drug Classification
 
 section#pims-index
         .item-classes-form
             = render 'form'
         .text-right
-            a href = '#'  Download Excel
+            a href = item_classes_path(:format => 'xlsx')  Download Excel
         
         -if @item_classes.size == 0
           = "There are no records available for listing"

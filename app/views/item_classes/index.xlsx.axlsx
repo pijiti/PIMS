@@ -1,0 +1,21 @@
+workbook = xlsx_package.workbook
+
+styles   = workbook.styles
+header   = styles.add_style(:bg_color => 'FAC090', :b => true, :alignment => {:wrap_text => false})
+header_2   = styles.add_style(:bg_color => 'FAC090', :b => false, :alignment => {:wrap_text => false})
+bold = styles.add_style( :b => true, :alignment => {:wrap_text => false})
+
+workbook.add_worksheet(name: "Drug Classification") do |sheet|
+ 
+  @item_classes.each do |item_class|
+    sheet.add_row ["","Classification:", "#{item_class.try(:name)}"], :style => bold
+    sheet.add_row ["","Description:", "#{item_class.try(:description)}"], :style => bold
+    sheet.add_row ["#","Sub Classification", "Description"], :style => header_2
+    item_class.sub_classes.each_with_index do | sub_class,index|
+    sheet.add_row [index+1,sub_class.try(:name),sub_class.try(:description)]
+ 
+    end
+   sheet.add_row [""]
+  end
+ end
+ 

@@ -13,12 +13,12 @@ class ItemClass < ActiveRecord::Base
 	validates :description, presence: false
 
 	def modify_attrs
-		self.name = name.downcase.strip
-		self.description = description.downcase.strip
+		self.name = name.titleize.strip
+		self.description = description.capitalize.strip
 	end
 
 	def name_unique
-		self.name = name.downcase.strip
+		self.name = name.titleize.strip
 	end
 
 	private

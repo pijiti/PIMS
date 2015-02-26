@@ -1,9 +1,9 @@
 class ItemClass < ActiveRecord::Base
 
-	#has_many :pharm_items, through:  :itemclass_pharmitems
-	has_many :sub_classes
 
-  accepts_nested_attributes_for :sub_classes
+	has_many :sub_classes #,dependent: :nullify
+
+  accepts_nested_attributes_for :sub_classes, allow_destroy: true,reject_if: :reject_sub_classes
 
 	default_scope{order(name: :asc)}
 	before_save :modify_attrs
@@ -20,5 +20,10 @@ class ItemClass < ActiveRecord::Base
 	def name_unique
 		self.name = name.downcase.strip
 	end
+
+	private
+	def reject_sub_classes(attributed)
+      attributed[:name].blank?
+  end
 
 end

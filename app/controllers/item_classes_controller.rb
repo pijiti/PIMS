@@ -5,6 +5,10 @@ class ItemClassesController < ApplicationController
   def index
     @item_classes = ItemClass.all
      new
+     respond_to do |format|
+     	format.html
+      format.xlsx
+    end
   end
 
 
@@ -21,21 +25,33 @@ class ItemClassesController < ApplicationController
 
   def create
     @item_class = ItemClass.new(item_class_params)
+    begin
     #authorize @item_class
-    @error = @item_class.errors.full_messages.to_sentence unless @item_class.save!
+     @item_class.save!
+     rescue ActiveRecord::RecordInvalid => invalid
+      @error = invalid.record.errors.full_messages.first
+    end
   end
 
 
   def update
+  	begin
      @item_class.attributes = item_class_params
      #authorize @item_class
-     @error = @item_class.errors.full_messages.to_sentence unless @item_class.save!
+   @item_class.save!
+   rescue ActiveRecord::RecordInvalid => invalid
+      @error = invalid.record.errors.full_messages.first
+    end
   end
 
 
   def destroy
+  	begin
      #authorize  @item_class
-    @error = @item_class.error.full_messages.to_sentence unless  @item_class.destroy!
+ @item_class.destroy!
+ rescue ActiveRecord::DeleteRestrictionError => e
+   	@error = e.message
+   end
   end
 
   private

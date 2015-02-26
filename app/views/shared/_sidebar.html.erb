@@ -2,10 +2,8 @@
   <div class="list-group panel">
   	<%= link_to '<i class="fa fa-table fa-fw x3 blue"></i>&nbsp;<br/>Dashboard</br><i class="fa"></i>'.html_safe, dashboard_path, class: "list-group-item text-center"%>
   	<%= link_to '<i class="fa fa-pie-chart fa-fw x3 blue"></i>&nbsp;<br/>Reports <br/><i class="fa fa-caret-down"></i>'.html_safe, "#reports", class: "list-group-item list-group-item-success text-center","data-toggle" =>"collapse", "data-parent" => "#MainMenu"%>
-
-    <div class="collapse" id="reports">
+    <div class="collapse" id="reports2">
     	<%= link_to '<i class="fa fa-user-md fa-fw"></i>&nbsp;Medical'.html_safe, '#' , class: "list-group-item"%>
-
     	<%= link_to '<i class="fa fa-dollar fa-fw"></i>&nbsp;Commercial'.html_safe, '#', class: "list-group-item"%>
     	<%= link_to '<i class="fa fa-sitemap fa-fw"></i>&nbsp;Demographics'.html_safe, '#', class: "list-group-item"%>
 
@@ -45,13 +43,13 @@
           </div>
     </div>
     <%= link_to '<i class="fa fa-exchange fa-fw x3 blue"></i>&nbsp;</br>Items Management <br/><i class="fa fa-caret-down"></i>'.html_safe, "#item", class: "list-group-item list-group-item-success text-center","data-toggle" =>"collapse", "data-parent" => "#MainMenu"%>
-    <div class="collapse" id="item">
+    <div class="collapse" id="item2">
     	<%= link_to '<i class="fa fa-sign-in fa-fw"></i>&nbsp;Supply'.html_safe, supplies_path, class: "list-group-item"%>
     	<%= link_to '<i class="fa fa-sign-in fa-fw"></i>&nbsp;Approval'.html_safe, approval_index_approvals_path, class: "list-group-item"%>
     	<%= link_to '<i class="fa fa-sign-in fa-fw"></i>&nbsp;Request Service'.html_safe, new_user_profile_path, class: "list-group-item"%>
     </div>
     <%= link_to '<i class="fa fa-stethoscope fa-fw x3 blue"></i>&nbsp;</br>Patient Management <br/><i class="fa fa-caret-down"></i>'.html_safe, "#patient", class: "list-group-item list-group-item-success text-center","data-toggle" =>"collapse", "data-parent" => "#MainMenu"%>
-    <div class="collapse" id="patient">
+    <div class="collapse" id="patient2">
       <%= link_to '<i class="fa fa-file-text fa-fw blue"></i>&nbsp;Billing'.html_safe, patients_path, class: "list-group-item"%>
       <%= link_to '<i class="fa fa-file-text fa-fw blue"></i>&nbsp;Collate'.html_safe, patients_path, class: "list-group-item"%>
       <%= link_to '<i class="fa fa-medkit fa-fw blue"></i>&nbsp;Dispense'.html_safe, new_user_profile_path, class: "list-group-item"%>
@@ -60,7 +58,7 @@
     </div>
     <%= link_to '<i class="fa fa-history fa-fw x3 blue"></i>&nbsp;</br>Audit <br/><i class="fa"></i>'.html_safe, "#audit", class: "list-group-item text-center"%>
     <%= link_to '<i class="fa fa-suitcase fa-fw x3 blue"></i>&nbsp;</br>My Account <br/><i class="fa fa-caret-down blue"></i>'.html_safe, "#account", class: "list-group-item list-group-item-success text-center","data-toggle" =>"collapse", "data-parent" => "#MainMenu"%>
-    <div class="collapse" id="account">
+    <div class="collapse" id="account2">
     	<%= link_to '<i class="fa fa-user fa-fw blue"></i>&nbsp;User Information'.html_safe, user_profiles_path, class: "list-group-item"%>
     	<%= link_to '<i class="fa fa-lock fa-fw blue"></i>&nbsp;Password'.html_safe, user_profiles_path, class: "list-group-item"%>
     </div>

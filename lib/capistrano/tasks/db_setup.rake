@@ -21,4 +21,15 @@ namespace :db_setup do
       end
     end
 
+    desc 'Database seeding'
+    task :db_seed do
+      on roles(:db) do
+        within release_path do
+          with rails_env: fetch(:rails_env) do
+            execute :rake, 'db:seed' # This seeds the database tables
+          end
+        end
+      end
+    end
+
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150224132345) do
+ActiveRecord::Schema.define(version: 20150226010500) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -151,6 +151,11 @@ ActiveRecord::Schema.define(version: 20150224132345) do
     t.decimal  "ward_critical_level",       precision: 8, scale: 2
   end
 
+  create_table "pharm_items_sub_classes", force: true do |t|
+    t.integer "pharm_item_id"
+    t.integer "sub_class_id"
+  end
+
   create_table "prescriptions", force: true do |t|
     t.integer  "user_id"
     t.integer  "hospital_unit_id"
@@ -235,6 +240,16 @@ ActiveRecord::Schema.define(version: 20150224132345) do
     t.integer  "store_type_id"
     t.integer  "store_operation_id"
   end
+
+  create_table "sub_classes", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.integer  "item_class_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sub_classes", ["item_class_id"], name: "index_sub_classes_on_item_class_id", using: :btree
 
   create_table "supplies", force: true do |t|
     t.integer  "vendor_id"

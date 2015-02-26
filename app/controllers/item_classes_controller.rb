@@ -10,10 +10,12 @@ class ItemClassesController < ApplicationController
 
   def new
     @item_class = ItemClass.new
+    @item_class.sub_classes.build
   end
 
 
   def edit
+  	@item_class.sub_classes.build
   end
 
 
@@ -43,6 +45,8 @@ class ItemClassesController < ApplicationController
     end
 
     def item_class_params
-      params.require(:item_class).permit(:name,:description)
+      params.require(:item_class).permit(:name,:description,
+      																															 sub_classes_attributes: [:id,:name, :description] )
+
     end
 end

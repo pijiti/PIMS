@@ -5,6 +5,10 @@ class PharmItemsController < ApplicationController
   def index
     @pharm_items  = PharmItem.all
     new
+     respond_to do |format|
+     	  format.html
+        format.xlsx
+    end
   end
 
 

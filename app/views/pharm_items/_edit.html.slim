@@ -1,6 +1,6 @@
 
 
-    .pharm-item-edit-form.well   data-id = @pharm_item.id
+    .pharm-item-edit-form.well  data-id = @pharm_item.id
         h5 = "Update #{@pharm_item.name}" + "'s " + "record."       
         = simple_form_for @pharm_item, remote: true  do |f| 
 

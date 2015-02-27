@@ -2,7 +2,11 @@
 
 section#pims-index
 
-        = render 'form'
+        .pharm-items-form
+        
+            = render 'form'
+        .text-right
+            a href = pharm_items_path(:format => 'xlsx') Download Excel
               
         table.table.table-striped.table-condensed
           thead

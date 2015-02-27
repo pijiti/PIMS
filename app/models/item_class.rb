@@ -1,7 +1,7 @@
 class ItemClass < ActiveRecord::Base
 
 
-	has_many :sub_classes #,dependent: :nullify
+	has_many :sub_classes ,dependent: :destroy
 
   accepts_nested_attributes_for :sub_classes, allow_destroy: true,reject_if: :reject_sub_classes
 

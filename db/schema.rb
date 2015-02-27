@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150226010500) do
+ActiveRecord::Schema.define(version: 20150226233406) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -135,6 +135,16 @@ ActiveRecord::Schema.define(version: 20150226010500) do
     t.string   "nok_mobile"
   end
 
+  create_table "pharm_item_sub_classes", force: true do |t|
+    t.integer  "pharm_item_id"
+    t.integer  "sub_class_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "pharm_item_sub_classes", ["pharm_item_id"], name: "index_pharm_item_sub_classes_on_pharm_item_id", using: :btree
+  add_index "pharm_item_sub_classes", ["sub_class_id"], name: "index_pharm_item_sub_classes_on_sub_class_id", using: :btree
+
   create_table "pharm_items", force: true do |t|
     t.string   "name"
     t.integer  "number_of_brands"
@@ -149,11 +159,6 @@ ActiveRecord::Schema.define(version: 20150226010500) do
     t.decimal  "dispensary_critical_level", precision: 8, scale: 2
     t.decimal  "ward_restock_level",        precision: 8, scale: 2
     t.decimal  "ward_critical_level",       precision: 8, scale: 2
-  end
-
-  create_table "pharm_items_sub_classes", force: true do |t|
-    t.integer "pharm_item_id"
-    t.integer "sub_class_id"
   end
 
   create_table "prescriptions", force: true do |t|

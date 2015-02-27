@@ -44,12 +44,10 @@ class PharmItemsController < ApplicationController
 
   def update
      	  @pharm_item.attributes = pharm_item_params
-     	  authorize @pharm_item
+     	  #authorize @pharm_item
       	@pharm_item.critical_levels
-      	if  @pharm_item.has_brand? == true
+      	#if  @pharm_item.has_brand? == true
       		@pharm_item.save!
-      		@error = @pharm_item.errors.full_messages.to_sentence
-      	end
 
   end
 

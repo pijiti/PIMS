@@ -3,10 +3,10 @@
           .nested-fields
                = f.input :name,label:'Brand'     
                = f.association :marketer, label_method: :name, value_method: :id, prompt: "Marketer"      
-               /= f.association :unit_dose, label_method: :unit_type, value_method: :id, prompt: "Dosage Form" ,label:"Dosage Form"   
-               /= f.input :concentration,label:"Strength"
-               /= f.association :item_concentration_unit, value_method: :id, label_method: :name,label:'conc unit', prompt: "Strength Unit",label:"Strength Unit"        
-               /= f.input :pack_size    
+               = f.association :unit_dose, label_method: :unit_type, value_method: :id, prompt: "Dosage Form" ,label:"Dosage Form"   
+               = f.input :concentration,label:"Strength"
+               = f.association :item_concentration_unit, value_method: :id, label_method: :name,label:'conc unit', prompt: "Strength Unit",label:"Strength Unit"        
+               = f.input :pack_size    
    
                /= f.input :pack_bundle            
                = f.input :min_dispensable,label:"Minimum Dispensable"

@@ -13,7 +13,7 @@
               = f.input :main_critical_level,as: :hidden
               = f.input :ward_critical_level,as: :hidden
               hr
-              .col-md-12    
+              .fieldset  
                 = f.simple_fields_for :brands do |brand|
                   = render 'brand_fields', f: brand
                   = link_to_add_association 'Add brand', f, :brands,class: 'btn btn-link btn-xs'

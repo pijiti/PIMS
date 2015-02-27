@@ -1,10 +1,10 @@
-     .item-class-form.well
-        = simple_form_for @item_class, remote:true  do |f| 
+    .item-class-form.well
+       = simple_form_for @item_class, remote:true  do |f| 
            .col-md-6
             = f.input :name,label:"Classification"
            .col-md-6
             = f.input :description 
-            
+           hr
            .col-md-12      
              =f.simple_fields_for :sub_classes do |sub_class|
                   = render 'sub_class_fields', f: sub_class   

@@ -20,19 +20,35 @@ class SurchargesController < ApplicationController
 
   def create
   	@surcharge = Surcharge.new(surcharge_params)
+		begin
   	 #authorize @surcharge
-  	@error = @surcharge.errors.full_messages.to_sentence unless @surcharge.save!
+    @surcharge.save!
+	rescue ActiveRecord::RecordInvalid => invalid
+	@error = invalid.record.errors.full_messages.first
+	rescue StandardError::Pundit::NotAuthorizedError => e
+	@error = e.message
+end
   end
 
   def update
+		begin
   	@surcharge.attributes = surcharge_params
   	 #authorize @surcharge
-  	 @error = @surcharge.errors.full_messages.to_sentence unless @surcharge.save!
+    @surcharge.save!
+	 rescue ActiveRecord::RecordInvalid => invalid
+	@error = invalid.record.errors.full_messages.first
+	rescue StandardError::Pundit::NotAuthorizedError => e
+	@error = e.message
+end
   end
 
   def destroy
+		begin
   	#authorize @surcharge
-  	@error = @surcharge.errors.full_messages.to_sentence unless @surcharge.destroy!
+    @surcharge.destroy!
+	  rescue ActiveRecord::DeleteRestrictionError => e
+   	@error = e.message
+    end
   end
 
 

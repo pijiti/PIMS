@@ -11,7 +11,7 @@ class Surcharge < ActiveRecord::Base
 	validate :charge_type, inclusion: SURCHARGE_TYPES
 
   def active_surcharge
-  		self.update_all(:active => true)
+  		Surcharge.update_all(:active => false) if self.active == true
   end
 
 end

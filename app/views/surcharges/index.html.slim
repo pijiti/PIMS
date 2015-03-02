@@ -1,8 +1,11 @@
 .title Surcharge
 
 section#pims-index
-     = render 'form'
-        
+     .surcharges-form
+       = render 'form'
+     .text-right
+       a href = surcharges_path(:format => 'xlsx')  Download Excel
+
      table.table.table-striped.table-condensed
           thead
              tr
@@ -10,9 +13,8 @@ section#pims-index
              th Type
              th Charge rate
              th Status
-             
+             th
+
           tbody.surcharges
              - @surcharges.each do |surcharge|
                 = render surcharge
-        
-

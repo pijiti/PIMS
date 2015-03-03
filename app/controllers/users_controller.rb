@@ -17,8 +17,8 @@ class UsersController < ApplicationController
 
   def update
     @user.attributes = user_params
-    authorize @user
-    @error = @user.errors.full_messages.to_sentence unless @user.save!
+    #authorize @user
+    @user.save!
     @user.roles.destroy_all
     @user.roles << Role.find(params[:user][:role_ids].select{|i| i.present? })
 

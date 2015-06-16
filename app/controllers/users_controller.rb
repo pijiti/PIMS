@@ -36,6 +36,7 @@ class UsersController < ApplicationController
   	logger.debug"----------------------------------------------------------"
   	#logger.debug"Current User ID:#{current_user.id}"
      @user = current_user
+     render :layout => "layout_without_sidebar"
   end
 
 

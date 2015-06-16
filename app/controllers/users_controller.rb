@@ -34,8 +34,8 @@ class UsersController < ApplicationController
 
   def password_edit
   	logger.debug"----------------------------------------------------------"
-  	logger.debug"Current User ID:#{current_user.id}"
-     @user = User.find(me.id)
+  	#logger.debug"Current User ID:#{current_user.id}"
+     @user = current_user
   end
 
 

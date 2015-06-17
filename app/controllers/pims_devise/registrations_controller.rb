@@ -19,7 +19,7 @@ class PimsDevise::RegistrationsController < Devise::RegistrationsController
 	private
 
   def user_sign_up
-    params.require(:user).permit(:title_id, :first_name, :last_name, :username,{:store_ids=>[]},:staff_category_id, :admin,:active_status, :validity,:password, :password_confirmation)
+    params.require(:user).permit(:title_id, :first_name, :last_name, :username,{:store_ids=>[]},:staff_category_id, :admin,:active_status, :validity,:password, :password_confirmation , {:role_ids => [] })
   end
 
 

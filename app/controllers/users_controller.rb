@@ -53,7 +53,7 @@ class UsersController < ApplicationController
            	 redirect_to store_selections_index_path
           end
       else
-      	 render :password_edit
+      	 render :password_edit  , :layout => "layout_without_sidebar"
    end
   end
 

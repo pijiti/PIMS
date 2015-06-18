@@ -51,6 +51,9 @@ gem 'capistrano-rvm', '~> 0.1.0',group: :development
 gem 'capistrano-passenger', '~> 0.0.1'
 gem 'tzinfo-data', platforms: [:mingw, :mswin]
 gem 'eventmachine', '~> 1.0.6'
+gem 'bootstrap-timepicker-rails'
+gem 'by_star', :git => "git://github.com/radar/by_star"
+gem 'chronic'
 
 
 #Docs gems

@@ -3,14 +3,19 @@
           .col-md-6
             = f.input :name,label:"Store"
             = f.association :parent , collection: @stores,value_method: :id, label_method: :name,label:"Parent Store"
+            = f.label :open_time
+            br
+            = f.time_select :open_time
           .col-md-6
             = f.association :store_type, value_method: :id, label_method: :name, include_blank: "Select Category",label:"Store Category"
             = f.association :store_operation,value_method: :id,label_method: :name, include_blank: "Select Operation",label:"Store Operation"
-            /!= f.input :open_time, as: :time
-            /!= f.input :close_time, as: :time
+            = f.label :close_time
+            br
+            = f.time_select :close_time
+
           .col-md-12
           .roles
-            = f.association :roles, collection: Role::NAMES.map(&:titleize), as: :check_boxes
+            = f.association :roles, collection: Role.store_roles, as: :check_boxes
           .actions
             = f.button :submit,'Save',class:'btn-success btn-sm'
 

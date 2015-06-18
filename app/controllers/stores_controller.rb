@@ -16,6 +16,11 @@ class StoresController < ApplicationController
     #@roles = @store.roles.build
     @store_operations = StoreOperation.all
     @store_types = StoreType.all
+    respond_to do |format|
+      format.html
+      format.csv { send_data @stores.to_csv }
+      format.xls { send_data @stores.to_csv(col_sep: "\t") }
+    end
   end
 
 
@@ -66,6 +71,6 @@ class StoresController < ApplicationController
 
 
     def store_params
-      params.require(:store).permit(:name, :store_type_id,:role_ids,:parent_store,:operation_mode, :open_time, :close_time,:parent_id,:store_operation_id)
+      params.require(:store).permit(:name, :store_type_id,{:role_ids=>[]},:parent_store,:operation_mode, :open_time, :close_time,:parent_id,:store_operation_id)
     end
 end

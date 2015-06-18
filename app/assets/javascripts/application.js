@@ -18,6 +18,7 @@
 //= require jquery-ui/core
 //= require bootstrap-sprockets
 // require turbolinks
+//= require bootstrap-timepicker
 //= require_tree .
 
 

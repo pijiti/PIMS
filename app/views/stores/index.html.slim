@@ -4,7 +4,7 @@
         .stores-form         
            = render 'form'
         .text-right  
-            a href = '#' Download Excel
+            =link_to "Download Excel" , stores_path(format: "xls")
         
         table.table.table-striped.table-condensed 
           thead

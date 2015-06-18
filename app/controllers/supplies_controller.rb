@@ -31,8 +31,13 @@ class SuppliesController < ApplicationController
 
 	def new
 		@supply = Supply.new
-		current_store = Store.find(session[:active_store])
-		@vendors = current_store.vendors.all
+		#current_store = Store.find(session[:active_store])
+
+    #why??
+		@vendors = current_store.vendors.all if current_store
+
+    @vendors ||= Vendor.all
+
 		@users = User.all
 		10.times  do
      	    @supply.batches.build

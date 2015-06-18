@@ -20,7 +20,14 @@ class User < ActiveRecord::Base
 	Validity = %w{Always None 7days 30days 3months 6months 9months 12months}
 
 
-
+  def self.to_csv(options = {})
+    CSV.generate(options) do |csv|
+      csv << column_names
+      all.each do |user|
+        csv << user.attributes.values_at(*column_names)
+      end
+    end
+  end
 
  def email_required?
  	false

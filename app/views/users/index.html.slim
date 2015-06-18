@@ -4,7 +4,7 @@ section#pims-index
             .users-form.well       
                 =render 'pims_devise/registrations/new'
             .text-right
-                a href = '#'  Download Excel
+                =link_to "Download Excel" , users_path(format: "xls")
             table.table.table-striped.table-condensed
              thead
                   tr

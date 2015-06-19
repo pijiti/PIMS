@@ -7,6 +7,7 @@ gem 'devise', '~> 3.3.0'
 gem 'rolify'
 gem 'pundit', '~> 0.3.0'
 gem 'pg', '~> 0.17.1'
+gem 'mysql2'
 
 
 

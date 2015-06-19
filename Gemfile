@@ -6,7 +6,7 @@ gem 'rails', '4.1.8'
 gem 'devise', '~> 3.3.0'
 gem 'rolify'
 gem 'pundit', '~> 0.3.0'
-gem 'pg', '~> 0.17.1'
+gem 'pg', '~> 0.17.1' , group: :development
 gem 'mysql2'
 gem 'unicorn'
 
@@ -46,11 +46,10 @@ gem 'jquery-turbolinks', '~> 2.1.0'
 gem 'execjs', '~> 2.2.1'
 gem 'jbuilder', '~> 2.0'
 gem 'quiet_assets', '~> 1.1.0', group: :development
-gem 'capistrano', '~> 3.3.5', group: :development
-gem 'capistrano-rails', '~> 1.1.2', group: :development
-gem 'capistrano-bundler',group: :development
-gem 'capistrano-rvm', '~> 0.1.0',group: :development
-gem 'capistrano-passenger', '~> 0.0.1'
+
+# Use Capistrano for deployment
+gem 'capistrano'
+
 gem 'tzinfo-data', platforms: [:mingw, :mswin]
 gem 'eventmachine', '~> 1.0.6'
 gem 'bootstrap-timepicker-rails'

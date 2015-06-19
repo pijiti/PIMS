@@ -30,7 +30,7 @@ production:
   reconnect: true
   timeout: 5000
   pool: 5
-  username: ondopimsadmin
-  password: pims2015
+  username: root
+  password: kothanur54
   host: localhost
 

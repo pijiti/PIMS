@@ -30,7 +30,7 @@ production:
   reconnect: true
   timeout: 5000
   pool: 5
-  username: root
-  password: kothanur54
+  username: postgres
+  password: postgres
   host: localhost
 

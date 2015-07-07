@@ -11,7 +11,10 @@ class PimsDevise::SessionsController < Devise::SessionsController
 	end
 
 	def destroy
-		super
+		#super
+    sign_out(User)
+    @user = User.new
+    redirect_to new_user_session_path
 	end
 
 
@@ -29,6 +32,7 @@ class PimsDevise::SessionsController < Devise::SessionsController
 
 
  def after_sign_in_path_for(user)
+   logger.debug "========after signin==========="
  	if me.valid_duration >= Time.now && me.valid_password?(params[:user][:password]) == me.valid_password?('password')
 
            #store current user in session
@@ -45,13 +49,6 @@ class PimsDevise::SessionsController < Devise::SessionsController
 		     end
 		end
 	end
-
-
-
-  def after_sign_out_path_for(user)
-    new_user_session_path
-  end
-
 
 
 

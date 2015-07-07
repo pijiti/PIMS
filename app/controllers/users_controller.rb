@@ -46,6 +46,7 @@ class UsersController < ApplicationController
 
 
   def password_change
+    logger.debug "=======PASSWD CHANGE========"
   	me = params[:id].to_i
   	@user = User.find(me)
   	logger.debug{"User ID: #{@user.id }"}

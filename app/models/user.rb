@@ -8,9 +8,7 @@ class User < ActiveRecord::Base
 	has_many :hospital_units
 
 
-
-
-	before_save :default_password,:user_active_status,:capitalize_attr
+  before_create :default_password ,:user_active_status,:capitalize_attr
 	before_update :user_active_status
 	devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable,:validatable
 

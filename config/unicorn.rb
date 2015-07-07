@@ -1,6 +1,6 @@
 root = '/apps/PIMS/current'
 working_directory root
-pid "#{root}/tmp/pids/unicorn.pid"
+pid "/apps/PIMS/shared/pids/unicorn.pid"
 stderr_path "#{root}/log/unicorn.log"
 stdout_path "#{root}/log/unicorn.log"
 

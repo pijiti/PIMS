@@ -32,8 +32,8 @@ class StoreSelectionsController < ApplicationController
   def select_store
     #authorize current_store
 		logger.debug{"Epitome #{ current_store.id}" }
-		c_time =  @current_store.close_time
-		o_time = @current_store.open_time
+		c_time =  current_store.close_time
+		o_time =  current_store.open_time
 		d_time = o_time - c_time
 
 		logger.debug{"#{ o_time}"}

@@ -78,7 +78,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-  	authorize @user
+  	#authorize @user
   	@error = @user.errors.full_messages.to_sentence unless @user.destroy!
   end
 

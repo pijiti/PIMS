@@ -11,10 +11,7 @@ class Role < ActiveRecord::Base
   NAMES = ["Pharmacist" , "Pharmacy Technician"  , "Store Keeper" , "Store Manager" , "Auditor" ]
 
   def self.store_roles
-    res = {}
-    NAMES.each do |r|
-       res[r] = Role.find_by_name(r).id
-    end
-    res
+    NAMES
   end
+
 end

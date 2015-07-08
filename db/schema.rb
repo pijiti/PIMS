@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150226233406) do
+ActiveRecord::Schema.define(version: 20150708164439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -244,6 +244,7 @@ ActiveRecord::Schema.define(version: 20150226233406) do
     t.integer  "parent_id"
     t.integer  "store_type_id"
     t.integer  "store_operation_id"
+    t.text     "store_roles"
   end
 
   create_table "sub_classes", force: true do |t|

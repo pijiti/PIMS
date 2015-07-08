@@ -33,9 +33,10 @@ class StoresController < ApplicationController
   @store = Store.new(store_params)
     begin
    #authorize @store
-    params[:store][:role_ids].each do |role|
-    @store.roles.build(:name => role)if role.present?
-   end
+   # params[:store][:role_ids].each do |role|
+   # @store.roles.build(:name => role)if role.present?
+   #end
+
    @store.save!
   rescue
   	   rescue ActiveRecord::RecordInvalid => invalid
@@ -71,6 +72,6 @@ class StoresController < ApplicationController
 
 
     def store_params
-      params.require(:store).permit(:name, :store_type_id,{:role_ids=>[]},:parent_store,:operation_mode, :open_time, :close_time,:parent_id,:store_operation_id)
+      params.require(:store).permit(:name, {:store_roles => []}, :store_type_id,{:role_ids=>[]},:parent_store,:operation_mode, :open_time, :close_time,:parent_id,:store_operation_id )
     end
 end

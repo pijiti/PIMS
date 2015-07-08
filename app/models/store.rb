@@ -21,6 +21,9 @@ class Store < ActiveRecord::Base
 	before_save :modify_attr
 	before_validation :name_unique
 
+  #permissible roles within this array
+  serialize :store_roles
+
 	def modify_attr
 		self.name = name.titleize.strip
 	end

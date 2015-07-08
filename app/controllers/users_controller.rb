@@ -25,7 +25,21 @@ class UsersController < ApplicationController
     #authorize @user
     @user.save!
     @user.roles.destroy_all
+
+    #for admin role
     @user.roles << Role.find(params[:user][:role_ids].select{|i| i.present? })
+
+    #for store roles
+    @user.roles.destroy_all
+    params[:user][:stores].each do |store_id , store|
+      store.each do |k,roles|
+        #add role specific to a store
+        roles.each do |role|
+          logger.debug "=======store id =#{store_id}+++++++"
+          @user.add_role role, Store.find_by_id(store_id)
+        end
+      end
+    end
 
   end
 

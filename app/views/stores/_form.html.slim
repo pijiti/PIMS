@@ -14,8 +14,13 @@
             = f.time_select :close_time
 
           .col-md-12
+            br
           .roles
-            = f.association :roles, collection: Role.store_roles, as: :check_boxes
+            -  Role.store_roles.each do |r|
+              /=# f.select :store_roles, :collection =>  Role.store_roles
+              =  check_box_tag "store[store_roles][]", r
+              =  r
+              br
           .actions
             = f.button :submit,'Save',class:'btn-success btn-sm'
 

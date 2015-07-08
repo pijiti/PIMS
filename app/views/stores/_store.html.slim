@@ -4,13 +4,13 @@
         td = store.parent.try(:name) 
         td = store.store_operation.try(:name)
         td 
-            a.link-roles href ='#' = "#{store.roles.count}"
+            a.link-roles href ='#' = "#{store.store_roles.try(:count)}"
             table.table.table-striped.table-condensed.roles.hide
              thead
                 tr
                     th Name
              tbody
-               -store.roles.each do |role|
+               -store.store_roles.try(:each) do |role|
                 tr
                     td = role.try(:name)
                 

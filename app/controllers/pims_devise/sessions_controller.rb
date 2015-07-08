@@ -1,6 +1,7 @@
 class PimsDevise::SessionsController < Devise::SessionsController
-  layout "login"
 
+
+  layout "login"
 
   def new
     @user = User.new

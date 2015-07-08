@@ -53,9 +53,9 @@ namespace :assets do
   task :deploy do
     on roles(:web) do
       execute 'cd /apps/PIMS/current; RAILS_ENV=production bundle exec rake db:migrate'
-      execute '/etc/init.d/unicorn_attendant stop'
+      execute '/etc/init.d/unicorn_pims stop'
       execute 'sleep 5'
-      execute '/etc/init.d/unicorn_attendant start'
+      execute '/etc/init.d/unicorn_pims start'
     end
   end
 end

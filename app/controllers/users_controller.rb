@@ -67,7 +67,7 @@ class UsersController < ApplicationController
     password_status = @user.password_change_check?(params[:user][:current_password], params[:user][:password])
     if @user.update_with_password(user_password)&& (password_status == false)
       sign_in @user, :bypass => true
-      if @user.has_role? :admin
+      if @user.has_role? "Admin"
         redirect_to dashboard_path
       else
         redirect_to store_selections_index_path

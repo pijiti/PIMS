@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
 	before_update :user_active_status
 	devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable,:validatable
 
-
+  validates_presence_of :first_name , :last_name, :username
 	validates_uniqueness_of  :username
 
 	Validity = %w{Always None 7days 30days 3months 6months 9months 12months}

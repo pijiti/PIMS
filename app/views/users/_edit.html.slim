@@ -16,7 +16,7 @@
 
 
     .tab-content
-      .tab-pane id="tab-pane-update-system" = f.association :roles, collection: Role.where(name: 'admin'), as: :check_boxes
+      .tab-pane id="tab-pane-update-system" = f.association :roles, collection: Role.where(name: 'Admin'), as: :check_boxes
       - @stores.each do |store|
         .tab-pane id="tab-pane-update-#{store.id}"
              - store.store_roles.each do |r|

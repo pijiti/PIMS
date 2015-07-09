@@ -15,17 +15,20 @@ class PimsDevise::RegistrationsController < Devise::RegistrationsController
     logger.debug "#{@user.encrypted_password}"
     #admin role gets added here
     @user.roles << Role.find(params[:user][:role_ids].select { |i| i.present? })
-    @user.save!
 
-    #for store roles
-    params[:user][:stores].each do |store_id , store|
-      store.each do |k,roles|
-        #add role specific to a store
-        roles.each do |role|
-          logger.debug "=======store id =#{store_id}+++++++"
-          @user.add_role role, Store.find_by_id(store_id)
+    if @user.save
+      #for store roles
+      params[:user][:stores].try(:each) do |store_id, store|
+        store.each do |k, roles|
+          #add role specific to a store
+          roles.each do |role|
+            logger.debug "=======store id =#{store_id}+++++++"
+            @user.add_role role, Store.find_by_id(store_id)
+          end
         end
       end
+    else
+      flash[:error] = "Mandatory fields missing"
     end
 
 

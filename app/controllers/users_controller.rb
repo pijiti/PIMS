@@ -26,12 +26,13 @@ class UsersController < ApplicationController
     @user.save!
     @user.roles.destroy_all
 
+    #for store roles
+    @user.roles.destroy_all
+
     #for admin role
     @user.roles << Role.find(params[:user][:role_ids].select { |i| i.present? })
 
-    #for store roles
-    @user.roles.destroy_all
-    params[:user][:stores].each do |store_id, store|
+    params[:user][:stores].try(:each) do |store_id, store|
       store.each do |k, roles|
         #add role specific to a store
         roles.each do |role|
@@ -91,7 +92,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.required(:user).permit(:title_id, :first_name, :last_name, :username, {:store_ids => []}, :staff_category_id, :role_ids, :active_status, :validity)
+    params.required(:user).permit(:title_id, :first_name, :last_name, :username, {:store_ids => []}, :staff_category_id, {:role_ids => []}, :active_status, :validity)
   end
 
   def user_password

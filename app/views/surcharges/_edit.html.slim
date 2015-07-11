@@ -9,7 +9,7 @@
            #surcharge-items
                 =f.simple_fields_for :surcharge_items do |surcharge_item|
                   = render 'surcharge_item_fields', f: surcharge_item
-
+                .links
                   = link_to_add_association 'Add Item', f, :surcharge_items, class: 'btn btn-link btn-sm'
            .actions
              =f.button :submit,'Save',class: 'btn btn-success btn-sm',data:{disable_with: 'Updating record ....'}

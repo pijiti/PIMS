@@ -2,7 +2,7 @@ class Surcharge < ActiveRecord::Base
 
 	has_many :surcharge_items
 
-	accepts_nested_attributes_for :surcharge_items
+	accepts_nested_attributes_for :surcharge_items , reject_if: proc { |attributes| attributes['name'].blank? or attributes['value'].blank?}, :allow_destroy => true
 
 	SURCHARGE_TYPES = %w(Fixed Percentage)
 

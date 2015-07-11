@@ -3,7 +3,7 @@
        td.type = surcharge.try(:charge_type)
        td
           -if surcharge.charge_type == 'Fixed'
-            a href ='#' = surcharge.surcharge_items.try(:map){|v| v.value}.sum.to_s(:currency,unit: 'N')
+            a href ='#' = surcharge.surcharge_items.try(:map){|v| v.value}.try(:sum).try(:to_s, :currency,unit: 'N')
           -if surcharge.charge_type == 'Percentage'
             a href ='#' = surcharge.surcharge_items.try(:map){|v| v.value}.sum.to_s(:percentage,precision: 0)
 

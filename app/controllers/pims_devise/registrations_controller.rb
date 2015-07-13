@@ -13,8 +13,9 @@ class PimsDevise::RegistrationsController < Devise::RegistrationsController
   def create
     @user = User.new(user_sign_up)
     logger.debug "#{@user.encrypted_password}"
-    #admin role gets added here
-    @user.roles << Role.find(params[:user][:role_ids].select { |i| i.present? })
+    #admin role gets added here --- how is it working after commenting?
+    #logger.debug "Role ids-------> #{params[:user][:role_ids].select { |i| i.present? }}"
+    #@user.roles << Role.find(18)
 
     if @user.save
       #for store roles

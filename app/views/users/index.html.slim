@@ -1,23 +1,34 @@
-.title User
+/! Content Header (Page header)
+section.content-header
+/ h1.text-center
+/   | Users
+//! Main content
+section.content
+    .box
+      .box-header.with-border.text-center
+        .box-title User
+      section#pims-index
+        .users-form.well
+            =render 'pims_devise/registrations/new'
 
-section#pims-index
-            .users-form.well       
-                =render 'pims_devise/registrations/new'
-            .text-right
-                =link_to "Download Excel" , users_path(format: "xls")
-            table.table.table-striped.table-condensed
-             thead
-                  tr
-                  th Name
-                  th Tel No
-                  th Staff Category
-                  /th Validity
-                  th Status
-                  th Valid Till
-                  th Role
+    .box
+      .box-header.with-border.text-center
+        .box-title Users
+      .box-body.table-responsive.no-padding
+        table.table.table-striped.table-condensed
+           thead
+                tr
+                th Name
+                th Tel No
+                th Staff Category
+                /th Validity
+                th Status
+                th Valid Till
+                th Role
+                th
 
-
-
-             tbody.users
-                  - @users.each do |user|
-                      = render user
+           tbody.users
+                - @users.each do |user|
+                    = render user
+        .text-right.box-footer
+            =link_to "Download Excel" , users_path(format: "xls") , class:"small"

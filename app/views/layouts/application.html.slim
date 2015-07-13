@@ -181,7 +181,9 @@ html
                   /! The user image in the navbar
                   /img.user-image alt=("User Image") src="#{image_path('user2-160x160.jpg')}" /
                   /! hidden-xs hides the username on small devices so only the image appears.
-                  span.hidden-xs = me.try(:full_name)
+                  div
+                    span.hidden-xs = me.try(:full_name)
+                    i.fa.fa-angle-down.pull-right.center style="vertical-align: middle; line-height: inherit;"
                 ul.dropdown-menu
                   li.user-body
                     .col-xs-4.text-center
@@ -193,19 +195,8 @@ html
         section.sidebar
           /! Sidebar Menu
           = render 'shared/new_sidebar'
-      .content-wrapper
-         /! Content Header (Page header)
-         section.content-header
-           h1
-             | Page Header
-             small Optional description
-           ol.breadcrumb
-             li
-               a href="#"
-                 i.fa.fa-dashboard
-                 | Level
-             li.active Here
-         /! Main content
-         section.content
-         /! Your Page Content Here
+      .content-wrapper#pims-index
+          .row.row-centered
+            .col-md-12.col-centered
+                = yield
 

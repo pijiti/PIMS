@@ -22,15 +22,18 @@ section#devise-registration-new
                .tab-content
                   .tab-pane id="tab-pane-create-system" = f.association :roles, collection: Role.where(name: 'Admin'), as: :check_boxes
                   - @stores.each do |store|
-                      /.tab-pane id="tab-pane-create-#{store.id}" = f.association :roles, collection: store.store_roles, as: :check_boxes
                       .tab-pane id="tab-pane-create-#{store.id}"
+                        label Roles
+                        br
                         - store.store_roles.each do |r|
-                          =  check_box_tag "user[stores][#{store.id}][store_roles][]", r
-                          = r
-                          br
+                          span.checkbox
+                            label
+                              =  check_box_tag "user[stores][#{store.id}][store_roles][]", r
+                              = r
+                              br
 
-             .actions
-                 = f.button :submit, 'Save',class: 'btn btn-success btn-sm'
+             .actions.text-center
+                 = f.button :submit, 'Save',class: 'btn btn-primary'
             
         #devise-registration-new-footer
           #devise-registration-new-footer-inner

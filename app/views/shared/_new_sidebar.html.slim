@@ -1,0 +1,139 @@
+/! Sidebar Menu
+ul.sidebar-menu
+  /li.header HEADER
+  /! Optionally, you can add icons to the links
+  li.active
+    a href="#"
+      i.fa.fa-table.fa-fw
+      span Dashboard
+  li.treeview
+    a href="#"
+      i.fa.fa-pie-chart.fa-fw
+      span Reports
+      i.fa.fa-angle-left.pull-right
+    ul.treeview-menu
+      li
+        a href="#" Medical
+      li
+        a href="#" Commercial
+      li
+        a href="#" Demographics
+  li.treeview
+    a href="#"
+      i.fa.fa-plus-square.fa-fw
+      span PIMS Management
+      i.fa.fa-angle-left.pull-right
+    ul.treeview-menu
+      li.treeview
+          a href="#"
+            i.fa.fa-bank.fa-fw
+            span Store Setup
+            i.fa.fa-angle-left.pull-right
+
+          ul.treeview-menu
+            li
+              = link_to "Store Category", store_types_path
+            li
+              = link_to "Store Operation", store_operations_path
+            li
+              = link_to "Store", stores_path
+      li.treeview
+          a href="#"
+            i.fa.fa-user.fa-fw
+            span User Setup
+            i.fa.fa-angle-left.pull-right
+
+          ul.treeview-menu
+            li
+              = link_to "Staff Category", staff_categories_path
+            li
+              = link_to "User", users_path
+      li.treeview
+          a href="#"
+            i.fa.fa-cube.fa-fw
+            span General Setup
+            i.fa.fa-angle-left.pull-right
+
+          ul.treeview-menu
+            li
+              = link_to "Vendor", vendors_path
+            li
+              = link_to "Marketer", marketers_path
+            li
+              = link_to "Hospital Unit", hospital_units_path
+      li.treeview
+          a href="#"
+            i.fa.fa-cube.fa-fw
+            span Drug Item Setup
+            i.fa.fa-angle-left.pull-right
+
+          ul.treeview-menu
+            li
+              = link_to "Drug Classification", item_classes_path
+            li
+              = link_to "Dosage Form", unit_doses_path
+            li
+              = link_to "Strength Unit", item_concentration_units_path
+            li
+              = link_to "Generic", pharm_items_path
+      li.treeview
+          a href="#"
+            i.fa.fa-dollar.fa-fw
+            span Commercial
+            i.fa.fa-angle-left.pull-right
+
+          ul.treeview-menu
+            li
+              = link_to "Surcharge", surcharges_path
+
+  li.treeview
+      a href="#"
+        i.fa.fa-exchange.fa-fw
+        span Items Management
+        i.fa.fa-angle-left.pull-right
+
+      ul.treeview-menu
+          li
+            = link_to "Supply", supplies_path
+          li
+            = link_to "Approval", approval_index_approvals_path
+          li
+            = link_to "Request Service", new_user_profile_path
+
+  li.treeview
+      a href="#"
+        i.fa.fa-stethoscope.fa-fw
+        span Patient Management
+        i.fa.fa-angle-left.pull-right
+
+      ul.treeview-menu
+          li
+            = link_to "Billing", patients_path
+          li
+            = link_to "Collate", patients_path
+          li
+            = link_to "Dispense", new_user_profile_path
+          li
+            = link_to "Request Items", requests_path
+          li
+            = link_to "Return", new_user_profile_path
+
+  li
+    a href="#"
+      i.fa.fa-history.fa-fw
+      span Audit
+
+
+  li.treeview
+    a href="#"
+      i.fa.fa-suitcase.fa-fw
+      span Account
+      i.fa.fa-angle-left.pull-right
+    ul.treeview-menu
+      li
+        = link_to "User Information" , user_profiles_path
+      li
+        = link_to "Password" , user_profiles_path
+
+
+

@@ -154,13 +154,14 @@ html
     .wrapper
       /! Main Header
       header.main-header
-        a.logo href="index2.html"
+        a.logo href="#"
           /! mini logo for sidebar mini 50x50 pixels
           span.logo-mini
             b> PIMS
           /! logo for regular state and mobile devices
           span.logo-lg
             b> PIMS
+            | Management
         /! Header Navbar
         nav.navbar.navbar-static-top role="navigation"
           /! Sidebar toggle button
@@ -180,7 +181,7 @@ html
                   /! The user image in the navbar
                   /img.user-image alt=("User Image") src="#{image_path('user2-160x160.jpg')}" /
                   /! hidden-xs hides the username on small devices so only the image appears.
-                  span.hidden-xs Alexander Pierce
+                  span.hidden-xs = me.try(:full_name)
                 ul.dropdown-menu
                   li.user-body
                     .col-xs-4.text-center
@@ -191,29 +192,7 @@ html
         /! sidebar: style can be found in sidebar.less
         section.sidebar
           /! Sidebar Menu
-          ul.sidebar-menu
-            li.header HEADER
-            /! Optionally, you can add icons to the links
-            li.active
-              a href="#"
-                i.fa.fa-link
-                span Link
-            li
-              a href="#"
-                i.fa.fa-link
-                span Another Link
-            li.treeview
-              a href="#"
-                i.fa.fa-link
-                span Multilevel
-                i.fa.fa-angle-left.pull-right
-              ul.treeview-menu
-                li
-                  a href="#"  Link in level 2
-                li
-                  a href="#"  Link in level 2
-          /! /.sidebar-menu
-        /! /.sidebar
+          = render 'shared/new_sidebar'
       .content-wrapper
          /! Content Header (Page header)
          section.content-header

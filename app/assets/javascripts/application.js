@@ -17,8 +17,8 @@
 //= require jquery-ui
 //= require jquery-ui/core
 //= require bootstrap-sprockets
-// require turbolinks
-//= require bootstrap-timepicker
+//= require turbolinks
+//= require app.min
 //= require_tree .
 
 

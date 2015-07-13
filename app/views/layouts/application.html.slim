@@ -1,25 +1,232 @@
+/doctype html
+/html
+/
+/	body.skin-blue.sidebar-mini
+/	  .container.wrapper
+/        header.main-header
+/          nav.navbar.navbar-static-top role="navigation"
+/            /! Sidebar toggle button
+/            a.sidebar-toggle data-toggle="offcanvas" href="#" role="button"
+/              span.sr-only Toggle navigation
+/            /! Navbar Right Menu
+/            .navbar-custom-menu
+/              ul.nav.navbar-nav
+/                /! Messages: style can be found in dropdown.less
+/                li.dropdown.messages-menu
+/                  /! Menu toggle button
+/                  a.dropdown-toggle data-toggle="dropdown" href="#"
+/                    i.fa.fa-envelope-o
+/                    span.label.label-success 4
+/                  ul.dropdown-menu
+/                    li.header You have 4 messages
+/                    li
+/                      /! inner menu: contains the messages
+/                      ul.menu
+/                        li
+/                          /! start message
+/                          a href="#"
+/                          .pull-left
+/                            /! User Image
+/                            img.img-circle alt=("User Image") src="dist/img/user2-160x160.jpg" /
+/                          /! Message title and timestamp
+/                          h4
+/                            | Support Team
+/                            small
+/                              i.fa.fa-clock-o
+/                              | 5 mins
+/                          /! The message
+/                          p Why not buy a new awesome theme?
+/                        /! end message
+/                      /! /.menu
+/                    li.footer
+/                      a href="#"  See All Messages
+/                /! /.messages-menu
+/                /! Notifications Menu
+/                li.dropdown.notifications-menu
+/                  /! Menu toggle button
+/                  a.dropdown-toggle data-toggle="dropdown" href="#"
+/                    i.fa.fa-bell-o
+/                    span.label.label-warning 10
+/                  ul.dropdown-menu
+/                    li.header You have 10 notifications
+/                    li
+/                      /! Inner Menu: contains the notifications
+/                      ul.menu
+/                        li
+/                          /! start notification
+/                          a href="#"
+/                            i.fa.fa-users.text-aqua
+/                            | 5 new members joined today
+/                        /! end notification
+/                    li.footer
+/                      a href="#"  View all
+/                /! Tasks Menu
+/                li.dropdown.tasks-menu
+/                  /! Menu Toggle Button
+/                  a.dropdown-toggle data-toggle="dropdown" href="#"
+/                    i.fa.fa-flag-o
+/                    span.label.label-danger 9
+/                  ul.dropdown-menu
+/                    li.header You have 9 tasks
+/                    li
+/                      /! Inner menu: contains the tasks
+/                      ul.menu
+/                        li
+/                          /! Task item
+/                          a href="#"
+/                            /! Task title and progress text
+/                          h3
+/                            | Design some buttons
+/                            small.pull-right 20%
+/                          /! The progress bar
+/                          .progress.xs
+/                            /! Change the css width attribute to simulate progress
+/                            .progress-bar.progress-bar-aqua aria-valuemax="100" aria-valuemin="0" aria-valuenow="20" role="progressbar" style=("width: 20%")
+/                              span.sr-only 20% Complete
+/                        /! end task item
+/                    li.footer
+/                      a href="#"  View all tasks
+/                /! User Account Menu
+/                li.dropdown.user.user-menu
+/                  /! Menu Toggle Button
+/                  a.dropdown-toggle aria-expanded="false" data-toggle="dropdown" href="#"
+/                    /! The user image in the navbar
+/                    img.user-image alt=("User Image") src="dist/img/user2-160x160.jpg" /
+/                    /! hidden-xs hides the username on small devices so only the image appears.
+/                    span.hidden-xs Alexander Pierce
+/                  ul.dropdown-menu
+/                    /! The user image in the menu
+/                    li.user-header
+/                      img.img-circle alt=("User Image") src="dist/img/user2-160x160.jpg" /
+/                      p
+/                        | Alexander Pierce - Web Developer
+/                        small Member since Nov. 2012
+/                    /! Menu Body
+/                    li.user-body
+/                      .col-xs-4.text-center
+/                        a href="#"  Followers
+/                      .col-xs-4.text-center
+/                        a href="#"  Sales
+/                      .col-xs-4.text-center
+/                        a href="#"  Friends
+/                    /! Menu Footer
+/                    li.user-footer
+/                      .pull-left
+/                        a.btn.btn-default.btn-flat href="#"  Profile
+/                      .pull-right
+/                        a.btn.btn-default.btn-flat href="#"  Sign out
+/                /! Control Sidebar Toggle Button
+/                li
+/                  a data-toggle="control-sidebar" href="#"
+/                    i.fa.fa-gears
+/
+/            #application-main
+/
+/              #application-main-header
+/
+/              #application-main-body
+/                  .col-md-12
+/                      = render 'shared/navbar'
+/                  #application-main-body-sidebar
+/                  .col-md-2
+/                      = render 'shared/sidebar'
+/                  #application-main-body-yield
+/                  .col-md-10
+/                      /-unless !current_store.try(:name).present?    or current_user.has_role? :admin
+/                          h5 ="Your active store is: #{current_store.try(:name)}"
+/                      /-unless !current_store.try(:name).present?
+/                          a.link-store-change href=store_selections_index_path Change Active Store
+/                      - flash.each do |_, msg|
+/                          = render 'notifies/notify', msg: msg
+/                      = yield
+
+
+
+
+
 doctype html
+/!
+  | This is a starter template page. Use this page to start your new project from
+  | scratch. This page gets rid of all links and provides the needed markup only.
 html
-	=render 'layouts/head'
-	body
-	  .container
-	  	 #application-main
-	  	 
-	  	    #application-main-header
-                
-	  	    #application-main-body
-				.col-md-12
-					= render 'shared/navbar'
-				#application-main-body-sidebar
-				.col-md-2
-					= render 'shared/sidebar'
-				#application-main-body-yield 
-				.col-md-10	
-				    /-unless !current_store.try(:name).present?    or current_user.has_role? :admin
-				        h5 ="Your active store is: #{current_store.try(:name)}" 
-				    /-unless !current_store.try(:name).present? 
-				        a.link-store-change href=store_selections_index_path Change Active Store 
-					- flash.each do |_, msg|
-	          			= render 'notifies/notify', msg: msg
-					= yield
+  =render 'layouts/head'
+  body.skin-blue.sidebar-mini
+    .wrapper
+      /! Main Header
+      header.main-header
+        a.logo href="index2.html"
+          /! mini logo for sidebar mini 50x50 pixels
+          span.logo-mini
+            b> PIMS
+          /! logo for regular state and mobile devices
+          span.logo-lg
+            b> PIMS
+        /! Header Navbar
+        nav.navbar.navbar-static-top role="navigation"
+          /! Sidebar toggle button
+          a.sidebar-toggle data-toggle="offcanvas" href="#" role="button"
+            span.sr-only Toggle navigation
+          /! Navbar Right Menu
+          .navbar-custom-menu
+            ul.nav.navbar-nav.navbar-right
+              /! Messages: style can be found in dropdown.less
+              /! /.messages-menu
+              /! Notifications Menu
+              /! Tasks Menu
+              /! User Account Menu
+              li.dropdown.user.user-menu
+                /! Menu Toggle Button
+                a.dropdown-toggle data-toggle="dropdown" href="#"
+                  /! The user image in the navbar
+                  /img.user-image alt=("User Image") src="#{image_path('user2-160x160.jpg')}" /
+                  /! hidden-xs hides the username on small devices so only the image appears.
+                  span.hidden-xs Alexander Pierce
+                ul.dropdown-menu
+                  li.user-body
+                    .col-xs-4.text-center
+                      a href="#"  Sign out
+
+      /! Left side column. contains the logo and sidebar
+      aside.main-sidebar
+        /! sidebar: style can be found in sidebar.less
+        section.sidebar
+          /! Sidebar Menu
+          ul.sidebar-menu
+            li.header HEADER
+            /! Optionally, you can add icons to the links
+            li.active
+              a href="#"
+                i.fa.fa-link
+                span Link
+            li
+              a href="#"
+                i.fa.fa-link
+                span Another Link
+            li.treeview
+              a href="#"
+                i.fa.fa-link
+                span Multilevel
+                i.fa.fa-angle-left.pull-right
+              ul.treeview-menu
+                li
+                  a href="#"  Link in level 2
+                li
+                  a href="#"  Link in level 2
+          /! /.sidebar-menu
+        /! /.sidebar
+      .content-wrapper
+         /! Content Header (Page header)
+         section.content-header
+           h1
+             | Page Header
+             small Optional description
+           ol.breadcrumb
+             li
+               a href="#"
+                 i.fa.fa-dashboard
+                 | Level
+             li.active Here
+         /! Main content
+         section.content
+         /! Your Page Content Here
 

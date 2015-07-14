@@ -3,6 +3,8 @@
         td = store.store_type.try(:name) 
         td = store.parent.try(:name) 
         td = store.store_operation.try(:name)
+        td = store.try(:open_time).try(:strftime , "%I:%M%p" )
+        td = store.try(:close_time).try(:strftime , "%I:%M%p" )
         td 
             a.link-roles href ='#' = "#{store.store_roles.try(:count)}"
             table.table.table-striped.table-condensed.roles.hide

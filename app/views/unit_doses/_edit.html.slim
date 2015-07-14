@@ -2,7 +2,7 @@
         h5 Update #{@unit_dose.name} 
         = simple_form_for @unit_dose,remote:true  do |f| 
           .col-md-6
-            = f.input :name,lable:Dosage Form"
+            = f.input :name,label: "Dosage Form"
           .col-md-6
             = f.input :form_type,as: :select,collection: UnitDose::Unit_Types,label:"Route of Administration"
           .actions

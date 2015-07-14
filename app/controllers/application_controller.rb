@@ -7,6 +7,10 @@ class ApplicationController < ActionController::Base
 
   #before_action :authenticate_user!
 
+  def current_ability
+    @current_ability ||= Ability.new(current_user, current_store)
+  end
+
   def set_store
     session[:active_store] = params[:store_id].to_i
   end
@@ -22,7 +26,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-     @current_user ||= User.find(session[:user]) if session[:user]
+    @current_user ||= User.find(session[:user]) if session[:user]
   end
 
 

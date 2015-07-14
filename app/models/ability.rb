@@ -1,21 +1,22 @@
 class Ability
   include CanCan::Ability
 
-  def initialize(user)
+  def initialize(user,current_store)
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)
+    #   current_store ||= Store.find(session[:active_store]) if session[:active_store]
        if user.has_role? "Admin"
          can :manage, :all
-       elsif user.has_role? "Pharmacist"
+       elsif user.has_role? "Pharmacist" , current_store
          can :manage , Patient
-       elsif user.has_role? "Pharmacist Technician"
+       elsif user.has_role? "Pharmacy Technician" , current_store
          can :manage , Patient
-       elsif user.has_role? "Store Keeper"
+       elsif user.has_role? "Store Keeper" , current_store
          can :manage , Supply
-       elsif user.has_role? "Store Manager"
+       elsif user.has_role? "Store Manager" , current_store
          can :manage , Supply
-       elsif user.has_role? "Auditor"
+       elsif user.has_role? "Auditor" , current_store
          #temporary
          can :manage , Surcharge
        end

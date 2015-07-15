@@ -8,6 +8,7 @@ section#devise-registration-new
                = f.input :last_name
              .col-sm-6
                = f.input :username,label: "Mobile/Username"
+               = f.input :email
                = f.association :staff_category, value_method: :id, label_method: :name, prompt: 'Category'
                = f.input :validity, as: :select, collection: User::Validity, prompt: 'Validity Period'
                = f.input :password, as: :hidden,input_html: {value: 'password'}

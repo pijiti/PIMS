@@ -34,6 +34,17 @@ Rails.application.configure do
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
 
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+      address:              'smtp.sendgrid.net',
+      port:                  25,
+      domain:               'ndfw.net',
+      :user_name            => 'ricardoleon',
+      :password             => 'Twiliodev2',
+      :authentication       => :login,
+  }
+
+
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 end

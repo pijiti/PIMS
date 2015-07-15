@@ -8,15 +8,28 @@ class Ability
     #   current_store ||= Store.find(session[:active_store]) if session[:active_store]
        if user.has_role? "Admin"
          can :manage, :all
-       elsif user.has_role? "Pharmacist" , current_store
+       end
+
+       if user.has_role? "Pharmacist" , current_store
          can :manage , Patient
-       elsif user.has_role? "Pharmacy Technician" , current_store
+         # Dummy condition for dispens
+         can :manage , RequestItem
+       end
+
+       if user.has_role? "Pharmacy Technician" , current_store
          can :manage , Patient
-       elsif user.has_role? "Store Keeper" , current_store
+       end
+
+       if user.has_role? "Store Keeper" , current_store
          can :manage , Supply
-       elsif user.has_role? "Store Manager" , current_store
+       end
+
+       if user.has_role? "Store Manager" , current_store
          can :manage , Supply
-       elsif user.has_role? "Auditor" , current_store
+         #dummy condition for approval
+         can :manage , Store
+       end
+       if user.has_role? "Auditor" , current_store
          #temporary
          can :manage , Surcharge
        end

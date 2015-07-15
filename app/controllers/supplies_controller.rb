@@ -31,12 +31,11 @@ class SuppliesController < ApplicationController
 
 	def new
 		@supply = Supply.new
-		#current_store = Store.find(session[:active_store])
 
-    #why??
-		@vendors = current_store.vendors.all if current_store
+    #check....
+		#@vendors = current_store.vendors if current_store
 
-    @vendors ||= Vendor.all
+    @vendors = Vendor.all
 
 		@users = User.all
 		10.times  do

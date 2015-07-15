@@ -15,7 +15,7 @@ section#supplies-index
         div
         br
         .text-center   
-          = will_paginate @supplies,renderer: BootstrapPagination::Rails
+          /= will_paginate @supplies,renderer: BootstrapPagination::Rails
         
         table.table
           thead.supplies-table-header
@@ -33,7 +33,7 @@ section#supplies-index
            = render supply
      
         .text-center   
-          = will_paginate @supplies,renderer: BootstrapPagination::Rails
+          /= will_paginate @supplies,renderer: BootstrapPagination::Rails
         
         
         

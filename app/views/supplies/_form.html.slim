@@ -9,7 +9,7 @@
       th.col-sm-2.text-center Signed Off by
    tbody
     tr
-      td   = f.association :vendor, collection: @vendors, label_method: :vendor_name,value_method: :id,  include_blank: "Select Vendor"  ,input_html: { maxlength: 20 },label: false
+      td   = f.association :vendor, collection: @vendors, label_method: :name,value_method: :id,  include_blank: "Select Vendor"  ,input_html: { maxlength: 20 },label: false
       td   = f.input :invoice_value, as: :string, label: false, placeholder: "Invoice Value" ,input_html: { maxlength: 12 }
       td   = f.input :invoice_reference, label: false,input_html: { maxlength: 15 } ,placeholder: "Invoice Ref"
       td   = f.input :invoice_date, as: :string, label: false   

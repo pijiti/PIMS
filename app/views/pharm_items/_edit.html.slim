@@ -6,8 +6,8 @@
 
               = f.input :name    
               = f.association :sub_classes, label_method: :sub_main, value_method: :id, prompt: "Select Class" 
-              = f.input :central_restock_level,label: "Central Restock Level" 
-              = f.input :main_restock_level,as: :hidden 
+              /= f.input :central_restock_level,label: "Central Restock Level"
+              = f.input :main_restock_level
               = f.input :dispensary_restock_level,label:"Dispensary Restock Level"  
               = f.input :ward_restock_level,as: :hidden
               
@@ -19,6 +19,7 @@
               .fieldset  
                 = f.simple_fields_for :brands do |brand|
                   = render 'brand_fields', f: brand
+                .links
                   = link_to_add_association 'Add brand', f, :brands,class: 'btn btn-link btn-xs'
         
               = f.button :submit,'Save',class: 'btn-success btn-sm'

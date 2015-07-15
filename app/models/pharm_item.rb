@@ -13,8 +13,8 @@ class PharmItem < ActiveRecord::Base
   before_validation :name_unique
 
   validates :name, presence: true, uniqueness: true, length: {in:3..25}
-  validates :central_restock_level, presence: true, numericality:{greater_than: 0},length: {maximum:5}
-  #validates :main_restock_level, presence: true, numericality:{greater_than: 0},length: {maximum:5}
+  #validates :central_restock_level, presence: true, numericality:{greater_than: 0},length: {maximum:5}
+  validates :main_restock_level, presence: true, numericality:{greater_than: 0},length: {maximum:5}
   validates :dispensary_restock_level, presence: true, numericality:{greater_than: 0},length: {maximum:5}
   #validates :ward_restock_level, presence: true, numericality:{greater_than: 0},length: {maximum:5}
 
@@ -30,10 +30,10 @@ class PharmItem < ActiveRecord::Base
 	end
 
 	def critical_levels
-		self.central_critical_level = (central_restock_level * 0.5).ceil
-			self.central_critical_level ||= 0
-		#self.main_critical_level = (main_restock_level * 0.5).ceil
-			#self.main_critical_level ||= 0
+		#self.central_critical_level = (central_restock_level * 0.5).ceil
+		#	self.central_critical_level ||= 0
+		self.main_critical_level = (main_restock_level * 0.5).ceil
+			self.main_critical_level ||= 0
 		self.dispensary_critical_level = (dispensary_restock_level * 0.5).ceil
 		self.dispensary_critical_level ||= 0
 		#self.ward_critical_level = (ward_restock_level * 0.5).ceil

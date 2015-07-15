@@ -69,6 +69,6 @@ class PharmItemsController < ApplicationController
     def pharm_item_params
       params.require(:pharm_item).permit(:name,{:sub_class_ids=>[]},:central_restock_level,:central_critical_level,:main_restock_level,
       :main_critical_level,:dispensary_restock_level,:dispensary_critical_level,:ward_restock_level,:ward_critical_level,
-      brands_attributes: [:id, :name,:pack_bundle, :marketer_id, :unit_dose_id, :concentration, :item_concentration_unit_id, :pack_size,:pharm_item_id,:min_dispensable])
+      brands_attributes: [:id, :name,:pack_bundle, :marketer_id, :unit_dose_id, :concentration, :item_concentration_unit_id, :pack_size,:pharm_item_id,:min_dispensable ,  :_destroy])
     end
 end

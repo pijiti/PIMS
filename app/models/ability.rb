@@ -29,6 +29,12 @@ class Ability
          #dummy condition for approval
          can :manage , Store
        end
+
+       #current store must be central for accepting orders
+       if current_store.try(:store_type).try(:name).try(:upcase).try(:include? , "CENTRAL")
+         can :manage , Vendor
+       end
+
        if user.has_role? "Auditor" , current_store
          #temporary
          can :manage , Surcharge

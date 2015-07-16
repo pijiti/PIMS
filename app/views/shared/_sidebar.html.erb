@@ -45,7 +45,9 @@
     <% if can? :manage, Supply %>
         <%= link_to '<i class="fa fa-exchange fa-fw x3 blue"></i>&nbsp;</br>Items Management <br/><i class="fa fa-caret-down"></i>'.html_safe, "#item", class: "list-group-item list-group-item-success text-center", "data-toggle" => "collapse", "data-parent" => "#MainMenu" %>
         <div class="collapse" id="item">
-          <%= link_to '<i class="fa fa-sign-in fa-fw"></i>&nbsp;Supply'.html_safe, supplies_path, class: "list-group-item" %>
+          <% if can? :manage , Vendor %>
+              <%= link_to '<i class="fa fa-sign-in fa-fw"></i>&nbsp;Supply'.html_safe, supplies_path, class: "list-group-item" %>
+          <% end %>
 
           <% if can? :manage, Store %>
               <%= link_to '<i class="fa fa-sign-in fa-fw"></i>&nbsp;Approval'.html_safe, approval_index_approvals_path, class: "list-group-item" %>

@@ -17,6 +17,8 @@ class ApplicationController < ActionController::Base
 
   def current_store
     @current_store ||= Store.find(session[:active_store]) if session[:active_store]
+    logger.debug "=======>Current store=====>#{@current_store.name}" if @current_store
+    @current_store
   end
 
   helper_method :current_store

@@ -14,7 +14,7 @@
              tbody
                -store.store_roles.try(:each) do |role|
                 tr
-                    td = role.try(:name)
+                    td = role
                 
         /!td = store.try(:open_time).strftime('%R')
         /!td = store.try(:close_time).strftime('%R')

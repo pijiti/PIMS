@@ -9,6 +9,7 @@ class Role < ActiveRecord::Base
   scopify
 
   NAMES = ["Pharmacist" , "Pharmacy Technician"  , "Store Keeper" , "Store Manager" , "Auditor" ]
+  ITEM_MANAGEMENT_ROLES = ["Admin" ,"Store Keeper" , "Store Manager" ]
 
   def self.store_roles
     NAMES

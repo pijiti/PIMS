@@ -2,20 +2,30 @@
   table.table
    thead
     tr
+      th.col-sm-2.text-center Store
       th.col-sm-2.text-center Vendor
       th.col-sm-2.text-center Reference
       th.col-sm-2.text-center Value
       th.col-sm-2.text-center Date
       th.col-sm-2.text-center Signed Off by
+
+
    tbody
     tr
+      - if can? :manage , :all
+        td   = f.association :store , collection: @central_stores, label: false , :prompt => false
+      - else
+        td
+          = f.association :store , collection: @central_stores , label: false , :disabled => true
+          = f.input :store_id , as: :hidden , :value => session[:active_store]
+
+
       td   = f.association :vendor, collection: @vendors, label_method: :name,value_method: :id,  include_blank: "Select Vendor"  ,input_html: { maxlength: 20 },label: false
       td   = f.input :invoice_value, as: :string, label: false, placeholder: "Invoice Value" ,input_html: { maxlength: 12 }
       td   = f.input :invoice_reference, label: false,input_html: { maxlength: 15 } ,placeholder: "Invoice Ref"
-      td   = f.input :invoice_date, as: :string, label: false   
+      td   = f.input :invoice_date, as: :string, label: false
       td   = f.input :signed_off_by, collection: @users, value_method: :id, label_method: :full_name, include_blank: "Select Name" ,label: false
       td   = f.input :user_id, as: :hidden,input_html: {value: 10}
-      td   = f.input :store_id, as: :hidden,input_html: { value: session[:active_store]}
       td   = f.input :approval_status, as: :hidden
   table.table
         thead

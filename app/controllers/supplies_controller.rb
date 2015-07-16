@@ -30,14 +30,14 @@ class SuppliesController < ApplicationController
 
 
 	def new
-		@supply = Supply.new
-
-    #check....
-		#@vendors = current_store.vendors if current_store
-
+		@supply = Supply.new(:store => current_store)
     @vendors = Vendor.all
 
-		@users = User.all
+    #Users with any of the 3 roles for current store
+		@users = User.with_any_role("Admin", { :name => "Store Keeper", :resource =>current_store}, {:name => "Store Manager" , :resource => current_store})
+
+    @central_stores = Store.where(:store_type => StoreType.where("upper(name) like ?" , "%CENTRAL%")).pluck(:name,:id)
+
 		10.times  do
      	    @supply.batches.build
      end
@@ -53,9 +53,10 @@ class SuppliesController < ApplicationController
 
 
 	def edit
-		current_store = Store.find(session[:active_store])
-		@vendors = current_store.vendors.all
+		#current_store = Store.find(session[:active_store])
+		@vendors = Vendor.all
 		@users = User.all
+    @central_stores = Store.where(:store_type => StoreType.where("upper(name) like ?" , "%CENTRAL%")).pluck(:name,:id)
 		10.times  do
      	    @supply.batches.build
      end

@@ -21,8 +21,8 @@
 
 
       td   = f.association :vendor, collection: @vendors, label_method: :name,value_method: :id,  include_blank: "Select Vendor"  ,input_html: { maxlength: 20 },label: false
-      td   = f.input :invoice_value, as: :string, label: false, placeholder: "Invoice Value" ,input_html: { maxlength: 12 }
       td   = f.input :invoice_reference, label: false,input_html: { maxlength: 15 } ,placeholder: "Invoice Ref"
+      td   = f.input :invoice_value, as: :string, label: false, placeholder: "Invoice Value" ,input_html: { maxlength: 12 }
       td   = f.input :invoice_date, :input_html => {class: 'datepicker'}, as: :string, label: false
       td   = f.input :signed_off_by, collection: @users, value_method: :id, label_method: :full_name, include_blank: "Select Name" ,label: false
       td   = f.input :user_id, as: :hidden,input_html: {value: 10}

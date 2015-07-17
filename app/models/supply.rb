@@ -13,20 +13,26 @@ class Supply < ActiveRecord::Base
   validates :invoice_value, presence: true
   validates :invoice_reference, presence: true
   validates :invoice_date, presence: true
+  validates_presence_of :batches
   validates :user, presence: true
+  validate :invoice_value_calculation
 
   accepts_nested_attributes_for :batches, allow_destroy: true, reject_if: :all_blank
 
   scope :submitted, -> { where(workflow_state: "submitted") }
 
-  #before_create :set_date
-  #before_update :set_date
-  #
-  #def set_date
-  #  logger.debug "=======>before save#{self.invoice_date}"
-  #  self.invoice_date = Date.strptime(self.invoice_date, '%m/%d/%Y')
-  #  logger.debug "=======>after save#{self.invoice_date}"
-  #end
+
+  #check if invoice value matches the batches total calculation
+  def invoice_value_calculation
+    val = 0
+    self.batches.each do |b|
+      val += (b.qty * b.rate)
+    end
+
+    if val != self.invoice_value
+      errors.add(:invoice_value, "entered - #{self.invoice_value} and total - #{val} do not tally")
+    end
+  end
 
   def set_approval_status
     self.approval_status = "NOT SENT"

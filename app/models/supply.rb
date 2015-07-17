@@ -26,7 +26,7 @@ class Supply < ActiveRecord::Base
   def invoice_value_calculation
     val = 0
     self.batches.each do |b|
-      val += (b.qty * b.rate)
+      val += (b.qty * b.rate) if b.qty and b.rate
     end
 
     if val != self.invoice_value

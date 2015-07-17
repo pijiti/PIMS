@@ -70,7 +70,18 @@ class SuppliesController < ApplicationController
     else
       @error = @supply.errors.full_messages
       flash[:error] = "#{@error.to_sentence}"
-      redirect_to supplies_path
+      @supplies = Supply.where(:store => current_store)
+      @vendors = Vendor.all
+
+      #Users with any of the 3 roles for current store
+      @users = User.with_any_role("Admin", {:name => "Store Keeper", :resource => current_store}, {:name => "Store Manager", :resource => current_store})
+      @central_stores = Store.where(:store_type => StoreType.where("upper(name) like ?", "%CENTRAL%")).pluck(:name, :id)
+
+      (10-@supply.batches.try(:count)).times do
+        @supply.batches.build
+      end
+
+      render "supplies/index"
     end #if @supply.amount_check?
   end
 

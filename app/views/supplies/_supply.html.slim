@@ -1,5 +1,5 @@
      tr.data-rows   
-           td.vendor = supply.vendor.try(:vendor_name)
+           td.vendor = supply.vendor.try(:name)
            td.supply-reference = supply.invoice_reference
            td.invoice-date = supply.invoice_date.strftime("%e/%m/%Y")
            td.invoice-value = supply.invoice_value

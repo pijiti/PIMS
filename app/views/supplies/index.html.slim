@@ -7,8 +7,8 @@ section#supplies-index
         = render 'form'
         
         br
-        = form_tag search_supplies_path, :method => :get  do 
-          p
+        /= form_tag search_supplies_path, :method => :get  do
+          /p
             = search_field_tag 'search_query', nil, :autosave => true 
             = submit_tag "Search"
          
@@ -16,25 +16,9 @@ section#supplies-index
         br
         .text-center   
           /= will_paginate @supplies,renderer: BootstrapPagination::Rails
-        
-        table.table
-          thead.supplies-table-header
-            tr       
-               th Vendor
-               th Reference
-               th Supply Date
-               th  Value
-               th Number of batches
-               th Signed Off by
-               th Approval Status
-                
-          tbody.supplies
-          -@supplies.each do |supply|
-           = render supply
-     
-        .text-center   
-          /= will_paginate @supplies,renderer: BootstrapPagination::Rails
-        
+        .supplies_table
+          = render 'supplies_table'
+
         
         
         

@@ -1,4 +1,4 @@
-= simple_form_for @supply  do |f|
+= simple_form_for @supply do |f|
   table.table
    thead
     tr
@@ -27,7 +27,7 @@
       td   = f.input :signed_off_by, collection: @users, value_method: :id, label_method: :full_name, include_blank: "Select Name" ,label: false
       td   = f.input :user_id, as: :hidden,input_html: {value: 10}
       td   = f.input :approval_status, as: :hidden
-  table.table
+  table.table.table-striped.table-condensed
         thead
            tr
             th.col-sm-2.text-center Brand
@@ -36,7 +36,7 @@
             th.col-sm-1.text-center Qty
             th.col-sm-1.text-center Mfd Date
             th.col-sm-1.text-center Expiry Date
-        tbody.well           
+        tbody.well
           = f.simple_fields_for :batches do |batch|   
         
            tr
@@ -50,7 +50,7 @@
 
   div
   br
- 
-     = f.button :submit
+     .text-center
+      = f.button :submit ,class:'btn-success btn-sm'
 
 

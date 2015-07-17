@@ -1,0 +1,17 @@
+table.table.table-striped.table-condensed
+            thead.supplies-table-header
+              tr
+                 th Vendor
+                 th Reference
+                 th Supply Date
+                 th  Value
+                 th Number of batches
+                 th Signed Off by
+                 th Approval Status
+
+            tbody.supplies
+            -@supplies.each do |supply|
+             = render supply
+
+            /.text-center
+            /= will_paginate @supplies,renderer: BootstrapPagination::Rails

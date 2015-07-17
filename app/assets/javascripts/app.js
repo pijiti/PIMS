@@ -1,4 +1,6 @@
-
 $(document).ready(function(){
-$('.dateselect-time').timepicker() ;
-})
+    $('.datepicker').datepicker({
+            format: "yyyy/mm/dd"
+        }
+    );
+});

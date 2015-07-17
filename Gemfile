@@ -48,6 +48,7 @@ gem 'jquery-turbolinks', '~> 2.1.0'
 gem 'execjs', '~> 2.2.1'
 gem 'jbuilder', '~> 2.0'
 gem 'quiet_assets', '~> 1.1.0', group: :development
+gem 'bootstrap-datepicker-rails'
 
 # Use Capistrano for deployment
 gem 'capistrano'

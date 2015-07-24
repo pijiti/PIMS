@@ -98,8 +98,14 @@ class SuppliesController < ApplicationController
       @supply.update_attributes(supply_params)
       redirect_to hospital_units_path
     else
-      @supply.update_attributes(supply_params)
-      redirect_to supplies_path
+      if @supply.update_attributes(supply_params)
+        redirect_to supplies_path
+      else
+        @vendors = Vendor.all
+        @users = User.all
+        @central_stores = Store.where(:store_type => StoreType.where("upper(name) like ?", "%CENTRAL%")).pluck(:name, :id)
+        render "supplies/edit"
+      end
     end
   end
 

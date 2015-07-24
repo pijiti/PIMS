@@ -19,7 +19,7 @@ class Supply < ActiveRecord::Base
 
   accepts_nested_attributes_for :batches, allow_destroy: true, reject_if: :all_blank
 
-  scope :submitted, -> { where(workflow_state: "submitted") }
+  #scope :submitted, -> { where(workflow_state: "submitted") }
 
 
   #check if invoice value matches the batches total calculation

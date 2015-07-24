@@ -4,4 +4,3 @@ $(document).on 'page:load ready', ->
   if c.length
     c.on 'click', '.store .link-roles', ->
       $(@).closest('.store').find('.roles').toggleClass('hide')
-      false

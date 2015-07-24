@@ -37,9 +37,6 @@ class SuppliesController < ApplicationController
 
     @central_stores = Store.where(:store_type => StoreType.where("upper(name) like ?", "%CENTRAL%")).pluck(:name, :id)
 
-    10.times do
-      @supply.batches.build
-    end
   end
 
   def show_form
@@ -55,9 +52,6 @@ class SuppliesController < ApplicationController
     @vendors = Vendor.all
     @users = User.all
     @central_stores = Store.where(:store_type => StoreType.where("upper(name) like ?", "%CENTRAL%")).pluck(:name, :id)
-    10.times do
-      @supply.batches.build
-    end
   end
 
 

@@ -36,18 +36,12 @@
             th.col-sm-1.text-center Qty
             th.col-sm-1.text-center Mfd Date
             th.col-sm-1.text-center Expiry Date
-        tbody.well
-          = f.simple_fields_for :batches do |batch|   
-        
-           tr
-            td.col-sm-2    = batch.association :brand, collection: Brand.all, value_method: :id, label_method: :detailed_info, label: false, prompt: "Select Brand"
-            td.col-sm-1    = batch.input :batch_number, as: :string, placeholder: "Batch No", label: false, maxlength: 10
-            td.col-sm-1    = batch.input :rate, label: false, placeholder: "Rate", as: :string, maxlength: 15   
-            td.col-sm-1    = batch.input :qty, label: false, placeholder: "Quantity", as: :string, maxlength: 10   
-            td.col-sm-1    = batch.input :mfd_date,  :input_html => {class: 'datepicker'} , as: :string, label: false
-            td.col-sm-1    = batch.input :expiry_date,  :input_html => {class: 'datepicker'}, as: :string,label: false
-            = batch.input :recipient_store, as: :hidden
+            th.col-sm-1.text-center
+        tbody.well#batches
+            = f.simple_fields_for :batches do |batch|
+              = render "batch_fields"  , :f => batch
 
+  = link_to_add_association "Add batch",  f , :batches, :"data-association-insertion-node" => "tbody#batches" , :"data-association-insertion-method" => "append" , :partial => "batch_fields"
   div
   br
      .text-center

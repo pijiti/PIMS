@@ -37,6 +37,10 @@ class SuppliesController < ApplicationController
 
     @central_stores = Store.where(:store_type => StoreType.where("upper(name) like ?", "%CENTRAL%")).pluck(:name, :id)
 
+    10.times do
+      @supply.batches.build
+    end
+
   end
 
   def show_form
@@ -52,6 +56,9 @@ class SuppliesController < ApplicationController
     @vendors = Vendor.all
     @users = User.all
     @central_stores = Store.where(:store_type => StoreType.where("upper(name) like ?", "%CENTRAL%")).pluck(:name, :id)
+    (10-@supply.batches.try(:count)).times do
+      @supply.batches.build
+    end
   end
 
 
@@ -95,6 +102,8 @@ class SuppliesController < ApplicationController
       if @supply.update_attributes(supply_params)
         redirect_to supplies_path
       else
+        logger.info("=========!!!!!!!!!!!!!!!!!!!!!!!================")
+        logger.info(@supply.errors.messages.inspect)
         @vendors = Vendor.all
         @users = User.all
         @central_stores = Store.where(:store_type => StoreType.where("upper(name) like ?", "%CENTRAL%")).pluck(:name, :id)
@@ -126,8 +135,8 @@ class SuppliesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def supply_params
-    params.require(:supply).permit(:vendor_id, :invoice_reference, :invoice_date, :invoice_value, :signed_off_by, :user_id, :store_id, :approval_status, :approved, :approved_by,
-                                   batches_attributes: [:id, :pharm_item_id, :brand_id, :rate, :qty, :batch_number, :mfd_date, :expiry_date, :comment, :approved, :recipient_store, :giver_store])
+    params.require(:supply).permit(:vendor_id, :invoice_reference, :invoice_date, :invoice_value, :signed_off_by, :user_id, :store_id, :approval_status, :approved, :approved_by, :_destroy ,
+                                   batches_attributes: [:id, :pharm_item_id, :brand_id, :rate, :qty, :batch_number, :mfd_date, :expiry_date, :comment, :approved, :recipient_store, :giver_store, :_destroy])
   end
 
   def invalid_supplier

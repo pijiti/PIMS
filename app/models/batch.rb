@@ -6,15 +6,17 @@ class Batch < ActiveRecord::Base
   belongs_to :prescription
   belongs_to :request_item
 
-  #before_create :set_date
-  #before_update :set_date
+  before_save :set_date_format
 
-  validates_presence_of :pharm_item , :rate , :qty
+  validates_presence_of :pharm_item, :rate, :qty
 
-  #def set_date
-  #  self.mfd_date = Date.strptime(self.mfd_date, '%m/%d/%Y')
-  #  self.expiry_date = Date.strptime(self.expiry_date, '%m/%d/%Y')
-  #end
+  def set_date_format
+    #split_date = self.mfd_date.split('/').reverse
+    #self.mfd_date = split_date.join('/')
+    #
+    #split_date = self.expiry_date.split('/').reverse
+    #self.expiry_date = split_date.join('/')
+  end
 
   def retail_price
     rate = self.rate.to_f

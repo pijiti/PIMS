@@ -12,14 +12,12 @@ class Supply < ActiveRecord::Base
   validates :vendor, presence: true
   validates :invoice_value, presence: true
   validates :invoice_reference, presence: true
-  validates :invoice_date, presence: true
+  #validates :invoice_date, presence: true
   validates_presence_of :batches
   validates :user, presence: true
   validate :invoice_value_calculation
 
   accepts_nested_attributes_for :batches, allow_destroy: true, reject_if: :all_blank
-
-  #scope :submitted, -> { where(workflow_state: "submitted") }
 
 
   #check if invoice value matches the batches total calculation

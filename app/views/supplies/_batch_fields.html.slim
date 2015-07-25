@@ -3,7 +3,7 @@ tr.nested-fields
     td.col-sm-1    = f.input :batch_number, as: :string, placeholder: "Batch No", label: false, maxlength: 10
     td.col-sm-1    = f.input :rate, label: false, placeholder: "Rate", as: :string, maxlength: 15
     td.col-sm-1    = f.input :qty, label: false, placeholder: "Quantity", as: :string, maxlength: 10
-    td.col-sm-1    = f.input :mfd_date,  :input_html => {class: 'datepicker date_batch'} , as: :string, label: false
-    td.col-sm-1    = f.input :expiry_date,  :input_html => {class: 'datepicker date_batch'}, as: :string,label: false
+    td.col-sm-1    = f.text_field :mfd_date ,  :data => { :provide  => 'datepicker' } ,  :input_html => {class: 'string required form-control input-sm form-group datepicker'} , as: :string ,label: false
+    td.col-sm-1    = f.text_field :expiry_date ,  :data => { :provide  => 'datepicker' } ,  :input_html => {class: 'string required form-control input-sm form-group datepicker'} , as: :string , label: false
     = f.input :recipient_store, as: :hidden
     td.col-sm-1    = link_to_remove_association "remove batch", f

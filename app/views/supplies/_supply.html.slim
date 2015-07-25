@@ -1,7 +1,7 @@
      tr.data-rows.supply
            td.vendor = supply.vendor.try(:name)
            td.supply-reference = supply.invoice_reference
-           td.invoice-date = supply.invoice_date.strftime("%e/%m/%Y")
+           td.invoice-date = (supply.invoice_date.strftime("%e/%m/%Y") if supply.invoice_date)
            td.invoice-value = supply.invoice_value
            td.supply = supply.batches.length 
            td.sign-off = supply.user.try(:full_name) 

@@ -25,4 +25,10 @@ module ApplicationHelper
     @devise_mapping ||= Devise.mappings[:user]
   end
 
+  def invoice_date_display(supply)
+    if supply.invoice_date
+      supply.invoice_date.strftime("%d/%m/%Y")
+    end
+  end
+
 end

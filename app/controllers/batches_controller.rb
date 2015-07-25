@@ -15,7 +15,7 @@ class BatchesController < ApplicationController
     end
 
     def batch_params
-      params.require(:batch).permit(:Qty, :Rate, :subtotal, :supply_id,:expiry_date)
+      params.require(:batch).permit(:Qty, :Rate, :subtotal, :supply_id,:expiry_date , :mfd_date)
     end
 
 end

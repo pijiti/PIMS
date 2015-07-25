@@ -6,16 +6,6 @@ $(document).ready(function(){
         }
     );
 
-
-//
-//    $('.date_batch').on('click' ,function()
-//    {
-//
-//
-//    });
-
-
-//    $('.datetimepicker').datetimepicker();
 });
 
 

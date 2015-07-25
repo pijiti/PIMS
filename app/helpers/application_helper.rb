@@ -26,8 +26,20 @@ module ApplicationHelper
   end
 
   def invoice_date_display(supply)
-    if supply.invoice_date
+    if supply and supply.invoice_date
       supply.invoice_date.strftime("%d/%m/%Y")
+    end
+  end
+
+  def mfd_date_display(batch)
+     if batch and batch.mfd_date
+       batch.mfd_date.strftime("%d/%m/%Y")
+     end
+  end
+
+  def expiry_date_display(batch)
+    if batch and batch.expiry_date
+      batch.expiry_date.strftime("%d/%m/%Y")
     end
   end
 

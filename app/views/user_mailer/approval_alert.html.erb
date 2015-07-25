@@ -1,0 +1,17 @@
+<p>
+Dear <%= @user.first_name %> ,   <br>
+
+  You have a new set of drugs that is waiting for your approval from <%= @signed_off %> for <%= @supply.store.name %> . <br>
+
+  Vendor name: <%= @supply.vendor.name %> <br>
+  Invoice number: <%= @supply.invoice_reference %> <br>
+  Number of batches: <%= @supply.batches.try(:count) %> <br>
+</p>
+<p>
+  Please login at "<%= approval_index_approvals_url %>“ for approving.
+</p>
+
+<p>
+  Regards,  <br>
+  PIMS
+</p>

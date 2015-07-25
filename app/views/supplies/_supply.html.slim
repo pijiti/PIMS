@@ -7,27 +7,44 @@
            td.sign-off = supply.user.try(:full_name) 
            td.approval-status= supply.try(:approval_status) 
            td.add-item
-               a.link-batches href ='#' = "View Batches"
-               table.table.table-striped.table-condensed.batches.hide
-                thead
-                   tr
-                     th Brand
-                     th Batch No
-                     th Rate
-                     th Qty
-                     th Mfd Date
-                     th Expiry Date
-                tbody
-                  -supply.batches.try(:each) do |batch|
-                   tr
-                       td = batch.brand.detailed_info
-                       td = batch.batch_number
-                       td = batch.rate
-                       td = batch.qty
-                       td = batch.mfd_date
-                       td = batch.expiry_date
+              /! Button trigger modal
+              /button.btn.btn-primary.btn-sm data-target="#myModal1" data-toggle="modal" type="button"
+              /  | View Batches
+
+              a href="myModal_#{supply.id}" data-toggle="modal" data-target="#myModal_#{supply.id}"  View Batches
+
+
+              /! Modal
+              div[id="myModal_#{supply.id}" class="modal" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
+                .modal-dialog role="document"
+                  .modal-content
+                    .modal-header
+                      button.close aria-label="Close" data-dismiss="modal" type="button"
+                        span aria-hidden="true"  &times;
+                      h4#myModalLabel.modal-title Modal title
+                    .modal-body
+                      table.table.table-striped.table-condensed.batches
+                                      thead
+                                         tr
+                                           th Brand
+                                           th Batch No
+                                           th Rate
+                                           th Qty
+                                           th Mfd Date
+                                           th Expiry Date
+                                      tbody
+                                        -supply.batches.try(:each) do |batch|
+                                         tr
+                                             td = batch.brand.detailed_info
+                                             td = batch.batch_number
+                                             td = batch.rate
+                                             td = batch.qty
+                                             td = batch.mfd_date
+                                             td = batch.expiry_date
+                    .modal-footer
+                      button.btn.btn-default data-dismiss="modal" type="button"  Close
            td.approval-link = link_to 'Submit For Approval', submit_supply_path(supply),method: :patch
            td.edit = link_to 'Edit', edit_supply_path(supply)
-           td.destroy= link_to 'Destroy', supply,:remote => true, method: :delete, data: { confirm: 'Are you sure?' } 
+           td.destroy= link_to 'Destroy', supply,:remote => true, method: :delete, data: { confirm: 'Are you sure?' }
 
 

@@ -9,6 +9,14 @@ class Batch < ActiveRecord::Base
   before_create :set_pharm_item
 
   validates_presence_of :rate, :qty
+  validate :mfd_date_check
+
+  def mfd_date_check
+    if self.mfd_date > Time.now
+      errors.add(:mfd_date, "entered - #{self.mfd_date} is in future")
+    end
+  end
+
 
   def set_pharm_item
     self.giver_store = 0

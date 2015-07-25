@@ -25,6 +25,8 @@ module ApplicationHelper
     @devise_mapping ||= Devise.mappings[:user]
   end
 
+  ######Supply helpers start##########
+
   def invoice_date_display(supply)
     if supply and supply.invoice_date
       supply.invoice_date.strftime("%d/%m/%Y")
@@ -42,5 +44,17 @@ module ApplicationHelper
       batch.expiry_date.strftime("%d/%m/%Y")
     end
   end
+
+  #highlight batch row if expiry date is > 6 months of date of supply
+  def highlight_batch(batch)
+    begin
+     "red" if batch.expiry_date > (batch.supply.invoice_date + 6.months)
+    rescue => e
+      logger.error "ERROR========!!!!!!!!!!!!!!!!"
+      logger.debug e.message
+      ""
+    end
+  end
+  ######Supply helpers end##########
 
 end

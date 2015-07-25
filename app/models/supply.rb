@@ -24,6 +24,7 @@ class Supply < ActiveRecord::Base
   def invoice_value_calculation
     val = 0
     self.batches.each do |b|
+      next if b._destroy == true
       val += (b.qty * b.rate) if b.qty and b.rate
     end
 
@@ -43,8 +44,20 @@ class Supply < ActiveRecord::Base
   end
 
   def assign_pharmitem_id
-    batches.collect { |batch| [batch.giver_store = 0, batch.prescription_id = 0,
-                               batch.pharm_item_id = batch.try(:brand).try(:pharm_item).try(:id)] }
+    logger.debug "$$$$$$$$$$$ Assigning pharmitem $$$$$$$$$$"
+
+    batches.each do |batch|
+      logger.debug batch.try(:brand)
+      logger.debug batch.try(:brand).try(:pharm_item)
+      logger.debug batch.try(:brand).try(:pharm_item).try(:id)
+      batch.giver_store = 0
+      batch.prescription_id = 0
+      batch.pharm_item_id = batch.brand.pharm_item.id
+    end
+
+
+    #batches.collect { |batch| [batch.giver_store = 0, batch.prescription_id = 0,
+    #                           batch.pharm_item_id = batch.brand.pharm_item.id] }
   end
 
   def assign_recipient_store

@@ -37,7 +37,7 @@ class SuppliesController < ApplicationController
 
     @central_stores = Store.where(:store_type => StoreType.where("upper(name) like ?", "%CENTRAL%")).pluck(:name, :id)
 
-    10.times do
+    1.times do
       @supply.batches.build
     end
 
@@ -56,9 +56,9 @@ class SuppliesController < ApplicationController
     @vendors = Vendor.all
     @users = User.all
     @central_stores = Store.where(:store_type => StoreType.where("upper(name) like ?", "%CENTRAL%")).pluck(:name, :id)
-    (10-@supply.batches.try(:count)).times do
-      @supply.batches.build
-    end
+    #(10-@supply.batches.try(:count)).times do
+    #  @supply.batches.build
+    #end
   end
 
 
@@ -78,9 +78,9 @@ class SuppliesController < ApplicationController
       @users = User.with_any_role("Admin", {:name => "Store Keeper", :resource => current_store}, {:name => "Store Manager", :resource => current_store})
       @central_stores = Store.where(:store_type => StoreType.where("upper(name) like ?", "%CENTRAL%")).pluck(:name, :id)
 
-      (10-@supply.batches.try(:count)).times do
-        @supply.batches.build
-      end
+      #(10-@supply.batches.try(:count)).times do
+      #  @supply.batches.build
+      #end
 
       render "supplies/index"
     end #if @supply.amount_check?
@@ -99,6 +99,7 @@ class SuppliesController < ApplicationController
       @supply.update_attributes(supply_params)
       redirect_to hospital_units_path
     else
+      @supply.assign_pharmitem_id
       if @supply.update_attributes(supply_params)
         redirect_to supplies_path
       else

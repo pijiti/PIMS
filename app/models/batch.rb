@@ -6,16 +6,14 @@ class Batch < ActiveRecord::Base
   belongs_to :prescription
   belongs_to :request_item
 
-  before_save :set_date_format
+  before_create :set_pharm_item
 
-  validates_presence_of :pharm_item, :rate, :qty
+  validates_presence_of :rate, :qty
 
-  def set_date_format
-    #split_date = self.mfd_date.split('/').reverse
-    #self.mfd_date = split_date.join('/')
-    #
-    #split_date = self.expiry_date.split('/').reverse
-    #self.expiry_date = split_date.join('/')
+  def set_pharm_item
+    self.giver_store = 0
+    self.prescription_id = 0
+    self.pharm_item = self.try(:brand).try(:pharm_item)
   end
 
   def retail_price

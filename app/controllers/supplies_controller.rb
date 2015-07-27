@@ -23,6 +23,11 @@ class SuppliesController < ApplicationController
       redirect_to unit_doses_path
     else
       @supply.submit_for_approval
+
+      User.with_any_role({ :name => "Store Manager", :resource => current_store }).each do |user|
+        UserMailer.approval_alert(user,@supply).deliver
+      end
+
       redirect_to supplies_path
     end
   end

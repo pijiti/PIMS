@@ -12,6 +12,7 @@ class Supply < ActiveRecord::Base
   validates :vendor, presence: true
   validates :invoice_value, presence: true
   validates :invoice_reference, presence: true
+  validates :batches , presence: true
   #validates :invoice_date, presence: true
   validates_presence_of :batches
   validates :user, presence: true
@@ -44,15 +45,11 @@ class Supply < ActiveRecord::Base
   end
 
   def assign_pharmitem_id
-    logger.debug "$$$$$$$$$$$ Assigning pharmitem $$$$$$$$$$"
 
     batches.each do |batch|
-      logger.debug batch.try(:brand)
-      logger.debug batch.try(:brand).try(:pharm_item)
-      logger.debug batch.try(:brand).try(:pharm_item).try(:id)
       batch.giver_store = 0
       batch.prescription_id = 0
-      batch.pharm_item_id = batch.brand.pharm_item.id
+      batch.pharm_item_id = batch.brand.pharm_item.id  if  batch.brand and batch.brand.pharm_item
     end
 
 

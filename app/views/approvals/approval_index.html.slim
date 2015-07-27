@@ -25,6 +25,42 @@ table.table.table-striped.table-condensed
          td.supply = submitted_supply.batches.count
          td.sign-off = submitted_supply.user.try(:first_name)
          td.status= submitted_supply.try(:approval_status)
-         td.add-item = link_to 'View Items', submitted_item_approval_path( submitted_supply)
-         td.add-item = link_to  'Approve', submitted_item_approval_path( submitted_supply)
-         td.add-item = link_to 'Disapprove', submitted_item_approval_path( submitted_supply)
+         td.add-item
+           a href="#" data-toggle="modal" data-target="#myModal_#{submitted_supply.id}"  View Batches
+
+           /! Modal
+           div[id="myModal_#{submitted_supply.id}" class="modal" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
+             .modal-dialog role="document"
+               .modal-content
+                 .modal-header
+                   button.close aria-label="Close" data-dismiss="modal" type="button"
+                     span aria-hidden="true"  &times;
+                   h4#myModalLabel.modal-title #{submitted_supply.invoice_reference} - Batches
+
+                 .modal-body
+                   table.table.table-striped.table-condensed.batches
+                                   thead
+                                      tr
+                                        th Brand
+                                        th Batch No
+                                        th Rate
+                                        th Qty
+                                        th Mfd Date
+                                        th Expiry Date
+                                        th
+                                        th
+                                   tbody
+                                     -submitted_supply.batches.try(:each) do |batch|
+                                      tr[class="#{highlight_batch(batch)}" ]
+                                          td = batch.brand.detailed_info
+                                          td = batch.batch_number
+                                          td = batch.rate
+                                          td = batch.qty
+                                          td = batch.mfd_date.strftime("%d/%m/%Y")
+                                          td = batch.expiry_date.strftime("%d/%m/%Y")
+                                          td = link_to  'Approve', submitted_item_approval_path( batch)
+                                          td = link_to  'Disapprove', submitted_item_approval_path( batch)
+                 .modal-footer
+                   button.btn.btn-default data-dismiss="modal" type="button"  Close
+         /td.add-item = link_to  'Approve', submitted_item_approval_path( submitted_supply)
+         /td.add-item = link_to 'Disapprove', submitted_item_approval_path( submitted_supply)

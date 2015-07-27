@@ -37,7 +37,7 @@ class Supply < ActiveRecord::Base
     self.approval_status = "NOT SENT"
   end
 
-  def submit
+  def submit_for_approval
     update! approval_status: "AWAITING",
             approval_sent: Time.now
     save!

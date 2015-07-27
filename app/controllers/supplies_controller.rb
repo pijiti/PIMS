@@ -22,7 +22,7 @@ class SuppliesController < ApplicationController
     if @supply.try(:batches).try(:empty?)
       redirect_to unit_doses_path
     else
-      @supply.submit!
+      @supply.submit_for_approval
       redirect_to supplies_path
     end
   end

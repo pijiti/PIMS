@@ -44,8 +44,9 @@
                                              td = batch.expiry_date.strftime("%d/%m/%Y")
                     .modal-footer
                       button.btn.btn-default data-dismiss="modal" type="button"  Close
-           td.approval-link = link_to 'Submit For Approval', submit_supply_path(supply),method: :patch
-           td.edit = link_to 'Edit', edit_supply_path(supply)
-           td.destroy= link_to 'Destroy', supply,:remote => true, method: :delete, data: { confirm: 'Are you sure?' }
+           - if supply.approval_status == "NOT SENT"
+             td.approval-link = link_to 'Submit For Approval', submit_supply_path(supply),method: :patch
+             td.edit = link_to 'Edit', edit_supply_path(supply)
+             td.destroy= link_to 'Destroy', supply,:remote => true, method: :delete, data: { confirm: 'Are you sure?' }
 
 

@@ -7,13 +7,14 @@ class Batch < ActiveRecord::Base
   belongs_to :request_item
 
   before_create :set_pharm_item
+  before_update :set_pharm_item
 
   validates_presence_of :rate, :qty , :mfd_date , :expiry_date
   validate :mfd_date_check
 
   def mfd_date_check
     if self.mfd_date and self.mfd_date > Time.now
-      errors.add(:mfd_date, "entered - #{self.mfd_date} is in future")
+      errors.add(:mfd_date, "entered - #{self.mfd_date.strftime("%d/%m/%Y")} is in future")
     end
   end
 

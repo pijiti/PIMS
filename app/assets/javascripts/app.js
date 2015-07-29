@@ -18,6 +18,13 @@ $(document).ready(function(){
         var input = $("<input>").attr("type", "hidden").attr("name" , "supply[approval_type]").val("reject");
         $(this).closest('form'). append($(input)).submit();
     });
+
+    $('.select_all_checkboxes').click(function(){
+        if($(this).is(':checked'))
+            $(this).closest('.batches_modal_table').find('.selector_checkbox').prop('checked', true);
+        else
+            $(this).closest('.batches_modal_table').find('.selector_checkbox').prop('checked', false);
+    });
 });
 
 

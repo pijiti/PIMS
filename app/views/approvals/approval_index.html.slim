@@ -39,7 +39,7 @@ table.table.table-striped.table-condensed
 
                        .modal-body
 
-                           table.table.table-striped.table-condensed.batches
+                           table.table.table-striped.table-condensed.batches.batches_modal_table
                                            thead
                                               tr
                                                 th Brand
@@ -50,7 +50,8 @@ table.table.table-striped.table-condensed
                                                 th Expiry Date
                                                 th Status
                                                 th Comments
-                                                th Select
+                                                th =check_box_tag :select_all , "1" , false ,  :class => "select_all_checkboxes"
+
 
                                            tbody
                                              -submitted_supply.batches.each do |batch|

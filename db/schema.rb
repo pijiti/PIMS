@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150708164439) do
+ActiveRecord::Schema.define(version: 20150729170721) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20150708164439) do
     t.string   "batch_number"
     t.date     "mfd_date"
     t.string   "comment",           limit: 500
-    t.boolean  "approved",                                              default: false, null: false
+    t.boolean  "approved",                                              default: false,              null: false
     t.integer  "supply_id"
     t.integer  "brand_id"
     t.integer  "pharm_item_id"
@@ -36,6 +36,8 @@ ActiveRecord::Schema.define(version: 20150708164439) do
     t.integer  "request_item_id"
     t.decimal  "dispensable_qty",               precision: 8, scale: 2
     t.decimal  "retail_price",                  precision: 8, scale: 2
+    t.text     "comments"
+    t.string   "approval_status",                                       default: "PENDING APPROVAL"
   end
 
   create_table "brands", force: true do |t|
@@ -61,6 +63,14 @@ ActiveRecord::Schema.define(version: 20150708164439) do
   create_table "hospital_units", force: true do |t|
     t.string   "name"
     t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "inventories", force: true do |t|
+    t.integer  "brand_id"
+    t.integer  "store_id"
+    t.integer  "units"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

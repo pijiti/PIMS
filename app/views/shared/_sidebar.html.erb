@@ -52,6 +52,7 @@
           <% if can? :manage, Store %>
               <%= link_to '<i class="fa fa-sign-in fa-fw"></i>&nbsp;Approval'.html_safe, approval_index_approvals_path, class: "list-group-item" %>
           <% end %>
+          <%= link_to '<i class="fa fa-archive fa-fw"></i>&nbsp;Inventory'.html_safe, inventory_index_path, class: "list-group-item" %>
           <%= link_to '<i class="fa fa-sign-in fa-fw"></i>&nbsp;Request Service'.html_safe, new_user_profile_path, class: "list-group-item" %>
         </div>
     <% end %>

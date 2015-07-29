@@ -7,6 +7,7 @@ class Store < ActiveRecord::Base
 	 has_many :batches
 	 #has_many :vendors
 	 has_many :supplies
+   has_many :inventories
 	 belongs_to :store_operation
 
 

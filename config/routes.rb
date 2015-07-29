@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'inventory/index'
+
   resources :request_items
 
   resources :requests

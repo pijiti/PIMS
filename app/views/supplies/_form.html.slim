@@ -36,6 +36,8 @@
             th.col-sm-1.text-center Batch No
             th.col-sm-1.text-center Rate
             th.col-sm-1.text-center Qty
+            - if !@supply.new_record?
+              th.col-sm-1.text-center No of Units
             th.col-sm-1.text-center Mfd Date
             th.col-sm-1.text-center Expiry Date
             th.col-sm-1.text-center

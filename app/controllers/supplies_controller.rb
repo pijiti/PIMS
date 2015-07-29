@@ -111,6 +111,7 @@ class SuppliesController < ApplicationController
     @supply.assign_recipient_store
     @supply.assign_pharmitem_id
     if @supply.save
+      flash[:notice] = "Batches of drugs saved successfully"
       redirect_to supplies_path
     else
       @error = @supply.errors.full_messages
@@ -145,6 +146,7 @@ class SuppliesController < ApplicationController
     else
       @supply.assign_pharmitem_id
       if @supply.update_attributes(supply_params)
+        flash[:notice] = "Batches of drugs updated successfully"
         redirect_to supplies_path
       else
         logger.info("=========!!!!!!!!!!!!!!!!!!!!!!!================")

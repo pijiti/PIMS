@@ -33,6 +33,7 @@
                                            th Qty
                                            th Mfd Date
                                            th Expiry Date
+                                           th Approval status
                                       tbody
                                         -supply.batches.try(:each) do |batch|
                                          tr[class="#{highlight_batch(batch)}" ]
@@ -42,6 +43,7 @@
                                              td = batch.qty
                                              td = batch.mfd_date.strftime("%d/%m/%Y")
                                              td = batch.expiry_date.strftime("%d/%m/%Y")
+                                             td = batch.approval_status
                     .modal-footer
                       button.btn.btn-default data-dismiss="modal" type="button"  Close
            - if supply.approval_status == "NOT SENT"

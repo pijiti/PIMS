@@ -2,7 +2,7 @@ h3 Approval
 
 table.table.table-striped.table-condensed
   thead
-    tr
+    tr.data-rows
        th Store
        th Vendor
        th Reference
@@ -16,7 +16,7 @@ table.table.table-striped.table-condensed
 
   tbody
     - @submitted_supplies.each do |submitted_supply|
-      tr
+      tr.data-rows
          td = submitted_supply.store.name
          td.vendor = submitted_supply.vendor.try(:name)
          td.supply-reference = submitted_supply.invoice_reference
@@ -27,40 +27,49 @@ table.table.table-striped.table-condensed
          td.status= submitted_supply.try(:approval_status)
          td.add-item
            a href="#" data-toggle="modal" data-target="#myModal_#{submitted_supply.id}"  View Batches
+           = form_for(submitted_supply , :url => approval_supply_path(:id => submitted_supply.id ) , :method => :post ) do |supply_form|
+                 /! Modal
+                 div[id="myModal_#{submitted_supply.id}" class="modal modal-approvals" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
+                   .modal-dialog role="document"
+                     .modal-content
+                       .modal-header
+                         button.close.approval-close aria-label="Close" data-dismiss="modal" type="button"
+                           span aria-hidden="true"  &times;
+                         h4#myModalLabel.modal-title #{submitted_supply.invoice_reference} - Batches
 
-           /! Modal
-           div[id="myModal_#{submitted_supply.id}" class="modal" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
-             .modal-dialog role="document"
-               .modal-content
-                 .modal-header
-                   button.close aria-label="Close" data-dismiss="modal" type="button"
-                     span aria-hidden="true"  &times;
-                   h4#myModalLabel.modal-title #{submitted_supply.invoice_reference} - Batches
+                       .modal-body
 
-                 .modal-body
-                   table.table.table-striped.table-condensed.batches
-                                   thead
-                                      tr
-                                        th Brand
-                                        th Batch No
-                                        th Rate
-                                        th Qty
-                                        th Mfd Date
-                                        th Expiry Date
-                                        th
-                                        th
-                                   tbody
-                                     -submitted_supply.batches.try(:each) do |batch|
-                                      tr[class="#{highlight_batch(batch)}" ]
-                                          td = batch.brand.detailed_info
-                                          td = batch.batch_number
-                                          td = batch.rate
-                                          td = batch.qty
-                                          td = batch.mfd_date.strftime("%d/%m/%Y")
-                                          td = batch.expiry_date.strftime("%d/%m/%Y")
-                                          td = link_to  'Approve', submitted_item_approval_path( batch)
-                                          td = link_to  'Disapprove', submitted_item_approval_path( batch)
-                 .modal-footer
-                   button.btn.btn-default data-dismiss="modal" type="button"  Close
-         /td.add-item = link_to  'Approve', submitted_item_approval_path( submitted_supply)
-         /td.add-item = link_to 'Disapprove', submitted_item_approval_path( submitted_supply)
+                           table.table.table-striped.table-condensed.batches
+                                           thead
+                                              tr
+                                                th Brand
+                                                th Batch No
+                                                th Rate
+                                                th Qty
+                                                th Mfd Date
+                                                th Expiry Date
+                                                th Status
+                                                th Comments
+                                                th Select
+
+                                           tbody
+                                             -submitted_supply.batches.each do |batch|
+                                              = supply_form.fields_for :batches , batch do |batch_form|
+                                                tr[class="#{highlight_batch(batch)} " ]
+                                                    td = batch.brand.detailed_info
+                                                    td = batch.batch_number
+                                                    td = batch.rate
+                                                    td = batch.qty
+                                                    td = batch.mfd_date.strftime("%d/%m/%Y")
+                                                    td = batch.expiry_date.strftime("%d/%m/%Y")
+                                                    td = batch.approval_status
+                                                    td = batch_form.text_area :comments
+                                                    td
+                                                       - if batch.approval_status == "PENDING APPROVAL"
+                                                          = batch_form.check_box :selector   , :label => false , :class => "selector_checkbox"
+                                                    /td = link_to  'Approve', submitted_item_approval_path( batch)
+                                                    /td = link_to  'Disapprove', submitted_item_approval_path( batch)
+
+                       .modal-footer
+                         button.btn.btn-success.approve-btn type="button"  Approve
+                         button.btn.btn-warning.reject-btn type="button"  Reject

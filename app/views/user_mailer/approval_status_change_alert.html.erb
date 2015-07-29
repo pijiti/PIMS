@@ -1,0 +1,41 @@
+<p>
+  Dear <%= @signed_off_user.first_name %> , <br>
+
+  Below is the approval status of drugs signed off by you ,
+<table class="table table-striped table-condensed batches">
+
+
+  <thead>
+  <tr>
+  <th>Brand</th>
+  <th>Batch No</th>
+  <th>Rate</th>
+  <th>Qty</th>
+  <th>Mfd Date</th>
+  <th>Expiry Date</th>
+  <th>Status</th>
+  <th>Comments</th>
+  </thead>
+  </tr>
+
+  <tbody>
+  <% @supply.batches.each do |batch| %>
+      <tr>
+        <td><%= batch.brand.detailed_info %></td>
+        <td><%= batch.batch_number %></td>
+        <td><%= batch.rate %></td>
+        <td><%= batch.qty %></td>
+        <td><%= batch.mfd_date.strftime("%d/%m/%Y") %></td>
+        <td><%= batch.expiry_date.strftime("%d/%m/%Y") %></td>
+        <td><%= batch.approval_status %></td>
+        <td><%= batch.comments %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+</p>
+
+<p>
+  Regards, <br>
+  PIMS
+</p>

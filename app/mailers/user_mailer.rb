@@ -8,5 +8,12 @@ class UserMailer < ActionMailer::Base
     mail(to: user.email, subject: 'New batch of drugs - Awaiting Approval')
   end
 
+  def approval_status_change_alert(supply)
+    @supply = supply
+    @signed_off_user = User.find_by_id(@supply.signed_off_by)
+    mail(to: @signed_off_user.email, subject: 'Approval status of drugs')
+  end
+
+
 
 end

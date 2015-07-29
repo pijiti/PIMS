@@ -2,7 +2,7 @@ class SuppliesController < ApplicationController
 
 
   # rescue_from ActiveRecord::RecordNotFound, with:  :invalid_supplier
-  before_action :set_supply, only: [:edit, :update, :destroy, :submit]
+  before_action :set_supply, only: [:edit, :update, :destroy, :submit, :approval]
   before_action :set_all_supplies, only: [:index, :create, :update, :destroy]
   #before_action :set_store, only: [:new,:index]
   respond_to :html, :js, :csv
@@ -18,6 +18,41 @@ class SuppliesController < ApplicationController
 
   end
 
+  #Approval from the approval page.
+  def approval
+
+    @notice = "Please select before approving/rejecting"
+    begin
+      if supply_params[:approval_type] == "approve"
+        supply_params[:batches_attributes].each do |k, v|
+
+          next if v[:selector] != "1"
+          Batch.update(v[:id], :approval_status => "APPROVED", :comments => v[:comments])
+          @notice = "Selected batches approved"
+
+        end
+      elsif supply_params[:approval_type] == "reject"
+        supply_params[:batches_attributes].each do |k, v|
+          next if v[:selector] != "1"
+          if v[:comments].blank?
+            @notice = "Please enter the reason for rejection in comments"
+          else
+            Batch.update(v[:id], :approval_status => "REJECTED", :comments => v[:comments])
+            @notice = "Selected batches rejected"
+          end
+        end
+      end
+      @supply.update_approval_status
+    rescue => e
+      @notice = e.message
+    end
+
+    flash[:notice] = @notice
+
+    redirect_to approval_index_approvals_path
+
+  end
+
   def submit
     if @supply.try(:batches).try(:empty?)
       redirect_to unit_doses_path
@@ -25,8 +60,8 @@ class SuppliesController < ApplicationController
       @supply.submit_for_approval
 
       recipients_counter = 0
-      User.with_any_role({ :name => "Store Manager", :resource => current_store }).each do |user|
-        UserMailer.approval_alert(user,@supply).deliver
+      User.with_any_role({:name => "Store Manager", :resource => current_store}).each do |user|
+        UserMailer.approval_alert(user, @supply).deliver
         recipients_counter += 1
       end
       @supplies = Supply.where(:store => current_store)
@@ -145,8 +180,8 @@ class SuppliesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def supply_params
-    params.require(:supply).permit(:vendor_id, :invoice_reference, :invoice_date, :invoice_value, :signed_off_by, :user_id, :store_id, :approval_status, :approved, :approved_by, :_destroy ,
-                                   batches_attributes: [:id, :pharm_item_id, :brand_id, :rate, :qty, :batch_number, :mfd_date, :expiry_date, :comment, :approved, :recipient_store, :giver_store, :_destroy])
+    params.require(:supply).permit(:vendor_id, :invoice_reference, :invoice_date, :invoice_value, :signed_off_by, :user_id, :store_id, :approval_status, :approved, :approved_by, :_destroy, :approval_type,
+                                   batches_attributes: [:id, :pharm_item_id, :brand_id, :rate, :qty, :batch_number, :mfd_date, :expiry_date, :comments, :approved, :recipient_store, :giver_store, :_destroy, :selector])
   end
 
   def invalid_supplier

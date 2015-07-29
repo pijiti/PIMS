@@ -11,6 +11,7 @@ class Batch < ActiveRecord::Base
 
   validates_presence_of :rate, :qty , :mfd_date , :expiry_date
   validate :mfd_date_check
+  attr_accessor :selector
 
   def mfd_date_check
     if self.mfd_date and self.mfd_date > Time.now

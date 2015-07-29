@@ -20,7 +20,27 @@ class Supply < ActiveRecord::Base
 
   accepts_nested_attributes_for :batches, allow_destroy: true, reject_if: :all_blank
 
+  attr_accessor :approval_type
 
+  def update_approval_status
+    count = self.batches.count
+    approved_count = self.batches.where(:approval_status => "APPROVED").count
+    rejected_count = self.batches.where(:approval_status => "REJECTED").count
+
+    if approved_count == count
+      self.update :approval_status => "APPROVED"
+    elsif rejected_count == count
+      self.update :approval_status => "REJECTED"
+    elsif (approved_count + rejected_count) > 0
+      self.update :approval_status => "PARTIALLY APPROVED"
+    end
+
+    begin
+      UserMailer.approval_status_change_alert(self).deliver
+    rescue => e
+      logger.error "#{e.message}"
+    end
+  end
   #check if invoice value matches the batches total calculation
   def invoice_value_calculation
     val = 0

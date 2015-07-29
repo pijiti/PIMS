@@ -7,7 +7,7 @@ class ApprovalsController < ApplicationController
   def approval_index
     #if store manager
     if can? :manage, Store
-      @submitted_supplies = Supply.where(:store => current_store, :approval_status => "AWAITING")
+      @submitted_supplies = Supply.where(:store => current_store, :approval_status => ["AWAITING" , "PARTIALLY APPROVED"])
     end
   end
 

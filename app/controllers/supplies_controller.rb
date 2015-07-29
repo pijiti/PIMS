@@ -24,11 +24,15 @@ class SuppliesController < ApplicationController
     else
       @supply.submit_for_approval
 
+      recipients_counter = 0
       User.with_any_role({ :name => "Store Manager", :resource => current_store }).each do |user|
         UserMailer.approval_alert(user,@supply).deliver
+        recipients_counter += 1
       end
-
-      redirect_to supplies_path
+      @supplies = Supply.where(:store => current_store)
+      new
+      flash[:notice] = "Submitted for approval. Mail notification dispatched to #{recipients_counter} recipients"
+      render "supplies/index"
     end
   end
 

@@ -22,6 +22,7 @@ class SuppliesController < ApplicationController
   def approval
 
     @notice = "Please select before approving/rejecting"
+    approval_status = ""
     begin
       if supply_params[:approval_type] == "approve"
         supply_params[:batches_attributes].each do |k, v|
@@ -29,7 +30,7 @@ class SuppliesController < ApplicationController
           next if v[:selector] != "1"
           Batch.update(v[:id], :approval_status => "APPROVED", :comments => v[:comments])
           @notice = "Selected batches approved"
-
+          approval_status = "approved"
         end
       elsif supply_params[:approval_type] == "reject"
         supply_params[:batches_attributes].each do |k, v|
@@ -39,10 +40,16 @@ class SuppliesController < ApplicationController
           else
             Batch.update(v[:id], :approval_status => "REJECTED", :comments => v[:comments])
             @notice = "Selected batches rejected"
+            approval_status = "rejected"
           end
         end
       end
       @supply.update_approval_status
+      if ["approved", "rejected"].include? approval_status
+        #send sms
+        sms_to = User.find_by_id(@supply.signed_off_by).try(:username)
+        send_sms(sms_to, "Hello #{sms_to.username}, the batch of drugs with reference - #{@supply.invoice_reference} has been #{approval_status}.") if sms_to
+      end
     rescue => e
       @notice = e.message
     end
@@ -59,14 +66,19 @@ class SuppliesController < ApplicationController
     else
       @supply.submit_for_approval
 
+      #mail notification
       recipients_counter = 0
       User.with_any_role({:name => "Store Manager", :resource => current_store}).each do |user|
         UserMailer.approval_alert(user, @supply).deliver
+        #sms notification
+        send_sms(user.username, "Hello #{user.first_name}, You have an invoice with reference - #{@supply.invoice_reference} waiting for approval.")
         recipients_counter += 1
       end
+
+
       @supplies = Supply.where(:store => current_store)
       new
-      flash[:notice] = "Submitted for approval. Mail notification dispatched to #{recipients_counter} recipients"
+      flash[:notice] = "Submitted for approval. Mail and sms notification dispatched to #{recipients_counter} recipients"
       render "supplies/index"
     end
   end

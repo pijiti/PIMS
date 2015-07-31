@@ -29,6 +29,7 @@ gem 'simple_form', '~> 3.1.0.rc2'
 gem 'cocoon', '~> 1.2.6'
 gem 'nokogiri', '~> 1.6.6.2'
 gem 'cancancan'
+gem 'rest-client'
 
 
 

@@ -37,6 +37,7 @@ class Supply < ActiveRecord::Base
 
     begin
       UserMailer.approval_status_change_alert(self).deliver
+
     rescue => e
       logger.error "#{e.message}"
     end

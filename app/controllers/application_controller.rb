@@ -1,3 +1,6 @@
+require 'rest-client'
+require 'uri'
+
 class ApplicationController < ActionController::Base
   include AuthorizationConcern
   #rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
@@ -29,6 +32,12 @@ class ApplicationController < ActionController::Base
 
   def current_user
     @current_user ||= User.find(session[:user]) if session[:user]
+  end
+
+  def send_sms(to,message)
+    if Rails.env == "production"
+      RestClient.get(URI.encode "http://www.estoresms.com/smsapi.php?username=#{$sms_user}&password=#{$sms_pwd}&sender=#{$sms_sender}&recipient=#{to}&message=#{message}")
+    end
   end
 
 

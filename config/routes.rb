@@ -1,6 +1,13 @@
 Rails.application.routes.draw do
 
-  get 'inventory/index'
+  resources :inventory do
+    collection do
+      post 'filter'
+    end
+    member do
+
+    end
+  end
 
   resources :request_items
 

@@ -1,0 +1,17 @@
+table.table.table-striped.table-condensed
+    thead
+      tr.data-rows
+         th Brand
+         th Store
+         th Units
+         th Parent Store
+         th Parent store units
+
+    tbody
+      - @inventories.each do |i|
+        tr.data-rows
+          td = i.brand.detailed_info
+          td = i.store.name
+          td = i.units
+          td = i.store.parent.try(:name)
+          td = Inventory.where(:store => i.store.parent , :brand =>i.brand ).try(:first).try(:units)

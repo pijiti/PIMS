@@ -7,8 +7,13 @@ class Brand < ActiveRecord::Base
 	has_many :batches
 
   before_create :modify_attrs
+  after_create :initialise_inventory
 
-
+  def initialise_inventory
+    Store.all.each do |s|
+      Inventory.create(:brand_id => self.id , :store_id => s.id , :units => 0)
+    end
+  end
 
 
 	def detailed_info

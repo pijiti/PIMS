@@ -31,6 +31,15 @@ class SuppliesController < ApplicationController
           Batch.update(v[:id], :approval_status => "APPROVED", :comments => v[:comments])
           @notice = "Selected batches approved"
           approval_status = "approved"
+          # update inventory
+          logger.debug "updating inventory==========="
+          batch = Batch.find(v[:id])
+          i = Inventory.where(:brand_id => batch.brand_id , :store_id => @supply.store_id).first
+          if i
+            logger.debug "updating inventory===========2"
+            i.update(:units => i.units.to_f + batch.qty.to_f * batch.brand.pack_size.to_f )
+            logger.debug "updating inventory===========#{i.units.to_s}"
+          end
         end
       elsif supply_params[:approval_type] == "reject"
         supply_params[:batches_attributes].each do |k, v|
@@ -48,7 +57,7 @@ class SuppliesController < ApplicationController
       if ["approved", "rejected"].include? approval_status
         #send sms
         sms_to = User.find_by_id(@supply.signed_off_by).try(:username)
-        send_sms(sms_to, "Hello #{sms_to.username}, the batch of drugs with reference - #{@supply.invoice_reference} has been #{approval_status}.") if sms_to
+        send_sms(sms_to, "Hello #{sms_to}, the batch of drugs with reference - #{@supply.invoice_reference} has been #{approval_status}.") if sms_to
       end
     rescue => e
       @notice = e.message

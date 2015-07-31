@@ -1,7 +1,8 @@
 h3.text-center Inventory
 .filter
   = simple_form_for(@filter, :url => filter_inventory_index_path , :method => "post" , :remote => true ) do |f|
-      = f.input :store , collection: @stores , value_method: :id
+      - if can? :manage , :all
+        = f.input :store , collection: @stores , value_method: :id
       = f.input :brand , collection: @brands
       .text-center
         = f.submit :class => "btn btn-success btn-tiny" , :value => "filter"

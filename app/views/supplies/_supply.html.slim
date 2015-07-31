@@ -31,9 +31,11 @@
                                            th Batch No
                                            th Rate
                                            th Qty
+                                           th No of Units
                                            th Mfd Date
                                            th Expiry Date
                                            th Approval status
+
                                       tbody
                                         -supply.batches.try(:each) do |batch|
                                          tr[class="#{highlight_batch(batch)}" ]
@@ -41,6 +43,7 @@
                                              td = batch.batch_number
                                              td = batch.rate
                                              td = batch.qty
+                                             td = calculate_units_in_pack(batch)
                                              td = batch.mfd_date.strftime("%d/%m/%Y")
                                              td = batch.expiry_date.strftime("%d/%m/%Y")
                                              td = batch.approval_status

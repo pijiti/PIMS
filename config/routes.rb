@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :inventory do
     collection do
       post 'filter'
+      post 'import'
     end
     member do
 

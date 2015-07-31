@@ -4,6 +4,10 @@ class InventoryController < ApplicationController
     @stores = Store.all
     @brands = Brand.all
     @filter = Inventory.new(:store => current_store  , :brand => nil)
+    respond_to do |format|
+      format.html
+      format.csv { send_data @inventories.to_csv }
+    end
   end
 
   def filter
@@ -20,6 +24,12 @@ class InventoryController < ApplicationController
       @inventories = Inventory.includes(:store , :brand).where(:store => current_store)
     end
 
+  end
+
+  #bulk upload
+  def import
+    Inventory.import(params[:file])
+    redirect_to inventory_index_path, notice: "Drugs imported."
   end
 
 end

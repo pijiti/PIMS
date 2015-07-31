@@ -7,7 +7,7 @@ workbook.add_worksheet(name: "Generic") do |sheet|
   sheet.add_row ["Generic", "Classes","Brand","Dosage Form","Strength","Strength Unit","Marketer","Pack Size","Minimum Dispensable"], :style => header
   @pharm_items.each do |pharm_item|
     pharm_item.brands.each_with_index do | brand,index|
-    sheet.add_row [brand.try(:pharm_item).try(:name),brand.try(:pharm_item).try(:sub_classes).try(:collect){|s| s.name}.to_sentence,brand.try(:name),
+    sheet.add_row [brand.id, brand.try(:pharm_item).try(:name),brand.try(:pharm_item).try(:sub_classes).try(:collect){|s| s.name}.to_sentence,brand.try(:name),
   brand.try(:unit_dose).try(:name),brand.try(:concentration),brand.try(:item_concentration_unit).try(:name),brand.try(:marketer).try(:name),brand.try(:pack_size),brand.try(:min_dispensable) ]
   end
   end

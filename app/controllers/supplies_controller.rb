@@ -56,8 +56,8 @@ class SuppliesController < ApplicationController
       @supply.update_approval_status
       if ["approved", "rejected"].include? approval_status
         #send sms
-        sms_to = User.find_by_id(@supply.signed_off_by).try(:username)
-        send_sms(sms_to, "Hello #{sms_to}, the batch of drugs with reference - #{@supply.invoice_reference} has been #{approval_status}.") if sms_to
+        sms_to = User.find_by_id(@supply.signed_off_by)
+        send_sms(sms_to.username, "Hello #{sms_to.first_name}, the batch of drugs with reference - #{@supply.invoice_reference} has been #{approval_status}.") if sms_to
       end
     rescue => e
       @notice = e.message

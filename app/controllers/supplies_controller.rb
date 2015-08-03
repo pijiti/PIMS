@@ -9,7 +9,7 @@ class SuppliesController < ApplicationController
 
 
   def index
-    @supplies = Supply.where(:store => current_store)
+    @supplies = Supply.where(:store => current_store).order("created_at desc")
     new
   end
 

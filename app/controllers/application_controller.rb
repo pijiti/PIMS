@@ -35,9 +35,9 @@ class ApplicationController < ActionController::Base
   end
 
   def send_sms(to,message)
-    if Rails.env == "production"
+    #if Rails.env == "production"
       RestClient.get(URI.encode "http://www.estoresms.com/smsapi.php?username=#{$sms_user}&password=#{$sms_pwd}&sender=#{$sms_sender}&recipient=#{to}&message=#{message}")
-    end
+    #end
   end
 
 

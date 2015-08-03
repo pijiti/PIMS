@@ -1,57 +1,57 @@
-     tr.data-rows.supply
-           td.vendor = supply.vendor.try(:name)
-           td.supply-reference = supply.invoice_reference
-           td.invoice-date = (supply.invoice_date.strftime("%e/%m/%Y") if supply.invoice_date)
-           td.invoice-value = supply.invoice_value
-           td.supply = supply.batches.length 
-           td.sign-off = supply.user.try(:full_name) 
-           td.approval-status= supply.try(:approval_status) 
-           td.add-item
-              /! Button trigger modal
-              /button.btn.btn-primary.btn-sm data-target="#myModal1" data-toggle="modal" type="button"
-              /  | View Batches
+tr.data-rows.supply
+     td.vendor = supply.vendor.try(:name)
+     td.supply-reference = supply.invoice_reference
+     td.invoice-date = (supply.invoice_date.strftime("%e/%m/%Y") if supply.invoice_date)
+     td.invoice-value = supply.invoice_value
+     td.supply = supply.batches.length
+     td.sign-off = supply.user.try(:full_name)
+     td.approval-status= supply.try(:approval_status)
+     td.add-item
+        /! Button trigger modal
+        /button.btn.btn-primary.btn-sm data-target="#myModal1" data-toggle="modal" type="button"
+        /  | View Batches
 
-              a href="#" data-toggle="modal" data-target="#myModal_#{supply.id}"  View Batches
+        a href="#" data-toggle="modal" data-target="#myModal_#{supply.id}"  View Batches
 
 
-              /! Modal
-              div[id="myModal_#{supply.id}" class="modal" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
-                .modal-dialog role="document"
-                  .modal-content
-                    .modal-header
-                      button.close aria-label="Close" data-dismiss="modal" type="button"
-                        span aria-hidden="true"  &times;
-                      h4#myModalLabel.modal-title #{supply.invoice_reference} - Batches
+        /! Modal
+        div[id="myModal_#{supply.id}" class="modal" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
+          .modal-dialog role="document"
+            .modal-content
+              .modal-header
+                button.close aria-label="Close" data-dismiss="modal" type="button"
+                  span aria-hidden="true"  &times;
+                h4#myModalLabel.modal-title #{supply.invoice_reference} - Batches
 
-                    .modal-body
-                      table.table.table-striped.table-condensed.batches
-                                      thead
-                                         tr
-                                           th Brand
-                                           th Batch No
-                                           th Rate
-                                           th Qty
-                                           th No of Units
-                                           th Mfd Date
-                                           th Expiry Date
-                                           th Approval status
+              .modal-body
+                table.table.table-striped.table-condensed.batches
+                                thead
+                                   tr
+                                     th Brand
+                                     th Batch No
+                                     th Rate
+                                     th Qty
+                                     th No of Units
+                                     th Mfd Date
+                                     th Expiry Date
+                                     th Approval status
 
-                                      tbody
-                                        -supply.batches.try(:each) do |batch|
-                                         tr[class="#{highlight_batch(batch)}" ]
-                                             td = batch.brand.detailed_info
-                                             td = batch.batch_number
-                                             td = batch.rate
-                                             td = batch.qty
-                                             td = calculate_units_in_pack(batch)
-                                             td = batch.mfd_date.strftime("%d/%m/%Y")
-                                             td = batch.expiry_date.strftime("%d/%m/%Y")
-                                             td = batch.approval_status
-                    .modal-footer
-                      button.btn.btn-default data-dismiss="modal" type="button"  Close
-           - if supply.approval_status == "NOT SENT"
-             td.approval-link = link_to 'Submit For Approval', submit_supply_path(supply),method: :patch
-             td.edit = link_to 'Edit', edit_supply_path(supply)
-             td.destroy= link_to 'Destroy', supply,:remote => true, method: :delete, data: { confirm: 'Are you sure?' }
+                                tbody
+                                  -supply.batches.try(:each) do |batch|
+                                   tr[class="#{highlight_batch(batch)}" ]
+                                       td = batch.brand.detailed_info
+                                       td = batch.batch_number
+                                       td = batch.rate
+                                       td = batch.qty
+                                       td = calculate_units_in_pack(batch)
+                                       td = batch.mfd_date.strftime("%d/%m/%Y")
+                                       td = batch.expiry_date.strftime("%d/%m/%Y")
+                                       td = batch.approval_status
+              .modal-footer
+                button.btn.btn-default data-dismiss="modal" type="button"  Close
+     - if supply.approval_status == "NOT SENT" and ((can? :manage , :all) or current_user.id == supply.signed_off_by.to_i)
+       td.approval-link = link_to 'Submit For Approval', submit_supply_path(supply),method: :patch
+       td.edit = link_to 'Edit', edit_supply_path(supply)
+       td.destroy= link_to 'Destroy', supply,:remote => true, method: :delete, data: { confirm: 'Are you sure?' }
 
 

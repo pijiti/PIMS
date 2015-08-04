@@ -17,7 +17,7 @@ class Inventory < ActiveRecord::Base
     CSV.foreach(file.path, headers: true) do |row|
       logger.debug "=========#{row}============"
       i = Inventory.where(:brand_id => row["brand_id"] , :store_id => row["store_id"]).first
-      i.update(:units => i.units.to_f + (row["units"]).to_f) if i
+      i.update(:units => i.units.to_f + (row["units"]).to_f , :qty_last_added => row["units"]) if i
     end
   end
 end

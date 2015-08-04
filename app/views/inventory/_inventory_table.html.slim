@@ -4,6 +4,7 @@ table.table.table-striped.table-condensed
          th Brand
          th Store
          th Units
+         th Quantity last added
          th Last Updated
          th Parent Store
          th Parent store units
@@ -14,6 +15,7 @@ table.table.table-striped.table-condensed
           td = i.brand.detailed_info
           td = i.store.name
           td = i.units
-          td = i.updated_at
+          td = i.qty_last_added || i.units
+          td = i.updated_at.strftime("%d/%y/%Y at %I:%M%p")
           td = i.store.parent.try(:name)
           td = Inventory.where(:store => i.store.parent , :brand =>i.brand ).try(:first).try(:units)

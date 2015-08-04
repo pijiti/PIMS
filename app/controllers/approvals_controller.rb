@@ -7,7 +7,7 @@ class ApprovalsController < ApplicationController
   def approval_index
     #if store manager
     if can? :manage, Store
-      @submitted_supplies = Supply.where(:store => current_store).order("updated_at DESC")
+      @submitted_supplies = Supply.where(:store => current_store).where.not(:approval_status => "NOT SENT").order("updated_at DESC")
     end
   end
 

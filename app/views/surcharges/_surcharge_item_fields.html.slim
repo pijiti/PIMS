@@ -1,9 +1,9 @@
-   .nested-fields
+   tr.nested-fields
     
-        =f.input :name
+     td   =f.input :name
 
-        =f.input :value
+     td   =f.input :value
 
-        =f.input :description, as: :text
+     td   =f.input :description, as: :text
  
-        = link_to_remove_association "Remove item", f, class: 'btn btn-link btn-sm'
+     td   = link_to_remove_association "Remove item", f, class: 'btn btn-link btn-sm'

@@ -1,17 +1,26 @@
-
-
 = simple_form_for @surcharge, remote:true  do |f|
-
-           =f.input :name
-
-           =f.input :charge_type, as: :select, collection: Surcharge::SURCHARGE_TYPES, prompt: "Charge Type"
-
-           =f.input :active,label: "Active"
-
-           #surcharge-items
-                =f.simple_fields_for :surcharge_items do |surcharge_item|
-                  = render 'surcharge_item_fields', f: surcharge_item
-                .links
-                  = link_to_add_association 'Add Item', f, :surcharge_items, class: 'btn btn-link btn-sm'
-           .actions
-             =f.button :submit,'Save',class: 'btn btn-success btn-sm',data: {disable_with: 'Creating New Surcharge ....'}
+  table.table
+    thead
+      tr
+        th.col-sm-4.text-center Name
+        th.col-sm-4.text-center Charge type
+        th.col-sm-4.text-center Active
+    tbody
+      tr
+        td   =f.input :name , label: false
+        td   =f.input :charge_type, as: :select, collection: Surcharge::SURCHARGE_TYPES, prompt: "Charge Type" , label: false
+        td   = f.input :active , label: "Active"
+  hr
+    h4.text-center Surcharge Items
+  table.table.table-striped.table-condensed
+    thead
+      tr
+        th.col-sm-4.text-center Name
+        th.col-sm-4.text-center Value
+        th.col-sm-4.text-center Description
+    tbody#surcharge-items
+        =f.simple_fields_for :surcharge_items do |surcharge_item|
+          = render 'surcharge_item_fields', f: surcharge_item
+  = link_to_add_association "Add Item",  f , :surcharge_items, :"data-association-insertion-node" => "tbody#surcharge-items" , :"data-association-insertion-method" => "append" , :partial => "surcharge_item_fields"
+  .actions
+     =f.button :submit,'Save',class: 'btn btn-success btn-sm',data: {disable_with: 'Creating New Surcharge ....'}

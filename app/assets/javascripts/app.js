@@ -25,6 +25,8 @@ $(document).ready(function(){
         else
             $(this).closest('.batches_modal_table').find('.selector_checkbox').prop('checked', false);
     });
+
+    $("[data-toggle=popover]").popover();
 });
 
 

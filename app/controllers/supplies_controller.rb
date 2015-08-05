@@ -37,7 +37,7 @@ class SuppliesController < ApplicationController
           i = Inventory.where(:brand_id => batch.brand_id , :store_id => @supply.store_id).first
           if i
             logger.debug "updating inventory===========2"
-            i.update(:units => i.units.to_f + batch.qty.to_f * batch.brand.pack_size.to_f , :qty_last_added => batch.qty.to_f * batch.brand.pack_size.to_f )
+            i.update(:units => i.units.to_f + batch.qty.to_f * batch.brand.pack_size.to_f , :qty_last_added => batch.qty.to_f * batch.brand.pack_size.to_f , :rate_per_unit => batch.rate / batch.brand.pack_size.to_f)
             logger.debug "updating inventory===========#{i.units.to_s}"
           end
         end

@@ -5,11 +5,14 @@ h3.text-center Inventory
       thead
         tr
           th Store
+          th Generic Drug name
           th Brand
       tbody
         td
           - if can? :manage , :all
             = f.input :store , collection: @stores , value_method: :id , label: false
+        td
+            = f.input :generic_drug , collection: @pharm_items , label:false
         td
           = f.input :brand , collection: @brands , label:false
     .text-center

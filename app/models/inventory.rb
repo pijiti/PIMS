@@ -1,6 +1,7 @@
 class Inventory < ActiveRecord::Base
   belongs_to :brand
   belongs_to :store
+  attr_accessor :generic_drug
 
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|

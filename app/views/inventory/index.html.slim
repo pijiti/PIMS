@@ -1,11 +1,19 @@
 h3.text-center Inventory
 .filter
   = simple_form_for(@filter, :url => filter_inventory_index_path , :method => "post" , :remote => true ) do |f|
-      - if can? :manage , :all
-        = f.input :store , collection: @stores , value_method: :id
-      = f.input :brand , collection: @brands
-      .text-center
-        = f.submit :class => "btn btn-success btn-tiny" , :value => "filter"
+    table.table
+      thead
+        tr
+          th Store
+          th Brand
+      tbody
+        td
+          - if can? :manage , :all
+            = f.input :store , collection: @stores , value_method: :id , label: false
+        td
+          = f.input :brand , collection: @brands , label:false
+    .text-center
+      = f.submit :class => "btn btn-success btn-tiny" , :value => "filter"
 hr
 #inventory-table
   = render "inventory_table"

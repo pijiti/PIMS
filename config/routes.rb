@@ -38,6 +38,7 @@ Rails.application.routes.draw do
 
 	 resources :supplies do
   		collection do
+        get 'request_service'
   			get 'show_form'
   			get 'hide_form'
   			match 'search', via: [:get,:post]
@@ -83,7 +84,11 @@ Rails.application.routes.draw do
 
   resources :unit_doses
 
-  resources :vendors
+  resources :vendors do
+    collection do
+      post "order"
+    end
+  end
 
   devise_for :users, :controllers =>{:registrations => "pims_devise/registrations" ,:sessions => "pims_devise/sessions"}
 

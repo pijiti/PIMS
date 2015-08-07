@@ -18,7 +18,11 @@ class Brand < ActiveRecord::Base
 
 	def detailed_info
    "#{name} " + "(" + " #{pharm_item.try(:name)}" + " | " + " #{try(:concentration)}" + "#{item_concentration_unit.try(:name)}" + " #{unit_dose.try(:name)}" + " | " + " #{marketer.try(:name)} " + " )"
-	end
+  end
+
+  def mini_info
+    "#{name} " + "("   + " #{try(:concentration)}" + "#{item_concentration_unit.try(:name)}" + " #{unit_dose.try(:name)}" + " | " + " #{marketer.try(:name)} " + " )"
+  end
 
 	def modify_attrs
 		self.name = name.try(:titleize)

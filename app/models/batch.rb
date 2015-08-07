@@ -5,6 +5,8 @@ class Batch < ActiveRecord::Base
   belongs_to :pharm_item
   belongs_to :prescription
   belongs_to :request_item
+  has_many :inventory_batches , :dependent => :destroy
+  has_many :inventories , :through => :inventory_batches
 
   before_create :set_pharm_item
   before_update :set_pharm_item
@@ -12,6 +14,10 @@ class Batch < ActiveRecord::Base
   validates_presence_of :rate, :qty , :mfd_date , :expiry_date
   validate :mfd_date_check
   attr_accessor :selector
+
+  def get_vendor
+    self.supply.vendor
+  end
 
   def mfd_date_check
     if self.mfd_date and self.mfd_date > Time.now

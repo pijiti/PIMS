@@ -1,23 +1,109 @@
-table.table.table-striped.table-condensed
+table.table.table-responsive.table-hover
     thead
       tr.data-rows
+         th
+         th Generic Drug
          th Brand
          th Store
          th Units
          th Rate per unit
-         th Quantity last added
+         th Batches
          th Last Updated
          th Parent Store
          th Parent store units
 
     tbody
+      - current_pharm_item = 0
       - @inventories.each do |i|
-        tr.data-rows
-          td = i.brand.detailed_info
-          td = i.store.name
-          td = i.units
-          td = i.rate_per_unit
-          td = i.qty_last_added || i.units
-          td = i.updated_at.strftime("%d/%y/%Y at %I:%M%p")
-          td = i.store.parent.try(:name)
-          td = Inventory.where(:store => i.store.parent , :brand =>i.brand ).try(:first).try(:units)
+        -if i.pharm_item_id != current_pharm_item
+            - current_pharm_item = i.pharm_item_id
+            tr(class="data-rows clickable" data-toggle="collapse"  id="row#{current_pharm_item}" data-target=".row#{current_pharm_item}")
+                td
+                  - if @inventories.where(:brand => i.pharm_item.brands).count > 1
+                      i.fa.fa-plus
+                td = i.brand.pharm_item.name
+                td
+                    a href="#" data-toggle="modal" data-target="#order_#{current_pharm_item}"  Order more
+                    div[id="order_#{current_pharm_item}" class="modal" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
+                      .modal-dialog role="document"
+                        .modal-content
+                          .modal-header
+                            button.close aria-label="Close" data-dismiss="modal" type="button"
+                              span aria-hidden="true"  &times;
+                            h4#myModalLabel.modal-title Order #{i.pharm_item.name} for #{i.store.name}
+                          .modal-body
+                            - Vendor.where(:id => Supply.where(:batches => i.batches.pluck(:id)).pluck(:vendor_id)).each do |v|
+                                = simple_form_for(v, :url => order_vendors_path , :method => "post")  do |vendor_form|
+                                  = vendor_form.input :name
+                                  = vendor_form.input :choose , as: :boolean
+                                  = vendor_form.submit
+
+                          .modal-footer
+                            button.btn.btn-default data-dismiss="modal" type="button"  Close
+                td
+                  /= i.store.name
+                td
+                  /= Inventory.where(:pharm_item => current_pharm_item , :store => i.store).sum(:units)
+                td
+                  /= i.rate_per_unit
+                td
+                td
+                  /= i.updated_at.strftime("%d/%y/%Y at %I:%M%p")
+                td
+                  /= i.store.parent.try(:name)
+                td
+                  /= Inventory.where(:store => i.store.parent , :brand =>i.brand ).try(:first).try(:units)
+
+        tr(class ="data-rows collapse in row#{current_pharm_item}" )
+           td
+           td
+           td
+             = i.brand.mini_info
+
+           td = i.store.name
+           td = i.units
+           td = i.rate_per_unit
+           td
+                          a href="#" data-toggle="modal" data-target="#batches_#{i.id}"  View Batches
+                          /! Modal
+                          div[id="batches_#{i.id}"  class="modal" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
+                            .modal-dialog role="document"
+                              .modal-content
+                                .modal-header
+                                  button.close aria-label="Close" data-dismiss="modal" type="button"
+                                    span aria-hidden="true"  &times;
+                                  h4#myModalLabel.modal-title Inventory #{i.brand.name}
+
+                                .modal-body
+                                  table.table.table-striped.table-condensed.batches
+                                                  thead
+                                                     tr
+                                                       th Brand
+                                                       th Vendor
+                                                       th Batch No
+                                                       th Rate
+                                                       th Qty
+                                                       th No of Units
+                                                       th Rate per unit
+                                                       th Mfd Date
+                                                       th Expiry Date
+
+                                                  tbody
+                                                    -i.batches.last(10).try(:each) do |batch|
+                                                     tr[class="#{highlight_batch(batch)}" ]
+                                                         td = batch.brand.detailed_info
+                                                         td = batch.supply.vendor.try(:name)
+                                                         td = batch.batch_number
+                                                         td = batch.rate
+                                                         td = batch.qty
+                                                         td = calculate_units_in_pack(batch)
+                                                         td
+                                                            - ratep = batch.rate / calculate_units_in_pack(batch)
+                                                            = ratep
+                                                         td = batch.mfd_date.strftime("%d/%m/%Y")
+                                                         td = batch.expiry_date.strftime("%d/%m/%Y")
+                                .modal-footer
+                                  button.btn.btn-default data-dismiss="modal" type="button"  Close
+           td = i.updated_at.strftime("%d/%y/%Y at %I:%M%p")
+           td = i.store.parent.try(:name)
+           td = Inventory.where(:store => i.store.parent , :brand =>i.brand ).try(:first).try(:units)

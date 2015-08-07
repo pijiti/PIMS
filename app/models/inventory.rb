@@ -1,6 +1,11 @@
 class Inventory < ActiveRecord::Base
   belongs_to :brand
   belongs_to :store
+  belongs_to :pharm_item
+
+  has_many :inventory_batches  , :dependent => :destroy
+  has_many :batches , :through => :inventory_batches
+
   attr_accessor :generic_drug
 
   def self.to_csv(options = {})

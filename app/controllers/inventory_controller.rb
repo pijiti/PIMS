@@ -1,6 +1,6 @@
 class InventoryController < ApplicationController
   def index
-    @inventories = Inventory.includes(:store , :brand).where(:store => current_store)
+    @inventories = Inventory.includes(:store , :brand , :pharm_item , :batches).where(:store => current_store).order("pharm_item_id")
     @stores = Store.all
     @brands = Brand.all
     @pharm_items = PharmItem.all
@@ -16,10 +16,10 @@ class InventoryController < ApplicationController
     brand = params[:inventory][:brand]
     generic = params[:inventory][:generic_drug]
     logger.debug params[:inventory]
-    @inventories = Inventory.all
-    @inventories = Inventory.includes(:store , :brand).where(:store => store) if !store.blank?
-    @inventories = @inventories.includes(:store , :brand).where(:brand => brand) if !brand.blank?
-    @inventories = @inventories.includes(:store , :brand).where(:brand => PharmItem.find_by_id(generic).brands) if !generic.blank? and !PharmItem.find_by_id(generic).blank?
+    @inventories = Inventory.all.order("pharm_item_id")
+    @inventories = Inventory.includes(:store , :brand , :pharm_item, :batches).where(:store => store).order("pharm_item_id") if !store.blank?
+    @inventories = @inventories.includes(:store , :brand, :pharm_item, :batches).where(:brand => brand).order("pharm_item_id") if !brand.blank?
+    @inventories = @inventories.includes(:store , :brand, :pharm_item, :batches).where(:pharm_item_id => generic).order("pharm_item_id") if !generic.blank?
 
   end
 

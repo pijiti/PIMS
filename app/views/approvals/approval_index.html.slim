@@ -47,6 +47,7 @@ table.table.table-striped.table-condensed
                                                 th Rate
                                                 th Qty
                                                 th No of Units
+                                                th Rate per unit
                                                 th Mfd Date
                                                 th Expiry Date
                                                 th Status
@@ -63,6 +64,13 @@ table.table.table-striped.table-condensed
                                                     td = batch.rate
                                                     td = batch.qty
                                                     td = calculate_units_in_pack(batch)
+                                                    td
+                                                       - ratep = batch.rate / calculate_units_in_pack(batch)
+                                                       = ratep
+                                                       - inv = Inventory.where(:brand => batch.brand)
+                                                       - if !inv.blank? and inv.last.rate_per_unit != ratep
+                                                           a tabindex="0" href="#" data-toggle="popover" data-trigger="focus" title="Rate per unit changed" data-content="Rate per unit will be set to this value in inventory after approval."
+                                                             i class="fa fa-info fa-fw blue"
                                                     td = batch.mfd_date.strftime("%d/%m/%Y")
                                                     td = batch.expiry_date.strftime("%d/%m/%Y")
                                                     td = batch.approval_status

@@ -32,11 +32,25 @@ table.table.table-responsive.table-hover
                               span aria-hidden="true"  &times;
                             h4#myModalLabel.modal-title Order #{i.pharm_item.name} for #{i.store.name}
                           .modal-body
-                            - Vendor.where(:id => Supply.where(:batches => i.batches.pluck(:id)).pluck(:vendor_id)).each do |v|
-                                = simple_form_for(v, :url => order_vendors_path , :method => "post")  do |vendor_form|
-                                  = vendor_form.input :name
-                                  = vendor_form.input :choose , as: :boolean
-                                  = vendor_form.submit
+                            - if i.store.parent.blank?
+                              = simple_form_for(Vendor.new, :url => order_vendors_path , :method => "post")  do |vendor_form|
+                                    = vendor_form.collection_check_boxes :id, vendors_from_inventories(i.pharm_item_id), :id, :name
+                                    = vendor_form.hidden_field :pharm_item_id , :value => i.pharm_item_id
+                                    = vendor_form.hidden_field :store_id , :value => i.store_id
+                                    .actions.text-center
+                                      = vendor_form.submit :class => "btn btn-primary btn-sm" , :value => "Order"
+                            -else
+                              = simple_form_for(Supply.new, :url => order_supplies_path , :method => "post")  do |supply_form|
+
+                                    = supply_form.input :order_qty
+                                    = supply_form.hidden_field :pharm_item_id , :value => i.pharm_item_id
+                                    = supply_form.hidden_field :store_id , :value => i.store_id
+                                    = supply_form.hidden_field :parent_store_id , :value => i.store.parent.id
+
+                                    p Click order button to submit request to the parent store #{i.store.parent.name}
+                                    .actions.text-center
+                                      = supply_form.submit :class => "btn btn-primary btn-sm" , :value => "Order"
+
 
                           .modal-footer
                             button.btn.btn-default data-dismiss="modal" type="button"  Close
@@ -64,7 +78,7 @@ table.table.table-responsive.table-hover
            td = i.units
            td = i.rate_per_unit
            td
-                          a href="#" data-toggle="modal" data-target="#batches_#{i.id}"  View Batches
+                          a href="#" data-toggle="modal" data-target="#batches_#{i.id}"  View
                           /! Modal
                           div[id="batches_#{i.id}"  class="modal" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
                             .modal-dialog role="document"

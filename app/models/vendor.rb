@@ -14,6 +14,7 @@ class Vendor < ActiveRecord::Base
 	validates :contact_mobile, presence: true,length: {maximum: 25}
 	validates :contact_email, presence: true,length: {maximum: 45}
 
+  attr_accessor :pharm_item_id , :store_id
 
 
 before_save :modify_attr

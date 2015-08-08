@@ -20,7 +20,7 @@ class Supply < ActiveRecord::Base
 
   accepts_nested_attributes_for :batches, allow_destroy: true, reject_if: :all_blank
 
-  attr_accessor :approval_type
+  attr_accessor :approval_type , :pharm_item_id,:store_id, :parent_store_id,:order_qty
 
   def update_approval_status
     count = self.batches.count

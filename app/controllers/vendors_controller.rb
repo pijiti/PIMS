@@ -12,6 +12,19 @@ class VendorsController < ApplicationController
   end
 
 
+  #order for restocking central stores
+  def order
+
+    s = Store.find_by_id(params[:vendor][:store_id])
+    p = PharmItem.find_by_id(params[:vendor][:pharm_item_id])
+    Vendor.where(:id => params[:vendor][:id]).each do |v|
+      UserMailer.order_from_vendors(p, s ,v).deliver
+    end
+
+    redirect_to inventory_index_path , :notice => "Notified the vendors"
+  end
+
+
   def new
     @vendor = Vendor.new
     @vendor_categories = VendorCategory.order(:name)

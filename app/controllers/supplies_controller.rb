@@ -7,9 +7,18 @@ class SuppliesController < ApplicationController
   #before_action :set_store, only: [:new,:index]
   respond_to :html, :js, :csv
 
-  #request service when drug stock is less
-  def request_service
+  #order when drug stock is less
+  def order
+    s = Store.find_by_id(params[:supply][:store_id])
+    ps = Store.find_by_id(params[:supply][:parent_store_id])
+    p = PharmItem.find_by_id(params[:supply][:pharm_item_id])
+    User.with_any_role({:name => "Store Manager" , :resource => ps} , {:name => "Store Keeper" , :resource => ps}).each do |u|
+      if u.email
+        UserMailer.order_from_central_store(u,params[:supply][:order_qty],p,s).deliver
+      end
+    end
 
+    redirect_to inventory_index_path , :notice => "Notified the central store"
   end
 
   def index

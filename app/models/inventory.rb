@@ -8,6 +8,15 @@ class Inventory < ActiveRecord::Base
 
   attr_accessor :generic_drug
 
+  #get all supply id from inventory and pharm item id
+  def self.generic_batches(p)
+    ids = []
+    Inventory.where(:pharm_item_id => p).each do |i|
+      ids << i.batches.pluck(:id)
+    end
+    Batch.where( :id => ids.flatten.uniq ).pluck(:supply_id)
+  end
+
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|
       column_names = ["brand_id" , "store_id" , "units"]

@@ -63,6 +63,10 @@ module ApplicationHelper
        0
      end
   end
+
+  def vendors_from_inventories(pharm_item)
+    Vendor.where(:id => Supply.where(:id => Inventory.generic_batches(pharm_item)).pluck(:vendor_id))
+  end
   ######Supply helpers end##########
 
 end

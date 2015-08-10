@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   			get 'show_form'
   			get 'hide_form'
         post 'order'
+        post 'filter_service_requests'
   			match 'search', via: [:get,:post]
   		end
   		member do

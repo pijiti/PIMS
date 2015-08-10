@@ -9,15 +9,26 @@ class SuppliesController < ApplicationController
 
   #central store services requests from dispensary store
   def service_request
-
+    if can? :manage , :all
+      @service_requests = ServiceRequest.includes(:pharm_item , :request_store).all
+      @stores = Store.all
+    else
+      @service_requests = ServiceRequest.includes(:pharm_item , :request_store).where(:request_store => current_store)
+      @stores = current_store
+    end
+    @pharm_items = PharmItem.all
+    @filter = ServiceRequest.new
   end
 
-
-  #order when drug stock is less
+  #order when drug stock is less. ordered for dispensary store
   def order
     s = Store.find_by_id(params[:supply][:store_id])
     ps = Store.find_by_id(params[:supply][:parent_store_id])
     p = PharmItem.find_by_id(params[:supply][:pharm_item_id])
+
+    #create service request
+    ServiceRequest.create(:from_store =>s , :request_store => ps, :qty => params[:supply][:order_qty] , :pharm_item => p )
+
     User.with_any_role({:name => "Store Manager" , :resource => ps} , {:name => "Store Keeper" , :resource => ps}).each do |u|
       if u.email
         UserMailer.order_from_central_store(u,params[:supply][:order_qty],p,s).deliver

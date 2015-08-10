@@ -1,0 +1,49 @@
+h3.text-center Service Requests
+.filter
+  = simple_form_for(@filter, :url => filter_service_requests_supplies_path , :method => "post" , :remote => true ) do |f|
+    table.table
+      thead
+        tr
+          th From Store
+          th Generic Drug name
+      tbody
+        td
+          /- if can? :manage , :all
+          = f.input :from_store_id , collection: @stores , value_method: :id , label: false
+        td
+            = f.input :pharm_item_id , collection: @pharm_items , label:false
+    .text-center
+      = f.submit :class => "btn btn-success btn-tiny" , :value => "filter"
+hr
+#service-request-table
+  table.table
+    thead
+          tr.data-rows
+             th Requesting Store
+             th Generic Drug
+             th Quantity
+             th Central Store
+             th Available
+             th Request status
+             th Requested at
+             th Service
+    tbody
+      - @service_requests.each do |s|
+          tr
+            td = s.from_store.try(:name)
+            td = s.pharm_item.name
+            td = s.qty
+            td = s.request_store.try(:name)
+            td = s.request_store.inventories.where(:pharm_item => s.pharm_item).try(:sum, :units)
+            td = s.status
+            td = s.created_at.strftime("%d/%y/%Y at %I:%M%p")
+            td
+
+
+
+
+
+
+
+
+

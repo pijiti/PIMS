@@ -76,7 +76,7 @@ module ApplicationHelper
   def order_more_btn(i, s)
     if i.units == 0
       "btn-danger"
-    elsif (s.store_type.name.downcase.include? "CENTRAL" and i.units > i.pharm_item.try(:main_restock_level)) or  (i.units > i.pharm_item.try(:dispensary_restock_level))
+    elsif (s.store_type.name.downcase.include? "central" and i.units > i.pharm_item.try(:main_restock_level)) or  (i.units > i.pharm_item.try(:dispensary_restock_level))
        "btn-success"
     else
        "btn-warning"

@@ -1,7 +1,17 @@
 class InventoryController < ApplicationController
   def index
     @inventories = Inventory.includes(:store , :brand , :pharm_item , :batches).where(:store => current_store).order("pharm_item_id")
-    @stores = Store.all
+    store_ids = []
+
+    if can? :manage , :all
+      @stores = Store.all
+    else
+      store_ids = Store.where(:parent_id => current_store.id).pluck(:id)
+      store_ids << current_store.id
+      @stores = Store.where(:id => store_ids)
+    end
+
+    #@stores = Store.all
     @brands = Brand.all
     @pharm_items = PharmItem.all
     @filter = Inventory.new(:store => current_store  , :brand => nil)

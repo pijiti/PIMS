@@ -23,7 +23,7 @@ table.table.table-responsive.table-hover
                       i.fa.fa-plus
                 td = i.brand.pharm_item.name
                 td
-                    a href="#" data-toggle="modal" data-target="#order_#{current_pharm_item}"  Order more
+                    a href="#" class="btn btn-sm #{order_more_btn(i,i.store)}" data-toggle="modal" data-target="#order_#{current_pharm_item}"  Order more
                     div[id="order_#{current_pharm_item}" class="modal" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
                       .modal-dialog role="document"
                         .modal-content

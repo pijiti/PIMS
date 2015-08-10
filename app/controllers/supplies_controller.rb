@@ -7,6 +7,12 @@ class SuppliesController < ApplicationController
   #before_action :set_store, only: [:new,:index]
   respond_to :html, :js, :csv
 
+  #central store services requests from dispensary store
+  def service_request
+
+  end
+
+
   #order when drug stock is less
   def order
     s = Store.find_by_id(params[:supply][:store_id])

@@ -53,7 +53,7 @@
               <%= link_to '<i class="fa fa-sign-in fa-fw blue"></i>&nbsp;Approval'.html_safe, approval_index_approvals_path, class: "list-group-item" %>
           <% end %>
           <%= link_to '<i class="fa fa-archive fa-fw blue"></i>&nbsp;Inventory'.html_safe, inventory_index_path, class: "list-group-item" %>
-          <%#= link_to '<i class="fa fa-phone fa-fw blue"></i>&nbsp;Request Service'.html_safe, request_service_supplies_path, class: "list-group-item" %>
+          <%= link_to '<i class="fa fa-phone fa-fw blue"></i>&nbsp;Service Request'.html_safe, service_request_supplies_path, class: "list-group-item" %>
         </div>
     <% end %>
     <% if can? :manage, Patient %>

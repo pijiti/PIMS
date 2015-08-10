@@ -38,7 +38,7 @@ Rails.application.routes.draw do
 
 	 resources :supplies do
   		collection do
-        get 'request_service'
+        get 'service_request'
   			get 'show_form'
   			get 'hide_form'
         post 'order'

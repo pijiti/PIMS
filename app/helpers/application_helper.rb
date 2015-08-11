@@ -82,6 +82,7 @@ module ApplicationHelper
        "btn-warning"
     end
   end
+
   ######Supply helpers end##########
 
 end

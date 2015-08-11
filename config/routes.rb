@@ -43,6 +43,7 @@ Rails.application.routes.draw do
   			get 'hide_form'
         post 'order'
         post 'filter_service_requests'
+        post 'transfer_batches'
   			match 'search', via: [:get,:post]
   		end
   		member do

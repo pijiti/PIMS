@@ -68,7 +68,7 @@ class SuppliesController < ApplicationController
           if i
             logger.debug "updating inventory===========2"
             i.update(:units => i.units.to_f + batch.qty.to_f * batch.brand.pack_size.to_f , :qty_last_added => batch.qty.to_f * batch.brand.pack_size.to_f , :rate_per_unit => batch.rate / batch.brand.pack_size.to_f)
-            i.batches << batch
+            InventoryBatch.create(:inventory => i , :batch => batch , :units => batch.qty)
             logger.debug "updating inventory===========#{i.units.to_s}"
           end
         end

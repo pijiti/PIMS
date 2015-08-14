@@ -29,63 +29,65 @@ hr
              th Service
     tbody
       - @service_requests.each do |s|
-          tr
+          tr.data-rows
             td = s.from_store.try(:name)
             td = s.pharm_item.name
             td = s.qty
             td = s.request_store.try(:name)
-            td = s.request_store.inventories.where(:pharm_item => s.pharm_item).try(:sum, :units)
+            td = generic_drug_count(s.pharm_item,s.request_store)
             td = s.status
             td = s.created_at.strftime("%d/%y/%Y at %I:%M%p")
             td
-               a href="#" data-toggle="modal" data-target="#requests_#{s.id}"  Service Request
-               = form_for(Supply.new , :url => transfer_batches_supplies_path , :method => :post ) do |supply_form|
-                     = supply_form.hidden_field :service_request_id , :value => s.id
-                     /! Modal
-                     div[id="requests_#{s.id}" class="modal modal-approvals" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
-                       .modal-dialog role="document"
-                         .modal-content
-                           .modal-header
-                             button.close.approval-close aria-label="Close" data-dismiss="modal" type="button"
-                               span aria-hidden="true"  &times;
-                             h4#myModalLabel.modal-title Allot #{s.qty} units of #{s.pharm_item.name} to #{s.from_store.try(:name)}
-                           .modal-body
-                               table.table.table-striped.table-condensed.batches.batches_modal_table
-                                     thead
-                                        tr
-                                          th Brand
-                                          th Batch No
-                                          th Rate
-                                          th Available Units
-                                          th Rate per unit
-                                          th Mfd Date
-                                          th Expiry Date
-                                          th Allot
+                - if s.status != "COMPLETED"
+                   a href="#" data-toggle="modal" data-target="#requests_#{s.id}"  Service Request
+                   = form_for(Supply.new , :url => transfer_batches_supplies_path , :method => :post ) do |supply_form|
+                         = supply_form.hidden_field :service_request_id , :value => s.id
+                         /! Modal
+                         div[id="requests_#{s.id}" class="modal modal-approvals" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
+                           .modal-dialog role="document"
+                             .modal-content
+                               .modal-header
+                                 button.close.approval-close aria-label="Close" data-dismiss="modal" type="button"
+                                   span aria-hidden="true"  &times;
+                                 h4#myModalLabel.modal-title Allot #{s.qty} units of #{s.pharm_item.name} to #{s.from_store.try(:name)}
+                               .modal-body
+                                   table.table.table-striped.table-condensed.batches.batches_modal_table
+                                         thead
+                                            tr
+                                              th Brand
+                                              th Batch No
+                                              th Rate
+                                              th Available Units
+                                              th Rate per unit
+                                              th Mfd Date
+                                              th Expiry Date
+                                              th Allot
 
 
-                                     tbody
-                                       - InventoryBatch.includes(:batch).where(:inventory => Inventory.where(:pharm_item_id => s.pharm_item_id , :store=> s.request_store)).each do |inventory_batch|
-                                        - batch = inventory_batch.batch
-                                        = supply_form.simple_fields_for :batches , batch do |batch_form|
-                                          tr[class="#{highlight_batch(batch)} " ]
-                                              td = batch.brand.detailed_info
-                                              td = batch.batch_number
-                                              td = batch.rate
-                                              td = inventory_batch.units
-                                              td
-                                                 = batch.rate / calculate_units_in_pack(batch)
-                                              td = batch.mfd_date.strftime("%d/%m/%Y")
-                                              td = batch.expiry_date.strftime("%d/%m/%Y")
-                                              td
-                                                 = batch_form.input :allot , label: false
-                                                 = batch_form.hidden_field :inventory_batch_id , :value => inventory_batch.id
-                                                 = batch_form.hidden_field :store_id , :value => s.from_store.id
+                                         tbody
+                                           - InventoryBatch.includes(:batch).where(:inventory => Inventory.where(:pharm_item_id => s.pharm_item_id , :store=> s.request_store)).each do |inventory_batch|
+                                            - next if inventory_batch.units.to_i == 0
+                                            - batch = inventory_batch.batch
+                                            = supply_form.simple_fields_for :batches , batch do |batch_form|
+                                              tr[class="#{highlight_batch(batch)} " ]
+                                                  td = batch.brand.detailed_info
+                                                  td = batch.batch_number
+                                                  td = batch.rate
+                                                  td = inventory_batch.units
+                                                  td
+                                                     = batch.rate / calculate_units_in_pack(batch)
+                                                  td = batch.mfd_date.strftime("%d/%m/%Y")
+                                                  td = batch.expiry_date.strftime("%d/%m/%Y")
+                                                  td
+                                                     = batch_form.input :allot , label: false
+                                                     = batch_form.hidden_field :inventory_batch_id , :value => inventory_batch.id
+                                                     = batch_form.hidden_field :store_id , :value => s.from_store.id
 
-                                              /td = link_to  'Approve', submitted_item_approval_path( batch)
-                                              /td = link_to  'Disapprove', submitted_item_approval_path( batch)
+                                                  /td = link_to  'Approve', submitted_item_approval_path( batch)
+                                                  /td = link_to  'Disapprove', submitted_item_approval_path( batch)
 
-                           .modal-footer
-                             = supply_form.submit :class => "btn-sm btn btn-success" , :value => "Complete allotment"
+                               .modal-footer
+                                 = supply_form.submit :class => "btn-sm btn btn-success" , :value => "Complete allotment"
 
 
 

@@ -72,21 +72,24 @@ module ApplicationHelper
     Vendor.where(:id => Supply.where(:id => Inventory.generic_batches(pharm_item)).pluck(:vendor_id))
   end
 
+  #drug count for a store
+  def generic_drug_count(pharm_item,store)
+    inventories = Inventory.includes(:inventory_batches).where(:pharm_item => pharm_item , :store => store)
+    units_counter = 0
+    inventories.each do |inventory|
+      units_counter += inventory.inventory_batches.sum(:units)
+    end
+    units_counter
+  end
 
   def order_more_btn(i, s)
-    if i.inventory_batches.sum(:units) == 0
+    units_counter = generic_drug_count(i.pharm_item,s)
+    if units_counter == 0
       "btn-danger"
-    else
-      inventories = Inventory.includes(:inventory_batches).where(:pharm_item => i.pharm_item , :store => s)
-      units_counter = 0
-      inventories.each do |inventory|
-        units_counter += inventory.inventory_batches.sum(:units)
-      end
-      if (s.store_type.name.downcase.include? "central" and units_counter > i.pharm_item.try(:main_restock_level)) or  (units_counter > i.pharm_item.try(:dispensary_restock_level))
+    elsif (s.store_type.name.downcase.include? "central" and units_counter > i.pharm_item.try(:main_restock_level)) or  (units_counter > i.pharm_item.try(:dispensary_restock_level))
         "btn-success"
-      else
+    else
         "btn-warning"
-      end
     end
   end
 

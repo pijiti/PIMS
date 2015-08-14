@@ -18,11 +18,12 @@ class SuppliesController < ApplicationController
 
     if counter == s.qty.to_i
       params[:supply][:batches_attributes].each do |k, v|
+        next if v[:allot].blank?
         i = InventoryBatch.find_by_id(v[:inventory_batch_id])
         i.allot = v[:allot]
         flash[:notice] = i.allotment(v[:store_id])
       end
-      if flash[:notice]
+      if flash[:notice] and flash[:notice].include? "success"
         s.update(:status => "COMPLETED")
       else
         flash[:notice]= "Please select the batches for allocation"
@@ -36,12 +37,13 @@ class SuppliesController < ApplicationController
 
   #central store services requests from dispensary store
   def service_request
+    #admin can see all service requests
     if can? :manage, :all
-      @service_requests = ServiceRequest.includes(:pharm_item, :request_store).all
+      @service_requests = ServiceRequest.includes(:pharm_item, :request_store).all.order("status DESC")
       @stores = Store.all
     else
       @service_requests = ServiceRequest.includes(:pharm_item, :request_store).where(:request_store => current_store)
-      @stores = current_store
+      @stores = Store.where(:id => current_store.id)
     end
     @pharm_items = PharmItem.all
     @filter = ServiceRequest.new

@@ -1,4 +1,5 @@
 tr.data-rows.supply
+     td = supply.store.try(:name)
      td.vendor = supply.vendor.try(:name)
      td.supply-reference = supply.invoice_reference
      td.invoice-date = (supply.invoice_date.strftime("%e/%m/%Y") if supply.invoice_date)
@@ -40,7 +41,7 @@ tr.data-rows.supply
                                 tbody
                                   -supply.batches.try(:each) do |batch|
                                    tr[class="#{highlight_batch(batch)}" ]
-                                       td = batch.brand.detailed_info
+                                       td = batch.brand.try(:detailed_info)
                                        td = batch.batch_number
                                        td = batch.rate
                                        td = batch.qty

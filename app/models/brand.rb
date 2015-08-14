@@ -11,7 +11,7 @@ class Brand < ActiveRecord::Base
 
   def initialise_inventory
     Store.all.each do |s|
-      Inventory.create(:brand_id => self.id , :store_id => s.id , :units => 0)
+      Inventory.create(:brand_id => self.id , :store_id => s.id , :pharm_item_id => self.pharm_item.id)
     end
   end
 

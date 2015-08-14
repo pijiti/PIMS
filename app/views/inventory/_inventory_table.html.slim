@@ -103,6 +103,7 @@ table.table.table-responsive.table-hover
 
                                                   tbody
                                                     -i.batches.try(:each) do |batch|
+                                                     - next if i.inventory_batches.where(:batch =>batch).sum(:units) == 0
                                                      tr[class="#{highlight_batch(batch)}" ]
                                                          td = batch.brand.detailed_info
                                                          td = batch.supply.vendor.try(:name)

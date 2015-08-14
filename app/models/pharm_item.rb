@@ -2,7 +2,7 @@ class PharmItem < ActiveRecord::Base
 
 	has_many :sub_classes, through: :pharm_item_sub_classes
 	has_many :pharm_item_sub_classes, :dependent => :destroy
-	has_many :brands
+	has_many :brands , :dependent => :destroy
 	has_many :batches
 	has_many :request_items
 

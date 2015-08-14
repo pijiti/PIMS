@@ -39,14 +39,30 @@ class SuppliesController < ApplicationController
   def service_request
     #admin can see all service requests
     if can? :manage, :all
-      @service_requests = ServiceRequest.includes(:pharm_item, :request_store).all.order("status DESC")
+      @service_requests = ServiceRequest.includes(:pharm_item, :request_store , :from_store).all.order("status DESC")
       @stores = Store.all
     else
-      @service_requests = ServiceRequest.includes(:pharm_item, :request_store).where(:request_store => current_store)
+      @service_requests = ServiceRequest.includes(:pharm_item, :request_store , :from_store).where(:request_store => current_store).order("status DESC")
       @stores = Store.where(:id => current_store.id)
     end
     @pharm_items = PharmItem.all
     @filter = ServiceRequest.new
+  end
+
+
+  def filter_service_requests
+    from_store = params[:service_request][:from_store_id]
+    generic_drug = params[:service_request][:pharm_item_id]
+    @service_requests = ""
+    if can? :manage, :all
+      @service_requests = ServiceRequest.includes(:pharm_item, :request_store, :from_store).all.order("status DESC")
+      @stores = Store.all
+    else
+      @service_requests = ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:request_store => current_store).order("status DESC")
+      @stores = Store.where(:id => current_store.id)
+    end
+    @service_requests = @service_requests.includes(:pharm_item, :request_store).where(:from_store_id =>  from_store) if !from_store.blank?
+    @service_requests = @service_requests.includes(:pharm_item, :request_store).where(:pharm_item_id =>  generic_drug) if !generic_drug.blank?
   end
 
   #order when drug stock is less. ordered for dispensary store
@@ -68,7 +84,11 @@ class SuppliesController < ApplicationController
   end
 
   def index
-    @supplies = Supply.where(:store => current_store).order("created_at desc")
+    if can? :manage  , :all
+      @supplies = Supply.all.order("created_at desc")
+    else
+      @supplies = Supply.where(:store => current_store).order("created_at desc")
+    end
     new
   end
 

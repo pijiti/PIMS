@@ -74,12 +74,19 @@ module ApplicationHelper
 
 
   def order_more_btn(i, s)
-    if i.units == 0
+    if i.inventory_batches.sum(:units) == 0
       "btn-danger"
-    elsif (s.store_type.name.downcase.include? "central" and i.units > i.pharm_item.try(:main_restock_level)) or  (i.units > i.pharm_item.try(:dispensary_restock_level))
-       "btn-success"
     else
-       "btn-warning"
+      inventories = Inventory.includes(:inventory_batches).where(:pharm_item => i.pharm_item , :store => s)
+      units_counter = 0
+      inventories.each do |inventory|
+        units_counter += inventory.inventory_batches.sum(:units)
+      end
+      if (s.store_type.name.downcase.include? "central" and units_counter > i.pharm_item.try(:main_restock_level)) or  (units_counter > i.pharm_item.try(:dispensary_restock_level))
+        "btn-success"
+      else
+        "btn-warning"
+      end
     end
   end
 

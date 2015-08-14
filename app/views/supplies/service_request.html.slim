@@ -40,8 +40,9 @@ hr
             td
                a href="#" data-toggle="modal" data-target="#requests_#{s.id}"  Service Request
                = form_for(Supply.new , :url => transfer_batches_supplies_path , :method => :post ) do |supply_form|
+                     = supply_form.hidden_field :service_request_id , :value => s.id
                      /! Modal
-                     div[id="requests_#{s.id}" class="modal" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
+                     div[id="requests_#{s.id}" class="modal modal-approvals" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
                        .modal-dialog role="document"
                          .modal-content
                            .modal-header
@@ -70,13 +71,16 @@ hr
                                               td = batch.brand.detailed_info
                                               td = batch.batch_number
                                               td = batch.rate
-                                              td = InventoryBatch.where(:batch => batch , :inventory_id => Inventory.where(:brand => batch.brand)).sum(:units)
+                                              td = inventory_batch.units
                                               td
                                                  = batch.rate / calculate_units_in_pack(batch)
                                               td = batch.mfd_date.strftime("%d/%m/%Y")
                                               td = batch.expiry_date.strftime("%d/%m/%Y")
                                               td
                                                  = batch_form.input :allot , label: false
+                                                 = batch_form.hidden_field :inventory_batch_id , :value => inventory_batch.id
+                                                 = batch_form.hidden_field :store_id , :value => s.from_store.id
+
                                               /td = link_to  'Approve', submitted_item_approval_path( batch)
                                               /td = link_to  'Disapprove', submitted_item_approval_path( batch)
 

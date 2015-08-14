@@ -14,7 +14,7 @@ class Batch < ActiveRecord::Base
   validates_presence_of :rate, :qty , :mfd_date , :expiry_date , :batch_number
   validates_uniqueness_of :batch_number
   validate :mfd_date_check
-  attr_accessor :selector , :allot
+  attr_accessor :selector , :allot , :inventory_batch_id , :store_id
 
   def get_vendor
     self.supply.vendor

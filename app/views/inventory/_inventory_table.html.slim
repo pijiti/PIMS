@@ -75,7 +75,7 @@ table.table.table-responsive.table-hover
              = i.brand.mini_info
 
            td = i.store.name
-           td = i.units
+           td = i.inventory_batches.sum(:units)
            td = i.rate_per_unit
            td
                           a href="#" data-toggle="modal" data-target="#batches_#{i.id}"  View
@@ -96,21 +96,19 @@ table.table.table-responsive.table-hover
                                                        th Vendor
                                                        th Batch No
                                                        th Rate
-                                                       th Qty
                                                        th No of Units
                                                        th Rate per unit
                                                        th Mfd Date
                                                        th Expiry Date
 
                                                   tbody
-                                                    -i.batches.last(10).try(:each) do |batch|
+                                                    -i.batches.try(:each) do |batch|
                                                      tr[class="#{highlight_batch(batch)}" ]
                                                          td = batch.brand.detailed_info
                                                          td = batch.supply.vendor.try(:name)
                                                          td = batch.batch_number
                                                          td = batch.rate
-                                                         td = batch.qty
-                                                         td = calculate_units_in_pack(batch)
+                                                         td = i.inventory_batches.where(:batch =>batch).sum(:units)
                                                          td
                                                             - ratep = batch.rate / calculate_units_in_pack(batch)
                                                             = ratep
@@ -120,4 +118,4 @@ table.table.table-responsive.table-hover
                                   button.btn.btn-default data-dismiss="modal" type="button"  Close
            td = i.updated_at.strftime("%d/%y/%Y at %I:%M%p")
            td = i.store.parent.try(:name)
-           td = Inventory.where(:store => i.store.parent , :brand =>i.brand ).try(:first).try(:units)
+           td = Inventory.where(:store => i.store.parent , :brand =>i.brand ).try(:first).try(:inventory_batches).try(:sum, :units)

@@ -7,13 +7,40 @@ class SuppliesController < ApplicationController
   #before_action :set_store, only: [:new,:index]
   respond_to :html, :js, :csv
 
+  #transfer of batches based on allotment
+  def transfer_batches
+    counter = 0
+    s = ServiceRequest.find_by_id(params[:supply][:service_request_id])
+
+    params[:supply][:batches_attributes].each do |k, v|
+      counter += v[:allot].to_i
+    end
+
+    if counter == s.qty.to_i
+      params[:supply][:batches_attributes].each do |k, v|
+        i = InventoryBatch.find_by_id(v[:inventory_batch_id])
+        i.allot = v[:allot]
+        flash[:notice] = i.allotment(v[:store_id])
+      end
+      if flash[:notice]
+        s.update(:status => "COMPLETED")
+      else
+        flash[:notice]= "Please select the batches for allocation"
+      end
+    else
+      flash[:notice] = "Quantity alloted does not match with the request. Please try again"
+    end
+
+    redirect_to service_request_supplies_path
+  end
+
   #central store services requests from dispensary store
   def service_request
-    if can? :manage , :all
-      @service_requests = ServiceRequest.includes(:pharm_item , :request_store).all
+    if can? :manage, :all
+      @service_requests = ServiceRequest.includes(:pharm_item, :request_store).all
       @stores = Store.all
     else
-      @service_requests = ServiceRequest.includes(:pharm_item , :request_store).where(:request_store => current_store)
+      @service_requests = ServiceRequest.includes(:pharm_item, :request_store).where(:request_store => current_store)
       @stores = current_store
     end
     @pharm_items = PharmItem.all
@@ -27,15 +54,15 @@ class SuppliesController < ApplicationController
     p = PharmItem.find_by_id(params[:supply][:pharm_item_id])
 
     #create service request
-    ServiceRequest.create(:from_store =>s , :request_store => ps, :qty => params[:supply][:order_qty] , :pharm_item => p )
+    ServiceRequest.create(:from_store => s, :request_store => ps, :qty => params[:supply][:order_qty], :pharm_item => p)
 
-    User.with_any_role({:name => "Store Manager" , :resource => ps} , {:name => "Store Keeper" , :resource => ps}).each do |u|
+    User.with_any_role({:name => "Store Manager", :resource => ps}, {:name => "Store Keeper", :resource => ps}).each do |u|
       if u.email
-        UserMailer.order_from_central_store(u,params[:supply][:order_qty],p,s).deliver
+        UserMailer.order_from_central_store(u, params[:supply][:order_qty], p, s).deliver
       end
     end
 
-    redirect_to inventory_index_path , :notice => "Notified the central store"
+    redirect_to inventory_index_path, :notice => "Notified the central store"
   end
 
   def index
@@ -62,14 +89,11 @@ class SuppliesController < ApplicationController
           @notice = "Selected batches approved"
           approval_status = "approved"
           # update inventory
-          logger.debug "updating inventory==========="
           batch = Batch.find(v[:id])
-          i = Inventory.where(:brand_id => batch.brand_id , :store_id => @supply.store_id).first
+          i = Inventory.where(:brand_id => batch.brand_id, :store_id => @supply.store_id).first
           if i
-            logger.debug "updating inventory===========2"
-            i.update(:units => i.units.to_f + batch.qty.to_f * batch.brand.pack_size.to_f , :qty_last_added => batch.qty.to_f * batch.brand.pack_size.to_f , :rate_per_unit => batch.rate / batch.brand.pack_size.to_f)
-            InventoryBatch.create(:inventory => i , :batch => batch , :units => batch.qty)
-            logger.debug "updating inventory===========#{i.units.to_s}"
+            i.update( :qty_last_added => batch.qty.to_f * batch.brand.pack_size.to_f, :rate_per_unit => batch.rate / batch.brand.pack_size.to_f)
+            InventoryBatch.create(:inventory => i, :batch => batch, :units =>  batch.qty.to_i * batch.brand.pack_size.to_i)
           end
         end
       elsif supply_params[:approval_type] == "reject"

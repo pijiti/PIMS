@@ -1,0 +1,22 @@
+h3.text-center Transfer Drugs
+.filter
+  = simple_form_for(@filter, :url => filter_service_requests_supplies_path , :method => "post" , :remote => true ) do |f|
+    table.table
+      thead
+        tr
+          th Requesting Store
+          th Generic Drug name
+      tbody
+        td
+          /- if can? :manage , :all
+          = f.input :store_id , collection: @stores , value_method: :id , label: false
+        td
+            = f.input :pharm_item_id , collection: @pharm_items , label:false
+    .text-center
+      = f.submit :class => "btn btn-success btn-tiny" , :value => "filter"
+hr
+
+#service-request-table
+  = render "transfer_drugs_table"
+
+

@@ -1,0 +1,70 @@
+table.table
+  thead
+        tr.data-rows
+           th Store
+           th Generic Drug
+           th Brand
+           th Batch Number
+           th Available
+           th Transfer
+  tbody
+    - @inventory_batches.each do |s|
+        - next if s.units.to_i == 0
+        tr.data-rows
+          td = s.inventory.store.try(:name)
+          td = s.batch.pharm_item.name
+          td = s.batch.brand.detailed_info
+          td = s.batch.batch_number
+          /td = generic_drug_count(s.batch.pharm_item,s.inventory.store)
+          td = s.units
+          td
+                 a href="#" data-toggle="modal" data-target="#requests_#{s.id}"  Transfer
+                 = form_for(Supply.new , :url => transfer_batches_supplies_path , :method => :post ) do |supply_form|
+                       = supply_form.hidden_field :service_request_id , :value => s.id
+                       /! Modal
+                       div[id="requests_#{s.id}" class="modal modal-approvals" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
+                         .modal-dialog role="document"
+                           .modal-content
+                             .modal-header
+                               button.close.approval-close aria-label="Close" data-dismiss="modal" type="button"
+                                 span aria-hidden="true"  &times;
+                               h4#myModalLabel.modal-title Transfer #{s.batch.brand.name} from #{s.inventory.store.try(:name)}
+                             .modal-body
+                                 table.table.table-striped.table-condensed.batches.batches_modal_table
+                                       thead
+                                          tr
+                                            th Brand
+                                            th Batch No
+                                            th Rate
+                                            th Available Units
+                                            th Rate per unit
+                                            th Mfd Date
+                                            th Expiry Date
+                                            th Transfer to store
+                                            th Allot
+
+
+                                       tbody
+                                          -  batch = s.batch
+
+                                          = supply_form.simple_fields_for :batches , batch do |batch_form|
+                                            tr[class="#{highlight_batch(batch)} " ]
+                                                td = batch.brand.detailed_info
+                                                td = batch.batch_number
+                                                td = batch.rate
+                                                td = s.units
+                                                td
+                                                   = batch.rate / calculate_units_in_pack(batch)
+                                                td = batch.mfd_date.strftime("%d/%m/%Y")
+                                                td = batch.expiry_date.strftime("%d/%m/%Y")
+                                                td = batch_form.input :transfer_to_store , collection: @stores , label: false
+                                                td
+                                                   = batch_form.input :allot , label: false
+                                                   = batch_form.hidden_field :inventory_batch_id , :value => s.id
+                                                   /= batch_form.hidden_field :store_id , :value => s.from_store.id
+
+                                                /td = link_to  'Approve', submitted_item_approval_path( batch)
+                                                /td = link_to  'Disapprove', submitted_item_approval_path( batch)
+
+                             .modal-footer
+                               = supply_form.submit :class => "btn-sm btn btn-success" , :value => "Complete allotment"

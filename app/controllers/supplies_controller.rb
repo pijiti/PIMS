@@ -7,6 +7,13 @@ class SuppliesController < ApplicationController
   #before_action :set_store, only: [:new,:index]
   respond_to :html, :js, :csv
 
+  #from sidebar
+  def transfer_drugs
+    @inventory_batches = InventoryBatch.includes(:inventory,:batch).all
+    @stores = Store.all
+    @filter = InventoryBatch.new
+  end
+
   #transfer of batches based on allotment
   def transfer_batches
     counter = 0

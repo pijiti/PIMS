@@ -2,7 +2,7 @@ class InventoryBatch < ActiveRecord::Base
   belongs_to :inventory
   belongs_to :batch
 
-  attr_accessor :allot
+  attr_accessor :allot , :store_id , :pharm_item_id
 
   def allotment(store_id)
     response = nil

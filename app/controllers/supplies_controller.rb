@@ -77,13 +77,14 @@ class SuppliesController < ApplicationController
     s = Store.find_by_id(params[:supply][:store_id])
     ps = Store.find_by_id(params[:supply][:parent_store_id])
     p = PharmItem.find_by_id(params[:supply][:pharm_item_id])
+    b = Brand.find_by_id(params[:supply][:brand_id])
 
     #create service request
-    ServiceRequest.create(:from_store => s, :request_store => ps, :qty => params[:supply][:order_qty], :pharm_item => p)
+    ServiceRequest.create(:from_store => s, :request_store => ps, :qty => params[:supply][:order_qty], :pharm_item => p , :brand => b)
 
     User.with_any_role({:name => "Store Manager", :resource => ps}, {:name => "Store Keeper", :resource => ps}).each do |u|
       if u.email
-        UserMailer.order_from_central_store(u, params[:supply][:order_qty], p, s).deliver
+        UserMailer.order_from_central_store(u, params[:supply][:order_qty], p, s ,b).deliver
       end
     end
 

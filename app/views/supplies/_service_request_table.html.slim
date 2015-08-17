@@ -3,6 +3,7 @@ table.table
         tr.data-rows
            th Requesting Store
            th Generic Drug
+           th Brand
            th Quantity
            th Central Store
            th Available
@@ -14,6 +15,7 @@ table.table
         tr.data-rows
           td = s.from_store.try(:name)
           td = s.pharm_item.name
+          td = s.brand.blank? ? "Any" : s.brand.name
           td = s.qty
           td = s.request_store.try(:name)
           td = generic_drug_count(s.pharm_item,s.request_store)

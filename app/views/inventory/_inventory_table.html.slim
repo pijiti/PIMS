@@ -43,6 +43,7 @@ table.table.table-responsive.table-hover
                               = simple_form_for(Supply.new, :url => order_supplies_path , :method => "post")  do |supply_form|
 
                                     = supply_form.input :order_qty
+                                    = supply_form.input :brand_id , collection: i.pharm_item.brands , :prompt => "Any"
                                     = supply_form.hidden_field :pharm_item_id , :value => i.pharm_item_id
                                     = supply_form.hidden_field :store_id , :value => i.store_id
                                     = supply_form.hidden_field :parent_store_id , :value => i.store.parent.id

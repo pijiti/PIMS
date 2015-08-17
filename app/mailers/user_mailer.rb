@@ -21,11 +21,12 @@ class UserMailer < ActionMailer::Base
     mail(to: v.contact_email, subject: "Restocking of drugs request from #{s.name}")
   end
 
-  def order_from_central_store(u,q,d,s)
+  def order_from_central_store(u,q,d,s,b)
     @qty = q
     @pharm = d
     @store = s
     @user = u
+    @brand = b
     mail(to: u.email, subject: "Restocking of drugs request from #{s.name}")
   end
 

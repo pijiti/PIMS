@@ -4,10 +4,10 @@ class Store < ActiveRecord::Base
    has_many   :substores, class_name: "Store",  foreign_key: "parent_id"
 	 belongs_to  :parent, class_name: "Store"
 	 belongs_to :store_type
-	 has_many :batches
+	 has_many :batches , :dependent => :destroy
 	 #has_many :vendors
-	 has_many :supplies
-   has_many :inventories
+	 has_many :supplies , :dependent => :destroy
+   has_many :inventories , :dependent => :destroy
 	 belongs_to :store_operation
 
 

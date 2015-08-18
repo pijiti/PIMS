@@ -7,11 +7,37 @@ class SuppliesController < ApplicationController
   #before_action :set_store, only: [:new,:index]
   respond_to :html, :js, :csv
 
+  #filter transfer of drugs
+  def filter_transfer_drugs
+
+    #admin can see all service requests
+    from_store = params[:inventory_batch][:store_id]
+    generic_drug = params[:inventory_batch][:pharm_item_id]
+    @inventory_batches = ""
+    @stores = Store.all
+    if can? :manage, :all
+      @inventory_batches = InventoryBatch.includes(:inventory,:batch).all
+
+    else
+      @inventory_batches = InventoryBatch.includes(:inventory,:batch).where(:inventory => current_store.inventories).all
+    end
+    @inventory_batches = @inventory_batches.includes(:inventory,:batch).where(:inventory =>  Store.find(from_store).inventories) if !from_store.blank?
+    @inventory_batches = @inventory_batches.includes(:inventory,:batch).where(:batch =>  Batch.where(:pharm_item_id => generic_drug)) if !generic_drug.blank?
+    @pharm_items = PharmItem.all
+    @filter = ServiceRequest.new
+
+  end
+
   #from sidebar
   def transfer_drugs
-    @inventory_batches = InventoryBatch.includes(:inventory,:batch).all
+    if can? :manage, :all
+      @inventory_batches = InventoryBatch.includes(:inventory,:batch).all
+    else
+      InventoryBatch.includes(:inventory,:batch).where(:inventory => current_store.inventories).all
+    end
     @stores = Store.all
     @filter = InventoryBatch.new
+    @pharm_items = PharmItem.all
   end
 
   def transfer_batches_v2

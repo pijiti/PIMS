@@ -43,6 +43,7 @@ Rails.application.routes.draw do
   			get 'hide_form'
         post 'order'
         post 'filter_service_requests'
+        post 'filter_transfer_drugs'
         post 'transfer_batches'
         post 'transfer_batches_v2'
         get 'transfer_drugs'

@@ -1,6 +1,6 @@
-h3.text-center Transfer Drugs
+h3.text-center Transfer Batches
 .filter
-  = simple_form_for(@filter, :url => filter_service_requests_supplies_path , :method => "post" , :remote => true ) do |f|
+  = simple_form_for(@filter, :url => filter_transfer_drugs_supplies_path , :method => "post" , :remote => true ) do |f|
     table.table
       thead
         tr
@@ -16,7 +16,7 @@ h3.text-center Transfer Drugs
       = f.submit :class => "btn btn-success btn-tiny" , :value => "filter"
 hr
 
-#service-request-table
+#transfer-drugs-table
   = render "transfer_drugs_table"
 
 

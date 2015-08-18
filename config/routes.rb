@@ -44,6 +44,7 @@ Rails.application.routes.draw do
         post 'order'
         post 'filter_service_requests'
         post 'transfer_batches'
+        post 'transfer_batches_v2'
         get 'transfer_drugs'
   			match 'search', via: [:get,:post]
   		end

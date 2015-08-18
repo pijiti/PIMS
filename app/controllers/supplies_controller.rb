@@ -14,7 +14,24 @@ class SuppliesController < ApplicationController
     @filter = InventoryBatch.new
   end
 
-  #transfer of batches based on allotment
+  def transfer_batches_v2
+    params[:supply][:batches_attributes].each do |k, v|
+      next if v[:allot].blank?
+      i = InventoryBatch.find_by_id(v[:inventory_batch_id])
+      i.allot = v[:allot]
+      flash[:notice] = i.allotment(v[:transfer_to_store])
+    end
+
+    if flash[:notice] and flash[:notice].include? "success"
+      flash[:notice] = "Batch of drugs transferred successfully"
+    else
+      flash[:notice]= "Please enter number of drugs to transfer"
+    end
+
+    redirect_to transfer_drugs_supplies_path
+  end
+
+  #transfer of batches based on allotment. service request page
   def transfer_batches
     counter = 0
     s = ServiceRequest.find_by_id(params[:supply][:service_request_id])

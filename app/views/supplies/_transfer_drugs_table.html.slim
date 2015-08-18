@@ -5,6 +5,7 @@ table.table
            th Generic Drug
            th Brand
            th Batch Number
+           th Expiry date
            th Available
            th Transfer
   tbody
@@ -15,11 +16,12 @@ table.table
           td = s.batch.pharm_item.name
           td = s.batch.brand.detailed_info
           td = s.batch.batch_number
+          td = s.batch.expiry_date
           /td = generic_drug_count(s.batch.pharm_item,s.inventory.store)
           td = s.units
           td
                  a href="#" data-toggle="modal" data-target="#requests_#{s.id}"  Transfer
-                 = form_for(Supply.new , :url => transfer_batches_supplies_path , :method => :post ) do |supply_form|
+                 = form_for(Supply.new , :url => transfer_batches_v2_supplies_path , :method => :post ) do |supply_form|
                        = supply_form.hidden_field :service_request_id , :value => s.id
                        /! Modal
                        div[id="requests_#{s.id}" class="modal modal-approvals" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]

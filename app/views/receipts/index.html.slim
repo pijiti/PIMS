@@ -4,19 +4,27 @@ h3.text-center Confirm Delivery
     table.table
       thead
         tr
-          th Store
+          th From Store
+          th To Store
           th Generic Drug name
+          th Status
+          th Transfer initated from
       tbody
         td
-          /- if can? :manage , :all
           = f.input :from_store_id , collection: @stores , value_method: :id , label: false
         td
-            = f.input :pharm_item_id , collection: @pharm_items , label:false
+          = f.input :to_store_id , collection: @stores , value_method: :id , label: false
+        td
+          = f.input :pharm_item_id , collection: @pharm_items , label:false
+        td
+          = f.input :confirm_receipt , collection: ["ALL" , "AWAITING CONFIRMATION" , "COMPLETED"] , label: false
+        td
+          = f.input :created_at , :data => { :provide  => 'datepicker', "date-format" => "dd/mm/yyyy" } , :input_html => {class: 'datepicker string required form-control input-sm form-group' }, as: :string , label: false
     .text-center
       = f.submit :class => "btn btn-success btn-tiny" , :value => "filter"
 hr
 
-#transfer-drugs-table
+#receipts-table
   = render "receipts_table"
 
 

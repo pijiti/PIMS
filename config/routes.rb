@@ -51,9 +51,11 @@ Rails.application.routes.draw do
         post 'order'
         post 'filter_service_requests'
         post 'filter_transfer_drugs'
+        post 'filter_expired_drugs'
         post 'transfer_batches'
         post 'transfer_batches_v2'
         get 'transfer_drugs'
+        get 'expired_drugs'
   			match 'search', via: [:get,:post]
   		end
   		member do

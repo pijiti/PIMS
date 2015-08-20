@@ -16,10 +16,10 @@ class SuppliesController < ApplicationController
     @inventory_batches = ""
     @stores = Store.all
     if can? :manage, :all
-      @inventory_batches = InventoryBatch.includes(:inventory,:batch).all
+      @inventory_batches = InventoryBatch.includes(:inventory,:batch).where(:expired => nil)
 
     else
-      @inventory_batches = InventoryBatch.includes(:inventory,:batch).where(:inventory => current_store.inventories).all
+      @inventory_batches = InventoryBatch.includes(:inventory,:batch).where(:inventory => current_store.inventories , :expired => nil)
     end
     @inventory_batches = @inventory_batches.includes(:inventory,:batch).where(:inventory =>  Store.find(from_store).inventories) if !from_store.blank?
     @inventory_batches = @inventory_batches.includes(:inventory,:batch).where(:batch =>  Batch.where(:pharm_item_id => generic_drug)) if !generic_drug.blank?
@@ -29,11 +29,23 @@ class SuppliesController < ApplicationController
   end
 
   #from sidebar
+  def expired_drugs
+    if can? :manage, :all
+      @inventory_batches = InventoryBatch.includes(:inventory,:batch).where(:expired => true)
+    else
+      InventoryBatch.includes(:inventory,:batch).where(:inventory => current_store.inventories, :expired => true)
+    end
+    @stores = Store.all
+    @filter = InventoryBatch.new
+    @pharm_items = PharmItem.all
+  end
+
+  #from sidebar
   def transfer_drugs
     if can? :manage, :all
-      @inventory_batches = InventoryBatch.includes(:inventory,:batch).all
+      @inventory_batches = InventoryBatch.includes(:inventory,:batch).where(:expired => nil)
     else
-      InventoryBatch.includes(:inventory,:batch).where(:inventory => current_store.inventories).all
+      InventoryBatch.includes(:inventory,:batch).where(:inventory => current_store.inventories , :expired => nil)
     end
     @stores = Store.all
     @filter = InventoryBatch.new

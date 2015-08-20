@@ -1,0 +1,19 @@
+table.table
+  thead
+        tr.data-rows
+           th Store
+           th Generic Drug
+           th Brand
+           th Batch Number
+           th Expiry date
+           th Available
+  tbody
+    - @inventory_batches.each do |s|
+        - next if s.units.to_i == 0
+        tr.data-rows
+          td = s.inventory.store.try(:name)
+          td = s.batch.pharm_item.name
+          td = s.batch.brand.detailed_info
+          td = s.batch.batch_number
+          td = s.batch.expiry_date
+          td = s.units

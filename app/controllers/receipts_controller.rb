@@ -3,7 +3,24 @@ class ReceiptsController < ApplicationController
 
 
   def filter
-    @receipts = Receipt.includes(:inventory, :from_store,:batch).all
+    from_store = params[:receipt][:from_store_id]
+    to_store = params[:receipt][:to_store_id]
+    pharm_item = params[:receipt][:pharm_item_id]
+    requests_from = params[:receipt][:created_at]
+    status = params[:receipt][:confirm_receipt]
+
+    if can? :manage, :all
+      @receipts = Receipt.includes(:inventory, :from_store,:batch).all
+    else
+      @receipts = Receipt.includes(:inventory, :from_store,:batch).where(:to_store_id => current_store.id).all
+    end
+
+    @receipts = @receipts.includes(:inventory, :from_store,:batch).where(:from_store_id => from_store) if !from_store.blank?
+    @receipts = @receipts.includes(:inventory, :from_store,:batch).where(:inventory => Inventory.where(:pharm_item_id => pharm_item) ) if !pharm_item.blank?
+    @receipts = @receipts.includes(:inventory, :from_store,:batch).where(:to_store_id => to_store) if !to_store.blank?
+    @receipts = @receipts.includes(:inventory, :from_store,:batch).where("created_at > ?" ,  Time.strptime(requests_from , "%d/%m/%Y") ) if !requests_from.blank?
+    @receipts = @receipts.includes(:inventory, :from_store,:batch).where(:confirm_receipt => status ) if !status.blank? and status != "ALL"
+
   end
 
   def confirm
@@ -16,8 +33,12 @@ class ReceiptsController < ApplicationController
   # GET /receipts
   # GET /receipts.json
   def index
-    @receipts = Receipt.includes(:inventory, :from_store,:batch).all
-    @filter = Receipt.new
+    if can? :manage, :all
+      @receipts = Receipt.includes(:inventory, :from_store,:batch).all
+    else
+      @receipts = Receipt.includes(:inventory, :from_store,:batch).where(:to_store_id => current_store.id).all
+    end
+    @filter = Receipt.new(:confirm_receipt => "ALL")
     @stores = Store.all
     @pharm_items = PharmItem.all
   end

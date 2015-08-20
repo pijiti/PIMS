@@ -1,0 +1,22 @@
+h3.text-center Expired Batches
+.filter
+  = simple_form_for(@filter, :url => filter_expired_drugs_supplies_path , :method => "post" , :remote => true ) do |f|
+    table.table
+      thead
+        tr
+          th Store
+          th Generic Drug name
+      tbody
+        td
+          /- if can? :manage , :all
+          = f.input :store_id , collection: @stores , value_method: :id , label: false
+        td
+            = f.input :pharm_item_id , collection: @pharm_items , label:false
+    .text-center
+      = f.submit :class => "btn btn-success btn-tiny" , :value => "filter"
+hr
+
+#transfer-drugs-table
+  = render "expired_drugs_table"
+
+

@@ -49,7 +49,7 @@ table.table
 
 
                                        tbody
-                                         - InventoryBatch.includes(:batch).where(:inventory => Inventory.where(:pharm_item_id => s.pharm_item_id , :store=> s.request_store)).each do |inventory_batch|
+                                         - InventoryBatch.includes(:batch).where(:expired => nil, :inventory => Inventory.where(:pharm_item_id => s.pharm_item_id , :store=> s.request_store)).each do |inventory_batch|
                                           - next if inventory_batch.units.to_i == 0
                                           - batch = inventory_batch.batch
                                           = supply_form.simple_fields_for :batches , batch do |batch_form|

@@ -61,6 +61,9 @@
           <% if (can? :manage , :all)  or (current_store and current_store.store_type.name.downcase.include? "central")  %>
               <%= link_to '<i class="fa fa-exchange fa-fw blue"></i>&nbsp;Transfer batches'.html_safe, transfer_drugs_supplies_path, class: "list-group-item" %>
           <% end %>
+          <% if can? :manage, Store %>
+              <%= link_to '<i class="fa fa-check fa-fw blue"></i>&nbsp;Confirm Delivery'.html_safe, receipts_path, class: "list-group-item" %>
+          <% end %>
 
         </div>
     <% end %>

@@ -6,12 +6,18 @@ h3.text-center Service Requests
         tr
           th Requesting Store
           th Generic Drug name
+          th Status
+          th Requests from
       tbody
         td
           /- if can? :manage , :all
           = f.input :from_store_id , collection: @stores , value_method: :id , label: false
         td
             = f.input :pharm_item_id , collection: @pharm_items , label:false
+        td
+            = f.input :status , collection: ["ALL","PENDING", "AWAITING CONFIRMATION", "COMPLETED"] , label:false
+        td
+            = f.input :created_at , :data => { :provide  => 'datepicker', "date-format" => "dd/mm/yyyy" } , :input_html => {class: 'datepicker string required form-control input-sm form-group' }, as: :string , label: false
     .text-center
       = f.submit :class => "btn btn-success btn-tiny" , :value => "filter"
 hr

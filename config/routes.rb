@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
 
+  resources :receipts do
+    collection do
+      post 'filter'
+      post 'confirm'
+    end
+  end
+
   resources :inventory do
     collection do
       post 'filter'

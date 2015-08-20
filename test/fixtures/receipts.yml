@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  batch_id: 1
+  inventory_id: 1
+  from_store_id: 1
+  qty: 1
+  confirm_receipt: false
+  received_qty: 1
+
+two:
+  batch_id: 1
+  inventory_id: 1
+  from_store_id: 1
+  qty: 1
+  confirm_receipt: false
+  received_qty: 1

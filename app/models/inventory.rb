@@ -5,6 +5,7 @@ class Inventory < ActiveRecord::Base
 
   has_many :inventory_batches  , :dependent => :destroy
   has_many :batches , :through => :inventory_batches
+  has_many :receipts , :dependent => :destroy
 
   attr_accessor :generic_drug
 

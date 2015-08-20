@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150814163120) do
+ActiveRecord::Schema.define(version: 20150820030132) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -190,6 +190,19 @@ ActiveRecord::Schema.define(version: 20150814163120) do
     t.string   "code"
   end
 
+  create_table "receipts", force: true do |t|
+    t.integer  "batch_id"
+    t.integer  "inventory_id"
+    t.integer  "from_store_id"
+    t.integer  "qty"
+    t.string   "confirm_receipt"
+    t.integer  "received_qty"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "to_store_id"
+    t.integer  "service_request_id"
+  end
+
   create_table "request_items", force: true do |t|
     t.integer  "pharm_item_id"
     t.decimal  "qty",           precision: 5, scale: 2
@@ -232,6 +245,7 @@ ActiveRecord::Schema.define(version: 20150814163120) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "status",           default: "PENDING"
+    t.integer  "brand_id"
   end
 
   create_table "staff_categories", force: true do |t|

@@ -1,0 +1,24 @@
+p#notice = notice
+
+p
+  strong Batch:
+  = @receipt.batch_id
+p
+  strong Inventory:
+  = @receipt.inventory_id
+p
+  strong From store:
+  = @receipt.from_store_id
+p
+  strong Qty:
+  = @receipt.qty
+p
+  strong Confirm receipt:
+  = @receipt.confirm_receipt
+p
+  strong Received qty:
+  = @receipt.received_qty
+
+= link_to 'Edit', edit_receipt_path(@receipt)
+'|
+= link_to 'Back', receipts_path

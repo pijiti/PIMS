@@ -48,7 +48,7 @@ class SuppliesController < ApplicationController
       flash[:notice] = i.allotment(v[:transfer_to_store])
     end
 
-    if flash[:notice] and flash[:notice].include? "success"
+    if flash[:notice] and flash[:notice].include? "Success"
       flash[:notice] = "Batch of drugs transferred successfully"
     else
       flash[:notice]= "Please enter number of drugs to transfer"
@@ -71,10 +71,10 @@ class SuppliesController < ApplicationController
         next if v[:allot].blank?
         i = InventoryBatch.find_by_id(v[:inventory_batch_id])
         i.allot = v[:allot]
-        flash[:notice] = i.allotment(v[:store_id])
+        flash[:notice] = i.allotment(v[:store_id] , s.id)
       end
       if flash[:notice] and flash[:notice].include? "success"
-        s.update(:status => "COMPLETED")
+        s.update(:status => "AWAITING DELIVERY CONFIRMATION")
       else
         flash[:notice]= "Please select the batches for allocation"
       end
@@ -96,13 +96,16 @@ class SuppliesController < ApplicationController
       @stores = Store.where(:id => current_store.id)
     end
     @pharm_items = PharmItem.all
-    @filter = ServiceRequest.new
+    @filter = ServiceRequest.new(:status => "ALL")
   end
 
 
   def filter_service_requests
     from_store = params[:service_request][:from_store_id]
     generic_drug = params[:service_request][:pharm_item_id]
+    requests_from = params[:service_request][:created_at]
+    status = params[:service_request][:status]
+
     @service_requests = ""
     if can? :manage, :all
       @service_requests = ServiceRequest.includes(:pharm_item, :request_store, :from_store).all.order("status DESC")
@@ -113,6 +116,8 @@ class SuppliesController < ApplicationController
     end
     @service_requests = @service_requests.includes(:pharm_item, :request_store).where(:from_store_id =>  from_store) if !from_store.blank?
     @service_requests = @service_requests.includes(:pharm_item, :request_store).where(:pharm_item_id =>  generic_drug) if !generic_drug.blank?
+    @service_requests = @service_requests.includes(:pharm_item, :request_store).where("created_at > ?" ,  Time.strptime(requests_from , "%d/%m/%Y") ) if !requests_from.blank?
+    @service_requests = @service_requests.includes(:pharm_item, :request_store).where(:status => status ) if !status.blank? and status != "ALL"
   end
 
   #order when drug stock is less. ordered for dispensary store

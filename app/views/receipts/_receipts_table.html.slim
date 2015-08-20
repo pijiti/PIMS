@@ -1,0 +1,62 @@
+table.table
+  thead
+        tr.data-rows
+           th From Store
+           th To Store
+           th Brand
+           th Batch Number
+           th Qty
+           th Status
+           th Confirm
+  tbody
+    - @receipts.each do |s|
+        tr.data-rows
+          td = s.from_store.try(:name)
+          td = s.to_store.try(:name)
+          td = s.batch.brand.detailed_info
+          td = s.batch.batch_number
+          td = s.qty
+          td = (s.confirm_receipt.blank? ? "AWAITING CONFIRMATION" : "COMPLETED")
+          td
+               - if s.confirm_receipt.blank?
+                 a href="#" data-toggle="modal" data-target="#requests_#{s.id}"  Confirm
+                 = simple_form_for(s, :url => confirm_receipts_path , :method => :post ) do |f|
+                       =f.hidden_field :id , :value => s.id
+                       /! Modal
+                       div[id="requests_#{s.id}" class="modal modal-approvals" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
+                         .modal-dialog role="document"
+                           .modal-content
+                             .modal-header
+                               button.close.approval-close aria-label="Close" data-dismiss="modal" type="button"
+                                 span aria-hidden="true"  &times;
+                               h4#myModalLabel.modal-title Confirm the delivery of #{s.qty} units of #{s.batch.brand.name} from #{s.from_store.try(:name)}  ?
+                             .modal-body
+                                 table.table.table-striped.table-condensed.batches.batches_modal_table
+                                       thead
+                                          tr
+                                            th Brand
+                                            th Batch No
+                                            th Rate
+                                            th Units
+                                            th Rate per unit
+                                            th Mfd Date
+                                            th Expiry Date
+                                            th Received  quantity
+
+
+                                       tbody
+                                          -  batch = s.batch
+                                          - s.received_qty = s.qty
+                                          tr[class="#{highlight_batch(batch)} " ]
+                                              td = batch.brand.detailed_info
+                                              td = batch.batch_number
+                                              td = batch.rate
+                                              td = s.qty
+                                              td = batch.rate / calculate_units_in_pack(batch)
+                                              td = batch.mfd_date.strftime("%d/%m/%Y")
+                                              td = batch.expiry_date.strftime("%d/%m/%Y")
+                                              td
+                                                 = f.input :received_qty ,label: false
+
+                             .modal-footer
+                               = f.submit :class => "btn-sm btn btn-success" , :value => "Confirm Delivery"

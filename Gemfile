@@ -31,6 +31,7 @@ gem 'nokogiri', '~> 1.6.6.2'
 gem 'cancancan'
 gem 'rest-client'
 gem 'delayed_job_active_record'
+gem "delayed_job_web"
 
 
 

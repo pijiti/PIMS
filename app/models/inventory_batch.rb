@@ -4,6 +4,19 @@ class InventoryBatch < ActiveRecord::Base
 
   attr_accessor :allot , :store_id , :pharm_item_id
 
+  #run this every day
+  def self.expiry_date_check
+    puts "Running expiry check===================="
+    InventoryBatch.where(:expired => nil).each do |i|
+      if i.batch.expiry_date < Time.now
+        i.update(:expired => true)
+      end
+    end
+
+    #enqueue next job
+    self.delay(:run_at => Time.now + 1.day).expiry_date_check
+  end
+
   def allotment(store_id , sq_id = nil)
     response = nil
     if !allot.blank? and allot.to_i <= self.units

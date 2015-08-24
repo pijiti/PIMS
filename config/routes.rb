@@ -124,4 +124,6 @@ Rails.application.routes.draw do
 
   root :to => 'front_pages#home'
 
+  match "/delayed_job" => DelayedJobWeb, :anchor => false, via: [:get, :post]
+
 end

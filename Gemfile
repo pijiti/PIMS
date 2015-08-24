@@ -30,6 +30,8 @@ gem 'cocoon', '~> 1.2.6'
 gem 'nokogiri', '~> 1.6.6.2'
 gem 'cancancan'
 gem 'rest-client'
+gem 'delayed_job_active_record'
+
 
 
 
@@ -50,6 +52,7 @@ gem 'execjs', '~> 2.2.1'
 gem 'jbuilder', '~> 2.0'
 gem 'quiet_assets', '~> 1.1.0', group: :development
 gem 'bootstrap-datepicker-rails'
+gem 'jquery-datatables-rails', '~> 3.3.0'
 
 # Use Capistrano for deployment
 gem 'capistrano'

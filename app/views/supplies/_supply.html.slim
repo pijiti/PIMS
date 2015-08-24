@@ -62,5 +62,9 @@ tr.data-rows.supply
        td.approval-link = link_to 'Submit For Approval', submit_supply_path(supply),method: :patch
        td.edit = link_to 'Edit', edit_supply_path(supply)
        td.destroy= link_to 'Destroy', supply,:remote => true, method: :delete, data: { confirm: 'Are you sure?' }
+     - else
+       td = ""
+       td = ""
+       td = ""
 
 

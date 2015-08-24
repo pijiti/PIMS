@@ -1,4 +1,4 @@
-table.table
+table.table.data_table
   thead
         tr.data-rows
            th Store
@@ -6,7 +6,7 @@ table.table
            th Brand
            th Batch Number
            th Expiry date
-           th Available
+           th Units(Packs)
   tbody
     - @inventory_batches.each do |s|
         - next if s.units.to_i == 0
@@ -16,4 +16,4 @@ table.table
           td = s.batch.brand.detailed_info
           td = s.batch.batch_number
           td = s.batch.expiry_date
-          td = s.units
+          td = "#{s.units}(#{(s.units.to_i / s.batch.brand.pack_size.to_i).to_f})"

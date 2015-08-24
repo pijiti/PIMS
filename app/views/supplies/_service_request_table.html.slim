@@ -1,4 +1,4 @@
-table.table
+table.table.data_table
   thead
         tr.data-rows
            th Requesting Store
@@ -35,7 +35,7 @@ table.table
                                  span aria-hidden="true"  &times;
                                h4#myModalLabel.modal-title Allot #{s.qty} units of #{s.pharm_item.name} to #{s.from_store.try(:name)} from #{s.request_store.try(:name)} store
                              .modal-body
-                                 table.table.table-striped.table-condensed.batches.batches_modal_table
+                                 table.table.table-striped.table-condensed.batches.batches_modal_table.data_table
                                        thead
                                           tr
                                             th Brand

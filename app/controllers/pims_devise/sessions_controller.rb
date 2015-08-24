@@ -30,6 +30,7 @@ class PimsDevise::SessionsController < Devise::SessionsController
 
   def after_sign_in_path_for(user)
     logger.debug "========after signin==========="
+    begin
     if me.valid_duration >= Time.now && me.valid_password?(params[:user][:password]) == me.valid_password?('password')
       logger.debug "========First time user========"
       #store current user in session
@@ -49,6 +50,10 @@ class PimsDevise::SessionsController < Devise::SessionsController
         store_selections_index_path
       end
     end
+    rescue
+      destroy_user_session_path
+    end
+
   end
 
 

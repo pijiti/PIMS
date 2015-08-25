@@ -34,6 +34,11 @@ $(document).ready(function(){
     $(".data_table").dataTable({
     });
 
+    $('.active_store').change(function(){
+        $(this).closest('form').submit();
+    });
+
+
 //    $("#expired-drugs-table").dataTable({
 //        // ajax: ...,
 //        // autoWidth: false,

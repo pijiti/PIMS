@@ -25,6 +25,8 @@ class Store < ActiveRecord::Base
   #permissible roles within this array
   serialize :store_roles
 
+  attr_accessor :active_store
+
 	def modify_attr
 		self.name = name.titleize.strip
 	end

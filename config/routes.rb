@@ -120,7 +120,11 @@ Rails.application.routes.draw do
   get 'store_selections/index'
   post 'store_selections/select_store'
 
-  resources :stores
+  resources :stores do
+    collection do
+      post :set_active_store
+    end
+  end
 
   root :to => 'front_pages#home'
 

@@ -2,6 +2,12 @@ class StoresController < ApplicationController
 
   before_action :set_store, only: [:show, :edit, :update, :destroy]
 
+  #set active store from topbar
+  def set_active_store
+    session[:active_store] = params[:store][:active_store]
+    flash[:notice] = "#{current_store.try(:name)} store set as active store"
+    redirect_to dashboard_path
+  end
 
   def index
     @stores = Store.all

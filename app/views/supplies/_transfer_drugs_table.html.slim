@@ -10,7 +10,7 @@ table.table.data_table
            th Transfer
   tbody
     - @inventory_batches.each do |s|
-        - next if s.units.to_i == 0
+        - next if s.units.to_i == 0 or s.inventory.blank?
         tr.data-rows
           td = s.inventory.store.try(:name)
           td = s.batch.pharm_item.name

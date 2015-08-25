@@ -93,5 +93,13 @@ Rails.application.configure do
       :authentication       => :login,
   }
 
+  #config.assets.precompile =  ['favicon.ico' ,'*.js', '*.css', '*.css.erb' , '*.png' , '*.jpg' , '*.ttf' , '*.woff']
+
+  config.assets.precompile.push(Proc.new do |path|
+    File.extname(path).in? [
+                               '.png',  '.gif', '.jpg', '.jpeg', '.svg', '.ico', # Images
+                               '.eot',  '.otf', '.svc', '.woff', '.ttf', # Fonts
+                           ]
+  end)
 
 end

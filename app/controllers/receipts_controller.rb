@@ -10,23 +10,29 @@ class ReceiptsController < ApplicationController
     status = params[:receipt][:confirm_receipt]
 
     if can? :manage, :all
-      @receipts = Receipt.includes(:inventory, :from_store,:batch).all
+      @receipts = Receipt.includes(:inventory, :from_store, :batch).all
     else
-      @receipts = Receipt.includes(:inventory, :from_store,:batch).where(:to_store_id => current_store.id).all
+      @receipts = Receipt.includes(:inventory, :from_store, :batch).where(:to_store_id => current_store.id).all
     end
 
-    @receipts = @receipts.includes(:inventory, :from_store,:batch).where(:from_store_id => from_store) if !from_store.blank?
-    @receipts = @receipts.includes(:inventory, :from_store,:batch).where(:inventory => Inventory.where(:pharm_item_id => pharm_item) ) if !pharm_item.blank?
-    @receipts = @receipts.includes(:inventory, :from_store,:batch).where(:to_store_id => to_store) if !to_store.blank?
-    @receipts = @receipts.includes(:inventory, :from_store,:batch).where("created_at > ?" ,  Time.strptime(requests_from , "%d/%m/%Y") ) if !requests_from.blank?
-    @receipts = @receipts.includes(:inventory, :from_store,:batch).where(:confirm_receipt => status ) if !status.blank? and status != "ALL"
+    @receipts = @receipts.includes(:inventory, :from_store, :batch).where(:from_store_id => from_store) if !from_store.blank?
+    @receipts = @receipts.includes(:inventory, :from_store, :batch).where(:inventory => Inventory.where(:pharm_item_id => pharm_item)) if !pharm_item.blank?
+    @receipts = @receipts.includes(:inventory, :from_store, :batch).where(:to_store_id => to_store) if !to_store.blank?
+    @receipts = @receipts.includes(:inventory, :from_store, :batch).where("created_at > ?", Time.strptime(requests_from, "%d/%m/%Y")) if !requests_from.blank?
+    @receipts = @receipts.includes(:inventory, :from_store, :batch).where(:confirm_receipt => status) if !status.blank? and status != "ALL"
 
   end
 
   def confirm
     @receipt = Receipt.find_by_id(params[:receipt][:id])
-    @receipt.post_confirm_receipt(params[:receipt][:received_qty])
-    flash[:notice] = "Batch number #{@receipt.batch.try(:batch_number)} has been received and added to the inventory of #{@receipt.to_store.try(:name)}"
+    if params[:receipt][:received_qty] and params[:receipt][:received_qty].to_i <= @receipt.qty and params[:receipt][:received_qty].to_i > -1
+      @receipt.update(:received_qty => params[:receipt][:received_qty])
+      @receipt.post_confirm_receipt(params[:receipt][:received_qty])
+      flash[:notice] = "Batch number #{@receipt.batch.try(:batch_number)} has been received and added to the inventory of #{@receipt.to_store.try(:name)}"
+    else
+      flash[:notice] = "Please check the value of received quantity"
+    end
+
     redirect_to receipts_path
   end
 
@@ -34,9 +40,9 @@ class ReceiptsController < ApplicationController
   # GET /receipts.json
   def index
     if can? :manage, :all
-      @receipts = Receipt.includes(:inventory, :from_store,:batch).all
+      @receipts = Receipt.includes(:inventory, :from_store, :batch).all
     else
-      @receipts = Receipt.includes(:inventory, :from_store,:batch).where(:to_store_id => current_store.id).all
+      @receipts = Receipt.includes(:inventory, :from_store, :batch).where(:to_store_id => current_store.id).all
     end
     @filter = Receipt.new(:confirm_receipt => "ALL")
     @stores = Store.all
@@ -98,13 +104,13 @@ class ReceiptsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_receipt
-      @receipt = Receipt.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_receipt
+    @receipt = Receipt.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def receipt_params
-      params.require(:receipt).permit(:batch_id, :inventory_id, :from_store_id, :qty, :confirm_receipt, :received_qty)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def receipt_params
+    params.require(:receipt).permit(:batch_id, :inventory_id, :from_store_id, :qty, :confirm_receipt, :received_qty)
+  end
 end

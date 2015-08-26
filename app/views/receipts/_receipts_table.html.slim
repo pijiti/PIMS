@@ -7,6 +7,7 @@ table.table.data_table
            th Batch Number
            th Qty
            th Transfer Initiated
+           th Received Qty
            th Status
            th Confirm
   tbody
@@ -18,6 +19,7 @@ table.table.data_table
           td = s.batch.batch_number
           td = s.qty
           td = s.created_at.strftime("%d/%y/%Y at %I:%M%p")
+          td = s.received_qty
           td = (s.confirm_receipt.blank? ? "AWAITING CONFIRMATION" : "COMPLETED")
           td
                - if s.confirm_receipt.blank?

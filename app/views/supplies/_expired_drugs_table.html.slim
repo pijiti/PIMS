@@ -6,6 +6,7 @@ table.table.data_table
            th Brand
            th Batch Number
            th Expiry date
+           th Rate per unit
            th Units(Packs)
   tbody
     - @inventory_batches.each do |s|
@@ -16,4 +17,5 @@ table.table.data_table
           td = s.batch.brand.detailed_info
           td = s.batch.batch_number
           td = s.batch.expiry_date
+          td = rate_per_unit(s.batch)
           td = "#{s.units}(#{(s.units.to_i / s.batch.brand.pack_size.to_i).to_f})"

@@ -14,6 +14,10 @@ h3.text-center Expired Batches
             = f.input :pharm_item_id , collection: @pharm_items , label:false
     .text-center
       = f.submit :class => "btn btn-success btn-tiny" , :value => "filter"
+p
+ span
+   b Total money lost on expired drugs = &nbsp;
+ = "N#{total_money_lost_in_expired_drugs(@inventory_batches)}"
 hr
 
 #expired-drugs-table

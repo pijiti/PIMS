@@ -45,8 +45,7 @@ table.table.table-striped.table-condensed.data_table
                                                 th Brand
                                                 th Batch No
                                                 th Rate
-                                                th Qty
-                                                th No of Units
+                                                th No of Units(Packs)
                                                 th Rate per unit
                                                 th Mfd Date
                                                 th Expiry Date
@@ -62,10 +61,9 @@ table.table.table-striped.table-condensed.data_table
                                                     td = batch.brand.try(:detailed_info)
                                                     td = batch.batch_number
                                                     td = batch.rate
-                                                    td = batch.qty
-                                                    td = calculate_units_in_pack(batch)
+                                                    td = "#{calculate_units_in_pack(batch)}(#{batch.qty})"
                                                     td
-                                                       - ratep = batch.rate / calculate_units_in_pack(batch)
+                                                       - ratep = rate_per_unit(batch)
                                                        = ratep
                                                        - inv = Inventory.where(:brand => batch.brand)
                                                        - if !inv.blank? and inv.last.rate_per_unit != ratep

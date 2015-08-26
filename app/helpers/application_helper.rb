@@ -60,12 +60,33 @@ module ApplicationHelper
     end
   end
 
+
   def calculate_units_in_pack(batch)
     if batch.qty and batch.brand
       batch.qty.to_f * batch.brand.pack_size.to_f
     else
       0
     end
+  end
+
+
+  def rate_per_unit(batch)
+    begin
+    batch.rate / calculate_units_in_pack(batch)
+    rescue
+      0
+    end
+  end
+
+
+  #calculate total money lost in expired drugs from expired batches
+  def total_money_lost_in_expired_drugs(ibatches)
+    amount = 0
+    ibatches.each do |ib|
+      next if ib.units == 0 or ib.expired.blank?
+      amount += rate_per_unit(ib.batch) * ib.units
+    end
+    amount
   end
 
   def vendors_from_inventories(pharm_item)

@@ -6,7 +6,7 @@ table.table.data_table
            th Brand
            th Quantity
            th Central Store
-           th Available
+           th Units Available
            th Request status
            th Requested at
            th Service
@@ -41,7 +41,7 @@ table.table.data_table
                                             th Brand
                                             th Batch No
                                             th Rate
-                                            th Available Units
+                                            th Available Units(Packs)
                                             th Rate per unit
                                             th Mfd Date
                                             th Expiry Date
@@ -57,7 +57,7 @@ table.table.data_table
                                                 td = batch.brand.detailed_info
                                                 td = batch.batch_number
                                                 td = batch.rate
-                                                td = inventory_batch.units
+                                                td = "#{inventory_batch.units}(#{inventory_batch.units/batch.brand.pack_size.to_i})"
                                                 td
                                                    = batch.rate / calculate_units_in_pack(batch)
                                                 td = batch.mfd_date.strftime("%d/%m/%Y")

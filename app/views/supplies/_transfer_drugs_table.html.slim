@@ -6,7 +6,7 @@ table.table.data_table
            th Brand
            th Batch Number
            th Expiry date
-           th Available
+           th Available Units(Packs)
            th Transfer
   tbody
     - @inventory_batches.each do |s|
@@ -18,7 +18,7 @@ table.table.data_table
           td = s.batch.batch_number
           td = s.batch.expiry_date
           /td = generic_drug_count(s.batch.pharm_item,s.inventory.store)
-          td = s.units
+          td = "#{s.units}(#{s.units/s.batch.brand.pack_size.to_i})"
           td
                  a href="#" data-toggle="modal" data-target="#requests_#{s.id}"  Transfer
                  = form_for(Supply.new , :url => transfer_batches_v2_supplies_path , :method => :post ) do |supply_form|
@@ -38,7 +38,7 @@ table.table.data_table
                                             th Brand
                                             th Batch No
                                             th Rate
-                                            th Available Units
+                                            th Available Units(Packs)
                                             th Rate per unit
                                             th Mfd Date
                                             th Expiry Date
@@ -54,7 +54,7 @@ table.table.data_table
                                                 td = batch.brand.detailed_info
                                                 td = batch.batch_number
                                                 td = batch.rate
-                                                td = s.units
+                                                td = "#{s.units}(#{s.units / batch.brand.pack_size.to_i})"
                                                 td
                                                    = batch.rate / calculate_units_in_pack(batch)
                                                 td = batch.mfd_date.strftime("%d/%m/%Y")

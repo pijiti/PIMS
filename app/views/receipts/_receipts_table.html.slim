@@ -5,9 +5,9 @@ table.table.data_table
            th To Store
            th Brand
            th Batch Number
-           th Qty
+           th Units(Packs)
            th Transfer Initiated
-           th Received Qty
+           th Received Units(Packs)
            th Status
            th Confirm
   tbody
@@ -17,9 +17,9 @@ table.table.data_table
           td = s.to_store.try(:name)
           td = s.batch.brand.detailed_info
           td = s.batch.batch_number
-          td = s.qty
+          td = "#{s.qty}(#{s.qty/s.batch.brand.pack_size.to_i})"
           td = s.created_at.strftime("%d/%y/%Y at %I:%M%p")
-          td = s.received_qty
+          td = "#{s.received_qty}(#{s.received_qty/s.batch.brand.pack_size.to_i})"
           td = (s.confirm_receipt.blank? ? "AWAITING CONFIRMATION" : "COMPLETED")
           td
                - if s.confirm_receipt.blank?
@@ -41,7 +41,7 @@ table.table.data_table
                                             th Brand
                                             th Batch No
                                             th Rate
-                                            th Units
+                                            th Units(Packs)
                                             th Rate per unit
                                             th Mfd Date
                                             th Expiry Date
@@ -55,7 +55,7 @@ table.table.data_table
                                               td = batch.brand.detailed_info
                                               td = batch.batch_number
                                               td = batch.rate
-                                              td = s.qty
+                                              td = "#{s.qty}(#{s.qty/batch.brand.pack_size.to_i})"
                                               td = batch.rate / calculate_units_in_pack(batch)
                                               td = batch.mfd_date.strftime("%d/%m/%Y")
                                               td = batch.expiry_date.strftime("%d/%m/%Y")

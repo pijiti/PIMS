@@ -1,11 +1,11 @@
-table.table.table-responsive.table-hover.data_table
+table.table.table-responsive.table-hover
     thead
       tr.data-rows
          th
          th Generic Drug
          th Brand
          th Store
-         th Units
+         th Units(Packs)
          th Rate per unit
          th Batches
          th Last Updated
@@ -76,7 +76,7 @@ table.table.table-responsive.table-hover.data_table
              = i.brand.mini_info
 
            td = i.store.name
-           td = i.inventory_batches.sum(:units)
+           td = "#{i.inventory_batches.sum(:units)}(#{i.inventory_batches.sum(:units)/i.brand.pack_size.to_i})"
            td = i.rate_per_unit
            td
                           a href="#" data-toggle="modal" data-target="#batches_#{i.id}"  View
@@ -97,7 +97,7 @@ table.table.table-responsive.table-hover.data_table
                                                        th Vendor
                                                        th Batch No
                                                        th Rate
-                                                       th No of Units
+                                                       th Units(Packs)
                                                        th Rate per unit
                                                        th Mfd Date
                                                        th Expiry Date
@@ -110,7 +110,7 @@ table.table.table-responsive.table-hover.data_table
                                                          td = batch.supply.vendor.try(:name)
                                                          td = batch.batch_number
                                                          td = batch.rate
-                                                         td = i.inventory_batches.where(:batch =>batch).sum(:units)
+                                                         td = "#{i.inventory_batches.where(:batch =>batch).sum(:units)}(#{i.inventory_batches.where(:batch =>batch).sum(:units)/i.brand.pack_size.to_i})"
                                                          td
                                                             - ratep = batch.rate / calculate_units_in_pack(batch)
                                                             = ratep

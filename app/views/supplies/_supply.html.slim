@@ -32,7 +32,7 @@ tr.data-rows.supply
                                      th Batch No
                                      th Rate
                                      th Qty
-                                     th No of Units
+                                     th Units(Packs)
                                      th Rate per unit
                                      th Mfd Date
                                      th Expiry Date
@@ -45,7 +45,7 @@ tr.data-rows.supply
                                        td = batch.batch_number
                                        td = batch.rate
                                        td = batch.qty
-                                       td = calculate_units_in_pack(batch)
+                                       td = "#{calculate_units_in_pack(batch)}(#{batch.qty})"
                                        td
                                           - ratep = batch.rate / calculate_units_in_pack(batch)
                                           = ratep

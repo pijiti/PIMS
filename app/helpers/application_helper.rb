@@ -1,5 +1,27 @@
 module ApplicationHelper
 
+  def stores_based_on_current_time
+    #@stores = Store.where("open_time <  ? and close_time >  ? ", Time.now , Time.now)
+    current_time = Time.zone.now
+    logger.debug "===========Current time[#{current_time}]============"
+    current_year = current_time.year
+    current_month = current_time.month
+    current_day = current_time.day
+    ids = []
+    Store.all.each do |store|
+      open_time = Time.zone.local(current_year,current_month,current_day, store.open_time.hour , store.open_time.min)
+      close_time = Time.zone.local(current_year,current_month,current_day, store.close_time.hour , store.close_time.min)
+      logger.debug "===========Open time[#{open_time}]============"
+      logger.debug "===========Close time[#{close_time}]============"
+      if current_time.between?(open_time,close_time)
+        logger.debug("YES!!!!#{store.id}")
+        ids << store.id
+      end
+    end
+
+    Store.where(:id => ids)
+  end
+
   def me
     current_user
   end

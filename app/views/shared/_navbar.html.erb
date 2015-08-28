@@ -17,9 +17,14 @@
           <ul class="nav navbar-nav navbar-right active_store_ul">
               <% if can? :manage, :all %>
                 <li>
+                  Current Active Store
                   <%= simple_form_for(current_store || Store.new, :method => :post, :url => set_active_store_stores_path ) do |f| %>
-                      <%= f.input :active_store, collection: Store.all , :selected => current_store.id ,  :input_html => {:class => "active_store" } , label: false  %>
+                          <%= f.input :active_store, collection: stores_based_on_current_time , :selected => current_store.id ,  :input_html => {:class => "active_store" } , label: false  %>
                   <% end %>
+                </li>
+               <% elsif current_store %>
+                <li>
+                  <a href="#" >  Current Active Store - <%= current_store.try(:name) %> </a>
                 </li>
               <% end %>
             <li class="dropdown">

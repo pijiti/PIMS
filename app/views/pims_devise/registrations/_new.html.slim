@@ -25,6 +25,7 @@ section#devise-registration-new
                   - @stores.each do |store|
                       /.tab-pane id="tab-pane-create-#{store.id}" = f.association :roles, collection: store.store_roles, as: :check_boxes
                       .tab-pane id="tab-pane-create-#{store.id}"
+                        - next if store.store_roles.blank?
                         - store.store_roles.each do |r|
                           =  check_box_tag "user[stores][#{store.id}][store_roles][]", r
                           = r

@@ -35,7 +35,11 @@ Rails.application.routes.draw do
   	end
   end
 
-	resources :patients
+	resources :patients  do
+    collection do
+      post :filter
+    end
+  end
 
 	resources :prescriptions do
 	 collection do

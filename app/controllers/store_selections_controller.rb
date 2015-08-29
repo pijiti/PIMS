@@ -16,6 +16,7 @@ class StoreSelectionsController < ApplicationController
     current_day = current_time.day
     ids = []
     Store.all.each do |store|
+      next if store.open_time.blank? or store.close_time.blank?
       open_time = Time.zone.local(current_year,current_month,current_day, store.open_time.hour , store.open_time.min)
       close_time = Time.zone.local(current_year,current_month,current_day, store.close_time.hour , store.close_time.min)
       logger.debug "===========Open time[#{open_time}]============"

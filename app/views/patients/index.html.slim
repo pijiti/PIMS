@@ -1,24 +1,45 @@
-    section#patients-index    
-        h3 Listing patients
-        
-        = render 'form'
-        
-        
-        table.table
-          thead
-            tr
-              th Title
-              th Surname
-              th Firstname
-              /!th Gender
-              th Age
-              th Hospital ID
-              th Mobile
-              th NoK Name
-              th NoK Mobile
-        
-          tbody.patients
-            - for patient in @patients
-             = render patient
-             
-        
+= simple_form_for(@patient_filter , :url => filter_patients_url , :method => "post") do |f|
+  table.table
+    thead
+      tr
+        th Hospital ID
+        th Firstname
+        th Surname
+        th Mobile
+    tbody
+      td
+        = f.input :hospital_number , label: false
+      td
+        = f.input :firstname , label: false
+      td
+        = f.input :surname , label: false
+      td
+        = f.input :mobile , label: false
+  .text-center
+        = f.submit :class => "btn btn-success btn-tiny" , :value => "Search"
+  hr
+
+section#patients-index
+    h3.text-center New Patient
+
+    = render 'form'
+
+
+    table.table
+      thead
+        tr
+          th Title
+          th Surname
+          th Firstname
+          /!th Gender
+          th Age
+          th Hospital ID
+          th Mobile
+          th NoK Name
+          th NoK Mobile
+
+      tbody.patients
+        - for patient in @patients
+         = render patient
+
+

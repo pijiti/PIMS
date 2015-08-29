@@ -4,6 +4,7 @@ class PatientsController < ApplicationController
 
   def index
     @patients = Patient.all
+    @patient_filter = Patient.new
      new
   end
 

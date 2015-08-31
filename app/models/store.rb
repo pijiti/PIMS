@@ -4,12 +4,14 @@ class Store < ActiveRecord::Base
    has_many   :substores, class_name: "Store",  foreign_key: "parent_id"
 	 belongs_to  :parent, class_name: "Store"
 	 belongs_to :store_type
-	 has_many :batches , :dependent => :destroy
+	 has_many :batches
 	 #has_many :vendors
 	 has_many :supplies , :dependent => :destroy
    has_many :inventories , :dependent => :destroy
 	 belongs_to :store_operation
 
+   validates_presence_of :close_time, :open_time , :store_roles
+   validates_uniqueness_of :name
 
 
   default_scope{order(name: :asc)}

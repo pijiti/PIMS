@@ -1,6 +1,9 @@
 module ApplicationHelper
 
   def stores_based_on_current_time
+    if can? :manage , :all
+      return Store.all
+    end
     #@stores = Store.where("open_time <  ? and close_time >  ? ", Time.now , Time.now)
     current_time = Time.zone.now
     logger.debug "===========Current time[#{current_time}]============"
@@ -130,7 +133,7 @@ module ApplicationHelper
     units_counter = generic_drug_count(i.pharm_item,s)
     if units_counter == 0
       "btn-danger"
-    elsif (s.store_type.name.downcase.include? "central" and units_counter > i.pharm_item.try(:main_restock_level)) or  (units_counter > i.pharm_item.try(:dispensary_restock_level))
+    elsif (s.store_type.name.downcase.include? "main store" and units_counter > i.pharm_item.try(:main_restock_level)) or  (units_counter > i.pharm_item.try(:dispensary_restock_level))
         "btn-success"
     else
         "btn-warning"

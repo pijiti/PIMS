@@ -1,5 +1,5 @@
       .store-form.well
-        = simple_form_for @store,remote: true  do |f|
+        = simple_form_for @store  do |f|
           .col-md-6
             = f.input :name,label:"Store"
             = f.association :parent , collection: @stores,value_method: :id, label_method: :name,label:"Parent Store"

@@ -245,7 +245,7 @@ class SuppliesController < ApplicationController
     #Users with any of the 3 roles for current store
     @users = User.with_any_role("Admin", {:name => "Store Keeper", :resource => current_store}, {:name => "Store Manager", :resource => current_store})
 
-    @central_stores = Store.where(:store_type => StoreType.where("upper(name) like ?", "%CENTRAL%")).pluck(:name, :id)
+    @central_stores = Store.where(:store_type => StoreType.where("upper(name) like ?", "%MAIN STORE%")).pluck(:name, :id)
 
     1.times do
       @supply.batches.build
@@ -265,7 +265,7 @@ class SuppliesController < ApplicationController
     #current_store = Store.find(session[:active_store])
     @vendors = Vendor.all
     @users = User.all
-    @central_stores = Store.where(:store_type => StoreType.where("upper(name) like ?", "%CENTRAL%")).pluck(:name, :id)
+    @central_stores = Store.where(:store_type => StoreType.where("upper(name) like ?", "%MAIN STORE%")).pluck(:name, :id)
     #(10-@supply.batches.try(:count)).times do
     #  @supply.batches.build
     #end
@@ -287,7 +287,7 @@ class SuppliesController < ApplicationController
 
       #Users with any of the 3 roles for current store
       @users = User.with_any_role("Admin", {:name => "Store Keeper", :resource => current_store}, {:name => "Store Manager", :resource => current_store})
-      @central_stores = Store.where(:store_type => StoreType.where("upper(name) like ?", "%CENTRAL%")).pluck(:name, :id)
+      @central_stores = Store.where(:store_type => StoreType.where("upper(name) like ?", "%MAIN STORE%")).pluck(:name, :id)
 
       #(10-@supply.batches.try(:count)).times do
       #  @supply.batches.build
@@ -319,7 +319,7 @@ class SuppliesController < ApplicationController
         logger.info(@supply.errors.messages.inspect)
         @vendors = Vendor.all
         @users = User.all
-        @central_stores = Store.where(:store_type => StoreType.where("upper(name) like ?", "%CENTRAL%")).pluck(:name, :id)
+        @central_stores = Store.where(:store_type => StoreType.where("upper(name) like ?", "%MAIN STORE%")).pluck(:name, :id)
         render "supplies/edit"
       end
     end

@@ -31,7 +31,7 @@ class Ability
        end
 
        #current store must be central for accepting orders
-       if current_store.try(:store_type).try(:name).try(:upcase).try(:include? , "CENTRAL")
+       if current_store.try(:store_type).try(:name).try(:upcase).try(:include? , "MAIN STORE")
          can :manage , Vendor
        end
 

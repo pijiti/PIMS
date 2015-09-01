@@ -16,7 +16,7 @@ tr.data-rows.supply
 
 
         /! Modal
-        div[id="myModal_#{supply.id}" class="modal" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
+        div[id="myModal_#{supply.id}" class="modal modal-approvals" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
           .modal-dialog role="document"
             .modal-content
               .modal-header
@@ -25,7 +25,7 @@ tr.data-rows.supply
                 h4#myModalLabel.modal-title #{supply.invoice_reference} - Batches
 
               .modal-body
-                table.table.table-striped.table-condensed.batches
+                table.table.table-striped.table-condensed.batches.data_table
                                 thead
                                    tr
                                      th Brand
@@ -48,7 +48,7 @@ tr.data-rows.supply
                                        td = "#{calculate_units_in_pack(batch)}(#{batch.qty})"
                                        td
                                           - ratep = batch.rate / calculate_units_in_pack(batch)
-                                          = ratep
+                                          = '%.2f' % ratep
                                           - inv = Inventory.where(:brand => batch.brand)
                                           - if !inv.blank? and inv.last.rate_per_unit != ratep
                                               a tabindex="0" href="#" data-toggle="popover" data-trigger="focus" title="Rate per unit changed" data-content="Rate per unit will be set to this value in inventory after approval."

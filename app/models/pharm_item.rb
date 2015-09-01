@@ -32,9 +32,9 @@ class PharmItem < ActiveRecord::Base
 	def critical_levels
 		#self.central_critical_level = (central_restock_level * 0.5).ceil
 		#	self.central_critical_level ||= 0
-		self.main_critical_level = (main_restock_level * 0.5).ceil
-			self.main_critical_level ||= 0
-		self.dispensary_critical_level = (dispensary_restock_level * 0.5).ceil
+		self.main_critical_level = (main_restock_level * 0.5).ceil   if  main_restock_level
+		self.main_critical_level ||= 0
+		self.dispensary_critical_level = (dispensary_restock_level * 0.5).ceil   if  dispensary_restock_level
 		self.dispensary_critical_level ||= 0
 		#self.ward_critical_level = (ward_restock_level * 0.5).ceil
 		#self.ward_critical_level ||= 0

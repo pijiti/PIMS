@@ -85,7 +85,7 @@ class SuppliesController < ApplicationController
         i.allot = v[:allot]
         flash[:notice] = i.allotment(v[:store_id] , s.id)
       end
-      if flash[:notice] and flash[:notice].include? "success"
+      if flash[:notice] and flash[:notice].include? "Success"
         s.update(:status => "AWAITING DELIVERY CONFIRMATION")
       else
         flash[:notice]= "Please select the batches for allocation"
@@ -182,7 +182,7 @@ class SuppliesController < ApplicationController
           batch = Batch.find(v[:id])
           i = Inventory.where(:brand_id => batch.brand_id, :store_id => @supply.store_id).first
           if i
-            i.update( :qty_last_added => batch.qty.to_f * batch.brand.pack_size.to_f, :rate_per_unit => batch.rate / batch.brand.pack_size.to_f)
+            i.update( :qty_last_added => batch.qty.to_f * batch.brand.pack_size.to_f, :rate_per_unit => "%.2f" % (batch.rate / batch.brand.pack_size.to_f))
             InventoryBatch.create(:inventory => i, :batch => batch, :units =>  batch.qty.to_i * batch.brand.pack_size.to_i)
           end
         end
@@ -228,12 +228,8 @@ class SuppliesController < ApplicationController
         send_sms(user.username, "Hello #{user.first_name}, You have an invoice with reference - #{@supply.invoice_reference} waiting for approval.")
         recipients_counter += 1
       end
-
-
-      @supplies = Supply.where(:store => current_store)
-      new
       flash[:notice] = "Submitted for approval. Mail and sms notification dispatched to #{recipients_counter} recipients"
-      render "supplies/index"
+      redirect_to supplies_path
     end
   end
 

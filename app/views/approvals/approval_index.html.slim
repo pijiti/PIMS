@@ -64,7 +64,7 @@ table.table.table-striped.table-condensed.data_table
                                                     td = "#{calculate_units_in_pack(batch)}(#{batch.qty})"
                                                     td
                                                        - ratep = rate_per_unit(batch)
-                                                       = ratep
+                                                       = "%.2f" % ratep
                                                        - inv = Inventory.where(:brand => batch.brand)
                                                        - if !inv.blank? and inv.last.rate_per_unit != ratep
                                                            a tabindex="0" href="#" data-toggle="popover" data-trigger="focus" title="Rate per unit changed" data-content="Rate per unit will be set to this value in inventory after approval."

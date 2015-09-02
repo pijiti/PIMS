@@ -22,7 +22,7 @@ table.table.data_table
           td = s.status
           td = s.created_at.strftime("%d/%y/%Y at %I:%M%p")
           td
-              - if s.status != "COMPLETED"
+              - if ![ "COMPLETED" , "AWAITING DELIVERY CONFIRMATION" ].include? s.status
                  a href="#" data-toggle="modal" data-target="#requests_#{s.id}"  Service Request
                  = form_for(Supply.new , :url => transfer_batches_supplies_path , :method => :post ) do |supply_form|
                        = supply_form.hidden_field :service_request_id , :value => s.id

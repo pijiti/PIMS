@@ -19,7 +19,7 @@ table.table.data_table
           td = s.batch.batch_number
           td = "#{s.qty}(#{s.qty/s.batch.brand.pack_size.to_i})"
           td = s.created_at.strftime("%d/%y/%Y at %I:%M%p")
-          td = "#{s.received_qty}(#{s.received_qty/s.batch.brand.pack_size.to_i})"
+          td = "#{s.received_qty}(#{s.received_qty/s.batch.brand.pack_size.to_i})"  if s.received_qty
           td = (s.confirm_receipt.blank? ? "AWAITING CONFIRMATION" : "COMPLETED")
           td
                - if s.confirm_receipt.blank?

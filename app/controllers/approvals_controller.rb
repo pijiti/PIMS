@@ -5,8 +5,10 @@ class ApprovalsController < ApplicationController
   before_action :set_supply, only: [:submitted_item, :save]
 
   def approval_index
+    if can? :manage , :all
+      @submitted_supplies = Supply.where.not(:approval_status => "NOT SENT").order("updated_at DESC")
     #if store manager
-    if can? :manage, Store
+    elsif can? :manage, Store
       @submitted_supplies = Supply.where(:store => current_store).where.not(:approval_status => "NOT SENT").order("updated_at DESC")
     end
   end

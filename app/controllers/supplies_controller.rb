@@ -45,7 +45,7 @@ class SuppliesController < ApplicationController
     if can? :manage, :all
       @inventory_batches = InventoryBatch.includes(:inventory,:batch).where(:expired => nil)
     else
-      InventoryBatch.includes(:inventory,:batch).where(:inventory => current_store.inventories , :expired => nil)
+      @inventory_batches = InventoryBatch.includes(:inventory,:batch).where(:inventory => current_store.inventories , :expired => nil)
     end
     @stores = Store.all
     @filter = InventoryBatch.new

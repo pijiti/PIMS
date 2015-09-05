@@ -20,7 +20,7 @@
                                     td.store-name = role.resource.try(:name)
 
                       td.text-right
-                         a.btn.btn-info.btn-xs href=password_reset_user_path(user) data-method='patch'  data-remote=true  Change Password
+                         a.btn.btn-info.btn-xs href=password_reset_user_path(user) data-method='patch' data-confirm='Are you sure?'  data-remote=true  Change Password
 
                          a.btn.btn-primary.btn-xs href=edit_user_path(user) data-remote='true'   Edit
                          /a.btn.btn-danger.btn-xs href=user_path(user) data-method='delete'   data-remote='true'   Destroy

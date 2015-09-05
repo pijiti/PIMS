@@ -65,6 +65,7 @@ class UsersController < ApplicationController
     @user = User.find(me)
     logger.debug { "User ID: #{@user.id }" }
     password_status = @user.password_change_check?(params[:user][:current_password], params[:user][:password])
+    puts "======#{password_status}"
     if @user.update_with_password(user_password)&& (password_status == false)
       sign_in @user, :bypass => true
       if @user.has_role? "Admin"
@@ -73,6 +74,7 @@ class UsersController < ApplicationController
         redirect_to store_selections_index_path
       end
     else
+      flash[:notice] = "New password must not be the same as your current password" if  password_status
       render :password_edit, :layout => "layout_without_sidebar"
     end
   end
@@ -92,7 +94,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.required(:user).permit(:title_id, :first_name, :last_name, :username, {:store_ids => []}, :staff_category_id, {:role_ids => []}, :active_status, :validity)
+    params.required(:user).permit(:title_id, :first_name, :last_name, :username, {:store_ids => []}, :staff_category_id, {:role_ids => []}, :active_status, :validity , :email  )
   end
 
   def user_password

@@ -29,6 +29,7 @@ class PimsDevise::RegistrationsController < Devise::RegistrationsController
       end
     # send sms
       send_sms(@user.username , "Hello #{@user.first_name}, An account has been created on PIMS for you. Login with Username:#{@user.username} , Password: password. Thank you")
+      flash[:notice] = "User created successfully"
     else
       flash[:error] = "Mandatory fields missing"
     end

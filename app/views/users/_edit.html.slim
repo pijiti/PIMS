@@ -5,6 +5,7 @@
     = f.input :first_name
     = f.input :last_name
     = f.input :username
+    = f.input :email
     = f.association :staff_category, value_method: :id, label_method: :name, include_blank: 'Select Category'
     = f.input :validity,as: :select, collection: User::Validity
 

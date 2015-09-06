@@ -1,6 +1,19 @@
 class PatientsController < ApplicationController
   before_action :set_patient, only: [:show, :edit, :update, :destroy]
 
+  def filter
+    @patients = Patient.all
+    first_name = params[:patient][:first_name]
+    surname = params[:patient][:lastname]
+    mobile = params[:patient][:mobile]
+    hospital_number = params[:patient][:hospital_number]
+
+    @patients = @patients.where(:first_name => first_name) if !first_name.blank?
+    @patients = @patients.where(:surname => surname) if !surname.blank?
+    @patients = @patients.where(:mobile => mobile) if !mobile.blank?
+    @patients = @patients.where(:hospital_number => hospital_number) if !hospital_number.blank?
+
+  end
 
   def index
     @patients = Patient.all
@@ -23,14 +36,34 @@ class PatientsController < ApplicationController
 
   def create
     @patient = Patient.new(patient_params)
-     authorize @patient
-    @error = @patient.error.full_messages.to_sentence unless @patient.save!
+    #authorize @patient
+    if @patient.save
+      flash[:notice] = "Patient record created successfully"
+      redirect_to patients_path
+    else
+      #@error = @patient.error.full_messages.to_sentence
+      @error = @patient.errors.full_messages
+      flash[:error] = "#{@error.to_sentence}"
+      @patients = Patient.all
+      @patient_filter = Patient.new
+      render "patients/index"
+    end
+
   end
 
   def update
     @patient.attributes = patient_params
-    authorize @patient
-    @error = @patient.error.full_messages.to_sentence unless @patient.save!
+    if @patient.save
+      flash[:notice] = "Patient record updated successfully"
+      redirect_to patients_path
+    else
+      @error = @patient.errors.full_messages
+      flash[:error] = "#{@error.to_sentence}"
+      @titles = Title.all
+      @genders = Patient.genders
+      render "patients/edit"
+    end
+
   end
 
 

@@ -1,0 +1,31 @@
+table.table.data_table
+  thead
+    th Hospital number
+    th Firstname
+    th Surname
+    /th Gender
+    th Age
+    th Mobile
+    th Next of kin name
+    th Next of kin mobile
+    th Last updated at
+    th Add Prescription
+    th Edit
+    th Destroy
+  tbody
+    - @patients.each do |patient|
+      tr.data-rows
+        td = patient.hospital_number
+        td = "#{patient.title.name}.#{patient.firstname}"
+        td = patient.surname
+        /td = patient.gender
+        td = patient.age
+        td = patient.mobile
+        td = patient.nok_name
+        td = patient.nok_mobile
+        td = patient.updated_at.strftime("%d/%m/%Y at %I:%M %p")
+        td.add-prescription = link_to 'Add Prescription', prescriptions_path(patient_id: patient)
+        td.edit = link_to 'Edit', edit_patient_path(patient)
+        td.destroy = link_to 'Destroy', patient, method: :delete, data: { confirm: 'Are you sure?' }
+
+

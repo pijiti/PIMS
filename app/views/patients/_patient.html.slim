@@ -8,6 +8,3 @@ tr
         td.mobile = patient.patient_mobile 
         td.nokname = patient.nok_name
         td.nokmobile = patient.nok_mobile
-        td.add-prescription = link_to 'Add Prescription', prescriptions_path(patient_id: patient) 
-        td.edit = link_to 'Edit', edit_patient_path(patient) 
-        td.destroy = link_to 'Destroy', patient, method: :delete, data: { confirm: 'Are you sure?' } 

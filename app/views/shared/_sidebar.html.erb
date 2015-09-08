@@ -40,6 +40,7 @@
           <div class="collapse list-group-submenu" id="commercial">
             <%= link_to "Surcharge", surcharges_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
           </div>
+          <%= link_to '<i class="fa fa-gear fa-fw blue"></i>&nbsp;PIMS configurations'.html_safe, pims_configs_path, class: "list-group-item" %>
         </div>
     <% end %>
     <% if can? :manage, Supply %>

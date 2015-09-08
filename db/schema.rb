@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150820085256) do
+ActiveRecord::Schema.define(version: 20150908070528) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -196,6 +196,19 @@ ActiveRecord::Schema.define(version: 20150820085256) do
     t.decimal  "dispensary_critical_level", precision: 8, scale: 2
     t.decimal  "ward_restock_level",        precision: 8, scale: 2
     t.decimal  "ward_critical_level",       precision: 8, scale: 2
+  end
+
+  create_table "pharm_items_sub_classes", force: true do |t|
+    t.integer "pharm_item_id"
+    t.integer "sub_class_id"
+  end
+
+  create_table "pims_configs", force: true do |t|
+    t.string   "property_name"
+    t.string   "property_value"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "prescriptions", force: true do |t|

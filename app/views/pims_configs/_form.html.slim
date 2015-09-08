@@ -1,0 +1,15 @@
+= simple_form_for @pims_config do |f|
+  - if @pims_config.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@pims_config.errors.count, "error")} prohibited this pims_config from being saved:"
+      ul
+        - @pims_config.errors.full_messages.each do |message|
+          li = message
+
+  .field
+    = f.input :property_name
+  .field
+    = f.input :property_value
+  .field
+    = f.input :description
+  .actions = f.submit

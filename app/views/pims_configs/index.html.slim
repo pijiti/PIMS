@@ -1,0 +1,25 @@
+h3.text-center Configurations
+
+table.table.data_table
+  thead
+    tr
+      th Property name
+      th Property value
+      th Description
+      th
+      th
+      th
+
+  tbody
+    - @pims_configs.each do |pims_config|
+      tr
+        td = pims_config.property_name
+        td = pims_config.property_value
+        td = pims_config.description
+        td = link_to 'Show', pims_config
+        td = link_to 'Edit', edit_pims_config_path(pims_config)
+        td = link_to 'Destroy', pims_config, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+= link_to 'New Pims config', new_pims_config_path

@@ -1,0 +1,2 @@
+module PimsConfigsHelper
+end

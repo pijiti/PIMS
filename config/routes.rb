@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :pims_configs
+
   resources :receipts do
     collection do
       post 'filter'

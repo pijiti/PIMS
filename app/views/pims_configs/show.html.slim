@@ -1,0 +1,15 @@
+p#notice = notice
+
+p
+  strong Property name:
+  = @pims_config.property_name
+p
+  strong Property value:
+  = @pims_config.property_value
+p
+  strong Description:
+  = @pims_config.description
+
+= link_to 'Edit', edit_pims_config_path(@pims_config)
+'|
+= link_to 'Back', pims_configs_path

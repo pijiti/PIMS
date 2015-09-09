@@ -20,6 +20,11 @@ class Brand < ActiveRecord::Base
    "#{name} " + "(" + " #{pharm_item.try(:name)}" + " | " + " #{try(:concentration)}" + "#{item_concentration_unit.try(:name)}" + " #{unit_dose.try(:name)}" + " | " + " #{marketer.try(:name)} " + " )"
   end
 
+  #used in prescription page
+  def drug_prescription_info
+    "#{pharm_item.try(:name)} " + "(" + " #{name}" + " | " + " #{try(:concentration)}" + "#{item_concentration_unit.try(:name)}" + " #{unit_dose.try(:name)}" + " | " + " #{marketer.try(:name)} " + " )"
+  end
+
   def mini_info
     "#{name} " + "("   + " #{try(:concentration)}" + "#{item_concentration_unit.try(:name)}" + " #{unit_dose.try(:name)}" + " | " + " #{marketer.try(:name)} " + " )"
   end

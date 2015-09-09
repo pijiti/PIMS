@@ -1,14 +1,16 @@
 class PrescriptionsController < ApplicationController
 
-	before_action :set_prescription, only: [:show, :edit, :update, :destroy]
+  before_action :set_prescription, only: [:show, :edit, :update, :destroy]
 
   def index
-   @prescriptions = Prescription.all
-     new
-   @all_prescriptions = Prescription.order(:created_at)
-   respond_to  do  |format|
-   	  format.html
-      format.xlsx {render xlsx: "index", filename: "#{Time.zone.now}.xlsx"}
+    @prescriptions = Prescription.all
+    @patient_id = params[:patient_id]
+    @patient = Patient.find_by_id(@patient_id) if @patient_id
+    new
+    @all_prescriptions = Prescription.order(:created_at)
+    respond_to do |format|
+      format.html
+      format.xlsx { render xlsx: "index", filename: "#{Time.zone.now}.xlsx" }
       format.pdf do
         pdf = PrescriptionPdf.new(@all_prescriptions)
         send_data pdf.render, filename: "#{Time.zone.now}.pdf", type: 'application/pdf'
@@ -18,8 +20,8 @@ class PrescriptionsController < ApplicationController
   end
 
   def search
- @prescriptions = Prescription.params[:query]
-   render new
+    @prescriptions = Prescription.params[:query]
+    render new
   end
 
 
@@ -29,10 +31,10 @@ class PrescriptionsController < ApplicationController
 
 
   def new
-    @prescription = Prescription.new
-		3.times  do
-     	    @prescription.prescription_batches.build
-     end
+    @prescription = Prescription.new(:patient_id => @patient_id , :prescription_date => Time.now)
+    1.times do
+      @prescription.prescription_batches.build
+    end
   end
 
 
@@ -68,23 +70,23 @@ class PrescriptionsController < ApplicationController
   def destroy
     @prescription.destroy
     respond_to do |format|
-      format.html { redirect_to prescriptions_path , notice: 'Prescription was successfully destroyed.' }
+      format.html { redirect_to prescriptions_path, notice: 'Prescription was successfully destroyed.' }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_patient
-      @patient = Patient.find(params[:patient_id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_patient
+    @patient = Patient.find(params[:patient_id])
+  end
 
-    def set_prescription
-     @prescription = Prescription.find(params[:id])
-    end
+  def set_prescription
+    @prescription = Prescription.find(params[:id])
+  end
 
 
-    def prescription_params
-      params.require(:prescription).permit(:user_id, :hospital_unit_id,:patient_id,:code, :doctor_id , :prescription_date ,
-                                                                 prescription_batches_attributes: [:id,:pharm_item_id,:brand_id,:rate,:qty, :batch_number,:comment,:approved])
-    end
+  def prescription_params
+    params.require(:prescription).permit(:user_id, :hospital_unit_id, :patient_id, :code, :doctor_id, :prescription_date,
+                                         prescription_batches_attributes: [:id, :pharm_item_id, :brand_id, :rate, :qty, :batch_number, :comment, :approved])
+  end
 end

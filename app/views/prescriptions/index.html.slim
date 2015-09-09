@@ -1,4 +1,6 @@
-.title Prescriptions
+.title Prescription for
+        #{@patient.try(:firstname)} #{@patient.try(:surname)}
+
 
 section#pims-index
         .prescriptions-form

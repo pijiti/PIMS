@@ -47,6 +47,8 @@ class UsersController < ApplicationController
 
   def password_reset
     @user.password_reset!
+    #send sms
+    send_sms(@user.username , "Hello #{@user.first_name}, Your password has been reset for your login at PIMS . Login with Username:#{@user.username} , Password: password. Thank you")
     @error = @user.errors.full_messages.to_sentence
   end
 

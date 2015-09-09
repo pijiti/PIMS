@@ -1,9 +1,11 @@
 = simple_form_for @prescription,:html =>{class: "form-inline"} do |f| 
 
-    = f.input :user_id, collection: User.where(staff_category_id:6),value_method: :id , label_method: :full_name, prompt: "Select Staff Category"
+    = f.input :doctor_id, collection: User.all.where(:title => Title.find_by_name("Dr")),value_method: :id , label_method: :full_name, prompt: "Select Staff Category"
     = f.input :hospital_unit_id, collection: HospitalUnit.all, value_method: :id ,label_method: :name, prompt: "Select Hospital"
+    = f.label :prescription_date
+    = f.text_field :prescription_date ,  :data => { :provide  => 'datepicker', "date-format" => "dd/mm/yyyy" } , :input_html => {class: 'datepicker string required form-control input-sm form-group' }, as: :string , :value => prescription_date_display(@prescription)
     = f.input :code, as: :hidden
-    = f.simple_fields_for :batches do |batch|
+    = f.simple_fields_for :prescription_batches do |batch|
          =render 'dispense_item', b: batch   
     hr     
     = f.button :submit

@@ -3,12 +3,12 @@ class PatientsController < ApplicationController
 
   def filter
     @patients = Patient.all
-    first_name = params[:patient][:first_name]
-    surname = params[:patient][:lastname]
+    first_name = params[:patient][:firstname]
+    surname = params[:patient][:surname]
     mobile = params[:patient][:mobile]
     hospital_number = params[:patient][:hospital_number]
 
-    @patients = @patients.where(:first_name => first_name) if !first_name.blank?
+    @patients = @patients.where(:firstname => first_name) if !first_name.blank?
     @patients = @patients.where(:surname => surname) if !surname.blank?
     @patients = @patients.where(:mobile => mobile) if !mobile.blank?
     @patients = @patients.where(:hospital_number => hospital_number) if !hospital_number.blank?
@@ -16,7 +16,7 @@ class PatientsController < ApplicationController
   end
 
   def index
-    @patients = Patient.all
+    #@patients = Patient.all
     @patient_filter = Patient.new
      new
   end

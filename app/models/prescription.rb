@@ -9,14 +9,17 @@ class Prescription < ActiveRecord::Base
 	belongs_to :user
 	belongs_to :hospital_unit
 	belongs_to :patient
-	has_many :batches
+  belongs_to :doctor , class_name: "User"
+	has_many :prescription_batches
 
-	accepts_nested_attributes_for :batches , allow_destroy: true
+	accepts_nested_attributes_for :prescription_batches , allow_destroy: true
 
 
+ #PIMS100000
+ #PIMS100001
+ #PIMS100002
  def unique_code
- 	count = 0
- 	self.code = "PLN-%.6d" % count=+1
+ 	self.code = "#{PimsConfig.find_by_property_name("prescription_prefix").property_value}-#{SecureRandom.uuid[0..6]}"
  end
 
 end

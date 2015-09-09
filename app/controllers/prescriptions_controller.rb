@@ -31,7 +31,7 @@ class PrescriptionsController < ApplicationController
   def new
     @prescription = Prescription.new
 		3.times  do
-     	    @prescription.batches.build
+     	    @prescription.prescription_batches.build
      end
   end
 
@@ -84,7 +84,7 @@ class PrescriptionsController < ApplicationController
 
 
     def prescription_params
-      params.require(:prescription).permit(:user_id, :hospital_unit_id,:patient_id,:code,
-                                                                 batches_attributes: [:id,:pharm_item_id,:brand_id,:rate,:qty, :batch_number,:comment,:approved])
+      params.require(:prescription).permit(:user_id, :hospital_unit_id,:patient_id,:code, :doctor_id , :prescription_date ,
+                                                                 prescription_batches_attributes: [:id,:pharm_item_id,:brand_id,:rate,:qty, :batch_number,:comment,:approved])
     end
 end

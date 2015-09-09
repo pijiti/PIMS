@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  pharm_item_id: 1
+  brand_id: 1
+  rate: MyString
+  qty: MyString
+  batch_number: MyString
+  comment: MyText
+  approved: false
+
+two:
+  pharm_item_id: 1
+  brand_id: 1
+  rate: MyString
+  qty: MyString
+  batch_number: MyString
+  comment: MyText
+  approved: false

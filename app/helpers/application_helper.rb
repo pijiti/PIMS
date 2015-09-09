@@ -142,4 +142,10 @@ module ApplicationHelper
 
   ######Supply helpers end##########
 
+  def prescription_date_display(pb)
+    if pb and pb.prescription_date
+      pb.prescription_date.strftime("%d/%m/%Y")
+    end
+  end
+
 end

@@ -59,7 +59,7 @@ table.table.data_table
                                                 td = batch.rate
                                                 td = "#{inventory_batch.units}(#{inventory_batch.units/batch.brand.pack_size.to_i})"
                                                 td
-                                                   = batch.rate / calculate_units_in_pack(batch)
+                                                   = batch.rate / batch.brand.pack_size.to_f
                                                 td = batch.mfd_date.strftime("%d/%m/%Y")
                                                 td = batch.expiry_date.strftime("%d/%m/%Y")
                                                 td

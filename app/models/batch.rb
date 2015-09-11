@@ -11,7 +11,7 @@ class Batch < ActiveRecord::Base
   before_create :set_pharm_item
   before_update :set_pharm_item
 
-  validates_presence_of :rate, :qty , :mfd_date , :expiry_date , :batch_number
+  validates_presence_of :rate, :qty , :mfd_date , :expiry_date , :batch_number , :brand
   validates_uniqueness_of :batch_number
   validate :mfd_date_check
   attr_accessor :selector , :allot , :inventory_batch_id , :store_id , :transfer_to_store

@@ -107,12 +107,12 @@ table.table.table-responsive.table-hover
                                                      - next if i.inventory_batches.where(:batch =>batch).sum(:units) == 0
                                                      tr[class="#{highlight_batch(batch)}" ]
                                                          td = batch.brand.detailed_info
-                                                         td = batch.supply.vendor.try(:name)
+                                                         td = batch.try(:supply).try(:vendor).try(:name)
                                                          td = batch.batch_number
                                                          td = batch.rate
                                                          td = "#{i.inventory_batches.where(:batch =>batch).sum(:units)}(#{i.inventory_batches.where(:batch =>batch).sum(:units)/i.brand.pack_size.to_i})"
                                                          td
-                                                            - ratep = batch.rate / calculate_units_in_pack(batch)
+                                                            - ratep = batch.rate / batch.brand.pack_size.to_f
                                                             = "%.2f" % ratep
                                                          td = batch.mfd_date.strftime("%d/%m/%Y")
                                                          td = batch.expiry_date.strftime("%d/%m/%Y")

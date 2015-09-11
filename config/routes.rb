@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     collection do
       post 'filter'
       post 'import'
+      get 'rate'
     end
     member do
 
@@ -71,7 +72,11 @@ Rails.application.routes.draw do
   end
 
 
-  resources :batches
+  resources :batches  do
+    collection do
+      get 'ramp_up'
+    end
+  end
 
   resources :hospital_units
 

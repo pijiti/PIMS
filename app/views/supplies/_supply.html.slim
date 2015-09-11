@@ -47,7 +47,7 @@ tr.data-rows.supply
                                        td = batch.qty
                                        td = "#{calculate_units_in_pack(batch)}(#{batch.qty})"
                                        td
-                                          - ratep = batch.rate / calculate_units_in_pack(batch)
+                                          - ratep = batch.rate / batch.brand.pack_size.to_f
                                           = '%.2f' % ratep
                                           - inv = Inventory.where(:brand => batch.brand)
                                           - if !inv.blank? and inv.last.rate_per_unit != ratep

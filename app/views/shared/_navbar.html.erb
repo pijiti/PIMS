@@ -13,6 +13,7 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <span class="hide " id="current_active_store"><%= current_store.try(:id)  %></span>
       <% if user_signed_in? %>
           <ul class="nav navbar-nav navbar-right active_store_ul">
               <% if can? :manage, :all %>

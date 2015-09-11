@@ -8,9 +8,9 @@ class PatientsController < ApplicationController
     mobile = params[:patient][:mobile]
     hospital_number = params[:patient][:hospital_number]
 
-    @patients = @patients.where(:firstname => first_name) if !first_name.blank?
-    @patients = @patients.where(:surname => surname) if !surname.blank?
-    @patients = @patients.where(:mobile => mobile) if !mobile.blank?
+    @patients = @patients.where(:firstname => first_name.capitalize) if !first_name.blank?
+    @patients = @patients.where(:surname => surname.capitalize) if !surname.blank?
+    @patients = @patients.where(:mobile => mobile.capitalize) if !mobile.blank?
     @patients = @patients.where(:hospital_number => hospital_number) if !hospital_number.blank?
 
   end
@@ -44,7 +44,6 @@ class PatientsController < ApplicationController
       #@error = @patient.error.full_messages.to_sentence
       @error = @patient.errors.full_messages
       flash[:error] = "#{@error.to_sentence}"
-      @patients = Patient.all
       @patient_filter = Patient.new
       render "patients/index"
     end

@@ -56,7 +56,7 @@ table.table.data_table
                                                 td = batch.rate
                                                 td = "#{s.units}(#{s.units / batch.brand.pack_size.to_i})"
                                                 td
-                                                   = batch.rate / calculate_units_in_pack(batch)
+                                                   = batch.rate / batch.brand.pack_size.to_f
                                                 td = batch.mfd_date.strftime("%d/%m/%Y")
                                                 td = batch.expiry_date.strftime("%d/%m/%Y")
                                                 td = batch_form.input :transfer_to_store , collection: @stores , label: false

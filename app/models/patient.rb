@@ -11,7 +11,7 @@ class Patient < ActiveRecord::Base
 	validates :mobile,presence: true, uniqueness: true, length:{is:10},numericality:{only_integer: true}
 	validates :age, presence: true, length:{in:1..3},numericality:{only_integer: true, greater_than_or_equal_to: 0,less_than_or_equal_to: 100}
   validates :nok_name, presence: true
-  validates :nok_mobile,presence: true, uniqueness: true, length:{is:10},numericality:{only_integer: true}
+  validates :nok_mobile,presence: true, length:{is:10},numericality:{only_integer: true}
 
 	before_create :modify_attrs
 	before_update :modify_attrs

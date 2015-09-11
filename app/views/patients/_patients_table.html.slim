@@ -26,7 +26,8 @@ table.table.data_table
           td = patient.nok_mobile
           td = patient.updated_at.strftime("%d/%m/%Y at %I:%M %p")
           td.add-prescription = link_to 'Add Prescription', prescriptions_path(patient_id: patient)
-          td.edit
+          td
+                - @patient = patient
                 /= link_to 'Edit', edit_patient_path(patient)
                 a href="#" class="btn btn-sm " data-toggle="modal" data-target="#order_#{patient.id}"  Edit
                 div[id="order_#{patient.id}" class="modal" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
@@ -37,7 +38,7 @@ table.table.data_table
                           span aria-hidden="true"  &times;
                         h4#myModalLabel.modal-title Edit #{patient.firstname}
                       .modal-body
-                         - @patient = patient
+
                          = render "form"
 
                       .modal-footer

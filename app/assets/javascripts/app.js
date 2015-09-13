@@ -45,7 +45,8 @@ $(document).ready(function () {
     {
         total = 0
         $('.prescription_qty').each(function(i, obj) {
-            total += parseInt($(this).val()) * parseFloat($('#prescriptionrate_'+i).val());
+            if(!($('#prescriptionrate_'+i).val() == "NA"))
+                total += parseInt($(this).val()) * parseFloat($('#prescriptionrate_'+i).val());
         });
         $('#subtotal_value').html(total.toFixed(2));
     }

@@ -19,9 +19,9 @@ table.table.table-responsive.table-hover
             - current_pharm_item = i.pharm_item_id
             tr(class="data-rows clickable" data-toggle="collapse"  id="row#{current_pharm_item}" data-target=".row#{current_pharm_item}")
                 td
-                  - if @inventories.where(:brand => i.pharm_item.brands).count > 1
+                  - if @inventories.where(:brand => i.pharm_item.try(:brands)).count > 1
                       i.fa.fa-plus
-                td = i.brand.pharm_item.name
+                td = i.brand.try(:pharm_item).try(:name)
                 td
                     a href="#" class="btn btn-sm #{order_more_btn(i,i.store)}" data-toggle="modal" data-target="#order_#{current_pharm_item}"  Order more
                     div[id="order_#{current_pharm_item}" class="modal" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
@@ -30,7 +30,7 @@ table.table.table-responsive.table-hover
                           .modal-header
                             button.close aria-label="Close" data-dismiss="modal" type="button"
                               span aria-hidden="true"  &times;
-                            h4#myModalLabel.modal-title Order #{i.pharm_item.name} for #{i.store.name}
+                            h4#myModalLabel.modal-title Order #{i.pharm_item.try(:name)} for #{i.store.name}
                           .modal-body
                             - if i.store.parent.blank?
                               = simple_form_for(Vendor.new, :url => order_vendors_path , :method => "post")  do |vendor_form|
@@ -43,7 +43,7 @@ table.table.table-responsive.table-hover
                               = simple_form_for(Supply.new, :url => order_supplies_path , :method => "post")  do |supply_form|
 
                                     = supply_form.input :order_qty
-                                    = supply_form.input :brand_id , collection: i.pharm_item.brands , :prompt => "Any"
+                                    = supply_form.input :brand_id , collection: i.pharm_item.try(:brands) , :prompt => "Any"
                                     = supply_form.hidden_field :pharm_item_id , :value => i.pharm_item_id
                                     = supply_form.hidden_field :store_id , :value => i.store_id
                                     = supply_form.hidden_field :parent_store_id , :value => i.store.parent.id
@@ -73,10 +73,10 @@ table.table.table-responsive.table-hover
            td
            td
            td
-             = i.brand.mini_info
+             = i.brand.try(:mini_info)
 
            td = i.store.name
-           td = "#{i.inventory_batches.sum(:units)}(#{i.inventory_batches.sum(:units)/i.brand.pack_size.to_i})"
+           td = "#{i.inventory_batches.try(:sum, :units)}(#{i.inventory_batches.sum(:units)/i.brand.try(:pack_size).try(:to_i)})" if i.brand.try(:pack_size)
            td = ("%.2f" % i.rate_per_unit) if i.rate_per_unit
            td
                           a href="#" data-toggle="modal" data-target="#batches_#{i.id}"  View
@@ -87,7 +87,7 @@ table.table.table-responsive.table-hover
                                 .modal-header
                                   button.close aria-label="Close" data-dismiss="modal" type="button"
                                     span aria-hidden="true"  &times;
-                                  h4#myModalLabel.modal-title Inventory #{i.brand.name}
+                                  h4#myModalLabel.modal-title Inventory #{i.brand.try(:name)}
 
                                 .modal-body
                                   table.table.table-striped.table-condensed.batches.data_table

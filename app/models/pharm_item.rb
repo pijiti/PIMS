@@ -5,6 +5,7 @@ class PharmItem < ActiveRecord::Base
 	has_many :brands , :dependent => :destroy
 	has_many :batches
 	has_many :request_items
+  has_many :inventories , :dependent => :destroy
 
 	default_scope  { order(:name => :asc) }
 
@@ -14,8 +15,8 @@ class PharmItem < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: true, length: {in:3..25}
   #validates :central_restock_level, presence: true, numericality:{greater_than: 0},length: {maximum:5}
-  validates :main_restock_level, presence: true, numericality:{greater_than: 0},length: {maximum:5}
-  validates :dispensary_restock_level, presence: true, numericality:{greater_than: 0},length: {maximum:5}
+  validates :main_restock_level, presence: true, numericality:{greater_than: 0 , :less_than => 9999999}#,length: {maximum:8}
+  validates :dispensary_restock_level, presence: true, numericality:{greater_than: 0 , :less_than => 9999999}# ,length: {maximum:8}
   #validates :ward_restock_level, presence: true, numericality:{greater_than: 0},length: {maximum:5}
 
 

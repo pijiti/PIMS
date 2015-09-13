@@ -8,8 +8,18 @@ class BatchesController < ApplicationController
     @batch = Batch.new
   end
 
+  #Back door creation. Ramp up batches
   def create
-    @batch = Batch.new(batch_params)
+    old_batch = Batch.find_by_batch_number(batch_params[:batch_number])
+    #if batch number exists, just update store and qty
+    if old_batch
+      @batch = old_batch
+      @batch.qty = batch_params[:qty]
+      @batch.recipient_store = batch_params[:recipient_store]
+    else
+      @batch = Batch.new(batch_params)
+    end
+
     begin
       if @batch.save
         i = Inventory.where(:brand_id => @batch.brand_id, :store_id => @batch.recipient_store).first
@@ -20,7 +30,13 @@ class BatchesController < ApplicationController
         end
 
         i.update(:qty_last_added => @batch.qty.to_f * @batch.brand.pack_size.to_f, :rate_per_unit => "%.2f" % (@batch.rate / @batch.brand.pack_size.to_f))
-        InventoryBatch.create(:inventory => i, :batch => @batch, :units => @batch.qty.to_i * @batch.brand.pack_size.to_i)
+        ibatches = i.inventory_batches.where(:batch => @batch)
+        if ibatches.blank?
+          InventoryBatch.create(:inventory => i, :batch => @batch, :units => @batch.qty.to_i * @batch.brand.pack_size.to_i)
+        else
+          ibatches.first.update(:units => (ibatches.first.units) +  (@batch.qty.to_i* @batch.brand.pack_size.to_i) )
+        end
+
 
         redirect_to ramp_up_batches_path, :notice => "Batch created successfully"
       else

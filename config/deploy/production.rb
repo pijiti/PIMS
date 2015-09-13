@@ -3,9 +3,9 @@
 # Supports bulk-adding hosts to roles, the primary server in each group
 # is considered to be the first unless any hosts have the primary
 # property set.  Don't declare `role :all`, it's a meta role.
-role :app, %w{admin@192.168.1.4}
-role :web, %w{admin@192.168.1.4}
-role :db,  %w{admin@192.168.1.4}
+role :app, %w{ubuntu@52.25.33.102}
+role :web, %w{ubuntu@52.25.33.102}
+role :db,  %w{ubuntu@52.25.33.102}
 
 
 
@@ -16,7 +16,7 @@ role :db,  %w{admin@192.168.1.4}
 # used to set extended properties on the server.
 
 set :rails_env, :production
-server '192.168.1.4', user: 'admin', roles: %w{web app}, my_property: :my_value
+server '52.25.33.102', user: 'ubuntu', roles: %w{web app}, my_property: :my_value
 
 
 # Custom SSH Options
@@ -34,11 +34,11 @@ server '192.168.1.4', user: 'admin', roles: %w{web app}, my_property: :my_value
 #
 # And/or per server (overrides global)
 # ------------------------------------
-server '192.168.1.4',
-       user: 'admin',
+server '52.25.33.102',
+       user: 'ubuntu',
        roles: %w{web app},
        ssh_options: {
-           user: 'admin', # overrides user setting above
+           user: 'ubuntu', # overrides user setting above
            keys: %w(~/.ssh/id_rsa),
            forward_agent: true,
            auth_methods: %w(publickey)
@@ -46,17 +46,17 @@ server '192.168.1.4',
        }
 
 
-#
-#namespace :assets do
-#  desc 'compile assets locally and upload before finalize_update'
-#
-#  task :deploy do
-#    on roles(:web) do
-#      execute 'cd /apps/PIMS/current; RAILS_ENV=production bundle exec rake db:migrate'
-#      execute '/etc/init.d/unicorn_pims stop'
-#      execute 'sleep 5'
-#      execute '/etc/init.d/unicorn_pims start'
-#    end
-#  end
-#end
+
+namespace :assets do
+  desc 'compile assets locally and upload before finalize_update'
+
+  task :deploy do
+    on roles(:web) do
+      execute 'cd /apps/PIMS/current; RAILS_ENV=production bundle exec rake db:migrate'
+      execute '/etc/init.d/unicorn_pims stop'
+      execute 'sleep 5'
+      execute '/etc/init.d/unicorn_pims start'
+    end
+  end
+end
 

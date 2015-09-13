@@ -6,6 +6,8 @@ class SubClass < ActiveRecord::Base
 
   before_save :modify_attrs
 
+  default_scope {includes(:item_class).order('item_classes.name ASC')}
+
   def sub_main
   	"#{item_class.try(:name)}" + "(" + "#{try(:name)}"+ ")"
   end

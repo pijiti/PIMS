@@ -3,7 +3,7 @@ class PharmItemsController < ApplicationController
 
 
   def index
-    @pharm_items  = PharmItem.all
+    @pharm_items  = PharmItem.includes(:pharm_item_sub_classes, :sub_classes , :brands).all
     new
      respond_to do |format|
      	  format.html

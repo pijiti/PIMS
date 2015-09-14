@@ -4,6 +4,7 @@ class Receipt < ActiveRecord::Base
   belongs_to :to_store, :class_name => "Store"
   belongs_to :batch
   belongs_to :service_request
+  has_one :lost_drug
 
   attr_accessor :pharm_item_id
 

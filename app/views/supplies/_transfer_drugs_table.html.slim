@@ -16,7 +16,7 @@ table.table.data_table
           td = s.batch.pharm_item.name
           td = s.batch.brand.detailed_info
           td = s.batch.batch_number
-          td = s.batch.expiry_date
+          td = s.batch.expiry_date.strftime("%d/%y/%Y at %I:%M%p")
           /td = generic_drug_count(s.batch.pharm_item,s.inventory.store)
           td = "#{s.units}(#{s.units/s.batch.brand.pack_size.to_i})"
           td

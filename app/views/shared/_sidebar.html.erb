@@ -65,6 +65,8 @@
           <% if can? :manage, Store %>
               <%= link_to '<i class="fa fa-thumbs-up fa-fw blue"></i>&nbsp;Confirm Delivery'.html_safe, receipts_path, class: "list-group-item" %>
               <%= link_to '<i class="fa fa-warning   fa-fw blue"></i>&nbsp;Expired drugs'.html_safe, expired_drugs_supplies_path, class: "list-group-item" %>
+              <%= link_to '<i class="fa fa-warning   fa-fw blue"></i>&nbsp;Lost drugs'.html_safe, lost_drugs_receipts_path, class: "list-group-item" %>
+
               <%= link_to '<i class="fa fa-gears   fa-fw blue"></i>&nbsp;Ramp up batches'.html_safe, ramp_up_batches_path, class: "list-group-item" %>
           <% end %>
 

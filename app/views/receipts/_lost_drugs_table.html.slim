@@ -1,0 +1,18 @@
+table.table.data_table
+  thead
+        tr.data-rows
+           th From Store
+           th To Store
+           th Brand
+           th Batch Number
+           th Date
+           th Lost Units(Packs)
+  tbody
+    - @lost_drugs.each do |s|
+        tr.data-rows
+          td = s.receipt.from_store.try(:name)
+          td = s.receipt.to_store.try(:name)
+          td = s.receipt.batch.brand.detailed_info
+          td = s.receipt.batch.batch_number
+          td = s.created_at.strftime("%d/%y/%Y at %I:%M%p")
+          td = "#{s.lost_qty}(#{"%.2f" % (s.lost_qty.to_f/s.receipt.batch.brand.pack_size.to_f)})"  if s.lost_qty

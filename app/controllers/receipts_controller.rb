@@ -27,6 +27,12 @@ class ReceiptsController < ApplicationController
     @receipt = Receipt.find_by_id(params[:receipt][:id])
     if params[:receipt][:received_qty] and params[:receipt][:received_qty].to_i <= @receipt.qty and params[:receipt][:received_qty].to_i > -1
       @receipt.update(:received_qty => params[:receipt][:received_qty])
+
+      #lost some drugs in transit
+      if @receipt.qty.to_i > @receipt.received_qty.to_i
+        LostDrug.create(:receipt =>  @receipt, :lost_qty => @receipt.qty.to_i - @receipt.received_qty.to_i  )
+      end
+
       @receipt.post_confirm_receipt(params[:receipt][:received_qty])
       flash[:notice] = "Batch number #{@receipt.batch.try(:batch_number)} has been received and added to the inventory of #{@receipt.to_store.try(:name)}"
     else
@@ -34,6 +40,11 @@ class ReceiptsController < ApplicationController
     end
 
     redirect_to receipts_path
+  end
+
+  #
+  def lost_drugs
+    @lost_drugs = LostDrug.includes(:receipt , receipt: [:from_store , :to_store , batch: [:brand ] ]).all
   end
 
   # GET /receipts

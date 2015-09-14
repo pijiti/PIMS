@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     collection do
       post 'filter'
       post 'confirm'
+      get 'lost_drugs'
     end
   end
 

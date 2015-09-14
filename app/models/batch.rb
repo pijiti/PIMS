@@ -7,6 +7,7 @@ class Batch < ActiveRecord::Base
   belongs_to :request_item
   has_many :inventory_batches , :dependent => :destroy
   has_many :inventories , :through => :inventory_batches
+  has_many :receipts , :dependent => :destroy
 
   before_create :set_pharm_item
   before_update :set_pharm_item

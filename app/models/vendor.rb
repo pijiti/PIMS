@@ -7,10 +7,10 @@ class Vendor < ActiveRecord::Base
 
 	default_scope{order(name: :asc)}
 
-	validates :name, presence: true, uniqueness: true, length: {in:2..20}
+	validates :name, presence: true, uniqueness: true, length: {in:2..250}
 	validates :reg_number, presence: false,length: {maximum: 15}
-	validates :address, presence: false,length: {maximum: 75}
-	validates :contact_name, presence: true,length: {maximum: 35}
+	validates :address, presence: false,length: {maximum: 250}
+	validates :contact_name, presence: true,length: {maximum: 250}
 	validates :contact_mobile, presence: true,length: {maximum: 25}
 	validates :contact_email, presence: true,length: {maximum: 45}
 

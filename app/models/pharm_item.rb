@@ -15,8 +15,8 @@ class PharmItem < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: true, length: {in:3..25}
   #validates :central_restock_level, presence: true, numericality:{greater_than: 0},length: {maximum:5}
-  validates :main_restock_level, presence: true, numericality:{greater_than: 0 , :less_than => 9999999}#,length: {maximum:8}
-  validates :dispensary_restock_level, presence: true, numericality:{greater_than: 0 , :less_than => 9999999}# ,length: {maximum:8}
+  validates :main_restock_level, presence: true, numericality:{greater_than: 0 , :less_than => 1000000}#,length: {maximum:8}
+  validates :dispensary_restock_level, presence: true, numericality:{greater_than: 0 , :less_than => 1000000}# ,length: {maximum:8}
   #validates :ward_restock_level, presence: true, numericality:{greater_than: 0},length: {maximum:5}
 
 

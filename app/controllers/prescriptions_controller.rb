@@ -4,6 +4,7 @@ class PrescriptionsController < ApplicationController
 
   def index
     @prescriptions = Prescription.all
+    @brands = Brand.includes(:pharm_item).order('pharm_items.name ASC').all
     @patient_id = params[:patient_id]
     @patient = Patient.find_by_id(@patient_id) if @patient_id
     new

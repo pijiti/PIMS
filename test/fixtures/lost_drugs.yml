@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  lost_qty: MyString
+  receipt_id: 1
+
+two:
+  lost_qty: MyString
+  receipt_id: 1

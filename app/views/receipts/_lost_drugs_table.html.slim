@@ -7,6 +7,8 @@ table.table.data_table
            th Batch Number
            th Date
            th Lost Units(Packs)
+           th Lost Reason
+           th Comments
   tbody
     - @lost_drugs.each do |s|
         tr.data-rows
@@ -16,3 +18,5 @@ table.table.data_table
           td = s.receipt.batch.batch_number
           td = s.created_at.strftime("%d/%y/%Y at %I:%M%p")
           td = "#{s.lost_qty}(#{"%.2f" % (s.lost_qty.to_f/s.receipt.batch.brand.pack_size.to_f)})"  if s.lost_qty
+          td = s.receipt.lost_reason
+          td = s.receipt.comments

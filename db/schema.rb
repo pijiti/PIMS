@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150908070528) do
+ActiveRecord::Schema.define(version: 20150915053708) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -139,8 +139,15 @@ ActiveRecord::Schema.define(version: 20150908070528) do
     t.datetime "updated_at"
   end
 
+  create_table "lost_drugs", force: true do |t|
+    t.string   "lost_qty"
+    t.integer  "receipt_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "marketers", force: true do |t|
-    t.string   "name"
+    t.text     "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "description"
@@ -211,6 +218,19 @@ ActiveRecord::Schema.define(version: 20150908070528) do
     t.datetime "updated_at"
   end
 
+  create_table "prescription_batches", force: true do |t|
+    t.integer  "pharm_item_id"
+    t.integer  "brand_id"
+    t.string   "rate"
+    t.string   "qty"
+    t.string   "batch_number"
+    t.text     "comment"
+    t.boolean  "approved"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "prescription_id"
+  end
+
   create_table "prescriptions", force: true do |t|
     t.integer  "user_id"
     t.integer  "hospital_unit_id"
@@ -218,6 +238,8 @@ ActiveRecord::Schema.define(version: 20150908070528) do
     t.datetime "updated_at"
     t.integer  "patient_id"
     t.string   "code"
+    t.integer  "doctor_id"
+    t.datetime "prescription_date"
   end
 
   create_table "receipts", force: true do |t|
@@ -231,6 +253,8 @@ ActiveRecord::Schema.define(version: 20150908070528) do
     t.datetime "updated_at"
     t.integer  "to_store_id"
     t.integer  "service_request_id"
+    t.string   "lost_reason"
+    t.text     "comments"
   end
 
   create_table "request_items", force: true do |t|
@@ -434,8 +458,8 @@ ActiveRecord::Schema.define(version: 20150908070528) do
   end
 
   create_table "vendors", force: true do |t|
-    t.string   "name"
-    t.string   "address"
+    t.text     "name"
+    t.text     "address"
     t.string   "contact_name"
     t.string   "contact_mobile",     limit: 11
     t.datetime "created_at"

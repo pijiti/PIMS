@@ -26,15 +26,21 @@ class ReceiptsController < ApplicationController
   def confirm
     @receipt = Receipt.find_by_id(params[:receipt][:id])
     if params[:receipt][:received_qty] and params[:receipt][:received_qty].to_i <= @receipt.qty and params[:receipt][:received_qty].to_i > -1
-      @receipt.update(:received_qty => params[:receipt][:received_qty])
 
-      #lost some drugs in transit
-      if @receipt.qty.to_i > @receipt.received_qty.to_i
-        LostDrug.create(:receipt =>  @receipt, :lost_qty => @receipt.qty.to_i - @receipt.received_qty.to_i  )
+      if @receipt.update(:received_qty => params[:receipt][:received_qty] , :lost_reason => params[:receipt][:lost_reason] , :comments => params[:receipt][:comments])
+        #lost some drugs in transit
+        if @receipt.qty.to_i > @receipt.received_qty.to_i
+          LostDrug.create(:receipt =>  @receipt, :lost_qty => @receipt.qty.to_i - @receipt.received_qty.to_i  )
+        end
+
+        @receipt.post_confirm_receipt(params[:receipt][:received_qty])
+        flash[:notice] = "Batch number #{@receipt.batch.try(:batch_number)} has been received and added to the inventory of #{@receipt.to_store.try(:name)}"
+      else
+        @error = @receipt.errors.full_messages
+        flash[:error] = "#{@error.to_sentence}"
       end
 
-      @receipt.post_confirm_receipt(params[:receipt][:received_qty])
-      flash[:notice] = "Batch number #{@receipt.batch.try(:batch_number)} has been received and added to the inventory of #{@receipt.to_store.try(:name)}"
+
     else
       flash[:notice] = "Please check the value of received quantity"
     end

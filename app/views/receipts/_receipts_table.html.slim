@@ -45,7 +45,10 @@ table.table.data_table
                                             th Rate per unit
                                             th Mfd Date
                                             th Expiry Date
-                                            th Received  quantity
+                                            th Received Qty
+                                            th If drugs lost, reason
+                                            th Comments
+
 
 
                                        tbody
@@ -56,11 +59,15 @@ table.table.data_table
                                               td = batch.batch_number
                                               td = batch.rate
                                               td = "#{s.qty}(#{s.qty/batch.brand.pack_size.to_i})"
-                                              td = batch.rate / batch.brand.pack_size.to_f
+                                              td = "%.2f" % (batch.rate / batch.brand.pack_size.to_f)
                                               td = batch.mfd_date.strftime("%d/%m/%Y")
                                               td = batch.expiry_date.strftime("%d/%m/%Y")
                                               td
                                                  = f.input :received_qty ,label: false
+                                              td
+                                                 = f.input :lost_reason , collection: ["None" , "Lost" , "Stolen" , "Damaged"] , label: false
+                                              td
+                                                 = f.input :comments , label: false
 
                              .modal-footer
                                = f.submit :class => "btn-sm btn btn-success" , :value => "Confirm Delivery"

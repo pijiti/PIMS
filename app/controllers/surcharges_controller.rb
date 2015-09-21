@@ -8,6 +8,45 @@ class SurchargesController < ApplicationController
     new
   end
 
+  #return active surcharge
+  def active
+    surcharges = {}
+    @surcharge = Surcharge.where(:active => true).first
+    if @surcharge
+
+
+
+      surcharges["charge_type"] = @surcharge.charge_type
+      surcharges["items"] = []
+      total = 0
+      @surcharge.surcharge_items.each do |i|
+        temp = {}
+        #if @surcharge.charge_type != "Fixed"
+        #  temp["name"] = "#{i.name}(#{i.value}%)"
+        #else
+        #  temp["name"] = i.name
+        #end
+        temp["name"] = i.name
+        temp["value"] = i.value
+        total += i.value.to_f
+        surcharges["items"] << temp
+      end
+      surcharges["total"] = total
+      if @surcharge.charge_type != "Fixed"
+        surcharges["name"] = "#{@surcharge.name}(#{total}%)"
+      else
+        surcharges["name"] = @surcharge.name
+      end
+    end
+
+    puts "=========Surcharges========="
+    puts surcharges
+
+    respond_to do |format|
+      format.json { render json: surcharges }
+    end
+  end
+
   def new
     @surcharge = Surcharge.new
     @surcharge.surcharge_items.build

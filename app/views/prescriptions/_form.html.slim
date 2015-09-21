@@ -22,7 +22,7 @@
       th Quantity
     tbody#prescription_batches
       - @prescription_batch_counter = 0
-      -@prescription.prescription_batches.each do |batch|
+      - @prescription.prescription_batches.each do |batch|
          = f.simple_fields_for :prescription_batches, batch do |batch_form|
            = render 'prescription_batch_fields', :f => batch_form, :batch => batch
            - @prescription_batch_counter += 1
@@ -31,6 +31,9 @@
     p
       strong SubTotal &nbsp;
       i#subtotal_value 0
+    p#surcharges
+    p#grand_total
+
 
 
   .text-center

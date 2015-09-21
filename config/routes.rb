@@ -25,7 +25,11 @@ Rails.application.routes.draw do
 
   resources :requests
 
-  resources :surcharges, only: [:index,:edit,:create,:update,:destroy,:new]
+  resources :surcharges do
+    collection do
+      get 'active'
+    end
+  end
 
 
   resources :roles, only: [:index,:edit,:update,:new,:destroy,:create]

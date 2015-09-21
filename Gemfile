@@ -69,7 +69,11 @@ gem 'chronic'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 
 
-#Test gems
+#debugging gems
+group :development do
+  gem 'better_errors'
+  gem 'binding_of_caller'
+end
 
 
 

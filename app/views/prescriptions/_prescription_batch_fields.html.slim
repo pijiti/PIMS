@@ -1,7 +1,7 @@
 tr.nested-fields
 
         td  = f.input :brand_id, collection: @brands, value_method: :id, label_method: :drug_prescription_info, label: false, prompt: "Select Drug" , :input_html => {id: "prescriptionbatch_#{@prescription_batch_counter}" ,  class: "prescription_batch"}
-        td  = f.input :rate, label: false, placeholder: "Rate", as: :string, maxlength: 5  , :input_html => {id: "prescriptionrate_#{@prescription_batch_counter}"}
+        td  = f.input :rate, label: false, placeholder: "Rate", as: :string, maxlength: 5  , :input_html => {id: "prescriptionrate_#{@prescription_batch_counter}" , :readonly => true , class: "prescription_rate"}
         td  = f.input :qty, label: false, placeholder: "Quantity", as: :string, maxlength: 5 , :input_html => {id: "prescriptionqty_#{@prescription_batch_counter}" , class: "prescription_qty" , min_dispensable: "0"}
         td  = link_to_remove_association "Remove Drug", f
 

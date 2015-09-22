@@ -1,8 +1,11 @@
 tr
 
-        td.user = prescription.user.try(:first_name)
+        td.user = prescription.try(:code)
+        td = "#{prescription.patient.try(:firstname)} #{prescription.patient.try(:surname)}"
+        td = "Dr. #{prescription.doctor.try(:first_name)} #{prescription.doctor.try(:last_name)}"
         td.hospital = prescription.hospital_unit.try(:name  )
-        td.code = prescription.try(:prescription_code)
+        td.code = prescription.prescription_date.strftime("%d/%y/%Y at %I:%M%p")
+        td = "N #{prescription.total}"
         /td.batch = prescription.try(:batches).try(:size)
         td.edit = link_to 'Edit', edit_prescription_path(prescription)
         td.destroy = link_to 'Destroy', (prescription), method: :delete, data: { confirm: 'Are you sure?' }

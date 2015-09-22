@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150915053708) do
+ActiveRecord::Schema.define(version: 20150922090839) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -240,6 +240,10 @@ ActiveRecord::Schema.define(version: 20150915053708) do
     t.string   "code"
     t.integer  "doctor_id"
     t.datetime "prescription_date"
+    t.string   "subtotal"
+    t.string   "total"
+    t.string   "surcharges"
+    t.string   "surcharges_name"
   end
 
   create_table "receipts", force: true do |t|

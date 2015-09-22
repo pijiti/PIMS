@@ -40,7 +40,9 @@ class PrescriptionsController < ApplicationController
 
 
   def edit
-
+    @brands = Brand.includes(:pharm_item).order('pharm_items.name ASC').all
+    @patient_id = params[:patient_id]
+    @patient = Patient.find_by_id(@patient_id) if @patient_id
   end
 
 
@@ -49,9 +51,17 @@ class PrescriptionsController < ApplicationController
 
     respond_to do |format|
       if @prescription.save
-        format.html { redirect_to prescriptions_path, notice: 'Prescription was successfully created.' }
+        format.html { redirect_to prescriptions_path(:patient_id => @prescription.patient_id), notice: 'Prescription was successfully created.' }
       else
-        format.html { render :new }
+        @error = @prescription.errors.full_messages
+        flash[:error] = "#{@error.to_sentence}"
+
+        @prescriptions = Prescription.all
+        @brands = Brand.includes(:pharm_item).order('pharm_items.name ASC').all
+        @patient_id = @prescription.patient_id
+        @patient = Patient.find_by_id(@patient_id) if @patient_id
+        @all_prescriptions = Prescription.order(:created_at)
+        format.html { render :index }
       end
     end
   end
@@ -60,9 +70,18 @@ class PrescriptionsController < ApplicationController
   def update
     respond_to do |format|
       if @prescription.update(prescription_params)
-        format.html { redirect_to prescriptions_url, notice: 'Prescription was successfully updated.' }
+        format.html { redirect_to prescriptions_path(:patient_id => @prescription.patient_id), notice: 'Prescription was successfully updated.' }
       else
-        format.html { render :edit }
+        @error = @prescription.errors.full_messages
+        flash[:error] = "#{@error.to_sentence}"
+
+        @prescriptions = Prescription.all
+        @brands = Brand.includes(:pharm_item).order('pharm_items.name ASC').all
+        @patient_id = params[:patient_id]
+        @patient = Patient.find_by_id(@patient_id) if @patient_id
+        @all_prescriptions = Prescription.order(:created_at)
+
+        format.html { render :index }
       end
     end
   end
@@ -71,7 +90,7 @@ class PrescriptionsController < ApplicationController
   def destroy
     @prescription.destroy
     respond_to do |format|
-      format.html { redirect_to prescriptions_path, notice: 'Prescription was successfully destroyed.' }
+      format.html { redirect_to prescriptions_path(:patient_id => @prescription.patient_id), notice: 'Prescription was successfully destroyed.' }
     end
   end
 
@@ -87,7 +106,7 @@ class PrescriptionsController < ApplicationController
 
 
   def prescription_params
-    params.require(:prescription).permit(:user_id, :hospital_unit_id, :patient_id, :code, :doctor_id, :prescription_date,
-                                         prescription_batches_attributes: [:id, :pharm_item_id, :brand_id, :rate, :qty, :batch_number, :comment, :approved])
+    params.require(:prescription).permit(:user_id, :hospital_unit_id, :patient_id, :code, :doctor_id, :prescription_date, :subtotal , :surcharges_name , :surcharges ,:total,
+                                         prescription_batches_attributes: [:id, :pharm_item_id, :brand_id, :rate, :qty, :batch_number, :comment, :approved , :_destroy])
   end
 end

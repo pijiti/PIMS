@@ -50,7 +50,7 @@ $(document).ready(function () {
             var row_id = selector_id.split('_')[1];
             if (($('#prescriptionrate_' + row_id).val() != "NA") && $('#prescriptionqty_' + row_id).val() != '') {
                 sub_total += parseInt($(this).val()) * parseFloat($('#prescriptionrate_' + row_id).val());
-                $('#subtotal_value').html(sub_total.toFixed(2));
+
             }
         });
         return parseFloat(sub_total.toFixed(2));
@@ -77,10 +77,18 @@ $(document).ready(function () {
                         surcharge = surcharge_total;
 
                     }
-                    $('#surcharges').html("<strong>" + data["name"] + "</strong> <i>" + surcharge + "</i>");
+                    $('#surcharges_name').html( data["name"]);
+                    $('#prescription_surcharges_name').val(data["name"]);
+
+                    $('#surcharges_value').html(surcharge.toFixed(2));
+                    $('#prescription_surcharges').val(surcharge.toFixed(2));
                 }
                 total = surcharge + sub_total;
-                $('#grand_total').html("<strong>Total</strong> <i>" + total + "</i>");
+                $('#subtotal_value').html(sub_total.toFixed(2));
+                $('#prescription_subtotal').val(sub_total.toFixed(2));
+
+                $('#grand_total').html(total.toFixed(2));
+                $('#prescription_total').val(total.toFixed(2));
 
             }
         });

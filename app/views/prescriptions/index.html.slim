@@ -8,14 +8,17 @@ section#pims-index
         .text-right
             a href= '#'  Download Excel
 
-        table.table.table-striped.table-condensed
+        table.table.table-striped.table-condensed.data_table
           thead
               tr
-              th SN
-              th User
-              th Hospital Unit
-              th Prescription Code
-              th Item No
+              th Prescription code
+              th Patient name
+              th Doctor
+              th Hospital
+              th Date
+              th Amount
+              th Edit
+              th Destroy
              
           tbody.prescriptions
             - @prescriptions.each do |prescription|

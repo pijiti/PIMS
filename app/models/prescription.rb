@@ -12,14 +12,18 @@ class Prescription < ActiveRecord::Base
   belongs_to :doctor , class_name: "User"
 	has_many :prescription_batches
 
+  validates_presence_of :prescription_date , :subtotal, :total, :patient
+  before_create :unique_code
+
 	accepts_nested_attributes_for :prescription_batches , allow_destroy: true
 
 
- #PIMS100000
- #PIMS100001
- #PIMS100002
+ #PIMS1000
+ #PIMS1001
+ #PIMS1002
  def unique_code
- 	self.code = "#{PimsConfig.find_by_property_name("prescription_prefix").property_value}-#{SecureRandom.uuid[0..6]}"
+  counter = Prescription.all.count + 1000
+ 	self.code = "#{PimsConfig.find_by_property_name("prescription_prefix").property_value}-#{counter}"
  end
 
 end

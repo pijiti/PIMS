@@ -27,12 +27,40 @@
            = render 'prescription_batch_fields', :f => batch_form, :batch => batch
            - @prescription_batch_counter += 1
   = link_to_add_association "Add Drug",  f , :prescription_batches, :"data-association-insertion-node" => "tbody#prescription_batches" , :"data-association-insertion-method" => "append" , :partial => "prescription_batch_fields"
-  #subtotal.text-center
-    p
-      strong SubTotal &nbsp;
-      i#subtotal_value 0
-    p#surcharges
-    p#grand_total
+  #Total
+    .row
+      .col-sm-6
+      .col-sm-3
+        span SubTotal
+      .col-sm-3.text-right
+        = f.hidden_field :subtotal , :value => @prescription.subtotal
+        #subtotal_value
+          = @prescription.subtotal
+
+
+
+    .row
+      .col-sm-6
+      .col-sm-3
+        = f.hidden_field :surcharges_name , :value => @prescription.surcharges_name
+        #surcharges_name
+          = @prescription.surcharges_name
+      .col-sm-3.text-right
+        = f.hidden_field :surcharges , :value => @prescription.surcharges
+        #surcharges_value
+          = @prescription.surcharges
+
+
+    .row
+      .col-sm-6
+      .col-sm-3
+        strong Grand Total
+      .col-sm-3.text-right
+        = f.hidden_field :total , :value => nil
+        #grand_total
+          = @prescription.total
+
+
 
 
 

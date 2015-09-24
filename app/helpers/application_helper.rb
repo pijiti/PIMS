@@ -116,7 +116,8 @@ module ApplicationHelper
   end
 
   def vendors_from_inventories(pharm_item)
-    Vendor.where(:id => Supply.where(:id => Inventory.generic_batches(pharm_item)).pluck(:vendor_id))
+    #Vendor.where(:id => Supply.where(:id => Inventory.generic_batches(pharm_item)).pluck(:vendor_id))
+    Vendor.all
   end
 
   #drug count for a store

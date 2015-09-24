@@ -34,7 +34,8 @@ table.table.table-responsive.table-hover
                           .modal-body
                             - if i.store.parent.blank?
                               = simple_form_for(Vendor.new, :url => order_vendors_path , :method => "post")  do |vendor_form|
-                                    = vendor_form.collection_check_boxes :id, vendors_from_inventories(i.pharm_item_id), :id, :name
+                                    /= vendor_form.collection_check_boxes :id, vendors_from_inventories(i.pharm_item_id), :id, :name , label: "Vendor"
+                                    = vendor_form.input :id ,as: :check_boxes, collection: Vendor.all.pluck(:name , :id) , label: "Vendors list"
                                     = vendor_form.hidden_field :pharm_item_id , :value => i.pharm_item_id
                                     = vendor_form.hidden_field :store_id , :value => i.store_id
                                     .actions.text-center

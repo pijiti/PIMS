@@ -20,7 +20,7 @@ table.table.data_table
           td = s.request_store.try(:name)
           td = generic_drug_count(s.pharm_item,s.request_store)
           td = s.status
-          td = s.created_at.strftime("%d/%y/%Y at %I:%M%p")
+          td = s.created_at.strftime("%d/%m/%Y at %I:%M%p")
           td
               - if ![ "COMPLETED" , "AWAITING DELIVERY CONFIRMATION" ].include? s.status
                  a href="#" data-toggle="modal" data-target="#requests_#{s.id}"  Service Request

@@ -119,6 +119,6 @@ table.table.table-responsive.table-hover
                                                          td = batch.expiry_date.strftime("%d/%m/%Y")
                                 .modal-footer
                                   button.btn.btn-default data-dismiss="modal" type="button"  Close
-           td = i.updated_at.strftime("%d/%y/%Y at %I:%M%p")
+           td = i.updated_at.strftime("%d/%m/%Y at %I:%M%p")
            td = i.store.parent.try(:name)
            td = Inventory.where(:store => i.store.parent , :brand =>i.brand ).try(:first).try(:inventory_batches).try(:sum, :units)

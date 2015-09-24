@@ -16,7 +16,7 @@ table.table.data_table
           td = s.receipt.to_store.try(:name)
           td = s.receipt.batch.brand.detailed_info
           td = s.receipt.batch.batch_number
-          td = s.created_at.strftime("%d/%y/%Y at %I:%M%p")
+          td = s.created_at.strftime("%d/%m/%Y at %I:%M%p")
           td = "#{s.lost_qty}(#{"%.2f" % (s.lost_qty.to_f/s.receipt.batch.brand.pack_size.to_f)})"  if s.lost_qty
           td = s.receipt.lost_reason
           td = s.receipt.comments

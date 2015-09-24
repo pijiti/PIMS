@@ -4,6 +4,7 @@ class PharmItemsController < ApplicationController
 
   def index
     @pharm_items  = PharmItem.includes(:pharm_item_sub_classes, :sub_classes , :brands).all
+    @brands = Brand.includes(:pharm_item , :unit_dose  , :item_concentration_unit , :marketer ).all
     new
      respond_to do |format|
      	  format.html
@@ -44,6 +45,7 @@ class PharmItemsController < ApplicationController
       @error = @pharm_item.errors.full_messages
       flash[:error] = "#{@error.to_sentence}"
       @pharm_items  = PharmItem.includes(:pharm_item_sub_classes, :sub_classes , :brands).all
+      @brands = Brand.includes(:pharm_item , :unit_dose  , :item_concentration_unit , :marketer ).all
       @subclasses = SubClass.all
       @marketers = Marketer.all
       @unit_doses = UnitDose.all

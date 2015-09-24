@@ -1,5 +1,5 @@
 .pharm-item-form.well
-    = simple_form_for @pharm_item, remote: true  do |f|
+    = simple_form_for @pharm_item  do |f|
       = f.input :ward_restock_level,as: :hidden
       = f.input :central_critical_level,as: :hidden
       = f.input :dispensary_critical_level,as: :hidden

@@ -34,14 +34,24 @@ class PharmItemsController < ApplicationController
 
   def create
     @pharm_item = PharmItem.new(pharm_item_params)
-    begin
     #authorize @pharm_item
     @pharm_item.pharm_item_sub_classes.build(params[:sub_class_ids])if (params[:sub_class_ids]).present?
     @pharm_item.critical_levels
-    @pharm_item.save! #unless @pharm_item.has_brand? == true
-   rescue ActiveRecord::RecordInvalid => invalid
-      @error = invalid.record.errors.full_messages.first
+
+    if @pharm_item.save
+      redirect_to pharm_items_path , :notice => "#{@pharm_item.name}" + " has been created successfully"
+    else
+      @error = @pharm_item.errors.full_messages
+      flash[:error] = "#{@error.to_sentence}"
+      @pharm_items  = PharmItem.includes(:pharm_item_sub_classes, :sub_classes , :brands).all
+      @subclasses = SubClass.all
+      @marketers = Marketer.all
+      @unit_doses = UnitDose.all
+      @pharm_item.brands.build
+
+      render "index"
     end
+
 
   end
 

@@ -14,10 +14,14 @@ class Ability
          can :manage , Patient
          # Dummy condition for dispens
          can :manage , RequestItem
+         can :manage , Inventory
+         can :manage , Receipt
        end
 
        if user.has_role? "Pharmacy Technician" , current_store
          can :manage , Patient
+         can :manage , Inventory
+         can :manage , Receipt
        end
 
        if user.has_role? "Store Keeper" , current_store

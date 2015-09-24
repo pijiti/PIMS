@@ -72,6 +72,15 @@
 
 
         </div>
+     <% elsif can? :manage , Inventory%>
+        <%= link_to '<i class="fa fa-exchange fa-fw x3 blue"></i>&nbsp;</br>Items Management <br/><i class="fa fa-caret-down"></i>'.html_safe, "#item", class: "list-group-item list-group-item-success text-center", "data-toggle" => "collapse", "data-parent" => "#MainMenu" %>
+            <div class="collapse" id="item">
+              <%= link_to '<i class="fa fa-archive fa-fw blue"></i>&nbsp;Inventory'.html_safe, inventory_index_path, class: "list-group-item" %>
+              <% if can? :manage , Receipt %>
+                  <%= link_to '<i class="fa fa-thumbs-up fa-fw blue"></i>&nbsp;Confirm Delivery'.html_safe, receipts_path, class: "list-group-item" %>
+              <% end %>
+            </div>
+
     <% end %>
     <% if can? :manage, Patient %>
         <%= link_to '<i class="fa fa-stethoscope fa-fw x3 blue"></i>&nbsp;</br>Patient Management <br/><i class="fa fa-caret-down"></i>'.html_safe, "#patient", class: "list-group-item list-group-item-success text-center", "data-toggle" => "collapse", "data-parent" => "#MainMenu" %>

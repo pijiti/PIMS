@@ -17,3 +17,35 @@ h3.text-center Batches
   br
   .text-center
     = f.submit :class => "btn btn-success"
+
+hr
+.batches_table
+  table.table.table-striped.table-condensed.batches.data_table
+    thead
+       tr.data-rows
+         th Brand
+         th Batch No
+         th Rate
+         th Qty
+         th Units(Packs)
+         th Rate per unit
+         th Mfd Date
+         th Expiry Date
+
+    tbody
+      -@batches.try(:each) do |batch|
+       tr[class="#{highlight_batch(batch)} data-rows" ]
+           td = batch.brand.try(:detailed_info)
+           td = batch.batch_number
+           td = batch.rate
+           td = batch.qty
+           td = "#{calculate_units_in_pack(batch)}(#{batch.qty})"
+           td
+              - ratep = batch.rate / batch.brand.pack_size.to_f
+              = '%.2f' % ratep
+              /- inv = Inventory.where(:brand => batch.brand)
+              /- if !inv.blank? and inv.last.rate_per_unit != ratep
+              /    a tabindex="0" href="#" data-toggle="popover" data-trigger="focus" title="Rate per unit changed" data-content="Rate per unit will be set to this value in inventory after approval."
+              /      i class="fa fa-info fa-fw blue"
+           td = batch.mfd_date.strftime("%d/%m/%Y")
+           td = batch.expiry_date.strftime("%d/%m/%Y")

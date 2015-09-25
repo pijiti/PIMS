@@ -33,7 +33,7 @@ class SurchargesController < ApplicationController
       end
       surcharges["total"] = total
       if @surcharge.charge_type != "Fixed"
-        surcharges["name"] = "#{@surcharge.name}(#{total}%)"
+        surcharges["name"] = "Service charge(#{total}%)"
       else
         surcharges["name"] = @surcharge.name
       end

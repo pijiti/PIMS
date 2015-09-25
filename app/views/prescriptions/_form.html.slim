@@ -35,7 +35,7 @@
       .col-sm-3.text-right
         = f.hidden_field :subtotal , :value => @prescription.subtotal
         #subtotal_value
-          = @prescription.subtotal
+          = @prescription.subtotal || 0.00
 
 
 
@@ -43,12 +43,12 @@
       .col-sm-6
       .col-sm-3
         = f.hidden_field :surcharges_name , :value => @prescription.surcharges_name
-        #surcharges_name
-          = @prescription.surcharges_name
+        #surcharges_name Service charge
+
       .col-sm-3.text-right
         = f.hidden_field :surcharges , :value => @prescription.surcharges
         #surcharges_value
-          = @prescription.surcharges
+          = @prescription.surcharges || 0.00
 
 
     .row
@@ -58,7 +58,7 @@
       .col-sm-3.text-right
         = f.hidden_field :total , :value => nil
         #grand_total
-          = @prescription.total
+          = @prescription.total || 0.00
 
 
 

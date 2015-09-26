@@ -7,11 +7,7 @@ class BatchesController < ApplicationController
 
   def ramp_up
     @batch = Batch.new
-    if can? :manage, :all
-      @batches = Batch.all
-    else
-
-    end
+    @batches = Batch.all
   end
 
   #Back door creation. Ramp up batches

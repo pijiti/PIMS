@@ -2,7 +2,7 @@ h3.text-center Batches
 = simple_form_for(@batch) do |f|
   = f.input :recipient_store , collection: Store.all , label: "Store" , :selected => current_store.try(:id)
   = f.association :brand, collection: Brand.all, value_method: :id, label_method: :detailed_info,  prompt: "Select Brand"
-  = f.input :batch_number, as: :string, placeholder: "Batch No", maxlength: 10
+  = f.input :batch_number, as: :string, placeholder: "Batch No"
   = f.input :rate, placeholder: "Rate", as: :string, maxlength: 15 , :input_html => { :class => "rate_batch" }
   = f.input :qty , placeholder: "Quantity(Packs)" , label: "Qty (Packs)"
   = f.input :approval_status , as: :hidden , :value => "APPROVED"
@@ -31,6 +31,7 @@ hr
          th Rate per unit
          th Mfd Date
          th Expiry Date
+         th
 
     tbody
       -@batches.try(:each) do |batch|
@@ -49,3 +50,5 @@ hr
               /      i class="fa fa-info fa-fw blue"
            td = batch.mfd_date.strftime("%d/%m/%Y")
            td = batch.expiry_date.strftime("%d/%m/%Y")
+           td
+              a href=batch_path(batch) data-method = 'delete' data-confirm = "Are you sure ?" Destroy

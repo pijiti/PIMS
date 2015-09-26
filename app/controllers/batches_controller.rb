@@ -1,5 +1,6 @@
 class BatchesController < ApplicationController
   before_action :set_all_batches, only: [:index]
+  before_action  :set_batch , only: [:destroy]
 
   def index
   end
@@ -52,10 +53,18 @@ class BatchesController < ApplicationController
     end
   end
 
+  def destroy
+    if @batch.destroy
+      redirect_to ramp_up_batches_path, :notice => "Batch deleted successfully"
+    else
+      redirect_to ramp_up_batches_path, :notice => "Batch deletion failed"
+    end
+  end
+
   private
 
   def set_batch
-    @batch = Batch.params[:id]
+    @batch = Batch.find(params[:id])
   end
 
   def set_all_batches

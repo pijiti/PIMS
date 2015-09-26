@@ -3,9 +3,10 @@ class PrescriptionsController < ApplicationController
   before_action :set_prescription, only: [:show, :edit, :update, :destroy]
 
   def index
-    @prescriptions = Prescription.all
+
     @brands = Brand.includes(:pharm_item).order('pharm_items.name ASC').all
     @patient_id = params[:patient_id]
+    @prescriptions = Prescription.where(:patient_id =>params[:patient_id] )
     @patient = Patient.find_by_id(@patient_id) if @patient_id
     new
     @all_prescriptions = Prescription.order(:created_at)
@@ -56,7 +57,7 @@ class PrescriptionsController < ApplicationController
         @error = @prescription.errors.full_messages
         flash[:error] = "#{@error.to_sentence}"
 
-        @prescriptions = Prescription.all
+        @prescriptions = Prescription.where(:patient_id =>@prescription.patient_id)
         @brands = Brand.includes(:pharm_item).order('pharm_items.name ASC').all
         @patient_id = @prescription.patient_id
         @patient = Patient.find_by_id(@patient_id) if @patient_id
@@ -75,9 +76,9 @@ class PrescriptionsController < ApplicationController
         @error = @prescription.errors.full_messages
         flash[:error] = "#{@error.to_sentence}"
 
-        @prescriptions = Prescription.all
         @brands = Brand.includes(:pharm_item).order('pharm_items.name ASC').all
         @patient_id = params[:patient_id]
+        @prescriptions = Prescription.where(:patient_id =>@patient_id)
         @patient = Patient.find_by_id(@patient_id) if @patient_id
         @all_prescriptions = Prescription.order(:created_at)
 

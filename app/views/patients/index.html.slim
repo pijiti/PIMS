@@ -17,7 +17,7 @@ h3.text-center Patients
       td
         = f.input :mobile , label: false
   .text-center
-        = f.submit :class => "btn btn-success btn-tiny" , :value => "Search"
+        = f.submit :class => "btn btn-success btn-xs" , :value => "Search"
   hr
 
 section#patients_table
@@ -26,7 +26,7 @@ section#patients_table
 hr
 
 section#patients-index
-  a href="#" class="btn btn-sm " data-toggle="modal" data-target="#order_#{"new"}"  New Patient
+  a href="#" class=" btn btn-success " data-toggle="modal" data-target="#order_#{"new"}"  New Patient
   div[id="order_#{"new"}" class="modal" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
     .modal-dialog role="document"
       .modal-content

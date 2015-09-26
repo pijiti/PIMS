@@ -22,7 +22,7 @@ class PatientsController < ApplicationController
   end
 
   def new
-    @patient = Patient.new
+    @patient = Patient.new(:hospital_number => Patient.all.count + 1000)
     @titles = Title.all
     @genders = Patient.genders
   end

@@ -112,6 +112,7 @@ $(document).ready(function () {
             success: function (data) {
                 $('#prescriptionrate_' + data["row"]).val(data["rate"]);
                 $('#prescriptionqty_' + data["row"]).attr("min_dispensable", data["min_dispensable"]);
+                $('#prescriptionqty_' + data["row"]).attr("placeholder" , "Multiples of " + data["min_dispensable"]);
                 total_calculation();
             }
         });
@@ -121,6 +122,10 @@ $(document).ready(function () {
     function prescription_qty_change() {
         if (parseInt($(this).attr('min_dispensable')) > parseInt($(this).val()))
             alert("Minimum dispensable for the selected drug is " + $(this).attr('min_dispensable'));
+        else if((parseInt($(this).val()) % parseInt($(this).attr('min_dispensable'))) != 0)
+        {
+            alert("Drugs must be dispensed in multiples of " + $(this).attr('min_dispensable'));
+        }
         else {
             total_calculation();
         }

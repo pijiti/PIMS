@@ -59,7 +59,7 @@
               <%= link_to '<i class="fa fa-phone fa-fw blue"></i>&nbsp;Service Request'.html_safe, service_request_supplies_path, class: "list-group-item" %>
           <% end %>
 
-          <% if (can? :manage , :all)  or (current_store and current_store.store_type.name.downcase.include? "main store")  %>
+          <% if (can? :manage , :all)  and (current_store.parent.blank?)  %>
               <%= link_to '<i class="fa fa-exchange fa-fw blue"></i>&nbsp;Transfer batches'.html_safe, transfer_drugs_supplies_path, class: "list-group-item" %>
           <% end %>
           <% if can? :manage, Store %>

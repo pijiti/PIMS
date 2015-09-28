@@ -5,6 +5,7 @@ h3.text-center Batches
   = f.input :batch_number, as: :string, placeholder: "Batch No"
   = f.input :rate, placeholder: "Rate", as: :string, maxlength: 15 , :input_html => { :class => "rate_batch" }
   = f.input :qty , placeholder: "Quantity(Packs)" , label: "Qty (Packs)"
+  = f.input :loose_units , placeholder: "Loose units" , label: "Loose units"
   = f.input :approval_status , as: :hidden , :value => "APPROVED"
   = f.label :Mfd_date
   br
@@ -40,8 +41,8 @@ hr
            td = batch.brand.try(:detailed_info)
            td = batch.batch_number
            td = batch.rate
-           td = batch.qty
-           td = "#{calculate_units_in_pack(batch)}(#{batch.qty})"
+           td = calculate_pack_number(batch)
+           td = "#{calculate_units_in_pack(batch)}(#{calculate_pack_number(batch)})"
            td
               - ratep = batch.rate / batch.brand.pack_size.to_f
               = '%.2f' % ratep

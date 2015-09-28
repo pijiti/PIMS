@@ -30,7 +30,7 @@ class InventoryController < ApplicationController
     end
 
     #@stores = Store.all
-    @brands = Brand.all
+    @brands = Brand.order('name ASC').all
     @pharm_items = PharmItem.all
     @filter = Inventory.new(:store => current_store, :brand => nil)
     respond_to do |format|

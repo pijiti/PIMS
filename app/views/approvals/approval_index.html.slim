@@ -61,7 +61,7 @@ table.table.table-striped.table-condensed.data_table
                                                     td = batch.brand.try(:detailed_info)
                                                     td = batch.batch_number
                                                     td = batch.rate
-                                                    td = "#{calculate_units_in_pack(batch)}(#{batch.qty})"
+                                                    td = "#{calculate_units_in_pack(batch)}(#{calculate_pack_number(batch)})"
                                                     td
                                                        - ratep = rate_per_unit(batch)
                                                        = "%.2f" % ratep

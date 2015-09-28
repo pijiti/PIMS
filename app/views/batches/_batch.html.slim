@@ -1,5 +1,5 @@
  tr
-        td.qty = batch.qty
+        td.qty = calculate_pack_number(batch)
         td.rate= batch.try(:batch_number)
         td = batch.item_supply.try(:brand).try(:brand_name)
         td.mfd-date = batch.try(:mfd_date)

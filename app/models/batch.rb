@@ -5,17 +5,27 @@ class Batch < ActiveRecord::Base
   belongs_to :pharm_item
   belongs_to :prescription
   belongs_to :request_item
-  has_many :inventory_batches , :dependent => :destroy
-  has_many :inventories , :through => :inventory_batches
-  has_many :receipts , :dependent => :destroy
+  has_many :inventory_batches, :dependent => :destroy
+  has_many :inventories, :through => :inventory_batches
+  has_many :receipts, :dependent => :destroy
 
   before_create :set_pharm_item
+  before_create :add_loose_units
   before_update :set_pharm_item
 
-  validates_presence_of :rate, :qty , :mfd_date , :expiry_date , :batch_number , :brand
+  validates_presence_of :rate, :qty, :mfd_date, :expiry_date, :batch_number, :brand
   validates_uniqueness_of :batch_number
   validate :mfd_date_check
-  attr_accessor :selector , :allot , :inventory_batch_id , :store_id , :transfer_to_store
+  attr_accessor :selector, :allot, :inventory_batch_id, :store_id, :transfer_to_store
+
+
+  def add_loose_units
+    if !self.loose_units.blank? and !self.loose_units.to_i.blank?
+      #pack_units = ("%.2f" % (self.loose_units.to_f/self.brand.pack_size.to_f)).to_f
+      #qty_temp = ("%.2f" % self.qty.to_f)
+      #self.qty = qty_temp.to_f + pack_units
+    end
+  end
 
   def get_vendor
     self.supply.vendor

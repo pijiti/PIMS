@@ -19,25 +19,26 @@ class BatchesController < ApplicationController
       @batch = old_batch
       @batch.qty = batch_params[:qty]
       @batch.recipient_store = batch_params[:recipient_store]
+      @batch.add_loose_units
     else
       @batch = Batch.new(batch_params)
     end
 
-    begin
+    #begin
       if @batch.save
         i = Inventory.where(:brand_id => @batch.brand_id, :store_id => @batch.recipient_store).first
-
+        @batch.loose_units||= 0
         if i.blank?
           #create inventory.
           i = Inventory.create(:brand => @batch.brand, :store_id => @batch.recipient_store, :pharm_item => @batch.brand.pharm_item)
         end
 
-        i.update(:qty_last_added => @batch.qty.to_f * @batch.brand.pack_size.to_f, :rate_per_unit => "%.2f" % (@batch.rate / @batch.brand.pack_size.to_f))
+        i.update(:qty_last_added => (@batch.qty.to_f * @batch.brand.pack_size.to_f) + @batch.loose_units.to_i, :rate_per_unit => "%.2f" % (@batch.rate / @batch.brand.pack_size.to_f))
         ibatches = i.inventory_batches.where(:batch => @batch)
         if ibatches.blank?
-          InventoryBatch.create(:inventory => i, :batch => @batch, :units => @batch.qty.to_i * @batch.brand.pack_size.to_i)
+          InventoryBatch.create(:inventory => i, :batch => @batch, :units => (@batch.qty.to_i * @batch.brand.pack_size.to_i) + @batch.loose_units.to_i)
         else
-          ibatches.first.update(:units => (ibatches.first.units) +  (@batch.qty.to_i* @batch.brand.pack_size.to_i) )
+          ibatches.first.update(:units => (ibatches.first.units) +  (@batch.qty.to_i* @batch.brand.pack_size.to_i) + @batch.loose_units.to_i )
         end
 
 
@@ -45,9 +46,9 @@ class BatchesController < ApplicationController
       else
         redirect_to ramp_up_batches_path, :notice => "Batch creation failed"
       end
-    rescue => e
-      redirect_to ramp_up_batches_path, :notice => "Batch creation failed. #{e.message}"
-    end
+    #rescue => e
+    #  redirect_to ramp_up_batches_path, :notice => "Batch creation failed. #{e.message}"
+    #end
   end
 
   def destroy
@@ -69,7 +70,7 @@ class BatchesController < ApplicationController
   end
 
   def batch_params
-    params.require(:batch).permit(:pharm_item_id, :brand_id, :rate, :qty, :batch_number, :mfd_date, :expiry_date, :comments, :approved, :recipient_store, :giver_store, :_destroy, :selector, :approval_status)
+    params.require(:batch).permit(:pharm_item_id, :brand_id, :rate, :qty, :batch_number, :loose_units, :mfd_date, :expiry_date, :comments, :approved, :recipient_store, :giver_store, :_destroy, :selector, :approval_status)
   end
 
 end

@@ -6,8 +6,9 @@ class ApplicationController < ActionController::Base
   #rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   protect_from_forgery with: :exception
 
-  alias_method :me, :current_user
 
+  alias_method :me, :current_user
+  helper_method :current_store
   #before_action :authenticate_user!
 
   def current_ability
@@ -35,8 +36,12 @@ class ApplicationController < ActionController::Base
   end
 
   def send_sms(to,message)
+    begin
     if Rails.env == "production"
       RestClient.get(URI.encode "http://www.estoresms.com/smsapi.php?username=#{$sms_user}&password=#{$sms_pwd}&sender=#{$sms_sender}&recipient=#{to}&message=#{message}")
+    end
+    rescue => e
+      logger.error "SMS delivery error => #{e.message}"
     end
   end
 

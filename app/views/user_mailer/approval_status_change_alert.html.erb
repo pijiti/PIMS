@@ -24,7 +24,7 @@
         <td><%= batch.brand.detailed_info %></td>
         <td><%= batch.batch_number %></td>
         <td><%= batch.rate %></td>
-        <td><%= batch.qty %></td>
+        <td><%= calculate_pack_number(batch) %></td>
         <td><%= batch.mfd_date.strftime("%d/%m/%Y") %></td>
         <td><%= batch.expiry_date.strftime("%d/%m/%Y") %></td>
         <td><%= batch.approval_status %></td>

@@ -62,7 +62,8 @@ class PrescriptionsController < ApplicationController
         @patient_id = @prescription.patient_id
         @patient = Patient.find_by_id(@patient_id) if @patient_id
         @all_prescriptions = Prescription.order(:created_at)
-        format.html { render :index }
+        format.html{ render 'index'}
+        #format.html { redirect_to prescriptions_path(:patient_id => @prescription.patient_id) }
       end
     end
   end
@@ -70,6 +71,8 @@ class PrescriptionsController < ApplicationController
 
   def update
     respond_to do |format|
+      params[:prescription][:total] = @prescription.total_calculation
+      puts prescription_params
       if @prescription.update(prescription_params)
         format.html { redirect_to prescriptions_path(:patient_id => @prescription.patient_id), notice: 'Prescription was successfully updated.' }
       else
@@ -108,6 +111,6 @@ class PrescriptionsController < ApplicationController
 
   def prescription_params
     params.require(:prescription).permit(:user_id, :hospital_unit_id, :patient_id, :code, :doctor_id, :prescription_date, :subtotal , :surcharges_name , :surcharges ,:total,
-                                         prescription_batches_attributes: [:id, :pharm_item_id, :brand_id, :rate, :qty, :batch_number, :comment, :approved , :_destroy])
+                                         prescription_batches_attributes: [:id, :store_id , :pharm_item_id, :brand_id, :rate, :qty, :batch_number, :comment, :approved , :_destroy])
   end
 end

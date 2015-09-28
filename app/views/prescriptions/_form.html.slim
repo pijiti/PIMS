@@ -24,6 +24,7 @@
       - @prescription_batch_counter = 0
       - @prescription.prescription_batches.each do |batch|
          = f.simple_fields_for :prescription_batches, batch do |batch_form|
+           - @batch = batch
            = render 'prescription_batch_fields', :f => batch_form, :batch => batch
            - @prescription_batch_counter += 1
   = link_to_add_association "Add Drug",  f , :prescription_batches, :"data-association-insertion-node" => "tbody#prescription_batches" , :"data-association-insertion-method" => "append" , :partial => "prescription_batch_fields"

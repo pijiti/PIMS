@@ -67,7 +67,7 @@ gem 'chronic'
 
 #Docs gems
 gem 'sdoc', '~> 0.4.0',          group: :doc
-
+gem 'exception_notification'
 
 
 

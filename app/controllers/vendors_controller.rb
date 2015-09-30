@@ -18,7 +18,11 @@ class VendorsController < ApplicationController
     s = Store.find_by_id(params[:vendor][:store_id])
     p = PharmItem.find_by_id(params[:vendor][:pharm_item_id])
     Vendor.where(:id => params[:vendor][:id]).each do |v|
-      UserMailer.order_from_vendors(p, s ,v).deliver
+      begin
+        UserMailer.delay.order_from_vendors(p, s ,v)
+      rescue => e
+        ExceptionNotifier.notify_exception(e)
+      end
     end
 
     redirect_to inventory_index_path , :notice => "Notified the vendors"

@@ -36,10 +36,9 @@ class Supply < ActiveRecord::Base
     end
 
     begin
-      UserMailer.approval_status_change_alert(self).deliver
-
+      UserMailer.delay.approval_status_change_alert(self)
     rescue => e
-      logger.error "#{e.message}"
+      ExceptionNotifier.notify_exception(e)
     end
   end
   #check if invoice value matches the batches total calculation

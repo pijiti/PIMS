@@ -98,7 +98,13 @@ module ApplicationHelper
   end
 
   def calculate_pack_number(batch)
-    "%.2f" % (batch.qty + (batch.try(:loose_units) || 0) / batch.brand.pack_size.to_f)
+    if batch.loose_units.blank?
+      "%.2f" % (batch.qty)
+    else
+      "#{batch.qty} packs and #{batch.loose_units} loose units"
+    end
+    #"%.2f" % (batch.qty + (batch.try(:loose_units) || 0) / batch.brand.pack_size.to_f)
+
   end
 
 

@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
   def send_sms(to,message)
     begin
     if Rails.env == "production"
-      RestClient.get(URI.encode "http://www.estoresms.com/smsapi.php?username=#{$sms_user}&password=#{$sms_pwd}&sender=#{$sms_sender}&recipient=#{to}&message=#{message}")
+      RestClient.delay.get(URI.encode "http://www.estoresms.com/smsapi.php?username=#{$sms_user}&password=#{$sms_pwd}&sender=#{$sms_sender}&recipient=#{to}&message=#{message}")
     end
     rescue => e
       logger.error "SMS delivery error => #{e.message}"

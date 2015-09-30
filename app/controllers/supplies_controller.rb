@@ -16,13 +16,13 @@ class SuppliesController < ApplicationController
     @inventory_batches = ""
     @stores = Store.all
     if can? :manage, :all
-      @inventory_batches = InventoryBatch.includes(:inventory,:batch).where(:expired => nil)
+      @inventory_batches = InventoryBatch.includes(:inventory, :batch).where(:expired => nil)
 
     else
-      @inventory_batches = InventoryBatch.includes(:inventory,:batch).where(:inventory => current_store.inventories , :expired => nil)
+      @inventory_batches = InventoryBatch.includes(:inventory, :batch).where(:inventory => current_store.inventories, :expired => nil)
     end
-    @inventory_batches = @inventory_batches.includes(:inventory,:batch).where(:inventory =>  Store.find(from_store).inventories) if !from_store.blank?
-    @inventory_batches = @inventory_batches.includes(:inventory,:batch).where(:batch =>  Batch.where(:pharm_item_id => generic_drug)) if !generic_drug.blank?
+    @inventory_batches = @inventory_batches.includes(:inventory, :batch).where(:inventory => Store.find(from_store).inventories) if !from_store.blank?
+    @inventory_batches = @inventory_batches.includes(:inventory, :batch).where(:batch => Batch.where(:pharm_item_id => generic_drug)) if !generic_drug.blank?
     @pharm_items = PharmItem.all
     @filter = ServiceRequest.new
 
@@ -31,9 +31,9 @@ class SuppliesController < ApplicationController
   #from sidebar
   def expired_drugs
     if can? :manage, :all
-      @inventory_batches = InventoryBatch.includes(:inventory,:batch).where(:expired => true)
+      @inventory_batches = InventoryBatch.includes(:inventory, :batch).where(:expired => true)
     else
-      InventoryBatch.includes(:inventory,:batch).where(:inventory => current_store.inventories, :expired => true)
+      InventoryBatch.includes(:inventory, :batch).where(:inventory => current_store.inventories, :expired => true)
     end
     @stores = Store.all
     @filter = InventoryBatch.new
@@ -43,9 +43,9 @@ class SuppliesController < ApplicationController
   #from sidebar
   def transfer_drugs
     if can? :manage, :all
-      @inventory_batches = InventoryBatch.includes(:inventory,:batch).where(:expired => nil)
+      @inventory_batches = InventoryBatch.includes(:inventory, :batch).where(:expired => nil)
     else
-      @inventory_batches = InventoryBatch.includes(:inventory,:batch).where(:inventory => current_store.inventories , :expired => nil)
+      @inventory_batches = InventoryBatch.includes(:inventory, :batch).where(:inventory => current_store.inventories, :expired => nil)
     end
     @stores = Store.all
     @filter = InventoryBatch.new
@@ -83,7 +83,7 @@ class SuppliesController < ApplicationController
         next if v[:allot].blank?
         i = InventoryBatch.find_by_id(v[:inventory_batch_id])
         i.allot = v[:allot]
-        flash[:notice] = i.allotment(v[:store_id] , s.id)
+        flash[:notice] = i.allotment(v[:store_id], s.id)
       end
       if flash[:notice] and flash[:notice].include? "Success"
         s.update(:status => "AWAITING DELIVERY CONFIRMATION")
@@ -101,10 +101,10 @@ class SuppliesController < ApplicationController
   def service_request
     #admin can see all service requests
     if can? :manage, :all
-      @service_requests = ServiceRequest.includes(:pharm_item, :request_store , :from_store).all.order("status DESC")
+      @service_requests = ServiceRequest.includes(:pharm_item, :request_store, :from_store).all.order("status DESC")
       @stores = Store.all
     else
-      @service_requests = ServiceRequest.includes(:pharm_item, :request_store , :from_store).where(:request_store => current_store).order("status DESC")
+      @service_requests = ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:request_store => current_store).order("status DESC")
       @stores = Store.where(:id => current_store.id)
     end
     @pharm_items = PharmItem.all
@@ -126,10 +126,10 @@ class SuppliesController < ApplicationController
       @service_requests = ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:request_store => current_store).order("status DESC")
       @stores = Store.where(:id => current_store.id)
     end
-    @service_requests = @service_requests.includes(:pharm_item, :request_store).where(:from_store_id =>  from_store) if !from_store.blank?
-    @service_requests = @service_requests.includes(:pharm_item, :request_store).where(:pharm_item_id =>  generic_drug) if !generic_drug.blank?
-    @service_requests = @service_requests.includes(:pharm_item, :request_store).where("created_at > ?" ,  Time.strptime(requests_from , "%d/%m/%Y") ) if !requests_from.blank?
-    @service_requests = @service_requests.includes(:pharm_item, :request_store).where(:status => status ) if !status.blank? and status != "ALL"
+    @service_requests = @service_requests.includes(:pharm_item, :request_store).where(:from_store_id => from_store) if !from_store.blank?
+    @service_requests = @service_requests.includes(:pharm_item, :request_store).where(:pharm_item_id => generic_drug) if !generic_drug.blank?
+    @service_requests = @service_requests.includes(:pharm_item, :request_store).where("created_at > ?", Time.strptime(requests_from, "%d/%m/%Y")) if !requests_from.blank?
+    @service_requests = @service_requests.includes(:pharm_item, :request_store).where(:status => status) if !status.blank? and status != "ALL"
   end
 
   #order when drug stock is less. ordered for dispensary store
@@ -140,11 +140,15 @@ class SuppliesController < ApplicationController
     b = Brand.find_by_id(params[:supply][:brand_id])
 
     #create service request
-    ServiceRequest.create(:from_store => s, :request_store => ps, :qty => params[:supply][:order_qty], :pharm_item => p , :brand => b)
+    ServiceRequest.create(:from_store => s, :request_store => ps, :qty => params[:supply][:order_qty], :pharm_item => p, :brand => b)
 
     User.with_any_role({:name => "Store Manager", :resource => ps}, {:name => "Store Keeper", :resource => ps}).each do |u|
       if u.email
-        UserMailer.order_from_central_store(u, params[:supply][:order_qty], p, s ,b).deliver
+        begin
+          UserMailer.delay.order_from_central_store(u, params[:supply][:order_qty], p, s, b).deliver
+        rescue => e
+          ExceptionNotifier.notify_exception(e)
+        end
       end
     end
 
@@ -152,7 +156,7 @@ class SuppliesController < ApplicationController
   end
 
   def index
-    if can? :manage  , :all
+    if can? :manage, :all
       @supplies = Supply.all.order("created_at desc")
     else
       @supplies = Supply.where(:store => current_store).order("created_at desc")
@@ -182,8 +186,8 @@ class SuppliesController < ApplicationController
           batch = Batch.find(v[:id])
           i = Inventory.where(:brand_id => batch.brand_id, :store_id => @supply.store_id).first
           if i
-            i.update( :qty_last_added => batch.qty.to_f * batch.brand.pack_size.to_f, :rate_per_unit => "%.2f" % (batch.rate / batch.brand.pack_size.to_f))
-            InventoryBatch.create(:inventory => i, :batch => batch, :units =>  batch.qty.to_i * batch.brand.pack_size.to_i)
+            i.update(:qty_last_added => batch.qty.to_f * batch.brand.pack_size.to_f, :rate_per_unit => "%.2f" % (batch.rate / batch.brand.pack_size.to_f))
+            InventoryBatch.create(:inventory => i, :batch => batch, :units => batch.qty.to_i * batch.brand.pack_size.to_i)
           end
         end
       elsif supply_params[:approval_type] == "reject"
@@ -223,7 +227,11 @@ class SuppliesController < ApplicationController
       #mail notification
       recipients_counter = 0
       User.with_any_role({:name => "Store Manager", :resource => current_store}).each do |user|
-        UserMailer.approval_alert(user, @supply).deliver
+        begin
+        UserMailer.delay.approval_alert(user, @supply).deliver
+        rescue => e
+          ExceptionNotifier.notify_exception(e)
+        end
         #sms notification
         send_sms(user.username, "Hello #{user.first_name}, You have an invoice with reference - #{@supply.invoice_reference} waiting for approval.")
         recipients_counter += 1

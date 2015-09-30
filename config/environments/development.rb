@@ -36,14 +36,13 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-      address:              'smtp.sendgrid.net',
-      port:                  25,
-      domain:               'ndfw.net',
-      :user_name            => 'ricardoleon',
-      :password             => 'Twiliodev2',
+      address:              'smtp.zoho.com',
+      port:                  587,
+      domain:               'autoattend.com',
+      :user_name            => 'admin@autoattend.com',
+      :password             => 'Billa123',
       :authentication       => :login,
   }
-
   #config.assets.precompile =  ['favicon.ico' , '*.png' , '*.jpg' , '*.ttf' , '*.woff']
   config.assets.precompile.push(Proc.new do |path|
     File.extname(path).in? [

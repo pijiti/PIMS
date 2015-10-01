@@ -52,7 +52,11 @@ Rails.application.routes.draw do
 	resources :prescriptions do
 	 collection do
 	 	get 'search'
-	 end
+    get 'collate'
+   end
+   member do
+     post 'complete_collation'
+   end
 	end
 
 	 resources :supplies do

@@ -29,6 +29,13 @@ class Prescription < ActiveRecord::Base
     self.code = "#{PimsConfig.find_by_property_name("prescription_prefix").property_value}-#{counter}"
   end
 
+  def status
+    self.prescription_batches.each do |p|
+      return "WAITING FOR COLLATION" if p.batch_id.blank?
+    end
+    "COLLATION COMPLETED"
+  end
+
   def total_calculation
     logger.debug "======TOTAL CALCULATION========="
     subtotal = 0

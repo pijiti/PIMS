@@ -2,6 +2,15 @@ class PrescriptionsController < ApplicationController
 
   before_action :set_prescription, only: [:show, :edit, :update, :destroy]
 
+
+  def collate
+    @prescriptions = Prescription.includes(:prescription_batches).all
+  end
+
+  def complete_collation
+
+  end
+
   def index
 
     @brands = Brand.includes(:pharm_item).order('pharm_items.name ASC').all

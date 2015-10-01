@@ -3,6 +3,7 @@ class PrescriptionBatch < ActiveRecord::Base
   belongs_to :pharm_item
   belongs_to :brand
   belongs_to :store
+  belongs_to :batch
   validates :qty, presence: true , numericality:{greater_than: 0}
   validates_presence_of :rate , :store_id
   validate :rate_blank_check

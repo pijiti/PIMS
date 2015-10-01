@@ -1,0 +1,18 @@
+h3.text-center Prescriptions
+section#pims-index
+  table.table.table-striped.table-condensed.data_table
+    thead
+        tr
+        th Prescription code
+        th Patient name
+        th Doctor
+        th Hospital
+        th Date
+        th Amount
+        th Prescription batches
+        th Status
+
+    tbody.prescriptions
+      - @prescriptions.each do |prescription|
+         - @prescription =  prescription
+         = render "prescription_collation"

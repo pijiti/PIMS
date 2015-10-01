@@ -77,7 +77,7 @@ $(document).ready(function () {
                         surcharge = surcharge_total;
 
                     }
-                    $('#surcharges_name').html( data["name"]);
+//                    $('#surcharges_name').html( data["name"]);
                     $('#prescription_surcharges_name').val(data["name"]);
 
                     $('#surcharges_value').html(surcharge.toFixed(2));

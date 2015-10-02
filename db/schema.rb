@@ -11,13 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150922090839) do
+ActiveRecord::Schema.define(version: 20151002031332) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "batches", force: true do |t|
-    t.integer  "qty"
+    t.decimal  "qty"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "expiry_date"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 20150922090839) do
     t.decimal  "retail_price",                  precision: 8, scale: 2
     t.text     "comments"
     t.string   "approval_status",                                       default: "PENDING APPROVAL"
+    t.decimal  "loose_units"
   end
 
   create_table "brands", force: true do |t|
@@ -52,6 +53,14 @@ ActiveRecord::Schema.define(version: 20150922090839) do
     t.string   "pack_size"
     t.decimal  "min_dispensable",            precision: 5, scale: 2
     t.integer  "pack_bundle"
+  end
+
+  create_table "collation_batches", force: true do |t|
+    t.integer  "prescription_batch_id"
+    t.integer  "inventory_batch_id"
+    t.string   "units"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "countries", force: true do |t|
@@ -229,6 +238,7 @@ ActiveRecord::Schema.define(version: 20150922090839) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "prescription_id"
+    t.integer  "store_id"
   end
 
   create_table "prescriptions", force: true do |t|
@@ -244,6 +254,7 @@ ActiveRecord::Schema.define(version: 20150922090839) do
     t.string   "total"
     t.string   "surcharges"
     t.string   "surcharges_name"
+    t.string   "status"
   end
 
   create_table "receipts", force: true do |t|

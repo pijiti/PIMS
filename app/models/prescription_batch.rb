@@ -3,7 +3,12 @@ class PrescriptionBatch < ActiveRecord::Base
   belongs_to :pharm_item
   belongs_to :brand
   belongs_to :store
-  belongs_to :batch
+
+  has_many :collation_batches
+  has_many :inventory_batches , :through => :collation_batches
+  accepts_nested_attributes_for :inventory_batches , :allow_destroy => true , reject_if: :all_blank
+  accepts_nested_attributes_for :collation_batches , :allow_destroy => true , reject_if: :all_blank
+
   validates :qty, presence: true , numericality:{greater_than: 0}
   validates_presence_of :rate , :store_id
   validate :rate_blank_check
@@ -11,6 +16,7 @@ class PrescriptionBatch < ActiveRecord::Base
   validate :multiples_of_min_dispensable
 
   before_update :total_calculation
+
 
   def rate_blank_check
     if self.rate.blank?

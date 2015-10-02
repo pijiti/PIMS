@@ -25,9 +25,11 @@ tr
                         td
                           = p.qty
                         td
-                           - if ![ "COLLATION COMPLETED"].include? @prescription.status
+                           - if ![ "COLLATION COMPLETED"].include? @prescription.status and p.approved.blank?
                               a href="#" data-toggle="modal" data-target="#myModal_#{p.id}"  Collate
-                              = form_for(p , :url => complete_collation_prescription_path(@prescription) , :method => :post ) do |f|
+                           - elsif !p.approved.blank?
+                              a href="#" data-toggle="modal" data-target="#myModal_#{p.id}"  View Collation
+                           = form_for(p , :url => complete_collation_prescription_path(p) , :method => :post ) do |f|
                                  div[id="myModal_#{p.id}" class="modal modal-approvals" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
                                    .modal-dialog role="document"
                                      .modal-content
@@ -49,28 +51,32 @@ tr
                                                       th Allot
 
                                                  tbody
-                                                   - InventoryBatch.includes(:batch).where(:expired => nil, :inventory => Inventory.where(:brand_id => p.brand_id , :store=> p.store)).each do |inventory_batch|
-                                                    - next if inventory_batch.units.to_i == 0
-                                                    - batch = inventory_batch.batch
-                                                        /= f.simple_fields_for :batches , batch do |batch_form|
-                                                    tr
-                                                      td = batch.brand.drug_prescription_info
-                                                      td = batch.batch_number
-                                                      td = batch.rate
-                                                      td = "#{inventory_batch.units}(#{inventory_batch.units/batch.brand.pack_size.to_i})"
-                                                      td
-                                                         = batch.rate / batch.brand.pack_size.to_f
-                                                      td = batch.mfd_date.strftime("%d/%m/%Y")
-                                                      td = batch.expiry_date.strftime("%d/%m/%Y")
-                                                      td
-                                                         /= batch_form.input :allot , label: false
-                                                         /= batch_form.hidden_field :inventory_batch_id , :value => inventory_batch.id
-                                                         /= batch_form.hidden_field :store_id , :value => s.from_store.id
+                                                   - p.collation_batches.each do |collation_batch|
 
-                                                      /td = link_to  'Approve', submitted_item_approval_path( batch)
-                                                      /td = link_to  'Disapprove', submitted_item_approval_path( batch)
+                                                      = f.simple_fields_for :collation_batches, collation_batch  do |batch_form|
+                                                          -inventory_batch = collation_batch.inventory_batch
+                                                          - batch = inventory_batch.batch
+                                                          tr
+                                                            td = batch.brand.drug_prescription_info
+                                                            td = batch.batch_number
+                                                            td = batch.rate
+                                                            td = "#{inventory_batch.units}(#{inventory_batch.units/batch.brand.pack_size.to_i})"
+                                                            td
+                                                               = "%.2f" % (batch.rate / batch.brand.pack_size.to_f)
+                                                            td = batch.mfd_date.strftime("%d/%m/%Y")
+                                                            td = batch.expiry_date.strftime("%d/%m/%Y")
+                                                            td
+                                                               = batch_form.input :units , label: false  , :disabled => p.approved
+                                                               = batch_form.hidden_field :inventory_batch_id , :value => inventory_batch.id
+                                                               = batch_form.hidden_field :id , :value => collation_batch.id
+                                                               /= batch_form.hidden_field :store_id , :value => s.from_store.id
+
+
 
                                        .modal-footer
-                                         = f.submit :class => "btn-sm btn btn-success" , :value => "Complete allotment"
+                                         -if p.approved.blank?
+                                            = f.submit :class => "btn-sm btn btn-success" , :value => "Complete allotment"
 
-        td = @prescription.status
+
+
+        td = @prescription.status || "COLLATION PENDING"

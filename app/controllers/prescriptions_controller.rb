@@ -4,18 +4,35 @@ class PrescriptionsController < ApplicationController
 
 
   def collate
-    @prescriptions = Prescription.includes(:prescription_batches).all
+    @prescriptions = Prescription.includes(:prescription_batches).order('status ASC').all
+    @prescriptions.each do |prescription|
+      prescription.prescription_batches.each do |p|
+        next if !p.inventory_batches.blank?
+        InventoryBatch.includes(:batch).where(:expired => nil, :inventory => Inventory.where(:brand_id => p.brand_id, :store => p.store)).each do |inventory_batch|
+          next if inventory_batch.units.to_i == 0
+          p.inventory_batches <<  inventory_batch
+        end
+      end
+    end
   end
 
   def complete_collation
-
+    logger.debug "=====#{params[:prescription_batch].symbolize_keys}======"
+    @prescription_batch = PrescriptionBatch.find(params[:id])
+    if @prescription_batch.update(prescription_batch_params)
+      @prescription_batch.update(:approved => true)
+      @prescription_batch.prescription.update(:status => "COLLATION COMPLETED") if  @prescription_batch.prescription.prescription_batches.where(:approved => nil).blank?
+      redirect_to collate_prescriptions_path , :notice => "Assigned the batch successfully"
+    else
+      redirect_to collate_prescriptions_path , :notice => "Assigned the batch failed"
+    end
   end
 
   def index
 
     @brands = Brand.includes(:pharm_item).order('pharm_items.name ASC').all
     @patient_id = params[:patient_id]
-    @prescriptions = Prescription.where(:patient_id =>params[:patient_id] )
+    @prescriptions = Prescription.where(:patient_id => params[:patient_id])
     @patient = Patient.find_by_id(@patient_id) if @patient_id
     new
     @all_prescriptions = Prescription.order(:created_at)
@@ -42,7 +59,7 @@ class PrescriptionsController < ApplicationController
 
 
   def new
-    @prescription = Prescription.new(:patient_id => @patient_id , :prescription_date => Time.now)
+    @prescription = Prescription.new(:patient_id => @patient_id, :prescription_date => Time.now)
     1.times do
       @prescription.prescription_batches.build
     end
@@ -66,12 +83,12 @@ class PrescriptionsController < ApplicationController
         @error = @prescription.errors.full_messages
         flash[:error] = "#{@error.to_sentence}"
 
-        @prescriptions = Prescription.where(:patient_id =>@prescription.patient_id)
+        @prescriptions = Prescription.where(:patient_id => @prescription.patient_id)
         @brands = Brand.includes(:pharm_item).order('pharm_items.name ASC').all
         @patient_id = @prescription.patient_id
         @patient = Patient.find_by_id(@patient_id) if @patient_id
         @all_prescriptions = Prescription.order(:created_at)
-        format.html{ render 'index'}
+        format.html { render 'index' }
         #format.html { redirect_to prescriptions_path(:patient_id => @prescription.patient_id) }
       end
     end
@@ -90,7 +107,7 @@ class PrescriptionsController < ApplicationController
 
         @brands = Brand.includes(:pharm_item).order('pharm_items.name ASC').all
         @patient_id = params[:patient_id]
-        @prescriptions = Prescription.where(:patient_id =>@patient_id)
+        @prescriptions = Prescription.where(:patient_id => @patient_id)
         @patient = Patient.find_by_id(@patient_id) if @patient_id
         @all_prescriptions = Prescription.order(:created_at)
 
@@ -119,7 +136,13 @@ class PrescriptionsController < ApplicationController
 
 
   def prescription_params
-    params.require(:prescription).permit(:user_id, :hospital_unit_id, :patient_id, :code, :doctor_id, :prescription_date, :subtotal , :surcharges_name , :surcharges ,:total,
-                                         prescription_batches_attributes: [:id, :store_id , :pharm_item_id, :brand_id, :rate, :qty, :batch_number, :comment, :approved , :_destroy])
+    params.require(:prescription).permit(:user_id, :hospital_unit_id, :patient_id, :code, :doctor_id, :prescription_date, :subtotal, :surcharges_name, :surcharges, :total,
+                                         prescription_batches_attributes: [:id, :store_id, :pharm_item_id, :brand_id, :rate, :qty, :batch_number, :comment, :approved, :_destroy] ,
+                                         )
+  end
+
+
+  def prescription_batch_params
+    params.require(:prescription_batch).permit(:id , :id, :store_id, :pharm_item_id, :brand_id, :rate, :qty, :batch_number, :comment, :approved, :_destroy , collation_batches_attributes: [:id, :batch_id , :inventory_batch_id , :units ])
   end
 end

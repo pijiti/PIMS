@@ -53,9 +53,11 @@ Rails.application.routes.draw do
 	 collection do
 	 	get 'search'
     get 'collate'
+    get 'dispense'
    end
    member do
      post 'complete_collation'
+     post 'complete_dispense'
    end
 	end
 

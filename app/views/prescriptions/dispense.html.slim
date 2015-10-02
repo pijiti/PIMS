@@ -1,4 +1,4 @@
-h3.text-center Prescriptions
+h3.text-center Dispense prescriptions
 section#pims-index
   table.table.table-striped.table-condensed.data_table
     thead
@@ -11,8 +11,9 @@ section#pims-index
         th Amount
         th Prescription batches
         th Status
+        th Dispense
 
     tbody.prescriptions
       - @prescriptions.each do |prescription|
          - @prescription =  prescription
-         = render "prescription_collation"
+         = render "dispense_prescription"

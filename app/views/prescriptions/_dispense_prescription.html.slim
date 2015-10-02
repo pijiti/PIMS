@@ -48,11 +48,11 @@ tr
                                                       th Rate per unit
                                                       th Mfd Date
                                                       th Expiry Date
-                                                      th Allot
+                                                      th Units
 
                                                  tbody
                                                    - p.collation_batches.each do |collation_batch|
-                                                      - next if collation_batch.units.blank? and !p.approved.blank?
+                                                      - next if collation_batch.units.blank?
                                                       = f.simple_fields_for :collation_batches, collation_batch  do |batch_form|
                                                           -inventory_batch = collation_batch.inventory_batch
                                                           - batch = inventory_batch.batch
@@ -80,3 +80,7 @@ tr
 
 
         td = @prescription.status || "COLLATION PENDING"
+        td
+          - if @prescription.status == "COLLATION COMPLETED"
+            = form_for(@prescription , :url => complete_dispense_prescription_path(@prescription) , :method => :post ) do |f|
+              = f.submit  :value => "Dispense" , :class => "btn-sm btn btn-success" ,  "data-confirm" => "Are you sure that you want to dispense the drugs ?"

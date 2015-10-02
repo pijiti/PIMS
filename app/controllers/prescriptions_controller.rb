@@ -1,10 +1,26 @@
 class PrescriptionsController < ApplicationController
 
-  before_action :set_prescription, only: [:show, :edit, :update, :destroy]
+  before_action :set_prescription, only: [:show, :edit, :update, :destroy, :complete_dispense]
 
+
+  def complete_dispense
+    @prescription.prescription_batches.each do |p|
+      p.collation_batches.each do |cb|
+         cb.inventory_batch.update(:units => cb.inventory_batch.units.to_i - cb.units.to_i )
+      end
+    end
+
+    @prescription.update(:status => "DISPENSED")
+
+    redirect_to dispense_prescriptions_path , :notice => "Prescription #{@prescription.code} has been dispensed successfully"
+  end
+
+  def dispense
+    @prescriptions = Prescription.includes(:prescription_batches).order('updated_at ASC').where(:status => ["COLLATION COMPLETED", "DISPENSED"])
+  end
 
   def collate
-    @prescriptions = Prescription.includes(:prescription_batches).order('status ASC').all
+    @prescriptions = Prescription.includes(:prescription_batches).order('updated_at ASC').all
     @prescriptions.each do |prescription|
       prescription.prescription_batches.each do |p|
         next if !p.inventory_batches.blank?

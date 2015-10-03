@@ -35,7 +35,7 @@ table.table.table-responsive.table-hover
                             - if i.store.parent.blank?
                               = simple_form_for(Vendor.new, :url => order_vendors_path , :method => "post")  do |vendor_form|
                                     /= vendor_form.collection_check_boxes :id, vendors_from_inventories(i.pharm_item_id), :id, :name , label: "Vendor"
-                                    = vendor_form.input :id ,as: :check_boxes, collection: Vendor.all.pluck(:name , :id) , label: "Vendors list"
+                                    = vendor_form.input :id ,as: :check_boxes, collection: @vendors , label: "Vendors list"
                                     = vendor_form.hidden_field :pharm_item_id , :value => i.pharm_item_id
                                     = vendor_form.hidden_field :store_id , :value => i.store_id
                                     .actions.text-center
@@ -77,7 +77,9 @@ table.table.table-responsive.table-hover
              = i.brand.try(:mini_info)
 
            td = i.store.name
-           td = "#{i.inventory_batches.try(:sum, :units)}(#{i.inventory_batches.sum(:units)/i.brand.try(:pack_size).try(:to_i)})" if i.brand.try(:pack_size)
+           td
+             - batch_units = i.inventory_batches.try(:sum, :units)
+             = "#{batch_units}(#{batch_units.to_i / i.brand.try(:pack_size).try(:to_i)})"  if i.brand.try(:pack_size)
            td = ("%.2f" % i.rate_per_unit) if i.rate_per_unit
            td
                           a href="#" data-toggle="modal" data-target="#batches_#{i.id}"  View
@@ -121,4 +123,5 @@ table.table.table-responsive.table-hover
                                   button.btn.btn-default data-dismiss="modal" type="button"  Close
            td = i.updated_at.strftime("%d/%m/%Y at %I:%M%p")
            td = i.store.parent.try(:name)
-           td = Inventory.where(:store => i.store.parent , :brand =>i.brand ).try(:first).try(:inventory_batches).try(:sum, :units)
+           td
+             = Inventory.where(:store => i.store.parent , :brand =>i.brand ).try(:first).try(:inventory_batches).try(:sum, :units)

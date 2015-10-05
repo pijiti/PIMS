@@ -17,7 +17,7 @@ tr
                     - @prescription.prescription_batches.each do |p|
                       tr
                         td
-                          = p.store.name
+                          = p.store.try(:name)
                         td
                           = p.brand.drug_prescription_info
                         td

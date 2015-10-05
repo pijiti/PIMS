@@ -1,11 +1,9 @@
 tr
 
-        td.user = @prescription.try(:code)
+        td.user
+                    a rel="tooltip" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Doctor- Dr. #{@prescription.doctor.try(:first_name)} #{@prescription.doctor.try(:last_name)} , Hospital - #{@prescription.hospital_unit.try(:name)}, Prescription date - #{@prescription.prescription_date.strftime("%d/%m/%Y")} , Total - N #{ @prescription.total} "
+                       = @prescription.try(:code)
         td = "#{@prescription.patient.try(:firstname)} #{@prescription.patient.try(:surname)}"
-        td = "Dr. #{@prescription.doctor.try(:first_name)} #{@prescription.doctor.try(:last_name)}"
-        td.hospital = @prescription.hospital_unit.try(:name  )
-        td.code = @prescription.prescription_date.strftime("%d/%m/%Y at %I:%M%p")
-        td = "N #{@prescription.total}"
         /td.batch = prescription.try(:batches).try(:size)
         td
           table.table.table-striped.table-condensed

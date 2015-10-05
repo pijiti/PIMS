@@ -22,6 +22,7 @@
 //= require bootstrap-datepicker
 //= require dataTables/jquery.dataTables
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
+//= require bootstrap/bootstrap-tooltip
 //= require_tree .
 
 
@@ -30,4 +31,8 @@ $(document).ready(function() {
   $('.has-tooltip').tooltip({ placement: 'auto left'});
   $("input.datepicker").datepicker();
 });
+
+$(function(){
+    $("a[rel='tooltip']").tooltip();
+})
 

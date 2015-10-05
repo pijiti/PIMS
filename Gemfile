@@ -32,6 +32,7 @@ gem 'cancancan'
 gem 'rest-client'
 gem 'delayed_job_active_record'
 gem "delayed_job_web"
+gem 'bootstrap-tooltip-rails'
 
 
 

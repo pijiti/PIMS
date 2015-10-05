@@ -78,7 +78,7 @@ module ApplicationHelper
   #highlight batch row if expiry date is > 6 months of date of supply
   def highlight_batch(batch)
     begin
-      "red" if batch.expiry_date < (batch.supply.invoice_date + 6.months)
+      "red" if batch.supply and batch.expiry_date < (batch.supply.invoice_date + 6.months)
     rescue => e
       logger.error "ERROR========!!!!!!!!!!!!!!!!"
       logger.debug e.message

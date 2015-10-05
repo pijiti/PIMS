@@ -18,7 +18,7 @@ tr
                     - @prescription.prescription_batches.each do |p|
                       tr
                         td
-                          = p.store.name
+                          = p.store.try(:name)
                         td
                           = p.brand.drug_prescription_info
                         td
@@ -35,7 +35,7 @@ tr
                                        .modal-header
                                          button.close.approval-close aria-label="Close" data-dismiss="modal" type="button"
                                            span aria-hidden="true"  &times;
-                                         h4#myModalLabel.modal-title Collation of #{p.qty} units of #{p.brand.drug_prescription_info} from #{p.store.name}
+                                         h4#myModalLabel.modal-title Collation of #{p.qty} units of #{p.brand.drug_prescription_info} from #{p.store.try(:name)}
                                        .modal-body
                                            table.table.table-striped.table-condensed.batches.batches_modal_table.data_table
                                                  thead

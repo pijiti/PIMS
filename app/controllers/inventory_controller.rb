@@ -18,7 +18,8 @@ class InventoryController < ApplicationController
   end
 
   def index
-    @inventories = Inventory.includes(:store, :brand, :batches , :inventory_batches, :pharm_item, pharm_item: [:brands] , inventory_batches: [:batch] , store: [:parent], batches:[:brand]).where(:store => current_store).order("pharm_item_id")
+    #@inventories = Inventory.includes(:store, :brand, :batches , :inventory_batches, :pharm_item, pharm_item: [:brands] , inventory_batches: [:batch] , store: [:parent], batches:[:brand]).where(:store => current_store).order("pharm_item_id")
+    @inventories = []
     store_ids = []
 
     if can? :manage, :all

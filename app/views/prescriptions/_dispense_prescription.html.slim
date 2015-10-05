@@ -81,5 +81,8 @@ tr
         td = @prescription.status || "COLLATION PENDING"
         td
           - if @prescription.status == "COLLATION COMPLETED"
-            = form_for(@prescription , :url => complete_dispense_prescription_path(@prescription) , :method => :post ) do |f|
+            = simple_form_for(@prescription , :url => complete_dispense_prescription_path(@prescription) , :method => :post ) do |f|
+              = f.input :comments
               = f.submit  :value => "Dispense" , :class => "btn-sm btn btn-success" ,  "data-confirm" => "Are you sure that you want to dispense the drugs ?"
+          -else
+             = @prescription.comments

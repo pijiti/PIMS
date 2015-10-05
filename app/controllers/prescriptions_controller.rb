@@ -10,7 +10,7 @@ class PrescriptionsController < ApplicationController
       end
     end
 
-    @prescription.update(:status => "DISPENSED")
+    @prescription.update(:comments => params[:prescription][:comments], :status => "DISPENSED")
 
     redirect_to dispense_prescriptions_path , :notice => "Prescription #{@prescription.code} has been dispensed successfully"
   end

@@ -16,6 +16,6 @@ table.table.data_table
           td = s.batch.pharm_item.name
           td = s.batch.brand.detailed_info
           td = s.batch.batch_number
-          td = s.batch.expiry_date
+          td = s.batch.expiry_date.strftime("%d/%m/%Y")
           td = rate_per_unit(s.batch)
           td = "#{s.units}(#{(s.units.to_i / s.batch.brand.pack_size.to_i).to_f})"

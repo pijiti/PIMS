@@ -110,7 +110,7 @@ module ApplicationHelper
 
   def rate_per_unit(batch)
     begin
-    batch.rate / calculate_units_in_pack(batch)
+    ("%.2f" % (batch.rate / calculate_units_in_pack(batch))).to_f
     rescue
       0
     end
@@ -137,7 +137,7 @@ module ApplicationHelper
     inventories = Inventory.includes(:inventory_batches).where(:pharm_item => pharm_item , :store => store)
     units_counter = 0
     inventories.each do |inventory|
-      units_counter += inventory.inventory_batches.sum(:units)
+      units_counter += inventory.inventory_batches.where(:expired => nil).sum(:units)
     end
     units_counter
   end

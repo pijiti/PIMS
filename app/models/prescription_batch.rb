@@ -35,7 +35,7 @@ class PrescriptionBatch < ActiveRecord::Base
     puts "Store id => #{self.store_id}"
     puts "brand id => #{self.brand_id}"
     i = Inventory.where(:brand_id => self.brand_id , :store_id => self.store_id).first
-    available_units  = i.inventory_batches.sum(:units) if i
+    available_units  = i.inventory_batches.where(:expired => nil).sum(:units) if i
     if i.blank?
       errors.add(:brand , "#{brand.try(:name)} is unavailable in the store")
     elsif available_units.to_i < self.qty.to_i

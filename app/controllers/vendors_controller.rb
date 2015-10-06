@@ -19,7 +19,7 @@ class VendorsController < ApplicationController
     p = PharmItem.find_by_id(params[:vendor][:pharm_item_id])
     Vendor.where(:id => params[:vendor][:id]).each do |v|
       begin
-        UserMailer.delay.order_from_vendors(p, s ,v)
+        UserMailer.delay.order_from_vendors(p, s ,v) if Rails.env == "production"
       rescue => e
         ExceptionNotifier.notify_exception(e)
       end

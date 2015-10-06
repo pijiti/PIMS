@@ -36,7 +36,7 @@ class Supply < ActiveRecord::Base
     end
 
     begin
-      UserMailer.delay.approval_status_change_alert(self)
+      UserMailer.delay.approval_status_change_alert(self) if Rails.env == "production"
     rescue => e
       ExceptionNotifier.notify_exception(e)
     end

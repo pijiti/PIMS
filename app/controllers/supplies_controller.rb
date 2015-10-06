@@ -143,7 +143,7 @@ class SuppliesController < ApplicationController
     ServiceRequest.create(:from_store => s, :request_store => ps, :qty => params[:supply][:order_qty], :pharm_item => p, :brand => b)
 
     User.with_any_role({:name => "Store Manager", :resource => ps}, {:name => "Store Keeper", :resource => ps}).each do |u|
-      if u.email
+      if u.email and Rails.env == "production"
         begin
           UserMailer.delay.order_from_central_store(u, params[:supply][:order_qty], p, s, b).deliver
         rescue => e
@@ -187,7 +187,15 @@ class SuppliesController < ApplicationController
           i = Inventory.where(:brand_id => batch.brand_id, :store_id => @supply.store_id).first
           if i
             i.update(:qty_last_added => batch.qty.to_f * batch.brand.pack_size.to_f, :rate_per_unit => "%.2f" % (batch.rate / batch.brand.pack_size.to_f))
-            InventoryBatch.create(:inventory => i, :batch => batch, :units => batch.qty.to_i * batch.brand.pack_size.to_i)
+
+            #check if batch number already exists
+            b = InventoryBatch.where(:batch_id => Batch.where(:batch_number => batch.batch_number).pluck(:id) , :inventory => i).first
+            if b.blank?
+              InventoryBatch.create(:inventory => i, :batch => batch, :units => batch.qty.to_i * batch.brand.pack_size.to_i)
+            else
+              logger.debug "======Inventory batch exists with same batch number========="
+              b.update(:units => b.units.to_i + (batch.qty.to_i * batch.brand.pack_size.to_i))
+            end
           end
         end
       elsif supply_params[:approval_type] == "reject"
@@ -228,7 +236,7 @@ class SuppliesController < ApplicationController
       recipients_counter = 0
       User.with_any_role({:name => "Store Manager", :resource => current_store}).each do |user|
         begin
-        UserMailer.delay.approval_alert(user, @supply).deliver
+        UserMailer.delay.approval_alert(user, @supply).deliver  if Rails.env == "production"
         rescue => e
           ExceptionNotifier.notify_exception(e)
         end

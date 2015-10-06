@@ -65,8 +65,11 @@
 
 
 
-  .text-center
-      = f.button :submit , :class => "btn btn-success btn-xlarge" , :value => "Bill"
+  .row
+    br
+    .col-sm-2.col-md-offset-5
+      span.text-center
+        = f.button :submit , :class => "btn btn-success btn-md btn-block" , :value => "Bill"
   hr
 
 

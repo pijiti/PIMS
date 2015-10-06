@@ -13,7 +13,7 @@ class BatchesController < ApplicationController
 
   #Back door creation. Ramp up batches
   def create
-    old_batch = Batch.find_by_batch_number(batch_params[:batch_number])
+    old_batch = Batch.where(:batch_number => batch_params[:batch_number] , :brand_id => batch_params[:brand_id]).first
     #if batch number exists, just update store and qty
     if old_batch
       @batch = old_batch

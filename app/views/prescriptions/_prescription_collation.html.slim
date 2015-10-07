@@ -1,8 +1,6 @@
 tr
 
         td.user
-                /a rel="tooltip" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Doctor- Dr. #{@prescription.doctor.try(:first_name)} #{@prescription.doctor.try(:last_name)} , Hospital - #{@prescription.hospital_unit.try(:name)}, Prescription date - #{@prescription.prescription_date.strftime("%d/%m/%Y")} , Total - N #{ @prescription.total} "
-                / = @prescription.try(:code)
                 a tabindex="0" href="#" data-toggle="popover" data-trigger="focus" title="#{@prescription.try(:code)}" data-content="Doctor- Dr. #{@prescription.doctor.try(:first_name)} #{@prescription.doctor.try(:last_name)} , Hospital - #{@prescription.hospital_unit.try(:name)}, Prescription date - #{@prescription.prescription_date.strftime("%d/%m/%Y")} , Total - N #{ @prescription.total}"
                   = @prescription.try(:code)
 

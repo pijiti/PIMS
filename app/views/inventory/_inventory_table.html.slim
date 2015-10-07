@@ -78,7 +78,7 @@ table.table.table-responsive.table-hover
 
            td = i.store.name
            td
-             - batch_units = i.inventory_batches.try(:sum, :units)
+             - batch_units = i.inventory_batches.where(:expired => nil).try(:sum, :units)
              = "#{batch_units}(#{batch_units.to_i / i.brand.try(:pack_size).try(:to_i)})"  if i.brand.try(:pack_size)
            td = ("%.2f" % i.rate_per_unit) if i.rate_per_unit
            td

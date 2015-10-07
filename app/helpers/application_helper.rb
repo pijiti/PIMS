@@ -89,9 +89,9 @@ module ApplicationHelper
 
   def calculate_units_in_pack(batch)
     if batch.qty and batch.brand and batch.loose_units.blank?
-       ("%.2f" % (batch.qty.to_f * batch.brand.pack_size.to_f)).to_f
+       (batch.qty.to_f * batch.brand.pack_size.to_f).to_i
     elsif batch.qty and batch.brand
-      ("%.2f" % (batch.qty.to_f * batch.brand.pack_size.to_f)).to_f + batch.loose_units
+      (batch.qty.to_f * batch.brand.pack_size.to_f).to_i + batch.loose_units.to_i
     else
       0
     end
@@ -99,9 +99,9 @@ module ApplicationHelper
 
   def calculate_pack_number(batch)
     if batch.loose_units.blank?
-      "%.2f" % (batch.qty)
+      (batch.qty.to_i)
     else
-      "#{batch.qty} packs and #{batch.loose_units} loose units"
+      "#{batch.qty.to_i} packs and #{batch.loose_units.to_i} loose units"
     end
     #"%.2f" % (batch.qty + (batch.try(:loose_units) || 0) / batch.brand.pack_size.to_f)
 
@@ -124,7 +124,7 @@ module ApplicationHelper
       next if ib.units == 0 or ib.expired.blank?
       amount += rate_per_unit(ib.batch) * ib.units
     end
-    amount
+    "%.2f" % amount
   end
 
   def vendors_from_inventories(pharm_item)

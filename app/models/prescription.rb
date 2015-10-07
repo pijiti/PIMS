@@ -18,6 +18,7 @@ class Prescription < ActiveRecord::Base
   before_update :total_calculation
 
 
+
   accepts_nested_attributes_for :prescription_batches, allow_destroy: true
 
 

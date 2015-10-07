@@ -4,7 +4,7 @@ class PrescriptionBatch < ActiveRecord::Base
   belongs_to :brand
   belongs_to :store
 
-  has_many :collation_batches
+  has_many :collation_batches , :dependent => :destroy
   has_many :inventory_batches , :through => :collation_batches
   accepts_nested_attributes_for :inventory_batches , :allow_destroy => true , reject_if: :all_blank
   accepts_nested_attributes_for :collation_batches , :allow_destroy => true , reject_if: :all_blank

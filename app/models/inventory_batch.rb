@@ -1,6 +1,7 @@
 class InventoryBatch < ActiveRecord::Base
   belongs_to :inventory
   belongs_to :batch
+  has_many :collation_batches , :dependent => :destroy
 
   attr_accessor :allot , :store_id , :pharm_item_id
 

@@ -14,15 +14,9 @@ class PrescriptionBatch < ActiveRecord::Base
   validate :rate_blank_check
   validate :check_available_qty
   validate :multiples_of_min_dispensable
-  validate :check_store
 
   before_update :total_calculation
 
-  def check_store
-    if !self.store.blank?
-      errors.add(:store , "Cannot create prescriptions for main stores") if self.store.parent.blank?
-    end
-  end
 
   def rate_blank_check
     if self.rate.blank?

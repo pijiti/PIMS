@@ -10,7 +10,8 @@ class PrescriptionsController < ApplicationController
       end
     end
 
-    @prescription.update(:comments => params[:prescription][:comments], :status => "DISPENSED")
+    @prescription.update(prescription_params)
+    @prescription.update(:status => "DISPENSED")
 
     redirect_to dispense_prescriptions_path , :notice => "Prescription #{@prescription.code} has been dispensed successfully"
   end
@@ -153,12 +154,12 @@ class PrescriptionsController < ApplicationController
 
   def prescription_params
     params.require(:prescription).permit(:user_id, :hospital_unit_id, :patient_id, :code, :doctor_id, :prescription_date, :subtotal, :surcharges_name, :surcharges, :total,
-                                         prescription_batches_attributes: [:id, :store_id, :pharm_item_id, :brand_id, :rate, :qty, :batch_number, :comment, :approved, :_destroy] ,
+                                         prescription_batches_attributes: [:id, :store_id, :pharm_item_id, :brand_id, :rate, :qty, :batch_number, :comments, :approved, :_destroy] ,
                                          )
   end
 
 
   def prescription_batch_params
-    params.require(:prescription_batch).permit(:id , :id, :store_id, :pharm_item_id, :brand_id, :rate, :qty, :batch_number, :comment, :approved, :_destroy , collation_batches_attributes: [:id, :batch_id , :inventory_batch_id , :units ])
+    params.require(:prescription_batch).permit(:id , :id, :store_id, :pharm_item_id, :brand_id, :rate, :qty, :batch_number, :comments, :approved, :_destroy , collation_batches_attributes: [:id, :batch_id , :inventory_batch_id , :units ])
   end
 end

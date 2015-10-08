@@ -119,6 +119,8 @@ $(document).ready(function () {
     }
 
 
+
+
     function prescription_qty_change() {
         if (parseInt($(this).attr('min_dispensable')) > parseInt($(this).val()))
             alert("Minimum dispensable for the selected drug is " + $(this).attr('min_dispensable'));
@@ -150,6 +152,14 @@ $(document).ready(function () {
         total_calculation();
     });
 
+
+
 });
+
+
+function dispense_form_submit(f)
+{
+    $('#' + f).submit();
+}
 
 

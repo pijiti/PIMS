@@ -1,11 +1,11 @@
 tr
 
         td.user
-                a tabindex="0" href="#" data-toggle="popover" data-trigger="focus" title="#{@prescription.try(:code)}" data-content="Doctor- Dr. #{@prescription.doctor.try(:first_name)}  #{@prescription.doctor.try(:last_name)} , Hospital - #{@prescription.hospital_unit.try(:name)}, Prescription date - #{@prescription.prescription_date.strftime("%d/%m/%Y")} , Total - N #{ @prescription.total}"
+                a tabindex="0" href="#" data-toggle="popover"  data-html="true" data-trigger="focus" title="#{@prescription.try(:code)}" data-content="Doctor- Dr. #{@prescription.doctor.try(:first_name)}  #{@prescription.doctor.try(:last_name)} <br/> Hospital - #{@prescription.hospital_unit.try(:name)} <br/> Prescription date - #{@prescription.prescription_date.strftime("%d/%m/%Y")} <br/> Total - N #{ @prescription.total}"
                   = @prescription.try(:code)
 
         td
-                a tabindex="0" href="#" data-toggle="popover" data-trigger="focus" title="#{@prescription.patient.try(:firstname)} #{@prescription.patient.try(:surname)}" data-content="Hospital number - #{@prescription.patient.try(:hospital_number)} , Mobile - #{@prescription.patient.try(:mobile)}, Age - #{@prescription.patient.try(:age)} , Next of kin -  #{ @prescription.patient.try(:nok_name)} , Next of kin mobile - #{@prescription.patient.try(:nok_mobile)}"
+                a tabindex="0" href="#" data-toggle="popover" data-trigger="focus" title="#{@prescription.patient.try(:firstname)} #{@prescription.patient.try(:surname)}" data-html="true" data-content="Hospital number - #{@prescription.patient.try(:hospital_number)} <br/> Mobile - #{@prescription.patient.try(:mobile)} <br/> Age - #{@prescription.patient.try(:age)} <br/> Next of kin -  #{ @prescription.patient.try(:nok_name)} <br/>  Next of kin mobile - #{@prescription.patient.try(:nok_mobile)}"
                   = "#{@prescription.patient.try(:firstname)} #{@prescription.patient.try(:surname)}"
         /td.batch = prescription.try(:batches).try(:size)
         td

@@ -12,7 +12,7 @@ class Prescription < ActiveRecord::Base
   belongs_to :doctor, class_name: "User"
   has_many :prescription_batches, :dependent => :destroy
 
-  validates_presence_of :prescription_date, :subtotal, :total, :patient
+  validates_presence_of :prescription_date, :subtotal, :total, :patient , :hospital_unit , :doctor
   before_create :unique_code
   before_create :total_calculation
   before_update :total_calculation

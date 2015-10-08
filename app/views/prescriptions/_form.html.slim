@@ -4,13 +4,13 @@
   table.table
     thead
       tr
-        th Doctor
-        th Hospital
+        th Prescriber
+        th Clinic
         th Prescription Date
     tbody
       tr
-        td = f.input :doctor_id, collection: User.all.where(:title => Title.find_by_name("Dr")),value_method: :id , label_method: :full_name, prompt: "Select Staff Category",label:false
-        td = f.input :hospital_unit_id, collection: HospitalUnit.all, value_method: :id ,label_method: :name, prompt: "Select Hospital",label: false
+        td = f.input :doctor_id, collection: User.all.where(:title => Title.find_by_name("Dr")),value_method: :id , label_method: :full_name, prompt: "Select Prescriber",label:false
+        td = f.input :hospital_unit_id, collection: HospitalUnit.all, value_method: :id ,label_method: :name, prompt: "Select Clinic",label: false
         td = f.text_field :prescription_date ,  :data => { :provide  => 'datepicker', "date-format" => "dd/mm/yyyy" } , :input_html => {class: 'datepicker string required form-control input-sm form-group' }, as: :string , :value => prescription_date_display(@prescription)
 
 

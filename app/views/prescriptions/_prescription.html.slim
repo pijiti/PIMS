@@ -7,5 +7,9 @@ tr
         td.code = prescription.prescription_date.strftime("%d/%m/%Y at %I:%M%p")
         td = "N #{prescription.total}"
         /td.batch = prescription.try(:batches).try(:size)
-        td.edit = link_to 'Edit', edit_prescription_path(prescription)
-        td.destroy = link_to 'Destroy', (prescription), method: :delete, data: { confirm: 'Are you sure?' }
+        - if [nil,"COLLATION PENDING"].include? prescription.status
+          td.edit = link_to 'Edit', edit_prescription_path(prescription)
+          td.destroy = link_to 'Destroy', (prescription), method: :delete, data: { confirm: 'Are you sure?' }
+        -else
+         td
+         td

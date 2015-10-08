@@ -28,7 +28,6 @@ tr
                               a href="#" data-toggle="modal" data-target="#myModal_#{p.id}"  Collate
                            - elsif !p.approved.blank?
                               a href="#" data-toggle="modal" data-target="#myModal_#{p.id}"  View Collation
-                           = form_for(p , :url => complete_collation_prescription_path(p) , :method => :post ) do |f|
                                  div[id="myModal_#{p.id}" class="modal modal-approvals" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
                                    .modal-dialog role="document"
                                      .modal-content
@@ -52,7 +51,6 @@ tr
                                                  tbody
                                                    - p.collation_batches.each do |collation_batch|
                                                       - next if collation_batch.units.blank?
-                                                      = f.simple_fields_for :collation_batches, collation_batch  do |batch_form|
                                                           -inventory_batch = collation_batch.inventory_batch
                                                           - batch = inventory_batch.batch
                                                           tr
@@ -65,16 +63,12 @@ tr
                                                             td = batch.mfd_date.strftime("%d/%m/%Y")
                                                             td = batch.expiry_date.strftime("%d/%m/%Y")
                                                             td
-                                                               = batch_form.input :units , label: false  , :disabled => p.approved
-                                                               = batch_form.hidden_field :inventory_batch_id , :value => inventory_batch.id
-                                                               = batch_form.hidden_field :id , :value => collation_batch.id
+                                                               = batch.units
                                                                /= batch_form.hidden_field :store_id , :value => s.from_store.id
 
 
 
                                        .modal-footer
-                                         -if p.approved.blank?
-                                            = f.submit :class => "btn-sm btn btn-success" , :value => "Complete allotment"
 
 
 

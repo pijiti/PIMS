@@ -5,6 +5,7 @@ class Brand < ActiveRecord::Base
   belongs_to :unit_dose
   belongs_to :item_concentration_unit
   has_many :batches , :dependent => :destroy
+  has_many :inventories , :dependent => :destroy
 
   validates_presence_of :item_concentration_unit, :concentration, :unit_dose, :min_dispensable, :marketer, :min_dispensable, :pack_size
 

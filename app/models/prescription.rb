@@ -55,7 +55,7 @@ class Prescription < ActiveRecord::Base
       @surcharge.surcharge_items.each do |i|
         total_surcharge += i.value.to_f
       end
-      if @surcharge.charge_type != "Fixed"
+      if @surcharge.charge_type == "Fixed"
         surcharges = total_surcharge
       else
         surcharges = subtotal * total_surcharge * 0.01

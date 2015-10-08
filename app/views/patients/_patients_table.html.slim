@@ -25,7 +25,9 @@ table.table.data_table
           td = patient.nok_name
           td = patient.nok_mobile
           td = patient.updated_at.strftime("%d/%m/%Y at %I:%M %p")
-          td.add-prescription = link_to 'Add Prescription', prescriptions_path(patient_id: patient)
+          td.add-prescription
+            - if !current_store.try(:parent).blank?
+               = link_to 'Add Prescription', prescriptions_path(patient_id: patient)
           td
                 - @patient = patient
                 /= link_to 'Edit', edit_patient_path(patient)

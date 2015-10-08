@@ -21,6 +21,13 @@ class Receipt < ActiveRecord::Base
       irs.first.update(:units => irs.first.units + q.to_i)
     end
     self.update(:confirm_receipt => "COMPLETED")
+
+    #update rate per unit
+    if self.inventory.rate_per_unit.blank?
+      i = self.inventory
+      i.update(:rate_per_unit =>  Inventory.where(:brand => i.brand).where.not(:rate_per_unit => nil).try(:last).try(:rate_per_unit))
+    end
+
     self.service_request.update(:status => "COMPLETED") if !service_request.blank?
   end
 

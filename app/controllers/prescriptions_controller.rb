@@ -20,7 +20,7 @@ class PrescriptionsController < ApplicationController
   end
 
   def collate
-    @prescriptions = Prescription.includes(:prescription_batches).order('updated_at ASC').all
+    @prescriptions = Prescription.includes(:prescription_batches  , :doctor , :patient).order('updated_at ASC').all
     @prescriptions.each do |prescription|
       prescription.prescription_batches.each do |p|
         next if !p.inventory_batches.blank?

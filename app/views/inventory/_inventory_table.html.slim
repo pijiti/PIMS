@@ -124,4 +124,5 @@ table.table.table-responsive.table-hover
            td = i.updated_at.strftime("%d/%m/%Y at %I:%M%p")
            td = i.store.parent.try(:name)
            td
-             = Inventory.where(:store => i.store.parent , :brand =>i.brand ).try(:first).try(:inventory_batches).try(:sum, :units)
+             - parent_store_units = Inventory.where(:store => i.store.parent , :brand =>i.brand ).try(:first).try(:inventory_batches).try(:sum, :units)
+             = "#{parent_store_units}(#{pack_and_units(parent_store_units,i.brand.pack_size)})"

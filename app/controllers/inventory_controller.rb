@@ -5,7 +5,7 @@ class InventoryController < ApplicationController
     @inventory=Inventory.where(:store_id => params[:store_id], :brand_id => params[:brand_id]).first
     result = {}
     result["row"] = params[:row_id]
-    if @inventory.try(:rate_per_unit)
+    if @inventory.try(:rate_per_unit) and @inventory.inventory_batches.try(:sum,:units) > 0
       result["rate"] = @inventory.try(:rate_per_unit)
     else
       result["rate"] = "NA"

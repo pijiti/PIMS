@@ -65,7 +65,7 @@
                                                .modal-footer
                                 td
                                   - if @prescription.status == "COLLATION COMPLETED"
-                                    = pbf.input :comments
+                                    = pbf.input :comments , label: false
                                   - else
                                     = p.comments
 

@@ -1,6 +1,11 @@
     tr.marketer data-id = marketer.id
        td.name = marketer.try(:name )
        td.description = marketer.try(:description)
+       td = marketer.reg_number
+       td = marketer.address
+       td = marketer.contact_name
+       td = marketer.contact_mobile
+       td = marketer.contact_email
        td.foreign = marketer.foreign.to_s.capitalize
        td.text-right
             a.btn.btn-primary.btn-xs href = edit_marketer_path(marketer) data-remote='true'  data-disable-with='Editing...'  Edit 

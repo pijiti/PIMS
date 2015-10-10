@@ -55,6 +55,6 @@ class MarketersController < ApplicationController
     end
 
     def marketer_params
-      params.require(:marketer).permit(:name,:description,:foreign)
+      params.require(:marketer).permit(:name,:description,:foreign , :contact_name , :contact_mobile , :contact_email , :reg_number , :address)
     end
 end

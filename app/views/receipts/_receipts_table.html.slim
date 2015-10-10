@@ -17,7 +17,7 @@ table.table.data_table
           td = s.to_store.try(:name)
           td = s.batch.brand.detailed_info
           td = s.batch.batch_number
-          td = "#{s.qty}(#{s.qty/s.batch.brand.pack_size.to_i})"
+          td = "#{s.qty}(#{pack_and_units(s.qty,s.batch.brand.pack_size.to_i)})"
           td = s.created_at.strftime("%d/%m/%Y at %I:%M%p")
           td = "#{s.received_qty}(#{s.received_qty/s.batch.brand.pack_size.to_i})"  if s.received_qty
           td = (s.confirm_receipt.blank? ? "AWAITING CONFIRMATION" : "COMPLETED")
@@ -58,7 +58,7 @@ table.table.data_table
                                               td = batch.brand.detailed_info
                                               td = batch.batch_number
                                               td = batch.rate
-                                              td = "#{s.qty}(#{s.qty/batch.brand.pack_size.to_i})"
+                                              td = "#{s.qty}(#{pack_and_units(s.qty,batch.brand.pack_size.to_i)})"
                                               td = "%.2f" % (batch.rate / batch.brand.pack_size.to_f)
                                               td = batch.mfd_date.strftime("%d/%m/%Y")
                                               td = batch.expiry_date.strftime("%d/%m/%Y")

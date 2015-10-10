@@ -104,6 +104,14 @@ module ApplicationHelper
       "#{batch.qty.to_i} packs and #{batch.loose_units.to_i} loose units"
     end
     #"%.2f" % (batch.qty + (batch.try(:loose_units) || 0) / batch.brand.pack_size.to_f)
+  end
+
+  def pack_and_units(qty, pack_size)
+    if qty.to_i % pack_size.to_i == 0
+      qty.to_i / pack_size.to_i
+    else
+      "#{qty.to_i / pack_size.to_i} packs and #{qty.to_i % pack_size.to_i } loose units"
+    end
 
   end
 

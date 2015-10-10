@@ -18,7 +18,7 @@ table.table.data_table
           td = s.batch.batch_number
           td = s.batch.expiry_date.strftime("%d/%m/%Y at %I:%M%p")
           /td = generic_drug_count(s.batch.pharm_item,s.inventory.store)
-          td = "#{s.units}(#{s.units/s.batch.brand.pack_size.to_i})"
+          td = "#{s.units}(#{pack_and_units(s.units,s.batch.brand.pack_size.to_i)})"
           td
                  a href="#" data-toggle="modal" data-target="#requests_#{s.id}"  Transfer
                  = form_for(Supply.new , :url => transfer_batches_v2_supplies_path , :method => :post ) do |supply_form|
@@ -54,7 +54,7 @@ table.table.data_table
                                                 td = batch.brand.detailed_info
                                                 td = batch.batch_number
                                                 td = batch.rate
-                                                td = "#{s.units}(#{s.units / batch.brand.pack_size.to_i})"
+                                                td = "#{s.units}(#{pack_and_units( s.units , batch.brand.pack_size.to_i)})"
                                                 td
                                                    = "%.2f" % (batch.rate / batch.brand.pack_size.to_f)
                                                 td = batch.mfd_date.strftime("%d/%m/%Y")

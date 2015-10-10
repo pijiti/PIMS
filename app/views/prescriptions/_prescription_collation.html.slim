@@ -61,7 +61,7 @@ tr
                                                             td = batch.brand.drug_prescription_info
                                                             td = batch.batch_number
                                                             td = batch.rate
-                                                            td = "#{inventory_batch.units}(#{inventory_batch.units/batch.brand.pack_size.to_i})"
+                                                            td = "#{inventory_batch.units}(#{pack_and_units(inventory_batch.units, batch.brand.pack_size.to_i)})"
                                                             td
                                                                = "%.2f" % (batch.rate / batch.brand.pack_size.to_f)
                                                             td = batch.mfd_date.strftime("%d/%m/%Y")

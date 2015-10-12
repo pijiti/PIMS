@@ -33,7 +33,7 @@ class InventoryController < ApplicationController
     #@stores = Store.all
     @brands = Brand.includes(:pharm_item, :item_concentration_unit , :unit_dose , :marketer).order('name ASC').all
     @pharm_items = PharmItem.includes(:brands).all
-    Vendor.all.pluck(:name , :id)
+    @marketers = Marketer.order('name ASC').all
     @filter = Inventory.new(:store => current_store, :brand => nil)
     respond_to do |format|
       format.html
@@ -50,6 +50,7 @@ class InventoryController < ApplicationController
     @inventories = Inventory.includes(:store, :brand, :batches , :inventory_batches, :pharm_item, pharm_item: [:brands] , inventory_batches: [:batch] , store: [:parent], batches:[:brand]).where(:store => store).order("pharm_item_id") if !store.blank?
     @inventories = @inventories.includes(:store, :brand, :batches , :inventory_batches, :pharm_item, pharm_item: [:brands] , inventory_batches: [:batch] , store: [:parent], batches:[:brand]).where(:brand_id => brand).order("pharm_item_id") if !brand.blank?
     @inventories = @inventories.includes(:store, :brand, :batches , :inventory_batches, :pharm_item, pharm_item: [:brands] , inventory_batches: [:batch] , store: [:parent], batches:[:brand]).where(:pharm_item_id => generic).order("pharm_item_id") if !generic.blank?
+    @marketers = Marketer.order('name ASC').all
 
   end
 

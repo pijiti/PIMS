@@ -15,9 +15,9 @@ class VendorsController < ApplicationController
   #order for restocking central stores
   def order
 
-    s = Store.find_by_id(params[:vendor][:store_id])
-    p = PharmItem.find_by_id(params[:vendor][:pharm_item_id])
-    Vendor.where(:id => params[:vendor][:id]).each do |v|
+    s = Store.find_by_id(params[:marketer][:store_id])
+    p = PharmItem.find_by_id(params[:marketer][:pharm_item_id])
+    Marketer.where(:id => params[:marketer][:id]).each do |v|
       begin
         UserMailer.delay.order_from_vendors(p, s ,v) if Rails.env == "production"
       rescue => e

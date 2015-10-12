@@ -33,9 +33,9 @@ table.table.table-responsive.table-hover
                             h4#myModalLabel.modal-title Order #{i.pharm_item.try(:name)} for #{i.store.name}
                           .modal-body
                             - if i.store.parent.blank?
-                              = simple_form_for(Vendor.new, :url => order_vendors_path , :method => "post")  do |vendor_form|
+                              = simple_form_for(Marketer.new, :url => order_vendors_path , :method => "post")  do |vendor_form|
                                     /= vendor_form.collection_check_boxes :id, vendors_from_inventories(i.pharm_item_id), :id, :name , label: "Vendor"
-                                    = vendor_form.input :id ,as: :check_boxes, collection: @vendors , label: "Vendors list"
+                                    = vendor_form.input :id ,as: :check_boxes, collection: @marketers , label: "Marketers list"
                                     = vendor_form.hidden_field :pharm_item_id , :value => i.pharm_item_id
                                     = vendor_form.hidden_field :store_id , :value => i.store_id
                                     .actions.text-center
@@ -80,7 +80,7 @@ table.table.table-responsive.table-hover
            td
              - batch_units = i.inventory_batches.where(:expired => nil).try(:sum, :units)
              = "#{batch_units}(#{ pack_and_units(batch_units.to_i , i.brand.try(:pack_size).try(:to_i))})"  if i.brand.try(:pack_size)
-           td = ("%.2f" % i.rate_per_unit) if i.rate_per_unit
+           td = ("%.2f" % i.rate_per_unit) if i.rate_per_unit and batch_units > 0
            td
                           a href="#" data-toggle="modal" data-target="#batches_#{i.id}"  View
                           /! Modal
@@ -97,7 +97,7 @@ table.table.table-responsive.table-hover
                                                   thead
                                                      tr
                                                        th Brand
-                                                       th Vendor
+                                                       th Marketer
                                                        th Batch No
                                                        th Rate
                                                        th Units(Packs)
@@ -110,7 +110,7 @@ table.table.table-responsive.table-hover
                                                      - next if i.inventory_batches.where(:batch =>batch , :expired => nil).sum(:units) == 0
                                                      tr[class="#{highlight_batch(batch)}" ]
                                                          td = batch.brand.detailed_info
-                                                         td = batch.try(:supply).try(:vendor).try(:name)
+                                                         td = batch.try(:supply).try(:marketer).try(:name)
                                                          td = batch.batch_number
                                                          td = batch.rate
                                                          td = "#{i.inventory_batches.where(:batch =>batch).sum(:units)}(#{i.inventory_batches.where(:batch =>batch).sum(:units)/i.brand.pack_size.to_i})"

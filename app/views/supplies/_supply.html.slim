@@ -1,6 +1,6 @@
 tr.data-rows.supply
      td = supply.store.try(:name)
-     td.vendor = supply.vendor.try(:name)
+     td.vendor = supply.marketer.try(:name)
      td.supply-reference = supply.invoice_reference
      td.invoice-date = (supply.invoice_date.strftime("%e/%m/%Y") if supply.invoice_date)
      td.invoice-value = supply.invoice_value

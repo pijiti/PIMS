@@ -157,9 +157,9 @@ class SuppliesController < ApplicationController
 
   def index
     if can? :manage, :all
-      @supplies = Supply.all.order("created_at desc")
+      @supplies = Supply.includes(:batches).order("created_at desc").all
     else
-      @supplies = Supply.where(:store => current_store).order("created_at desc")
+      @supplies = Supply.includes(:batches).where(:store => current_store).order("created_at desc")
     end
     new
   end
@@ -252,7 +252,7 @@ class SuppliesController < ApplicationController
 
   def new
     @supply = Supply.new(:store => current_store)
-    @vendors = Vendor.all
+    @marketers = Marketer.order('name ASC').all
 
     #Users with any of the 3 roles for current store
     @users = User.with_any_role("Admin", {:name => "Store Keeper", :resource => current_store}, {:name => "Store Manager", :resource => current_store})
@@ -275,7 +275,7 @@ class SuppliesController < ApplicationController
 
   def edit
     #current_store = Store.find(session[:active_store])
-    @vendors = Vendor.all
+    @marketers = Marketer.order('name ASC').all
     @users = User.all
     @central_stores = Store.where(:store_type => StoreType.where("upper(name) like ?", "%MAIN STORE%")).pluck(:name, :id)
     #(10-@supply.batches.try(:count)).times do
@@ -295,7 +295,7 @@ class SuppliesController < ApplicationController
       @error = @supply.errors.full_messages
       flash[:error] = "#{@error.to_sentence}"
       @supplies = Supply.where(:store => current_store)
-      @vendors = Vendor.all
+      @marketers = Marketer.order('name ASC').all
 
       #Users with any of the 3 roles for current store
       @users = User.with_any_role("Admin", {:name => "Store Keeper", :resource => current_store}, {:name => "Store Manager", :resource => current_store})
@@ -329,7 +329,7 @@ class SuppliesController < ApplicationController
       else
         logger.info("=========!!!!!!!!!!!!!!!!!!!!!!!================")
         logger.info(@supply.errors.messages.inspect)
-        @vendors = Vendor.all
+        @marketers = Marketer.order('name ASC').all
         @users = User.all
         @central_stores = Store.where(:store_type => StoreType.where("upper(name) like ?", "%MAIN STORE%")).pluck(:name, :id)
         render "supplies/edit"
@@ -360,7 +360,7 @@ class SuppliesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def supply_params
-    params.require(:supply).permit(:vendor_id, :invoice_reference, :invoice_date, :invoice_value, :signed_off_by, :user_id, :store_id, :approval_status, :approved, :approved_by, :_destroy, :approval_type,
+    params.require(:supply).permit(:marketer_id, :invoice_reference, :invoice_date, :invoice_value, :signed_off_by, :user_id, :store_id, :approval_status, :approved, :approved_by, :_destroy, :approval_type,
                                    batches_attributes: [:id, :pharm_item_id, :brand_id, :rate, :qty, :batch_number, :mfd_date, :expiry_date, :comments, :approved, :recipient_store, :giver_store, :_destroy, :selector])
   end
 

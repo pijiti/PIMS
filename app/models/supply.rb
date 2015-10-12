@@ -3,13 +3,14 @@ class Supply < ActiveRecord::Base
   #include Supply::WorkflowConcern
 
   belongs_to :vendor
+  belongs_to :marketer
   belongs_to :user, foreign_key: "signed_off_by"
   has_many :batches, dependent: :destroy
   belongs_to :store
 
   before_create :set_approval_status, :workflow_initial_state
 
-  validates :vendor, presence: true
+  validates :marketer, presence: true
   validates :invoice_value, presence: true
   validates :invoice_reference, presence: true
   validates :batches , presence: true

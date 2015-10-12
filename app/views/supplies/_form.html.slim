@@ -3,7 +3,7 @@
    thead
     tr
       th.col-sm-2.text-center Store
-      th.col-sm-2.text-center Vendor
+      th.col-sm-2.text-center Marketer
       th.col-sm-2.text-center Reference
       th.col-sm-2.text-center Value
       th.col-sm-2.text-center Date
@@ -20,7 +20,7 @@
           = f.input :store_id , as: :hidden , :value => session[:active_store]
 
 
-      td   = f.association :vendor, collection: @vendors, label_method: :name,value_method: :id,  include_blank: "Select Vendor"  ,input_html: { maxlength: 20 },label: false
+      td   = f.association :marketer, collection: @marketers, label_method: :name,value_method: :id,  include_blank: "Select Marketer"  ,input_html: { maxlength: 20 },label: false
       td   = f.input :invoice_reference, label: false,input_html: { maxlength: 15 } ,placeholder: "Invoice Ref"
       td   = f.input :invoice_value, as: :string, label: false, placeholder: "Invoice Value" ,input_html: { maxlength: 12 }
       td

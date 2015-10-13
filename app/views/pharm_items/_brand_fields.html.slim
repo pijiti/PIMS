@@ -8,6 +8,8 @@ tr.nested-fields
 
      /= f.input :pack_bundle
      td = f.input :min_dispensable,label:"Minimum Dispensable", label: false
+     td = f.input :main_restock_level, label: false
+     td = f.input :dispensary_restock_level, label: false
 
      td = link_to_remove_association "Remove brand", f,class: 'btn btn-link btn-xs'
 

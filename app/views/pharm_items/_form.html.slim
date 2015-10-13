@@ -10,14 +10,10 @@
           tr
             th.col-sm-3.text-center Name
             th.col-sm-3.text-center Sub classes
-            th.col-sm-3.text-center Main restock level
-            th.col-sm-3.text-center Dispensary restock level
         tbody
           tr
             td = f.input :name, label: false
             td = f.association :sub_classes, label_method: :sub_main, value_method: :id, prompt: "Select Class" , label: false
-            td = f.input :main_restock_level , label: false
-            td = f.input :dispensary_restock_level , label:false
 
       hr
         h4.text-center Brands
@@ -27,10 +23,12 @@
             th.col-sm-2.text-center Name
             th.col-sm-2.text-center Marketer
             th.col-sm-2.text-center Dosage form
-            th.col-sm-2.text-center Strength
+            th.col-sm-1.text-center Strength
             th.col-sm-1.text-center Strength unit
-            th.col-sm-2.text-center Pack size
+            th.col-sm-1.text-center Pack size
             th.col-sm-1.text-center Minimum Dispensable
+            th.col-sm-1.text-center Main restock level
+            th.col-sm-1.text-center Dispensary restock level
             th
         tbody.well#brands
           - @pharm_item.brands.each do |brand_item|

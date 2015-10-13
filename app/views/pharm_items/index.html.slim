@@ -28,6 +28,8 @@ section#pims-index
                                             th Marketer
                                             th Pack Size
                                             th Min Dispensable
+                                            th Main restock level
+                                            th Dispensary restock level
                                   tbody
                                    -@brands.each_with_index do | brand,index|
                                          tr
@@ -39,6 +41,8 @@ section#pims-index
                                           td.name = brand.try(:marketer).try(:name)
                                           td.name = brand.try(:pack_size)
                                           td.name = brand.try(:min_dispensable)
+                                          td = brand.try(:main_restock_level)
+                                          td = brand.try(:dispensary_restock_level)
                 .modal-footer
                   button.btn.btn-default data-dismiss="modal" type="button"  Close
         .text-right

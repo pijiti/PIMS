@@ -6,7 +6,6 @@ h3.text-center Patients
         th Hospital Number
         th Firstname
         th Surname
-        th Mobile
     tbody
       td
         = f.input :hospital_number , label: false
@@ -14,8 +13,6 @@ h3.text-center Patients
         = f.input :firstname , label: false
       td
         = f.input :surname , label: false
-      td
-        = f.input :mobile , label: false
   .text-center
         = f.submit :class => "btn btn-success btn-xs" , :value => "Search"
   hr

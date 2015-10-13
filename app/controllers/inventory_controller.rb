@@ -47,7 +47,7 @@ class InventoryController < ApplicationController
     generic = params[:inventory][:generic_drug]
     logger.debug params[:inventory]
     @inventories = Inventory.includes(:store, :brand, :batches , :inventory_batches, :pharm_item, pharm_item: [:brands] , inventory_batches: [:batch] , store: [:parent], batches:[:brand]).order("pharm_item_id")
-    @inventories = Inventory.includes(:store, :brand, :batches , :inventory_batches, :pharm_item, pharm_item: [:brands] , inventory_batches: [:batch] , store: [:parent], batches:[:brand]).where(:store => store).order("pharm_item_id") if !store.blank?
+    @inventories = Inventory.includes(:store, :brand, :batches , :inventory_batches, :pharm_item, pharm_item: [:brands] , inventory_batches: [:batch] , store: [:parent], batches:[:brand]).where(:store => store).order("pharm_item_id").order('name ') if !store.blank?
     @inventories = @inventories.includes(:store, :brand, :batches , :inventory_batches, :pharm_item, pharm_item: [:brands] , inventory_batches: [:batch] , store: [:parent], batches:[:brand]).where(:brand_id => brand).order("pharm_item_id") if !brand.blank?
     @inventories = @inventories.includes(:store, :brand, :batches , :inventory_batches, :pharm_item, pharm_item: [:brands] , inventory_batches: [:batch] , store: [:parent], batches:[:brand]).where(:pharm_item_id => generic).order("pharm_item_id") if !generic.blank?
     @marketers = Marketer.order('name ASC').all

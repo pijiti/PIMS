@@ -8,7 +8,7 @@ class BatchesController < ApplicationController
   def ramp_up
     @batch = Batch.new
     @brands = Brand.includes(:pharm_item, :item_concentration_unit, :unit_dose , :marketer).order('name ASC').all
-    @batches = Batch.includes(:brand).all
+    @batches = Batch.includes(:brand).where(:approval_status => "APPROVED").all
   end
 
   #Back door creation. Ramp up batches

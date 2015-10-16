@@ -1,7 +1,7 @@
 module ApplicationHelper
 
   def stores_based_on_current_time
-    if can? :manage , :all
+    if can? :manage, :all
       return Store.all
     end
     #@stores = Store.where("open_time <  ? and close_time >  ? ", Time.now , Time.now)
@@ -13,11 +13,11 @@ module ApplicationHelper
     ids = []
     Store.all.each do |store|
       next if store.open_time.blank? or store.close_time.blank?
-      open_time = Time.zone.local(current_year,current_month,current_day, store.open_time.hour , store.open_time.min)
-      close_time = Time.zone.local(current_year,current_month,current_day, store.close_time.hour , store.close_time.min)
+      open_time = Time.zone.local(current_year, current_month, current_day, store.open_time.hour, store.open_time.min)
+      close_time = Time.zone.local(current_year, current_month, current_day, store.close_time.hour, store.close_time.min)
       logger.debug "===========Open time[#{open_time}]============"
       logger.debug "===========Close time[#{close_time}]============"
-      if current_time.between?(open_time,close_time)
+      if current_time.between?(open_time, close_time)
         logger.debug("YES!!!!#{store.id}")
         ids << store.id
       end
@@ -89,7 +89,7 @@ module ApplicationHelper
 
   def calculate_units_in_pack(batch)
     if batch.qty and batch.brand and batch.loose_units.blank?
-       (batch.qty.to_f * batch.brand.pack_size.to_f).to_i
+      (batch.qty.to_f * batch.brand.pack_size.to_f).to_i
     elsif batch.qty and batch.brand
       (batch.qty.to_f * batch.brand.pack_size.to_f).to_i + batch.loose_units.to_i
     else
@@ -118,7 +118,7 @@ module ApplicationHelper
 
   def rate_per_unit(batch)
     begin
-    ("%.2f" % (batch.rate / calculate_units_in_pack(batch))).to_f
+      ("%.2f" % (batch.rate / calculate_units_in_pack(batch))).to_f
     rescue
       0
     end
@@ -141,8 +141,8 @@ module ApplicationHelper
   end
 
   #drug count for a store
-  def generic_drug_count(pharm_item,store)
-    inventories = Inventory.includes(:inventory_batches).where(:pharm_item => pharm_item , :store => store)
+  def generic_drug_count(pharm_item, store)
+    inventories = Inventory.includes(:inventory_batches).where(:pharm_item => pharm_item, :store => store)
     units_counter = 0
     inventories.each do |inventory|
       units_counter += inventory.inventory_batches.where(:expired => nil).sum(:units)
@@ -151,13 +151,13 @@ module ApplicationHelper
   end
 
   def order_more_btn(i, s)
-    units_counter = generic_drug_count(i.pharm_item,s)
+    units_counter = generic_drug_count(i.pharm_item, s)
     if units_counter == 0
       "btn-danger"
-    elsif (s.parent.blank?  and units_counter > i.pharm_item.try(:main_restock_level)) or  (units_counter > i.pharm_item.try(:dispensary_restock_level))
-        "btn-success"
+    elsif (s.parent.blank? and units_counter > i.pharm_item.try(:main_restock_level)) or (units_counter > i.pharm_item.try(:dispensary_restock_level))
+      "btn-success"
     else
-        "btn-warning"
+      "btn-warning"
     end
   end
 
@@ -167,6 +167,29 @@ module ApplicationHelper
     if pb and pb.prescription_date
       pb.prescription_date.strftime("%d/%m/%Y")
     end
+  end
+
+
+  def stock_level_indicator(units, brand, store)
+
+    if store.parent.blank?
+      if units < brand.main_restock_level
+        "Low"
+      elsif units > brand.main_restock_level.to_i and units < 10*brand.main_restock_level.to_i
+        "Medium"
+      else
+        "High"
+      end
+    else
+      if units < brand.dispensary_restock_level
+        "Low"
+      elsif units > brand.dispensary_restock_level.to_i and units < 10 * brand.dispensary_restock_level.to_i
+        "Medium"
+      else
+        "High"
+      end
+    end
+
   end
 
 end

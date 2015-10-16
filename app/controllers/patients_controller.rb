@@ -67,8 +67,11 @@ class PatientsController < ApplicationController
 
 
   def destroy
-    authorize @patient
-   @error = @patient.error.full_messages.to_sentence unless @patient.destroy!
+   if @patient.destroy
+     redirect_to patients_path , :notice => "Patient record deleted"
+   else
+     redirect_to patients_path , :notice => "Patient record delete failed"
+   end
   end
 
   private

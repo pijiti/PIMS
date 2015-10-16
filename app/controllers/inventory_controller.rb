@@ -37,7 +37,7 @@ class InventoryController < ApplicationController
     @filter = Inventory.new(:store => current_store, :brand => nil)
     respond_to do |format|
       format.html
-      format.csv { send_data @inventories.to_csv }
+      format.csv { send_data Inventory.to_csv }
     end
   end
 

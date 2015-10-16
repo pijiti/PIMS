@@ -1,3 +1,4 @@
+#pims_index
 h3.text-center Inventory
 .filter
   = simple_form_for(@filter, :url => filter_inventory_index_path , :method => "post" , :remote => true ) do |f|
@@ -17,7 +18,10 @@ h3.text-center Inventory
           = f.input :brand , collection: @brands , label:false
     .text-center
       = f.submit :class => "btn btn-success btn-tiny" , :value => "filter"
+.text-right
+    =link_to "Download Excel" , inventory_index_path(format: "csv")
 hr
+
 #inventory-table
   = render "inventory_table"
 

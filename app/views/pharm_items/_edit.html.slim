@@ -1,24 +1,16 @@
 .pharm-item-edit-form.well  data-id = @pharm_item.id
     h5 = "Update #{@pharm_item.name}" + "'s " + "record."
     = simple_form_for @pharm_item, remote: true  do |f|
-          = f.input :ward_restock_level,as: :hidden
-          = f.input :central_critical_level,as: :hidden
-          = f.input :dispensary_critical_level,as: :hidden
-          = f.input :main_critical_level,as: :hidden
-          = f.input :ward_critical_level,as: :hidden
           table.table.data_table
             thead
                   tr
                     th.col-sm-3.text-center Name
                     th.col-sm-3.text-center Sub classes
-                    th.col-sm-3.text-center Main restock level
-                    th.col-sm-3.text-center Dispensary restock level
+
             tbody
               tr
                 td = f.input :name, label: false
                 td = f.association :sub_classes, label_method: :sub_main, value_method: :id, prompt: "Select Class" , label: false
-                td = f.input :main_restock_level , label: false
-                td = f.input :dispensary_restock_level , label:false
 
 
           hr
@@ -33,7 +25,9 @@
                       th.col-sm-1.text-center Strength unit
                       th.col-sm-2.text-center Pack size
                       th.col-sm-1.text-center Minimum Dispensable
-                      th
+                      th.col-sm-3.text-center Main restock level
+                      th.col-sm-3.text-center Dispensary restock level
+
                   tbody.well#brands
                     - @pharm_item.brands.each do |brand_item|
                       - @brand = brand_item

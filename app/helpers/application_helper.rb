@@ -175,7 +175,7 @@ module ApplicationHelper
     if store.parent.blank?
       if units < brand.main_restock_level
         "Low"
-      elsif units > brand.main_restock_level.to_i and units < 10*brand.main_restock_level.to_i
+      elsif units > brand.main_restock_level.to_i and units < 5 *brand.main_restock_level.to_i
         "Medium"
       else
         "High"
@@ -183,7 +183,7 @@ module ApplicationHelper
     else
       if units < brand.dispensary_restock_level
         "Low"
-      elsif units > brand.dispensary_restock_level.to_i and units < 10 * brand.dispensary_restock_level.to_i
+      elsif units > brand.dispensary_restock_level.to_i and units < 5 * brand.dispensary_restock_level.to_i
         "Medium"
       else
         "High"

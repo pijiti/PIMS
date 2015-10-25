@@ -87,10 +87,10 @@
         <div class="collapse" id="patient">
           <%= link_to '<i class="fa fa-file-text fa-fw blue"></i>&nbsp;Billing'.html_safe, patients_path, class: "list-group-item" %>
           <%= link_to '<i class="fa fa-file-text fa-fw blue"></i>&nbsp;Collate'.html_safe, collate_prescriptions_path, class: "list-group-item" %>
-          <% if can? :manage, RequestItem %>
+          <% if can? :manage, Prescription %>
               <%= link_to '<i class="fa fa-medkit fa-fw blue"></i>&nbsp;Dispense'.html_safe, dispense_prescriptions_path, class: "list-group-item" %>
           <% end %>
-          <%= link_to '<i class="fa fa-repeat fa-fw blue"></i>&nbsp;Request Items'.html_safe, requests_path, class: "list-group-item" %>
+          <%#= link_to '<i class="fa fa-repeat fa-fw blue"></i>&nbsp;Request Items'.html_safe, requests_path, class: "list-group-item" %>
           <%= link_to '<i class="fa fa-repeat fa-fw blue"></i>&nbsp;Return'.html_safe, new_user_profile_path, class: "list-group-item" %>
         </div>
     <% end %>

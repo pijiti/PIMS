@@ -37,19 +37,19 @@ class InventoryController < ApplicationController
     @filter = Inventory.new(:store => current_store, :brand => nil)
     respond_to do |format|
       format.html
-      format.csv { send_data Inventory.to_csv }
+      format.csv { send_data Inventory.to_csv(params[:store], params[:generic], params[:brand]) }
     end
   end
 
   def filter
-    store = params[:inventory][:store]
-    brand = params[:inventory][:brand]
-    generic = params[:inventory][:generic_drug]
+    @store = params[:inventory][:store]
+    @brand = params[:inventory][:brand]
+    @generic = params[:inventory][:generic_drug]
     logger.debug params[:inventory]
     @inventories = Inventory.includes(:store, :brand, :batches , :inventory_batches, :pharm_item, pharm_item: [:brands] , inventory_batches: [:batch] , store: [:parent], batches:[:brand]).order("pharm_items.name ASC")
-    @inventories = Inventory.includes(:store, :brand, :batches , :inventory_batches, :pharm_item, pharm_item: [:brands] , inventory_batches: [:batch] , store: [:parent], batches:[:brand]).where(:store => store).order("pharm_items.name ASC") if !store.blank?
-    @inventories = @inventories.includes(:store, :brand, :batches , :inventory_batches, :pharm_item, pharm_item: [:brands] , inventory_batches: [:batch] , store: [:parent], batches:[:brand]).where(:brand_id => brand).order("pharm_items.name ASC")  if !brand.blank?
-    @inventories = @inventories.includes(:store, :brand, :batches , :inventory_batches, :pharm_item, pharm_item: [:brands] , inventory_batches: [:batch] , store: [:parent], batches:[:brand]).where(:pharm_item_id => generic).order("pharm_items.name ASC") if !generic.blank?
+    @inventories = Inventory.includes(:store, :brand, :batches , :inventory_batches, :pharm_item, pharm_item: [:brands] , inventory_batches: [:batch] , store: [:parent], batches:[:brand]).where(:store => @store).order("pharm_items.name ASC") if !@store.blank?
+    @inventories = @inventories.includes(:store, :brand, :batches , :inventory_batches, :pharm_item, pharm_item: [:brands] , inventory_batches: [:batch] , store: [:parent], batches:[:brand]).where(:brand_id => @brand).order("pharm_items.name ASC")  if !@brand.blank?
+    @inventories = @inventories.includes(:store, :brand, :batches , :inventory_batches, :pharm_item, pharm_item: [:brands] , inventory_batches: [:batch] , store: [:parent], batches:[:brand]).where(:pharm_item_id => @generic).order("pharm_items.name ASC") if !@generic.blank?
     @marketers = Marketer.order('name ASC').all
 
   end

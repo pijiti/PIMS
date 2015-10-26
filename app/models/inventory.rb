@@ -18,21 +18,30 @@ class Inventory < ActiveRecord::Base
     Batch.where(:id => ids.flatten.uniq).pluck(:supply_id)
   end
 
-  def self.to_csv(options = {})
+  def self.to_csv(store = nil, generic = nil, brand = nil)
 
     logger.debug "=======TO CSV============"
 
+    i = Inventory.includes(:store, :brand, :batches, :inventory_batches, :pharm_item, pharm_item: [:brands], inventory_batches: [:batch], store: [:parent], batches: [:brand]).order("pharm_items.name ASC").all
+    i = i.where(:store_id => store) if !store.blank?
+    i = i.where(:pharm_item_id => generic) if !generic.blank?
+    i = i.where(:brand_id => brand) if !brand.blank?
 
-    CSV.generate(options) do |csv|
+    logger.debug "=========@@@@@@@@@@@========>#{i.count}"
+
+    CSV.generate({}) do |csv|
       column_names = ["Generic Drug", "Brand", "Store", "Rate per unit", "Batch number", "Mfd date", "Expiry date" , "Units"]
       csv << column_names
-      self.includes(:store, :brand, :batches, :inventory_batches, :pharm_item, pharm_item: [:brands], inventory_batches: [:batch], store: [:parent], batches: [:brand]).order("pharm_items.name ASC").all.each do |inventory|
+      i.each do |inventory|
         inventory.inventory_batches.where(:expired => nil).each do |ib|
           csv << [inventory.pharm_item.name, inventory.brand.name , inventory.store.name , inventory.rate_per_unit , ib.batch.batch_number , ib.batch.mfd_date , ib.batch.expiry_date , ib.units]
         end
         #  csv << inventory.attributes.values_at(["pharm_item_id" , "brand_id" , "store_id"])
       end
     end
+
+
+
   end
 
   #bulk upload

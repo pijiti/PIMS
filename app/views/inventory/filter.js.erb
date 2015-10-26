@@ -1,3 +1,5 @@
-$('#inventory-table').html('<%= j render "inventory_table" %>')
+$('#inventory-table').html('<%= j render "inventory_table" %>');
+$('#download_inventory').html('<%= link_to "Download Excel" , inventory_index_path(brand: @brand, generic: @generic , store: @store, format: "csv") %>');
+
 $(".data_table").dataTable({
 });

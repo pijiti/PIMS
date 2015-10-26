@@ -1,3 +1,3 @@
-$sms_user = "epitomeng"
-$sms_pwd =  "#mission*"
+$sms_user = "sshondo"
+$sms_pwd =  "omega3/6"
 $sms_sender = "PIMS"

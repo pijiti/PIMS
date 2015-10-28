@@ -122,16 +122,17 @@ class ReceiptsController < ApplicationController
 
   def generate_pdf
     if Rails.env == "development"
-      kit = PDFKit.new("http://localhost:4050/receipts/order_receipt")
+      kit = PDFKit.new("http://localhost:4050/receipts/order_receipt?id=#{params[:order]}")
     else
-      kit = PDFKit.new("http://localhost:3000/receipts/order_receipt")
+      kit = PDFKit.new("http://localhost:3000/receipts/order_receipt?id=#{params[:order]}")
     end
 
     #redirect_to invoices_path
-    send_file kit.to_pdf, :type => 'application/pdf', :disposition => 'inline'
+    send_data kit.to_pdf, :type => 'application/pdf', :disposition => 'inline'
   end
 
   def order_receipt
+    @order = Order.find_by_id(params[:id])
     render "vouchers/order_receipt" ,:layout => false
   end
 

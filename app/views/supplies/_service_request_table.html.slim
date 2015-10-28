@@ -1,6 +1,7 @@
 table.table.data_table
   thead
         tr.data-rows
+           th Order Number
            th Requesting Store
            th Generic Drug
            th Brand
@@ -13,6 +14,7 @@ table.table.data_table
   tbody
     - @service_requests.each do |s|
         tr.data-rows
+          td = s.order.try(:number)
           td = s.from_store.try(:name)
           td = s.pharm_item.name
           td = s.brand.blank? ? "Any" : s.brand.name

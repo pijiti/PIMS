@@ -33,6 +33,8 @@ gem 'rest-client'
 gem 'delayed_job_active_record'
 gem "delayed_job_web"
 gem 'bootstrap-tooltip-rails'
+gem 'wkhtmltopdf'
+gem 'pdfkit'
 
 
 

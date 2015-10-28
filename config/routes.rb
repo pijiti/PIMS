@@ -7,6 +7,8 @@ Rails.application.routes.draw do
       post 'filter'
       post 'confirm'
       get 'lost_drugs'
+      get 'order_receipt'
+      get 'generate_pdf'
     end
   end
 

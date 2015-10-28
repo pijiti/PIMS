@@ -138,9 +138,15 @@ class SuppliesController < ApplicationController
     ps = Store.find_by_id(params[:supply][:parent_store_id])
     p = PharmItem.find_by_id(params[:supply][:pharm_item_id])
     b = Brand.find_by_id(params[:supply][:brand_id])
+    order = params[:supply][:order_number]
+    if Order.where(:id => order).blank?
+      logger.debug "============order blank========="
+      o = Order.create(:number => "#{PimsConfig.find_by_property_name('order_number_prefix').property_value}-#{1000 + Order.all.count}")
+      order = o.id
+    end
 
     #create service request
-    ServiceRequest.create(:from_store => s, :request_store => ps, :qty => params[:supply][:order_qty], :pharm_item => p, :brand => b)
+    ServiceRequest.create(:from_store => s, :request_store => ps, :qty => params[:supply][:order_qty], :pharm_item => p, :brand => b , :order_id => order )
 
     User.with_any_role({:name => "Store Manager", :resource => ps}, {:name => "Store Keeper", :resource => ps}).each do |u|
       if u.email and Rails.env == "production"

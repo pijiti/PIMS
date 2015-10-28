@@ -120,6 +120,21 @@ class ReceiptsController < ApplicationController
     end
   end
 
+  def generate_pdf
+    if Rails.env == "development"
+      kit = PDFKit.new("http://localhost:4050/receipts/order_receipt")
+    else
+      kit = PDFKit.new("http://localhost:3000/receipts/order_receipt")
+    end
+
+    #redirect_to invoices_path
+    send_file kit.to_pdf, :type => 'application/pdf', :disposition => 'inline'
+  end
+
+  def order_receipt
+    render "vouchers/order_receipt" ,:layout => false
+  end
+
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_receipt

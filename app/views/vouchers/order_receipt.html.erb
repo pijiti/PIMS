@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>Order Receipt</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+</head>
+<body>
+<h2 class="text-center">Order Receipt</h2>
+<div class="row">
+  <div class="col-lg-offset-2 col-xs-4">
+    <div class="panel">
+      <p>Vignesh Prakasam,</p><br>
+
+      <p>17, Sundararajan street,</p><br>
+
+      <p>Abiramapuram,</p><br>
+
+      <p>Chennai</p><br>
+    </div>
+  </div>
+  <div class="col-lg-offset-2 col-xs-4">
+    <p>27/10/2015</p>
+
+    <p>9:55 AM</p>
+  </div>
+</div>
+<hr>
+<table class="table">
+  <thead>
+  <tr>
+    <th>Order Number</th>
+    <th>Requesting Store</th>
+    <th>Servicing Store</th>
+    <th>Generic drug</th>
+    <th>Brand</th>
+    <th>Units</th>
+    <th>Batch Number</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+     <td>PIMSO-1000</td>
+     <td>Morning Dispensary</td>
+     <td>Free main store</td>
+     <td>Paracetamol</td>
+     <td>Crocin</td>
+     <td>1000</td>
+     <td>BN1008YIMN</td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

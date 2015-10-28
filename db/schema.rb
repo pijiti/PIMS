@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151002031332) do
+ActiveRecord::Schema.define(version: 20151027144552) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,7 +53,11 @@ ActiveRecord::Schema.define(version: 20151002031332) do
     t.string   "pack_size"
     t.decimal  "min_dispensable",            precision: 5, scale: 2
     t.integer  "pack_bundle"
+    t.decimal  "main_restock_level"
+    t.decimal  "dispensary_restock_level"
   end
+
+  add_index "brands", ["pharm_item_id", "marketer_id", "unit_dose_id", "item_concentration_unit_id"], name: "brands_index", using: :btree
 
   create_table "collation_batches", force: true do |t|
     t.integer  "prescription_batch_id"
@@ -102,6 +106,8 @@ ActiveRecord::Schema.define(version: 20151002031332) do
     t.integer  "pharm_item_id"
   end
 
+  add_index "inventories", ["brand_id", "pharm_item_id", "store_id"], name: "inventory_index", using: :btree
+
   create_table "inventory_batches", force: true do |t|
     t.integer  "inventory_id"
     t.integer  "batch_id"
@@ -110,6 +116,8 @@ ActiveRecord::Schema.define(version: 20151002031332) do
     t.integer  "units"
     t.boolean  "expired"
   end
+
+  add_index "inventory_batches", ["inventory_id", "batch_id", "units"], name: "inventory_batches_index", using: :btree
 
   create_table "item_classes", force: true do |t|
     t.string   "name"
@@ -160,7 +168,18 @@ ActiveRecord::Schema.define(version: 20151002031332) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "description"
-    t.boolean  "foreign",     default: false, null: false
+    t.boolean  "foreign",        default: false, null: false
+    t.string   "contact_name"
+    t.string   "contact_mobile"
+    t.string   "contact_email"
+    t.string   "reg_number"
+    t.text     "address"
+  end
+
+  create_table "orders", force: true do |t|
+    t.string   "number"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "organisations", force: true do |t|
@@ -239,6 +258,7 @@ ActiveRecord::Schema.define(version: 20151002031332) do
     t.datetime "updated_at"
     t.integer  "prescription_id"
     t.integer  "store_id"
+    t.text     "comments"
   end
 
   create_table "prescriptions", force: true do |t|
@@ -255,6 +275,7 @@ ActiveRecord::Schema.define(version: 20151002031332) do
     t.string   "surcharges"
     t.string   "surcharges_name"
     t.string   "status"
+    t.text     "comments"
   end
 
   create_table "receipts", force: true do |t|
@@ -315,6 +336,8 @@ ActiveRecord::Schema.define(version: 20151002031332) do
     t.datetime "updated_at"
     t.string   "status",           default: "PENDING"
     t.integer  "brand_id"
+    t.string   "order_number"
+    t.integer  "order_id"
   end
 
   create_table "staff_categories", force: true do |t|
@@ -387,6 +410,7 @@ ActiveRecord::Schema.define(version: 20151002031332) do
     t.integer  "disapprove_count"
     t.string   "workflow_state"
     t.datetime "last_disapproved"
+    t.integer  "marketer_id"
   end
 
   create_table "surcharge_items", force: true do |t|

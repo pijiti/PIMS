@@ -30,6 +30,7 @@ class PimsDevise::SessionsController < Devise::SessionsController
 
   def after_sign_in_path_for(user)
     logger.debug "========after signin==========="
+    logger.debug "#{user.id} ====> #{user.valid_duration}"
     begin
     if me.valid_duration >= Time.now && me.valid_password?(params[:user][:password]) == me.valid_password?('password')
       logger.debug "========First time user========"
@@ -38,10 +39,12 @@ class PimsDevise::SessionsController < Devise::SessionsController
       password_edit_user_path(me.id)
     elsif me.valid_duration < Time.now
       logger.debug "====Validity expired======="
-      sign_out(@user)
+      flash[:notice]= 'Your Validity period has expired! Contact admin'
+      destroy_user_session_path
+
       #redirect_to destroy_user_session_path, flash[:notice]= 'Your Validaty Period Has Expired!,Speak to Admin'
     else
-      me.valid_duration >= Time.now && me.valid_password?(params[:user][:password]) != me.valid_password?('password')
+      #user.valid_duration >= Time.now && me.valid_password?(params[:user][:password]) != me.valid_password?('password')
       logger.debug "=========Logging in , based on role========"
       session[:user] = me.id
       if me.has_role? "Admin"

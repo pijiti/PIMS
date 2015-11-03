@@ -15,8 +15,15 @@ class StoreSelectionsController < ApplicationController
     current_month = current_time.month
     current_day = current_time.day
     ids = []
+
+    if current_user.has_role? "Admin"
+      all_stores = Store.all
+    else
+      all_stores = Store.where(:id => current_user.roles.where(:resource_type => "Store").pluck(:resource_id))
+    end
+
     Store.all.each do |store|
-      next if store.open_time.blank? or store.close_time.blank?
+      next if store.open_time.blank? or store.close_time.blank? or !all_stores.include? store
       open_time = Time.zone.local(current_year,current_month,current_day, store.open_time.hour , store.open_time.min)
       close_time = Time.zone.local(current_year,current_month,current_day, store.close_time.hour , store.close_time.min)
       logger.debug "===========Open time[#{open_time}]============"

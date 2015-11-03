@@ -101,10 +101,10 @@ class SuppliesController < ApplicationController
   def service_request
     #admin can see all service requests
     if can? :manage, :all
-      @service_requests = ServiceRequest.includes(:pharm_item, :request_store, :from_store).all.order("status DESC")
+      @service_requests = ServiceRequest.includes(:pharm_item, :request_store, :from_store).all.order("status DESC , order_id ASC")
       @stores = Store.all
     else
-      @service_requests = ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:request_store => current_store).order("status DESC")
+      @service_requests = ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:request_store => current_store).order("ostatus DESC ,rder_id DESC")
       @stores = Store.where(:id => current_store.id)
     end
     @pharm_items = PharmItem.all
@@ -120,10 +120,10 @@ class SuppliesController < ApplicationController
 
     @service_requests = ""
     if can? :manage, :all
-      @service_requests = ServiceRequest.includes(:pharm_item, :request_store, :from_store).all.order("status DESC")
+      @service_requests = ServiceRequest.includes(:pharm_item, :request_store, :from_store).all.order("status DESC , order_id ASC")
       @stores = Store.all
     else
-      @service_requests = ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:request_store => current_store).order("status DESC")
+      @service_requests = ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:request_store => current_store).order("status DESC , order_id ASC")
       @stores = Store.where(:id => current_store.id)
     end
     @service_requests = @service_requests.includes(:pharm_item, :request_store).where(:from_store_id => from_store) if !from_store.blank?

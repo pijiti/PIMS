@@ -14,7 +14,12 @@ table.table.data_table
   tbody
     - @service_requests.each do |s|
         tr.data-rows
-          td = link_to s.order.try(:number) , generate_pdf_receipts_path(:order => s.order_id)
+          td
+            - if [ "COMPLETED" ].include? s.status
+              = link_to s.order.try(:number) , generate_pdf_receipts_path(:order => s.order_id)
+            - else
+              = s.order.try(:number)
+
           td = s.from_store.try(:name)
           td = s.pharm_item.name
           td = s.brand.blank? ? "Any" : s.brand.name

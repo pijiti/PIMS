@@ -40,15 +40,17 @@
   </tr>
   </thead>
   <tbody>
+  <% @order.service_requests.each do |s|  %>
   <tr>
      <td>PIMSO-1000</td>
      <td>Morning Dispensary</td>
      <td>Free main store</td>
-     <td>Paracetamol</td>
-     <td>Crocin</td>
-     <td>1000</td>
+     <td><%= s.pharm_item.try(:name) %></td>
+     <td><%= s.brand.try(:name) %></td>
+     <td><%= s.qty %></td>
      <td>BN1008YIMN</td>
   </tr>
+   <% end  %>
   </tbody>
 </table>
 <br>

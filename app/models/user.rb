@@ -56,7 +56,7 @@ class User < ActiveRecord::Base
   end
 
   def validity_status
-    if  self.validity == "None"
+    if self.valid_duration.blank? or self.valid_duration < Time.now
       status = "Not Active"
     else
       status = " Active"

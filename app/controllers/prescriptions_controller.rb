@@ -21,7 +21,7 @@ class PrescriptionsController < ApplicationController
   end
 
   def collate
-    @prescriptions = Prescription.includes(:prescription_batches  , :doctor , :patient).all.order('code DESC')
+    @prescriptions = Prescription.includes(:prescription_batches  , :doctor , :patient).where(:id => PrescriptionBatch.where(:store => current_store).pluck(:prescription_id).uniq).order('code DESC')
     @prescriptions.each do |prescription|
       prescription.prescription_batches.each do |p|
         next if !p.inventory_batches.blank?

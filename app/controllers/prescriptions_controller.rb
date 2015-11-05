@@ -17,7 +17,7 @@ class PrescriptionsController < ApplicationController
   end
 
   def dispense
-    @prescriptions = Prescription.includes(:prescription_batches).order('updated_at ASC').where(:status => ["COLLATION COMPLETED", "DISPENSED"])
+    @prescriptions = Prescription.includes(:prescription_batches  , :doctor , :patient).where(:status => ["COLLATION COMPLETED", "DISPENSED"], :id => PrescriptionBatch.where(:store => current_store).pluck(:prescription_id).uniq).order('code DESC')
   end
 
   def collate

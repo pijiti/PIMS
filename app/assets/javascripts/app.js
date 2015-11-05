@@ -34,6 +34,11 @@ $(document).ready(function () {
 
     $(".data_table").dataTable({
     });
+    $(".collation_data_table").dataTable({
+        "aaSorting": []
+    });
+
+
 
     $('.active_store').change(function () {
         $(this).closest('form').submit();

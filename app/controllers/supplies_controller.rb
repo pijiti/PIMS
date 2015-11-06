@@ -152,6 +152,7 @@ class SuppliesController < ApplicationController
       if u.email and Rails.env == "production"
         begin
           UserMailer.delay.order_from_central_store(u, params[:supply][:order_qty], p, s, b).deliver
+          send_sms(u.username, "Hello #{u.first_name},Drug #{p.name} has been requested from #{s.name}")
         rescue => e
           ExceptionNotifier.notify_exception(e)
         end

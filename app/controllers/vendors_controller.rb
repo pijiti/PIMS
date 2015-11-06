@@ -14,12 +14,12 @@ class VendorsController < ApplicationController
 
   #order for restocking central stores
   def order
-
     s = Store.find_by_id(params[:marketer][:store_id])
     p = PharmItem.find_by_id(params[:marketer][:pharm_item_id])
     Marketer.where(:id => params[:marketer][:id]).each do |v|
       begin
         UserMailer.delay.order_from_vendors(p, s ,v) if Rails.env == "production"
+        send_sms(v.contact_mobile, "Please contact the Chief Pharmacist regarding restocking of #{p.name} in store #{s.name}")   if v.contact_mobile and v.contact_name
       rescue => e
         ExceptionNotifier.notify_exception(e)
       end

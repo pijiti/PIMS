@@ -2,8 +2,22 @@ class InventoryBatch < ActiveRecord::Base
   belongs_to :inventory
   belongs_to :batch
   has_many :collation_batches , :dependent => :destroy
+  has_many :alerts , :dependent => :destroy
 
   attr_accessor :allot , :store_id , :pharm_item_id
+
+  after_update :generate_expiry_notification
+
+  def generate_expiry_notification
+    if self.expired_changed? and expired == true
+      store = self.inventory.try(:store)
+      User.with_any_role({:name => "Store Manager", :resource => store}, {:name => "Store Keeper", :resource => store}).each do |u|
+        if u.alerts.where(:inventory_batch=> self).blank?
+          self.alerts << Alert.create(:store => store , :user => u, :status => "UNREAD" , :message => "The batch #{self.batch.batch_number} of the drug #{self.batch.brand.name} has expired")
+        end
+      end
+    end
+  end
 
   #run this every day
   def self.expiry_date_check

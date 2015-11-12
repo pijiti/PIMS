@@ -1,0 +1,18 @@
+p#notice = notice
+
+p
+  strong Message:
+  = @alert.message
+p
+  strong Store:
+  = @alert.store_id
+p
+  strong Status:
+  = @alert.status
+p
+  strong User:
+  = @alert.user_id
+
+= link_to 'Edit', edit_alert_path(@alert)
+'|
+= link_to 'Back', alerts_path

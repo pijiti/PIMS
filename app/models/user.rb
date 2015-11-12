@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   belongs_to :staff_category
   has_many :supplies
   has_many :hospital_units
+  has_many :alerts , :dependent => :destroy
 
 
   before_create :default_password, :user_active_status, :capitalize_attr
@@ -17,6 +18,9 @@ class User < ActiveRecord::Base
 
   Validity = %w{Always None 7days 30days 3months 6months 9months 12months}
 
+  def unread_alerts
+    self.alerts.where(:status => "UNREAD")
+  end
 
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|

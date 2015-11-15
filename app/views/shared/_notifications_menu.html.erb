@@ -1,10 +1,37 @@
-<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-globe"></i>Notifications</a>
+<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+  <i class="fa fa-globe">
+
+    <span id="notifications_count">
+        <%= render 'shared/notifications_count' %>
+    </span>
+
+  </i>
+</a>
 <ul class="dropdown-menu">
   <% if current_user and !current_user.unread_alerts.blank? %>
       <% current_user.unread_alerts.each do |a| %>
-          <li><a href="#"><%= a.message %></a></li>
-          <li role="separator" class="divider"></li>
+          <li style="background-color:#e7e7e7;">
+           <a href="#">
+             <%= a.message %>
+           </a>
+          </li>
+          <li role="separator" class="divider"  style="background-color:#e7e7e7;"></li>
       <% end %>
-      <%= link_to "Mark all as read" %>
+
   <% end %>
+  <% current_user.read_alerts.each do |a| %>
+      <li>
+        <a href="#">
+         <%= a.message %>
+        </a>
+      </li>
+      <li role="separator" class="divider"></li>
+  <% end %>
+  <p>
+    <%= link_to "Mark all as read", mark_all_as_read_alerts_path, :remote => true, :class => "text-align-left" %>
+  </p>
+
+  <p>
+    <%= link_to "Clear read notifications", clear_alerts_path, :remote => true %>
+  </p>
 </ul>

@@ -1,6 +1,17 @@
 class AlertsController < ApplicationController
   before_action :set_alert, only: [:show, :edit, :update, :destroy]
 
+  def mark_all_as_read
+    current_user.unread_alerts.update_all(:status => "READ")
+    render "alerts"
+  end
+
+  def clear
+    current_user.read_alerts.update_all(:status => "CLEARED")
+    render "alerts"
+  end
+
+
   # GET /alerts
   # GET /alerts.json
   def index

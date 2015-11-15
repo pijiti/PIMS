@@ -22,6 +22,10 @@ class User < ActiveRecord::Base
     self.alerts.where(:status => "UNREAD")
   end
 
+  def read_alerts
+    self.alerts.where(:status => "READ")
+  end
+
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|
       csv << column_names

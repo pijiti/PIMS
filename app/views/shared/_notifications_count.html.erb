@@ -1,0 +1,5 @@
+<% if current_user and current_user.unread_alerts.count > 0 %>
+    <span class="badge">
+          <%= current_user.unread_alerts.count %>
+        </span>
+<% end %>

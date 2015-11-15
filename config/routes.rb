@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
 
-  resources :alerts
+  resources :alerts do
+    collection do
+      get 'mark_all_as_read'
+      get 'clear'
+    end
+  end
 
   resources :pims_configs
 
@@ -36,58 +41,58 @@ Rails.application.routes.draw do
   end
 
 
-  resources :roles, only: [:index,:edit,:update,:new,:destroy,:create]
+  resources :roles, only: [:index, :edit, :update, :new, :destroy, :create]
 
-  resources :approvals  do
-  	collection do
-  		get 'approval_index'
-  	end
-  	member do
-  		get 'submitted_item'
-  	end
+  resources :approvals do
+    collection do
+      get 'approval_index'
+    end
+    member do
+      get 'submitted_item'
+    end
   end
 
-	resources :patients  do
+  resources :patients do
     collection do
       post :filter
     end
   end
 
-	resources :prescriptions do
-	 collection do
-	 	get 'search'
-    get 'collate'
-    get 'dispense'
-   end
-   member do
-     post 'complete_collation'
-     post 'complete_dispense'
-   end
-	end
+  resources :prescriptions do
+    collection do
+      get 'search'
+      get 'collate'
+      get 'dispense'
+    end
+    member do
+      post 'complete_collation'
+      post 'complete_dispense'
+    end
+  end
 
-	 resources :supplies do
-  		collection do
-        get 'service_request'
-  			get 'show_form'
-  			get 'hide_form'
-        post 'order'
-        post 'filter_service_requests'
-        post 'filter_transfer_drugs'
-        post 'filter_expired_drugs'
-        post 'transfer_batches'
-        post 'transfer_batches_v2'
-        get 'transfer_drugs'
-        get 'expired_drugs'
-  			match 'search', via: [:get,:post]
-  		end
-  		member do
-  			patch 'submit'
-        post 'approval'
-  		end
+  resources :supplies do
+    collection do
+      get 'service_request'
+      get 'show_form'
+      get 'hide_form'
+      post 'order'
+      post 'filter_service_requests'
+      post 'filter_transfer_drugs'
+      post 'filter_expired_drugs'
+      post 'transfer_batches'
+      post 'transfer_batches_v2'
+      get 'transfer_drugs'
+      get 'expired_drugs'
+      match 'search', via: [:get, :post]
+    end
+    member do
+      patch 'submit'
+      post 'approval'
+    end
   end
 
 
-  resources :batches  do
+  resources :batches do
     collection do
       get 'ramp_up'
     end
@@ -98,7 +103,6 @@ Rails.application.routes.draw do
   resources :pharm_items
 
   resources :brands
-
 
 
   resource :dashboard, only: :show
@@ -131,13 +135,13 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :users, :controllers =>{:registrations => "pims_devise/registrations" ,:sessions => "pims_devise/sessions"}
+  devise_for :users, :controllers => {:registrations => "pims_devise/registrations", :sessions => "pims_devise/sessions"}
 
-  resources :users, :only => [:edit,:index,:update,:destroy,:show,:password_change] do
-  	member do
-         patch 'password_reset'
-         get 'password_edit'
-         patch 'password_change'
+  resources :users, :only => [:edit, :index, :update, :destroy, :show, :password_change] do
+    member do
+      patch 'password_reset'
+      get 'password_edit'
+      patch 'password_change'
     end
   end
 

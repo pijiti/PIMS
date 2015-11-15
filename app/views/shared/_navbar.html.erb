@@ -10,12 +10,13 @@
       </button>
       <%= link_to 'PIMS', front_pages_home_path, :class => "navbar-brand" %>
     </div>
-
+    <span class="hide " id="current_active_store"><%= current_store.try(:id)  %></span>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <span class="hide " id="current_active_store"><%= current_store.try(:id)  %></span>
+         <span class="text-center"><strong><%= PimsConfig.find_by_property_name("organization_name").property_value %></strong></span>
       <% if user_signed_in? and controller_name != "store_selections"%>
           <ul class="nav navbar-nav navbar-right active_store_ul">
+
                 <li>
                   Current Active Store
                   <%= simple_form_for(current_store || Store.new, :method => :post, :url => set_active_store_stores_path ) do |f| %>

@@ -6,12 +6,15 @@ h3.text-center Expired Batches
         tr
           th Store
           th Generic Drug name
+          th Batch number
       tbody
         td
           /- if can? :manage , :all
           = f.input :store_id , collection: @stores , value_method: :id , label: false
         td
             = f.input :pharm_item_id , collection: @pharm_items , label:false
+        td
+            = f.input :batch_number , collection: @batches , label:false
     .text-center
       = f.submit :class => "btn btn-success btn-tiny" , :value => "filter"
 p

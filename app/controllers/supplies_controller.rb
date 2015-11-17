@@ -7,6 +7,29 @@ class SuppliesController < ApplicationController
   #before_action :set_store, only: [:new,:index]
   respond_to :html, :js, :csv
 
+
+  def filter_expired_drugs
+    from_store = params[:inventory_batch][:store_id]
+    generic_drug = params[:inventory_batch][:pharm_item_id]
+    batch_id =  params[:inventory_batch][:batch_number]
+    if can? :manage, :all
+      @inventory_batches = InventoryBatch.includes(:inventory, :batch).where(:expired => true)
+      @batches = Batch.all.order('batch_number ASC').pluck(:batch_number ,:id)
+    else
+      InventoryBatch.includes(:inventory, :batch).where(:inventory => current_store.inventories, :expired => true)
+      @batches = Batch.where(:id => @inventory_batches.pluck(:id)).order('batch_number ASC').pluck(:batch_number ,:id)
+    end
+
+    @inventory_batches = @inventory_batches.includes(:inventory , :batch).where(:inventory => Store.find(from_store).inventories) if !from_store.blank?
+    @inventory_batches = @inventory_batches.includes(:inventory, :batch).where(:batch => Batch.where(:pharm_item_id => generic_drug)) if !generic_drug.blank?
+    @inventory_batches = @inventory_batches.includes(:inventory, :batch).where(:batch_id => batch_id )  if !batch_id.blank?
+
+    @stores = Store.all
+    @filter = InventoryBatch.new
+    @pharm_items = PharmItem.all
+
+  end
+
   #filter transfer of drugs
   def filter_transfer_drugs
 
@@ -30,13 +53,29 @@ class SuppliesController < ApplicationController
 
   #from sidebar
   def expired_drugs
+    from_store = params[:store_id]
+    generic_drug = params[:pharm_item_id]
+    batch_id =  params[:batch_id]
+    alert_id = params[:alert_id]
+
     if can? :manage, :all
       @inventory_batches = InventoryBatch.includes(:inventory, :batch).where(:expired => true)
+      @batches = Batch.all.pluck(:batch_number ,:id)
     else
       InventoryBatch.includes(:inventory, :batch).where(:inventory => current_store.inventories, :expired => true)
+      @batches = Batch.where(:id => @inventory_batches.pluck(:id)).pluck(:batch_number ,:id)
     end
+    @inventory_batches = @inventory_batches.includes(:inventory, :batch).where(:inventory => Store.find(from_store).inventories) if !from_store.blank?
+    @inventory_batches = @inventory_batches.includes(:inventory, :batch).where(:batch => Batch.where(:pharm_item_id => generic_drug)) if !generic_drug.blank?
+    @inventory_batches = @inventory_batches.includes(:inventory, :batch).where(:batch_id => batch_id )  if !batch_id.blank?
+
+    #update alert id status
+    if !batch_id.blank? and !alert_id.blank?
+      Alert.find_by_id(alert_id).update(:status => "READ")
+    end
+
     @stores = Store.all
-    @filter = InventoryBatch.new
+    @filter = InventoryBatch.new(:store_id => from_store , :batch_number => batch_id)
     @pharm_items = PharmItem.all
   end
 

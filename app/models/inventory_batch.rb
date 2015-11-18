@@ -4,6 +4,7 @@ class InventoryBatch < ActiveRecord::Base
   has_many :collation_batches , :dependent => :destroy
   has_many :alerts , :dependent => :destroy
 
+
   attr_accessor :allot , :store_id , :pharm_item_id , :batch_number
 
   after_update :generate_expiry_notification

@@ -4,4 +4,5 @@ class ServiceRequest < ActiveRecord::Base
   belongs_to :pharm_item
   belongs_to :brand
   belongs_to :order
+  has_many :receipts
 end

@@ -11,18 +11,18 @@ class SuppliesController < ApplicationController
   def filter_expired_drugs
     from_store = params[:inventory_batch][:store_id]
     generic_drug = params[:inventory_batch][:pharm_item_id]
-    batch_id =  params[:inventory_batch][:batch_number]
+    batch_id = params[:inventory_batch][:batch_number]
     if can? :manage, :all
       @inventory_batches = InventoryBatch.includes(:inventory, :batch).where(:expired => true)
-      @batches = Batch.all.order('batch_number ASC').pluck(:batch_number ,:id)
+      @batches = Batch.all.order('batch_number ASC').pluck(:batch_number, :id)
     else
       InventoryBatch.includes(:inventory, :batch).where(:inventory => current_store.inventories, :expired => true)
-      @batches = Batch.where(:id => @inventory_batches.pluck(:id)).order('batch_number ASC').pluck(:batch_number ,:id)
+      @batches = Batch.where(:id => @inventory_batches.pluck(:id)).order('batch_number ASC').pluck(:batch_number, :id)
     end
 
-    @inventory_batches = @inventory_batches.includes(:inventory , :batch).where(:inventory => Store.find(from_store).inventories) if !from_store.blank?
+    @inventory_batches = @inventory_batches.includes(:inventory, :batch).where(:inventory => Store.find(from_store).inventories) if !from_store.blank?
     @inventory_batches = @inventory_batches.includes(:inventory, :batch).where(:batch => Batch.where(:pharm_item_id => generic_drug)) if !generic_drug.blank?
-    @inventory_batches = @inventory_batches.includes(:inventory, :batch).where(:batch_id => batch_id )  if !batch_id.blank?
+    @inventory_batches = @inventory_batches.includes(:inventory, :batch).where(:batch_id => batch_id) if !batch_id.blank?
 
     @stores = Store.all
     @filter = InventoryBatch.new
@@ -55,19 +55,19 @@ class SuppliesController < ApplicationController
   def expired_drugs
     from_store = params[:store_id]
     generic_drug = params[:pharm_item_id]
-    batch_id =  params[:batch_id]
+    batch_id = params[:batch_id]
     alert_id = params[:alert_id]
 
     if can? :manage, :all
       @inventory_batches = InventoryBatch.includes(:inventory, :batch).where(:expired => true)
-      @batches = Batch.all.pluck(:batch_number ,:id)
+      @batches = Batch.all.pluck(:batch_number, :id)
     else
       InventoryBatch.includes(:inventory, :batch).where(:inventory => current_store.inventories, :expired => true)
-      @batches = Batch.where(:id => @inventory_batches.pluck(:id)).pluck(:batch_number ,:id)
+      @batches = Batch.where(:id => @inventory_batches.pluck(:id)).pluck(:batch_number, :id)
     end
     @inventory_batches = @inventory_batches.includes(:inventory, :batch).where(:inventory => Store.find(from_store).inventories) if !from_store.blank?
     @inventory_batches = @inventory_batches.includes(:inventory, :batch).where(:batch => Batch.where(:pharm_item_id => generic_drug)) if !generic_drug.blank?
-    @inventory_batches = @inventory_batches.includes(:inventory, :batch).where(:batch_id => batch_id )  if !batch_id.blank?
+    @inventory_batches = @inventory_batches.includes(:inventory, :batch).where(:batch_id => batch_id) if !batch_id.blank?
 
     #update alert id status
     if !batch_id.blank? and !alert_id.blank?
@@ -75,7 +75,7 @@ class SuppliesController < ApplicationController
     end
 
     @stores = Store.all
-    @filter = InventoryBatch.new(:store_id => from_store , :batch_number => batch_id)
+    @filter = InventoryBatch.new(:store_id => from_store, :batch_number => batch_id)
     @pharm_items = PharmItem.all
   end
 
@@ -113,6 +113,10 @@ class SuppliesController < ApplicationController
     counter = 0
     s = ServiceRequest.find_by_id(params[:supply][:service_request_id])
 
+    if params[:supply][:batches_attributes].blank?
+      flash[:notice]= "Please select the batches for allocation"
+      redirect_to service_request_supplies_path and return
+    end
     params[:supply][:batches_attributes].each do |k, v|
       counter += v[:allot].to_i
     end
@@ -185,13 +189,13 @@ class SuppliesController < ApplicationController
     end
 
     #create service request
-    ServiceRequest.create(:from_store => s, :request_store => ps, :qty => params[:supply][:order_qty], :pharm_item => p, :brand => b , :order_id => order )
+    ServiceRequest.create(:from_store => s, :request_store => ps, :qty => params[:supply][:order_qty], :pharm_item => p, :brand => b, :order_id => order)
 
     User.with_any_role({:name => "Store Manager", :resource => ps}, {:name => "Store Keeper", :resource => ps}).each do |u|
       if u.email and Rails.env == "production"
         begin
           UserMailer.delay.order_from_central_store(u, params[:supply][:order_qty], p, s, b).deliver
-          #send_sms(u.username, "Hello #{u.first_name},Drug #{p.name} has been requested from #{s.name}")
+            #send_sms(u.username, "Hello #{u.first_name},Drug #{p.name} has been requested from #{s.name}")
         rescue => e
           ExceptionNotifier.notify_exception(e)
         end
@@ -235,7 +239,7 @@ class SuppliesController < ApplicationController
             i.update(:qty_last_added => batch.qty.to_f * batch.brand.pack_size.to_f, :rate_per_unit => "%.2f" % (batch.rate / batch.brand.pack_size.to_f))
 
             #check if batch number already exists
-            b = InventoryBatch.where(:batch_id => Batch.where(:batch_number => batch.batch_number).pluck(:id) , :inventory => i).first
+            b = InventoryBatch.where(:batch_id => Batch.where(:batch_number => batch.batch_number).pluck(:id), :inventory => i).first
             if b.blank?
               InventoryBatch.create(:inventory => i, :batch => batch, :units => batch.qty.to_i * batch.brand.pack_size.to_i)
             else
@@ -282,7 +286,7 @@ class SuppliesController < ApplicationController
       recipients_counter = 0
       User.with_any_role({:name => "Store Manager", :resource => current_store}).each do |user|
         begin
-        UserMailer.delay.approval_alert(user, @supply).deliver  if Rails.env == "production"
+          UserMailer.delay.approval_alert(user, @supply).deliver if Rails.env == "production"
         rescue => e
           ExceptionNotifier.notify_exception(e)
         end

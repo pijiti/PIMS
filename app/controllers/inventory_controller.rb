@@ -54,7 +54,7 @@ class InventoryController < ApplicationController
     @inventories = @inventories.includes(:store, :brand, :batches , :inventory_batches, :pharm_item, pharm_item: [:brands] , inventory_batches: [:batch] , store: [:parent], batches:[:brand]).where(:pharm_item_id => @generic).order("pharm_items.name ASC") if !@generic.blank?
     @marketers = Marketer.order('name ASC').all
     #need to adjust....
-    @store =  current_store.id if @store.blank?
+    @store =  current_store.id if @store.blank?  and current_store
     @orders = Order.where(:id => ServiceRequest.where(:status => "PENDING" , :from_store_id => @store).pluck(:order_id) ).pluck(:number , :id).uniq
     @prompt = "Create new order - #{PimsConfig.find_by_property_name('order_number_prefix').property_value}-#{1000 + Order.all.count}"
 

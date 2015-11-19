@@ -11,7 +11,12 @@
   <% if current_user and !current_user.unread_alerts.blank? %>
       <% current_user.unread_alerts.each do |a| %>
           <li style="background-color:#e7e7e7;">
-           <a href="<%= expired_drugs_supplies_path(:store_id => a.store_id , :alert_id => a.id , :batch_id => a.inventory_batch.try(:batch_id)) %>">
+
+           <% if a.alert_type == "EXPIRY" %>
+               <a href="<%= expired_drugs_supplies_path(:store_id => a.store_id , :alert_id => a.id , :batch_id => a.inventory_batch.try(:batch_id)) %>">
+           <% else  %>
+                <a href="<%= service_request_supplies_path(:alert => a.id) %>">
+           <% end %>
              <%= a.message %>
            </a>
           </li>
@@ -21,7 +26,11 @@
   <!--Read alerts-->
   <% current_user.read_alerts.each do |a| %>
       <li>
-        <a href="<%= expired_drugs_supplies_path(:store_id => a.store_id , :batch_id => a.inventory_batch.try(:batch_id)) %>">
+        <% if a.alert_type == "EXPIRY" %>
+            <a href="<%= expired_drugs_supplies_path(:store_id => a.store_id , :batch_id => a.inventory_batch.try(:batch_id)) %>">
+        <% else  %>
+            <a href="<%= service_request_supplies_path(:alert => a.id) %>">
+        <% end %>
          <%= a.message %>
         </a>
       </li>

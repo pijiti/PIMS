@@ -143,13 +143,22 @@ class SuppliesController < ApplicationController
   #central store services requests from dispensary store
   def service_request
     #admin can see all service requests
+    alert = params[:alert]
+    if !alert.blank?
+      a = Alert.find_by_id(alert)
+      a.update(:status => "READ")
+      @service_requests = [a.service_request]
+    end
+
     if can? :manage, :all
-      @service_requests = ServiceRequest.includes(:pharm_item, :request_store, :from_store).all.order("status DESC , order_id ASC")
+      @service_requests ||= ServiceRequest.includes(:pharm_item, :request_store, :from_store).all.order("status DESC , order_id ASC")
       @stores = Store.all
     else
-      @service_requests = ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:request_store => current_store).order("ostatus DESC ,rder_id DESC")
+      @service_requests ||= ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:request_store => current_store).order("status DESC ,order_id DESC")
       @stores = Store.where(:id => current_store.id)
     end
+
+
     @pharm_items = PharmItem.all
     @filter = ServiceRequest.new(:status => "ALL")
   end
@@ -181,6 +190,7 @@ class SuppliesController < ApplicationController
     ps = Store.find_by_id(params[:supply][:parent_store_id])
     p = PharmItem.find_by_id(params[:supply][:pharm_item_id])
     b = Brand.find_by_id(params[:supply][:brand_id])
+    qty = params[:supply][:order_qty]
     order = params[:supply][:order_number]
     if Order.where(:id => order).blank?
       logger.debug "============order blank========="
@@ -189,12 +199,15 @@ class SuppliesController < ApplicationController
     end
 
     #create service request
-    ServiceRequest.create(:from_store => s, :request_store => ps, :qty => params[:supply][:order_qty], :pharm_item => p, :brand => b, :order_id => order)
+    sr = ServiceRequest.create(:from_store => s, :request_store => ps, :qty => qty, :pharm_item => p, :brand => b, :order_id => order)
 
     User.with_any_role({:name => "Store Manager", :resource => ps}, {:name => "Store Keeper", :resource => ps}).each do |u|
+      #create alerts
+      Alert.create(:store => ps, :user => u, :status => "UNREAD", :service_request => sr, :alert_type => "ORDER", :message => "#{b.try(:name).try(:capitalize)} brand of drug #{p.try(:name)} of quantity #{qty} has been requested from #{ps.name}")
+
       if u.email and Rails.env == "production"
         begin
-          UserMailer.delay.order_from_central_store(u, params[:supply][:order_qty], p, s, b).deliver
+          UserMailer.delay.order_from_central_store(u, qty, p, s, b).deliver
             #send_sms(u.username, "Hello #{u.first_name},Drug #{p.name} has been requested from #{s.name}")
         rescue => e
           ExceptionNotifier.notify_exception(e)

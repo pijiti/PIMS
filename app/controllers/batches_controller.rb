@@ -1,4 +1,5 @@
 class BatchesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_all_batches, only: [:index]
   before_action  :set_batch , only: [:destroy]
 

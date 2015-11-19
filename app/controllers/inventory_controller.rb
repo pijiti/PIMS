@@ -1,5 +1,5 @@
 class InventoryController < ApplicationController
-
+  before_action :authenticate_user!
   #get rate
   def rate
     @inventory=Inventory.where(:store_id => params[:store_id], :brand_id => params[:brand_id]).first

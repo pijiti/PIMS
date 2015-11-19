@@ -1,5 +1,5 @@
 class SuppliesController < ApplicationController
-
+  before_action :authenticate_user!
 
   # rescue_from ActiveRecord::RecordNotFound, with:  :invalid_supplier
   before_action :set_supply, only: [:edit, :update, :destroy, :submit, :approval]

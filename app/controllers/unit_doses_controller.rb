@@ -1,4 +1,5 @@
 class UnitDosesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_unit_dose, only: [:show, :edit, :update, :destroy]
 
 

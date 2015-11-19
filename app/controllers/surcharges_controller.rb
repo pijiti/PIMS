@@ -1,4 +1,5 @@
 class SurchargesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_surcharge, only: [:edit, :update, :destroy]
   before_action :set_all_surcharges, only: [:index]
   #respond_to :html

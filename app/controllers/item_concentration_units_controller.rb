@@ -1,4 +1,5 @@
 class ItemConcentrationUnitsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_item_concentration_unit, only: [:show, :edit, :update, :destroy]
 
 

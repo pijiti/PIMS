@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
 
   before_create :default_password, :user_active_status, :capitalize_attr
   before_update :user_active_status
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable , :timeoutable
 
   validates_presence_of :first_name, :last_name, :username
   validates_uniqueness_of :username

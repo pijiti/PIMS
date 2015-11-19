@@ -1,5 +1,5 @@
 class ApprovalsController < ApplicationController
-
+  before_action :authenticate_user!
 
   before_action :set_store, only: [:create]
   before_action :set_supply, only: [:submitted_item, :save]

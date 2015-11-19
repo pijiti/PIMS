@@ -1,5 +1,5 @@
 class PrescriptionsController < ApplicationController
-
+  before_action :authenticate_user!
   before_action :set_prescription, only: [:show, :edit, :update, :destroy, :complete_dispense]
 
 

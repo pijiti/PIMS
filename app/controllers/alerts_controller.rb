@@ -1,4 +1,5 @@
 class AlertsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_alert, only: [:show, :edit, :update, :destroy]
 
   def mark_all_as_read

@@ -12,7 +12,7 @@ class InventoryBatch < ActiveRecord::Base
   def generate_expiry_notification
     if self.expired_changed? and expired == true
       store = self.inventory.try(:store)
-      User.with_any_role({:name => "Store Manager", :resource => store}, {:name => "Store Keeper", :resource => store}).each do |u|
+      User.with_any_role({:name => "Admin"},{:name => "Store Manager", :resource => store}, {:name => "Store Keeper", :resource => store}).each do |u|
         if u.alerts.where(:inventory_batch=> self).blank?
           self.alerts << Alert.create(:store => store , :user => u, :status => "UNREAD" , :alert_type => "EXPIRY" ,:message => "The batch #{self.batch.batch_number} of the drug #{self.batch.brand.name} has expired")
         end

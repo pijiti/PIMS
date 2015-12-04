@@ -201,7 +201,7 @@ class SuppliesController < ApplicationController
     #create service request
     sr = ServiceRequest.create(:from_store => s, :request_store => ps, :qty => qty, :pharm_item => p, :brand => b, :order_id => order)
 
-    User.with_any_role({:name => "Store Manager", :resource => ps}, {:name => "Store Keeper", :resource => ps}).each do |u|
+    User.with_any_role({:name => "Admin"},{:name => "Store Manager", :resource => ps}, {:name => "Store Keeper", :resource => ps}).each do |u|
       #create alerts
       Alert.create(:store => ps, :user => u, :status => "UNREAD", :service_request => sr, :alert_type => "ORDER", :message => "#{b.try(:name).try(:capitalize)} brand of drug #{p.try(:name)} of quantity #{qty} has been requested from #{ps.name}")
 

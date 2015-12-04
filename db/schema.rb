@@ -11,10 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151027144552) do
+ActiveRecord::Schema.define(version: 20151119064731) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "alerts", force: true do |t|
+    t.text     "message"
+    t.integer  "store_id"
+    t.string   "status"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "inventory_batch_id"
+    t.string   "alert_type"
+    t.integer  "service_request_id"
+  end
 
   create_table "batches", force: true do |t|
     t.decimal  "qty"
@@ -180,6 +192,11 @@ ActiveRecord::Schema.define(version: 20151027144552) do
     t.string   "number"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "organization_name"
+    t.text     "organization_address"
+    t.string   "organization_contact_person"
+    t.string   "organization_email"
+    t.string   "organization_registration_number"
   end
 
   create_table "organisations", force: true do |t|

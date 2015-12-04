@@ -1,5 +1,5 @@
 class ReceiptsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user! , :except => [:generate_pdf ,:order_receipt]
   before_action :set_receipt, only: [:show, :edit, :update, :destroy]
 
 
@@ -125,7 +125,7 @@ class ReceiptsController < ApplicationController
     if Rails.env == "development"
       kit = PDFKit.new("http://localhost:4050/receipts/order_receipt?id=#{params[:order]}")
     else
-      kit = PDFKit.new("http://localhost:3000/receipts/order_receipt?id=#{params[:order]}")
+      kit = PDFKit.new("http://192.168.1.4:3000/receipts/order_receipt?id=#{params[:order]}")
     end
 
     #redirect_to invoices_path

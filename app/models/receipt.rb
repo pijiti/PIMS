@@ -29,6 +29,12 @@ class Receipt < ActiveRecord::Base
     end
 
     self.service_request.update(:status => "COMPLETED") if !service_request.blank?
+
+    User.with_any_role( {:name => "Pharmacy Technician", :resource => self.service_request.from_store} , {:name => "Admin"}).each do |u|
+      #create alerts
+      Alert.create(:store => self.service_request.from_store, :user => u, :status => "UNREAD", :service_request => self.service_request, :alert_type => "SERVICED", :message => "Order #{self.service_request.order.try(:number)} has been serviced")
+    end
+
   end
 
 

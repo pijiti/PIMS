@@ -58,9 +58,9 @@ class ReceiptsController < ApplicationController
   # GET /receipts.json
   def index
     if can? :manage, :all
-      @receipts = Receipt.includes(:inventory, :from_store, :batch).all
+      @receipts = Receipt.includes(:inventory, :from_store, :batch).all.order('updated_at DESC')
     else
-      @receipts = Receipt.includes(:inventory, :from_store, :batch).where(:to_store_id => current_store.id).all
+      @receipts = Receipt.includes(:inventory, :from_store, :batch).where(:to_store_id => current_store.id).all.order('updated_at DESC')
     end
     @filter = Receipt.new(:confirm_receipt => "ALL")
     @stores = Store.all

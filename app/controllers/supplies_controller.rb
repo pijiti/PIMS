@@ -203,7 +203,12 @@ class SuppliesController < ApplicationController
 
     User.with_any_role({:name => "Admin"},{:name => "Store Manager", :resource => ps}, {:name => "Store Keeper", :resource => ps}).each do |u|
       #create alerts
-      Alert.create(:store => ps, :user => u, :status => "UNREAD", :service_request => sr, :alert_type => "ORDER", :message => "#{b.try(:name).try(:capitalize)} brand of drug #{p.try(:name)} of quantity #{qty} has been requested from #{ps.name}")
+      if b.blank?
+        Alert.create(:store => ps, :user => u, :status => "UNREAD", :service_request => sr, :alert_type => "ORDER", :message => "Any brand of drug #{p.try(:name)} of quantity #{qty} has been requested from #{ps.name}")
+      else
+        Alert.create(:store => ps, :user => u, :status => "UNREAD", :service_request => sr, :alert_type => "ORDER", :message => "#{b.try(:name).try(:capitalize)} brand of drug #{p.try(:name)} of quantity #{qty} has been requested from #{ps.name}")
+      end
+
 
       if u.email and Rails.env == "production"
         begin

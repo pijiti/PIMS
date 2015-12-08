@@ -3,3 +3,19 @@ $('#download_inventory').html('<%= link_to "Download Excel" , inventory_index_pa
 
 $(".data_table").dataTable({
 });
+
+$('#select_order').on("change", function () {
+    var val =  $(this).val();
+    //New orders need to have add to button disabled
+    if(val)
+        $('.add_to_order').removeAttr("disabled" , "disabled");
+    else
+        $('.add_to_order').attr("disabled" , "disabled");
+    $.ajax({
+        type: "GET",
+        url: "/supplies/existing_order",
+        data: { id: val},
+        success: function (data) {
+        }
+    });
+});

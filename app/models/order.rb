@@ -1,6 +1,9 @@
 class Order < ActiveRecord::Base
+  #status => ORDER_INCOMPLETE , ORDER_COMPLETE , SERVICE_COMPLETE
+
   has_many :service_requests , :dependent => :destroy
   before_create :set_configs
+
 
   def set_configs
     self.organization_name = PimsConfig.find_by_property_name("organization_name").property_value

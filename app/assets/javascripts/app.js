@@ -1,6 +1,17 @@
 $(document).ready(function () {
 
 
+    $('#select_order').on("change", function () {
+        var val =  $(this).val();
+        $.ajax({
+            type: "GET",
+            url: "/supplies/existing_order",
+            data: { id: val},
+            success: function (data) {
+            }
+        });
+    });
+
     $('.datepicker').datepicker({
 //            format: "yyyy/mm/dd"
             format: "dd/mm/yyyy"

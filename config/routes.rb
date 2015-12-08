@@ -83,6 +83,7 @@ Rails.application.routes.draw do
       post 'transfer_batches_v2'
       get 'transfer_drugs'
       get 'expired_drugs'
+      get 'existing_order'
       match 'search', via: [:get, :post]
     end
     member do

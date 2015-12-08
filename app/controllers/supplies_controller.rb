@@ -151,10 +151,10 @@ class SuppliesController < ApplicationController
     end
 
     if can? :manage, :all
-      @service_requests ||= ServiceRequest.includes(:pharm_item, :request_store, :from_store).all.order("status DESC , order_id ASC")
+      @service_requests ||= ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:order_id => Order.where.not(:status => "ORDER_INCOMPLETE" ).pluck(:id)).order("status DESC , order_id DESC")
       @stores = Store.all
     else
-      @service_requests ||= ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:request_store => current_store).order("status DESC ,order_id DESC")
+      @service_requests ||= ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:request_store => current_store , :order_id => Order.where.not(:status => "ORDER_INCOMPLETE" ).pluck(:id)).order("status DESC ,order_id DESC")
       @stores = Store.where(:id => current_store.id)
     end
 
@@ -192,14 +192,27 @@ class SuppliesController < ApplicationController
     b = Brand.find_by_id(params[:supply][:brand_id])
     qty = params[:supply][:order_qty]
     order = params[:supply][:order_number]
-    if Order.where(:id => order).blank?
-      logger.debug "============order blank========="
-      o = Order.create(:number => "#{PimsConfig.find_by_property_name('order_number_prefix').property_value}-#{1000 + Order.all.count}")
-      order = o.id
+    @order = Order.find_by_id(order) if !order.blank?
+
+    if qty.blank?
+      redirect_to(inventory_index_path, :notice => "Ordering failed. Quantity cannot be blank") and return
+    end
+
+    if @order.blank?
+      @order = Order.create(:number => "#{PimsConfig.find_by_property_name('order_number_prefix').property_value}-#{1000 + Order.all.count}")
+      order = @order.id
     end
 
     #create service request
     sr = ServiceRequest.create(:from_store => s, :request_store => ps, :qty => qty, :pharm_item => p, :brand => b, :order_id => order)
+
+    #check if adding to existing order
+    if params[:commit] == "Complete Order"
+      @order.update(:status => "ORDER_COMPLETE")
+      @notice =  "Notified the central store about the order #{@order.number}"
+    else
+      @notice = "Added to cart of order #{@order.number}"
+    end
 
     User.with_any_role({:name => "Admin"},{:name => "Store Manager", :resource => ps}, {:name => "Store Keeper", :resource => ps}).each do |u|
       #create alerts
@@ -220,7 +233,12 @@ class SuppliesController < ApplicationController
       end
     end
 
-    redirect_to inventory_index_path, :notice => "Notified the central store"
+    redirect_to inventory_index_path, :notice => @notice
+  end
+
+  #get existing order from inventory dropdown change
+  def existing_order
+    @order = Order.find_by_id(params[:id])
   end
 
   def index

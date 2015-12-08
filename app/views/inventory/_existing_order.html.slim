@@ -1,0 +1,26 @@
+- if @order
+  h5.text-center Order - #{@order.number}
+  table.table
+    thead
+     tr
+        th SNo
+        th Generic Drug
+        th Brand
+        th Quantity
+    tbody
+      - counter = 0
+      - @order.service_requests.each do |s|
+        - counter = counter+1
+        tr
+          td
+            = counter
+          td
+            = s.pharm_item.try(:name)
+          td
+            = s.brand.try(:name)
+          td
+            = s.qty
+
+
+
+

@@ -216,13 +216,13 @@ class SuppliesController < ApplicationController
                      :message => "#{@order.service_requests.count} drugs with order #{@order.number} has been ordered from #{s.name}")
         if u.email and Rails.env == "production"
           begin
-            UserMailer.delay.order_from_central_store(u, qty, p, s, b)
+            UserMailer.delay.order_from_central_store(u, qty, p, s, b, @order)
               #send_sms(u.username, "Hello #{u.first_name},Drug #{p.name} has been requested from #{s.name}")
           rescue => e
             ExceptionNotifier.notify_exception(e)
           end
         else
-          UserMailer.delay.order_from_central_store(User.find_by_email("vigneshp.ceg@gmail.com"), qty, p, s, b)
+          UserMailer.delay.order_from_central_store(User.find_by_email("vigneshp.ceg@gmail.com"), qty, p, s, b , @order)
         end
       end
 

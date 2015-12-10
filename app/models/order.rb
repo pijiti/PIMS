@@ -2,6 +2,8 @@ class Order < ActiveRecord::Base
   #status => ORDER_INCOMPLETE , ORDER_COMPLETE , SERVICE_COMPLETE
 
   has_many :service_requests , :dependent => :destroy
+  validates_uniqueness_of :number
+
   before_create :set_configs
 
 

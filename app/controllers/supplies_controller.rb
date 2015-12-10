@@ -147,14 +147,14 @@ class SuppliesController < ApplicationController
     if !alert.blank?
       a = Alert.find_by_id(alert)
       a.update(:status => "READ")
-      @service_requests = [a.service_request]
+      @service_requests = a.order.service_requests
     end
 
     if can? :manage, :all
-      @service_requests ||= ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:order_id => Order.where.not(:status => "ORDER_INCOMPLETE" ).pluck(:id)).order("status DESC , order_id DESC")
+      @service_requests ||= ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id).uniq).order("order_id DESC")
       @stores = Store.all
     else
-      @service_requests ||= ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:request_store => current_store , :order_id => Order.where.not(:status => "ORDER_INCOMPLETE" ).pluck(:id)).order("status DESC ,order_id DESC")
+      @service_requests ||= ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:request_store => current_store, :order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id)).order("order_id DESC")
       @stores = Store.where(:id => current_store.id)
     end
 
@@ -209,29 +209,29 @@ class SuppliesController < ApplicationController
     #check if adding to existing order
     if params[:commit] == "Complete Order"
       @order.update(:status => "ORDER_COMPLETE")
-      @notice =  "Notified the central store about the order #{@order.number}"
+
+      User.with_any_role({:name => "Admin"}, {:name => "Store Manager", :resource => ps}, {:name => "Store Keeper", :resource => ps}).each do |u|
+        #create alerts
+        Alert.create(:store => ps, :user => u, :status => "UNREAD", :order => @order, :alert_type => "ORDER",
+                     :message => "#{@order.service_requests.count} drugs with order #{@order.number} has been ordered from #{s.name}")
+        if u.email and Rails.env == "production"
+          begin
+            UserMailer.delay.order_from_central_store(u, qty, p, s, b)
+              #send_sms(u.username, "Hello #{u.first_name},Drug #{p.name} has been requested from #{s.name}")
+          rescue => e
+            ExceptionNotifier.notify_exception(e)
+          end
+        else
+          UserMailer.delay.order_from_central_store(User.find_by_email("vigneshp.ceg@gmail.com"), qty, p, s, b)
+        end
+      end
+
+
+      @notice = "Notified the central store about the order #{@order.number}"
     else
       @notice = "Added to cart of order #{@order.number}"
     end
 
-    User.with_any_role({:name => "Admin"},{:name => "Store Manager", :resource => ps}, {:name => "Store Keeper", :resource => ps}).each do |u|
-      #create alerts
-      if b.blank?
-        Alert.create(:store => ps, :user => u, :status => "UNREAD", :service_request => sr, :alert_type => "ORDER", :message => "Any brand of drug #{p.try(:name)} of quantity #{qty} has been requested from #{ps.name}")
-      else
-        Alert.create(:store => ps, :user => u, :status => "UNREAD", :service_request => sr, :alert_type => "ORDER", :message => "#{b.try(:name).try(:capitalize)} brand of drug #{p.try(:name)} of quantity #{qty} has been requested from #{ps.name}")
-      end
-
-
-      if u.email and Rails.env == "production"
-        begin
-          UserMailer.delay.order_from_central_store(u, qty, p, s, b).deliver
-            #send_sms(u.username, "Hello #{u.first_name},Drug #{p.name} has been requested from #{s.name}")
-        rescue => e
-          ExceptionNotifier.notify_exception(e)
-        end
-      end
-    end
 
     redirect_to inventory_index_path, :notice => @notice
   end

@@ -44,7 +44,7 @@ table.table.table-responsive.table-hover
                             -else
                               = simple_form_for(Supply.new, :url => order_supplies_path , :method => "post")  do |supply_form|
 
-                                    = supply_form.input :order_number , collection:@orders , :prompt => @prompt  , :input_html => { :id=> "select_order" ,:class => "existing_orders" }
+                                    = supply_form.input :order_number , collection: @orders.where(:id => ServiceRequest.where(:from_store => i.store , :status => "PENDING").pluck(:order_id)).pluck(:number , :id) , :prompt => @prompt  , :input_html => { :id=> "select_order" ,:class => "existing_orders" }
                                     = supply_form.input :order_qty , :label => "Order Qty(in units)"
                                     = supply_form.input :brand_id , collection: i.pharm_item.try(:brands) , :prompt => "Any"
                                     = supply_form.hidden_field :pharm_item_id , :value => i.pharm_item_id

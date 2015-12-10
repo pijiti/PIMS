@@ -55,7 +55,7 @@ class InventoryController < ApplicationController
     @marketers = Marketer.order('name ASC').all
     #need to adjust....
     @store =  current_store.id if @store.blank?  and current_store
-    @orders = Order.where(:status => "ORDER_INCOMPLETE" ).pluck(:number , :id).uniq
+    @orders = Order.includes(:service_requests).where(:status => "ORDER_INCOMPLETE" )
     @prompt = "Create new order - #{PimsConfig.find_by_property_name('order_number_prefix').property_value}-#{1000 + Order.all.count}"
 
   end

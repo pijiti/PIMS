@@ -45,6 +45,34 @@ $(document).ready(function () {
 
     $(".data_table").dataTable({
     });
+
+    //row group in datatable
+    $(".order_data_table").dataTable({
+
+    "columnDefs": [
+        { "visible": false, "targets": 0 }
+    ],
+        "order": [[ 1, 'asc' ]],
+        "displayLength": 25,
+        "drawCallback": function ( settings ) {
+        var api = this.api();
+        var rows = api.rows( {page:'current'} ).nodes();
+        var last=null;
+
+        api.column(0, {page:'current'} ).data().each( function ( group, i ) {
+            if ( last !== group ) {
+                $(rows).eq( i ).before(
+                    '<tr class="group"><td colspan="9">'+group+'</td></tr>'
+                );
+
+                last = group;
+            }
+        } );
+    }
+
+    });
+
+
     $(".collation_data_table").dataTable({
         "aaSorting": []
     });

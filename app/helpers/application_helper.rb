@@ -199,4 +199,9 @@ module ApplicationHelper
 
   end
 
+
+  def days_ago(t1,t2)
+    ((t1 - t2)/(24*60*60)).round
+  end
+
 end

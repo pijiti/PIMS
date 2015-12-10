@@ -1,12 +1,10 @@
-table.table.data_table
+table.table.order_data_table
   thead
         tr.data-rows
            th Order Number
-           th Requesting Store
            th Generic Drug
            th Brand
            th Quantity
-           th Central Store
            th Available Units
            th Request status
            th Requested at
@@ -16,18 +14,18 @@ table.table.data_table
         tr.data-rows
           td
             - if [ "COMPLETED" , "AWAITING DELIVERY CONFIRMATION" ].include? s.status
-              = link_to s.order.try(:number) , generate_pdf_receipts_path(:order => s.order_id)
+              = link_to s.order.try(:number) + "-----#{s.from_store.try(:name)}" , generate_pdf_receipts_path(:order => s.order_id)
             - else
-              = s.order.try(:number)
+              = s.order.try(:number) + "-----#{s.from_store.try(:name)}"
 
-          td = s.from_store.try(:name)
           td = s.pharm_item.name
           td = s.brand.blank? ? "Any" : s.brand.name
           td = s.qty
-          td = s.request_store.try(:name)
           td = generic_drug_count(s.pharm_item,s.request_store)
           td = s.status
-          td = s.created_at.strftime("%d/%m/%Y at %I:%M%p")
+          td
+            a href="#"  data-toggle="tooltip"  title="#{s.created_at.strftime("%d/%m/%Y at %I:%M%p")}"
+             = days_ago(Time.now,s.created_at).to_s + " days ago"
           td
               - if ![ "COMPLETED" , "AWAITING DELIVERY CONFIRMATION" ].include? s.status
                  a href="#" data-toggle="modal" data-target="#requests_#{s.id}"  Service Request

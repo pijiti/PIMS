@@ -8,3 +8,8 @@
   display:inline-block;
   float:none;
 }
+
+tr.group,
+tr.group:hover {
+  background-color: #ddd !important;
+}

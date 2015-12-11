@@ -199,7 +199,8 @@ class SuppliesController < ApplicationController
     end
 
     if @order.blank?
-      @order = Order.create(:number => "#{PimsConfig.find_by_property_name('order_number_prefix').property_value}-#{1000 + Order.all.count}")
+      @order = Order.create(:number => "#{PimsConfig.find_by_property_name('order_number_prefix').property_value}-#{Sequence.last.number}")
+      Sequence.last.update(:number => Sequence.last.number.to_i + 1)
       order = @order.id
     end
 
@@ -213,7 +214,7 @@ class SuppliesController < ApplicationController
       User.with_any_role({:name => "Admin"}, {:name => "Store Manager", :resource => ps}, {:name => "Store Keeper", :resource => ps}).each do |u|
         #create alerts
         Alert.create(:store => ps, :user => u, :status => "UNREAD", :order => @order, :alert_type => "ORDER",
-                     :message => "#{@order.service_requests.count} drugs with order #{@order.number} has been ordered from #{s.name}")
+                     :message => "#{@order.service_requests.count} drugs with order code #{@order.number} has been ordered from #{s.name}")
         if u.email and Rails.env == "production"
           begin
             UserMailer.delay.order_from_central_store(u, qty, p, s, b, @order)

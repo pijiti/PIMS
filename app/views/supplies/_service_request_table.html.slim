@@ -7,16 +7,16 @@ table.table.order_data_table
            th Quantity
            th Available Units
            th Request status
-           th Requested at
+           th Requested
            th Service
   tbody
     - @service_requests.each do |s|
         tr.data-rows
           td
             - if [ "COMPLETED" , "AWAITING DELIVERY CONFIRMATION" ].include? s.status
-              = link_to s.order.try(:number) + "-----#{s.from_store.try(:name)}" , generate_pdf_receipts_path(:order => s.order_id)
+              = link_to "#{s.order.try(:number)}  Requesting Store: #{s.from_store.try(:name)}", generate_pdf_receipts_path(:order => s.order_id)
             - else
-              = s.order.try(:number) + "-----#{s.from_store.try(:name)}"
+              = "#{s.order.try(:number)}  Requesting Store: #{s.from_store.try(:name)}"
 
           td = s.pharm_item.name
           td = s.brand.blank? ? "Any" : s.brand.name

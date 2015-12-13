@@ -1,10 +1,13 @@
 class Order < ActiveRecord::Base
-  #status => ORDER_INCOMPLETE , ORDER_COMPLETE , SERVICE_COMPLETE
+  #status => ORDER_INCOMPLETE , ORDER_COMPLETE , SERVICE_COMPLETE , DELIVERY_COMPLETE
 
   has_many :service_requests , :dependent => :destroy
   validates_uniqueness_of :number
 
   before_create :set_configs
+
+  has_many :receipts , :dependent => :destroy
+  accepts_nested_attributes_for :receipts, allow_destroy: true
 
 
   def set_configs

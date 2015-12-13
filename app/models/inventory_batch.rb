@@ -51,7 +51,14 @@ class InventoryBatch < ActiveRecord::Base
         #end
 
         #receiving store will get the drugs post confirmation of receipt
-        Receipt.create(:inventory => i , :from_store_id => self.inventory.store_id , :qty => allot , :batch_id => self.batch_id , :to_store_id => store_id , :service_request_id => sq_id)
+        Receipt.create(:inventory => i ,
+                       :from_store_id => self.inventory.store_id ,
+                       :qty => allot ,
+                       :batch_id => self.batch_id ,
+                       :to_store_id => store_id ,
+                       :service_request_id => sq_id,
+                       :order_id => ServiceRequest.find_by_id(sq_id).order_id
+        )
 
         store = Store.find_by_id(store_id)
         response = "Successfully allocated the drugs to #{store.try(:name)}"

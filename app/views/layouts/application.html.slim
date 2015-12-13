@@ -22,7 +22,8 @@ html
 				    /-unless !current_store.try(:name).present?
 				        a.link-store-change href=store_selections_index_path Change Active Store
 					- flash.each do |_, msg|
-	          			= render 'notifies/notify', msg: msg
+					    -if msg.is_a?(String)
+	          			  = render 'notifies/notify', msg: msg
 					= yield
 
 

@@ -130,6 +130,9 @@ class SuppliesController < ApplicationController
       end
       if flash[:notice] and flash[:notice].include? "Success"
         s.update(:status => "AWAITING DELIVERY CONFIRMATION")
+        if s.order.service_requests.where(:status => "PENDING").blank?
+          s.order.update(:status => "SERVICE_COMPLETE")
+        end
       else
         flash[:notice]= "Please select the batches for allocation"
       end

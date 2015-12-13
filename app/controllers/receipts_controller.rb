@@ -1,5 +1,5 @@
 class ReceiptsController < ApplicationController
-  before_action :authenticate_user! , :except => [:generate_pdf ,:order_receipt]
+  before_action :authenticate_user!, :except => [:generate_pdf, :order_receipt]
   before_action :set_receipt, only: [:show, :edit, :update, :destroy]
 
 
@@ -25,44 +25,67 @@ class ReceiptsController < ApplicationController
   end
 
   def confirm
-    @receipt = Receipt.find_by_id(params[:receipt][:id])
-    if params[:receipt][:received_qty] and params[:receipt][:received_qty].to_i <= @receipt.qty and params[:receipt][:received_qty].to_i > -1
+    @order = Order.find_by_id(params[:order][:id])
+    @order.attributes = order_params
+    #@receipt = Receipt.find_by_id(params[:receipt][:id])
+    #if params[:receipt][:received_qty] and params[:receipt][:received_qty].to_i <= @receipt.qty and params[:receipt][:received_qty].to_i > -1
+    if @order.save
+      #if @receipt.update(:received_qty => params[:receipt][:received_qty], :lost_reason => params[:receipt][:lost_reason], :comments => params[:receipt][:comments])
 
-      if @receipt.update(:received_qty => params[:receipt][:received_qty] , :lost_reason => params[:receipt][:lost_reason] , :comments => params[:receipt][:comments])
-        #lost some drugs in transit
-        if @receipt.qty.to_i > @receipt.received_qty.to_i
-          LostDrug.create(:receipt =>  @receipt, :lost_qty => @receipt.qty.to_i - @receipt.received_qty.to_i  )
+      @order.receipts.each do |r|
+
+        if r.received_qty.blank?
+          redirect_to(receipts_path, :notice => "Received quantity can't be blank") and return
+        elsif  r.received_qty > r.qty
+          redirect_to(receipts_path, :notice => "Received quantity can't be more than requested quantity") and return
         end
 
-        @receipt.post_confirm_receipt(params[:receipt][:received_qty])
-        flash[:notice] = "Batch number #{@receipt.batch.try(:batch_number)} has been received and added to the inventory of #{@receipt.to_store.try(:name)}"
-      else
-        @error = @receipt.errors.full_messages
-        flash[:error] = "#{@error.to_sentence}"
+        #lost some drugs in transit
+        if r.qty.to_i > r.received_qty.to_i
+          LostDrug.create(:receipt => r, :lost_qty => r.qty.to_i - r.received_qty.to_i)
+        end
+        r.post_confirm_receipt(r.received_qty)
       end
 
+      #check if order is completed
+      if @order and @order.service_requests.where.not(:status => "COMPLETED").blank?
+        @order.update(:status => "DELIVERY_COMPLETE")
+        User.with_any_role({:name => "Pharmacy Technician", :resource => @order.service_requests.last.from_store}, {:name => "Admin"}).each do |u|
+          #create alerts
+          Alert.create(:store => @order.service_requests.last.try(:from_store), :user => u, :status => "UNREAD", :order => @order, :alert_type => "SERVICED", :message => "Order #{@order.try(:number)} has been serviced")
+        end
+      end
+
+      flash[:notice] = "Order #{@order.number} has been received."
 
     else
-      flash[:notice] = "Please check the value of received quantity"
+      @error = @order.errors.full_messages
+      flash[:error] = "#{@error.to_sentence}"
     end
-
     redirect_to receipts_path
   end
 
   #
   def lost_drugs
-    @lost_drugs = LostDrug.includes(:receipt , receipt: [:from_store , :to_store , batch: [:brand ] ]).all
+    @lost_drugs = LostDrug.includes(:receipt, receipt: [:from_store, :to_store, batch: [:brand]]).all
   end
 
   # GET /receipts
   # GET /receipts.json
   def index
+    #if can? :manage, :all
+    #  @receipts = Receipt.includes(:inventory, :from_store, :batch).all.order('updated_at DESC')
+    #else
+    #  @receipts = Receipt.includes(:inventory, :from_store, :batch).where(:to_store_id => current_store.id).all.order('updated_at DESC')
+    #end
+
     if can? :manage, :all
-      @receipts = Receipt.includes(:inventory, :from_store, :batch).all.order('updated_at DESC')
+      @orders = Order.includes(:service_requests, :receipts).where(:status => ["SERVICE_COMPLETE", "DELIVERY_COMPLETE"])
     else
-      @receipts = Receipt.includes(:inventory, :from_store, :batch).where(:to_store_id => current_store.id).all.order('updated_at DESC')
+      @to_store = current_store
+      @orders = Order.includes(:service_requests, :receipts).where(:status => ["SERVICE_COMPLETE", "DELIVERY_COMPLETE"])
     end
-    @filter = Receipt.new(:confirm_receipt => "ALL")
+    @filter = Receipt.new(:confirm_receipt => " ALL ")
     @stores = Store.all
     @pharm_items = PharmItem.all
   end
@@ -122,8 +145,8 @@ class ReceiptsController < ApplicationController
   end
 
   def generate_pdf
-    if Rails.env == "development"
-      kit = PDFKit.new("http://localhost:4050/receipts/order_receipt?id=#{params[:order]}")
+    if Rails.env == " development "
+      kit = PDFKit.new(" http : // localhost : 4050/receipts/order_receipt? id= #{params[:order]}")
     else
       kit = PDFKit.new("http://192.168.1.4:3000/receipts/order_receipt?id=#{params[:order]}")
     end
@@ -134,7 +157,7 @@ class ReceiptsController < ApplicationController
 
   def order_receipt
     @order = Order.find_by_id(params[:id])
-    render "vouchers/order_receipt" ,:layout => false
+    render "vouchers/order_receipt", :layout => false
   end
 
   private
@@ -146,5 +169,9 @@ class ReceiptsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def receipt_params
     params.require(:receipt).permit(:batch_id, :inventory_id, :from_store_id, :qty, :confirm_receipt, :received_qty)
+  end
+
+  def order_params
+    params.require(:order).permit(:id, receipts_attributes: [:batch_id, :inventory_id, :from_store_id, :qty, :confirm_receipt, :received_qty, :lost_reason, :comments, :id])
   end
 end

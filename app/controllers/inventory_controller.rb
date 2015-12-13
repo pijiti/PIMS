@@ -56,7 +56,7 @@ class InventoryController < ApplicationController
     #need to adjust....
     @store =  current_store.id if @store.blank?  and current_store
     @orders = Order.includes(:service_requests).where(:status => "ORDER_INCOMPLETE" )
-    @prompt = "Create new order - #{PimsConfig.find_by_property_name('order_number_prefix').property_value}-#{1000 + Order.all.count}"
+    @prompt = "Create new order - #{PimsConfig.find_by_property_name('order_number_prefix').property_value}-#{ Sequence.last.number.to_i}"
 
   end
 

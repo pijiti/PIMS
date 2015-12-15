@@ -145,8 +145,8 @@ class ReceiptsController < ApplicationController
   end
 
   def generate_pdf
-    if Rails.env == " development "
-      kit = PDFKit.new(" http : // localhost : 4050/receipts/order_receipt? id= #{params[:order]}")
+    if Rails.env == "development"
+      kit = PDFKit.new("http://localhost:4050/receipts/order_receipt?id=#{params[:order]}")
     else
       kit = PDFKit.new("http://192.168.1.4:3000/receipts/order_receipt?id=#{params[:order]}")
     end

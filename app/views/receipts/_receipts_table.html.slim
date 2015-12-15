@@ -2,6 +2,7 @@ table.table#receipts_data_table
   thead
         tr.data-rows
            th Order Code
+           th Items
            th From Store
            th Receiving Store
            th Status
@@ -11,6 +12,17 @@ table.table#receipts_data_table
      - @orders.each do |order|
       tr.data-rows
           td = order.number
+          td
+            table.table.table-striped.table-condensed
+              tr
+                th Drug
+                th Units
+              tbody
+                - order.service_requests.each do |s|
+                  tr
+                    td = s.pharm_item.try(:name)
+                    td = s.qty
+
           td = order.service_requests.last.try(:request_store).try(:name)
           td = order.service_requests.last.try(:from_store).try(:name)
           /td = s.batch.brand.detailed_info

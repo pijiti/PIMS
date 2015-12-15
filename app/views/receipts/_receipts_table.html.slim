@@ -1,4 +1,4 @@
-table.table.data_table
+table.table#receipts_data_table
   thead
         tr.data-rows
            th Order Code
@@ -7,7 +7,8 @@ table.table.data_table
            th Status
            th Confirm
   tbody
-    - @orders.each do |order|
+   - unless @orders.blank?
+     - @orders.each do |order|
       tr.data-rows
           td = order.number
           td = order.service_requests.last.try(:request_store).try(:name)

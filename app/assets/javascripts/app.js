@@ -72,6 +72,10 @@ $(document).ready(function () {
 
     });
 
+    $('#receipts_data_table').dataTable({
+        "aaSorting": []
+    })
+
 
     $(".collation_data_table").dataTable({
         "aaSorting": []

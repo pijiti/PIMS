@@ -9,18 +9,17 @@ class ReceiptsController < ApplicationController
     pharm_item = params[:receipt][:pharm_item_id]
     requests_from = params[:receipt][:created_at]
     status = params[:receipt][:confirm_receipt]
-
+    @orders = []
     if can? :manage, :all
-      @receipts = Receipt.includes(:inventory, :from_store, :batch).all
+      @orders = Order.includes(:service_requests, :receipts).where(:status => ["SERVICE_COMPLETE", "DELIVERY_COMPLETE"]).order("id DESC")
     else
-      @receipts = Receipt.includes(:inventory, :from_store, :batch).where(:to_store_id => current_store.id).all
+      @orders = Order.includes(:service_requests, :receipts).where(:status => ["SERVICE_COMPLETE", "DELIVERY_COMPLETE"]).order("id DESC")
     end
 
-    @receipts = @receipts.includes(:inventory, :from_store, :batch).where(:from_store_id => from_store) if !from_store.blank?
-    @receipts = @receipts.includes(:inventory, :from_store, :batch).where(:inventory => Inventory.where(:pharm_item_id => pharm_item)) if !pharm_item.blank?
-    @receipts = @receipts.includes(:inventory, :from_store, :batch).where(:to_store_id => to_store) if !to_store.blank?
-    @receipts = @receipts.includes(:inventory, :from_store, :batch).where("created_at > ?", Time.strptime(requests_from, "%d/%m/%Y")) if !requests_from.blank?
-    @receipts = @receipts.includes(:inventory, :from_store, :batch).where(:confirm_receipt => status) if !status.blank? and status != "ALL"
+    @orders = @orders.includes(:service_requests, :receipts).where(:id => Receipt.where(:from_store_id =>  from_store).pluck(:order_id)) if !from_store.blank?
+    @orders = @orders.includes(:service_requests, :receipts).where(:id => Receipt.where(:to_store_id => to_store).pluck(:order_id) ) if !to_store.blank?
+    @orders = @orders.includes(:service_requests, :receipts).where("updated_at > ?", Time.strptime(requests_from, "%d/%m/%Y")) if !requests_from.blank?
+    @orders = @orders.includes(:service_requests, :receipts).where(:id => Receipt.where(:confirm_receipt => status).pluck(:order_id)) if !status.blank? and status != "ALL"
 
   end
 
@@ -80,10 +79,10 @@ class ReceiptsController < ApplicationController
     #end
 
     if can? :manage, :all
-      @orders = Order.includes(:service_requests, :receipts).where(:status => ["SERVICE_COMPLETE", "DELIVERY_COMPLETE"])
+      @orders = Order.includes(:service_requests, :receipts).where(:status => ["SERVICE_COMPLETE", "DELIVERY_COMPLETE"]).order("id DESC")
     else
       @to_store = current_store
-      @orders = Order.includes(:service_requests, :receipts).where(:status => ["SERVICE_COMPLETE", "DELIVERY_COMPLETE"])
+      @orders = Order.includes(:service_requests, :receipts).where(:status => ["SERVICE_COMPLETE", "DELIVERY_COMPLETE"]).order('id DESC')
     end
     @filter = Receipt.new(:confirm_receipt => " ALL ")
     @stores = Store.all

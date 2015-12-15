@@ -19,11 +19,11 @@ class User < ActiveRecord::Base
   Validity = %w{Always None 7days 30days 3months 6months 9months 12months}
 
   def unread_alerts
-    self.alerts.where(:status => "UNREAD")
+    self.alerts.where(:status => "UNREAD").order('id DESC')
   end
 
   def read_alerts
-    self.alerts.where(:status => "READ")
+    self.alerts.where(:status => "READ").order('id DESC')
   end
 
   def self.to_csv(options = {})

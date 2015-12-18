@@ -16,8 +16,8 @@ class ReceiptsController < ApplicationController
       @orders = Order.includes(:service_requests, :receipts).where(:status => ["SERVICE_COMPLETE", "DELIVERY_COMPLETE"]).order("id DESC")
     end
 
-    @orders = @orders.includes(:service_requests, :receipts).where(:id => Receipt.where(:from_store_id =>  from_store).pluck(:order_id)) if !from_store.blank?
-    @orders = @orders.includes(:service_requests, :receipts).where(:id => Receipt.where(:to_store_id => to_store).pluck(:order_id) ) if !to_store.blank?
+    @orders = @orders.includes(:service_requests, :receipts).where(:id => Receipt.where(:from_store_id => from_store).pluck(:order_id)) if !from_store.blank?
+    @orders = @orders.includes(:service_requests, :receipts).where(:id => Receipt.where(:to_store_id => to_store).pluck(:order_id)) if !to_store.blank?
     @orders = @orders.includes(:service_requests, :receipts).where("updated_at > ?", Time.strptime(requests_from, "%d/%m/%Y")) if !requests_from.blank?
     @orders = @orders.includes(:service_requests, :receipts).where(:id => Receipt.where(:confirm_receipt => status).pluck(:order_id)) if !status.blank? and status != "ALL"
 
@@ -144,14 +144,23 @@ class ReceiptsController < ApplicationController
   end
 
   def generate_pdf
-    if Rails.env == "development"
-      kit = PDFKit.new("http://localhost:4050/receipts/order_receipt?id=#{params[:order]}")
+    @order = Order.find_by_id(params[:order])
+    #check if file exists
+    file_path =  "#{$pdf_files_location}/#{@order.number}.pdf"
+    if File.file?(file_path)
+      logger.debug "=====found the file==="
     else
-      kit = PDFKit.new("http://192.168.1.4:3000/receipts/order_receipt?id=#{params[:order]}")
+      if Rails.env == "development"
+        kit = PDFKit.new("http://localhost:4050/receipts/order_receipt?id=#{params[:order]}")
+      else
+        kit = PDFKit.new("http://192.168.1.4:3000/receipts/order_receipt?id=#{params[:order]}")
+      end
+      kit.to_file("#{$pdf_files_location}/#{@order.number}.pdf")
     end
 
+
     #redirect_to invoices_path
-    send_data kit.to_pdf, :type => 'application/pdf', :disposition => 'inline'
+    send_file file_path, :type => 'application/pdf', :disposition => 'inline'
   end
 
   def order_receipt

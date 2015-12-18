@@ -1,10 +1,12 @@
 table.table.data_table
   thead
-    th Hospital number
+    th Outpatient number
+    th Inpatient number
     th Firstname
     th Surname
     /th Gender
     th Age
+    th Address
     th Mobile
     th Next of kin name
     th Next of kin mobile
@@ -17,10 +19,12 @@ table.table.data_table
       - @patients.each do |patient|
         tr.data-rows
           td = patient.hospital_number
+          td = patient.inpatient_number
           td = "#{patient.title.name}.#{patient.firstname}"
           td = patient.surname
           /td = patient.gender
           td = patient.age
+          td = patient.address
           td = patient.mobile
           td = patient.nok_name
           td = patient.nok_mobile

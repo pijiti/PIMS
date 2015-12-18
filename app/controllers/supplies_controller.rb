@@ -111,7 +111,7 @@ class SuppliesController < ApplicationController
   #transfer of batches based on allotment. service request page
   def transfer_batches
     counter = 0
-    s = ServiceRequest.find_by_id(params[:supply][:service_request_id])
+    s = ServiceRequest.includes(:order).find_by_id(params[:supply][:service_request_id])
 
     if params[:supply][:batches_attributes].blank?
       flash[:notice]= "Please select the batches for allocation"
@@ -132,6 +132,15 @@ class SuppliesController < ApplicationController
         s.update(:status => "AWAITING DELIVERY CONFIRMATION")
         if s.order.service_requests.where(:status => "PENDING").blank?
           s.order.update(:status => "SERVICE_COMPLETE")
+
+        #  create pdf
+          if Rails.env == "development"
+            kit = PDFKit.new("http://localhost:4050/receipts/order_receipt?id=#{s.order.id}")
+          else
+            kit = PDFKit.new("http://192.168.1.4:3000/receipts/order_receipt?id=#{s.order.id}")
+          end
+
+          kit.delay.to_file("#{$pdf_files_location}/#{s.order.number}.pdf")
         end
       else
         flash[:notice]= "Please select the batches for allocation"

@@ -21,8 +21,8 @@ html
 				        h5 ="Your active store is: #{current_store.try(:name)}"
 				    /-unless !current_store.try(:name).present?
 				        a.link-store-change href=store_selections_index_path Change Active Store
-					- flash.each do |_, msg|
-					    -if msg.is_a?(String)
+					- flash.each do |key, msg|
+					    -if msg.is_a?(String) and key.to_s != "timedout"
 	          			  = render 'notifies/notify', msg: msg
 					= yield
 

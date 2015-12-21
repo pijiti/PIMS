@@ -18,13 +18,13 @@ table.table#receipts_data_table
                 th Drug
                 th Units
               tbody
-                - order.service_requests.each do |s|
+                - order.receipts.each do |r|
                   tr
-                    td = s.pharm_item.try(:name)
-                    td = s.qty
+                    td = r.batch.pharm_item.try(:name)
+                    td = r.qty
 
-          td = order.service_requests.last.try(:request_store).try(:name)
-          td = order.service_requests.last.try(:from_store).try(:name)
+          td = order.receipts.last.try(:from_store).try(:name)
+          td = order.receipts.last.try(:to_store).try(:name)
           /td = s.batch.brand.detailed_info
           td = (order.status == "SERVICE_COMPLETE" ? "AWAITING CONFIRMATION" : "COMPLETED")
           td

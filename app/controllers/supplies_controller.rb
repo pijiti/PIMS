@@ -91,6 +91,7 @@ class SuppliesController < ApplicationController
     @pharm_items = PharmItem.all
   end
 
+  #transfer batch page popup form submit action
   def transfer_batches_v2
     params[:supply][:batches_attributes].each do |k, v|
       next if v[:allot].blank?
@@ -108,7 +109,7 @@ class SuppliesController < ApplicationController
     redirect_to transfer_drugs_supplies_path
   end
 
-  #transfer of batches based on allotment. service request page
+  #service request page popup form submit action
   def transfer_batches
     counter = 0
     s = ServiceRequest.includes(:order).find_by_id(params[:supply][:service_request_id])

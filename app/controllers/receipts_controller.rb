@@ -49,7 +49,7 @@ class ReceiptsController < ApplicationController
       #check if order is completed
       if @order and @order.service_requests.where.not(:status => "COMPLETED").blank?
         @order.update(:status => "DELIVERY_COMPLETE")
-        User.with_any_role({:name => "Pharmacy Technician", :resource => @order.service_requests.last.from_store}, {:name => "Admin"}).each do |u|
+        User.with_any_role({:name => "Pharmacy Technician", :resource => @order.receipts.last.to_store}, {:name => "Admin"}).each do |u|
           #create alerts
           Alert.create(:store => @order.service_requests.last.try(:from_store), :user => u, :status => "UNREAD", :order => @order, :alert_type => "SERVICED", :message => "Order #{@order.try(:number)} has been serviced")
         end
@@ -79,10 +79,10 @@ class ReceiptsController < ApplicationController
     #end
 
     if can? :manage, :all
-      @orders = Order.includes(:service_requests, :receipts).where(:status => ["SERVICE_COMPLETE", "DELIVERY_COMPLETE"]).order("id DESC")
+      @orders = Order.includes(:receipts).where(:status => ["SERVICE_COMPLETE", "DELIVERY_COMPLETE"]).order("id DESC")
     else
       @to_store = current_store
-      @orders = Order.includes(:service_requests, :receipts).where(:status => ["SERVICE_COMPLETE", "DELIVERY_COMPLETE"]).order('id DESC')
+      @orders = Order.includes(:receipts).where(:status => ["SERVICE_COMPLETE", "DELIVERY_COMPLETE"]).order('id DESC')
     end
     @filter = Receipt.new(:confirm_receipt => " ALL ")
     @stores = Store.all

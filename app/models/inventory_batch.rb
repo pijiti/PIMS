@@ -33,6 +33,7 @@ class InventoryBatch < ActiveRecord::Base
     self.delay(:run_at => Time.now + 1.day).expiry_date_check
   end
 
+  #allotment from service requests page and transfer batches page
   def allotment(store_id , sq_id = nil)
     response = nil
     if !allot.blank? and allot.to_i <= self.units
@@ -42,22 +43,22 @@ class InventoryBatch < ActiveRecord::Base
         #reduce from request_store
         self.update(:units => self.units.to_i - allot.to_i)
 
-        #increment in from store
-        #irs =  i.inventory_batches.where(:batch_id => self.batch_id)
-        #if irs.blank?
-        #  irs = InventoryBatch.create(:inventory_id => i.id , :batch_id => self.batch_id , :units => allot)
-        #else
-        #  irs.first.update(:units => irs.first.units + allot.to_i)
-        #end
-
         #receiving store will get the drugs post confirmation of receipt
+
+        if sq_id.blank?
+          #allotment from transfer batches
+          order = Order.create(:status => "SERVICE_COMPLETE" , :number => "#{PimsConfig.find_by_property_name('transfer_batches_prefix').property_value}-#{Sequence.last.number}")
+        else
+          #allotment from service requests page
+          order = ServiceRequest.find_by_id(sq_id).order
+        end
         Receipt.create(:inventory => i ,
                        :from_store_id => self.inventory.store_id ,
                        :qty => allot ,
                        :batch_id => self.batch_id ,
                        :to_store_id => store_id ,
                        :service_request_id => sq_id,
-                       :order_id => ServiceRequest.find_by_id(sq_id).order_id
+                       :order_id => order.id
         )
 
         store = Store.find_by_id(store_id)

@@ -134,7 +134,7 @@ class SuppliesController < ApplicationController
         if s.order.service_requests.where(:status => "PENDING").blank?
           s.order.update(:status => "SERVICE_COMPLETE")
 
-        #  create pdf
+          #  create pdf
           if Rails.env == "development"
             kit = PDFKit.new("http://localhost:4050/receipts/order_receipt?id=#{s.order.id}")
           else
@@ -188,7 +188,7 @@ class SuppliesController < ApplicationController
       @service_requests = ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id).uniq).order("order_id DESC")
       @stores = Store.all
     else
-      @service_requests = ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:request_store => current_store , :order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id).uniq).order("order_id DESC")
+      @service_requests = ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:request_store => current_store, :order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id).uniq).order("order_id DESC")
       @stores = Store.where(:id => current_store.id)
     end
     @service_requests = @service_requests.includes(:pharm_item, :request_store).where(:from_store_id => from_store) if !from_store.blank?
@@ -207,21 +207,25 @@ class SuppliesController < ApplicationController
     order = params[:supply][:order_number]
     @order = Order.find_by_id(order) if !order.blank?
 
-    if qty.blank?
+    #if not from navbar and qty is blank
+    if qty.blank? and params[:commit] != "Checkout Order"
       redirect_to(inventory_index_path, :notice => "Ordering failed. Quantity cannot be blank") and return
     end
 
     if @order.blank?
-      @order = Order.create(:number => "#{PimsConfig.find_by_property_name('order_number_prefix').property_value}-#{Sequence.last.number}")
+      @order = Order.create(:from_store => s, :number => "#{PimsConfig.find_by_property_name('order_number_prefix').property_value}-#{Sequence.last.number}")
       Sequence.last.update(:number => Sequence.last.number.to_i + 1)
       order = @order.id
     end
 
-    #create service request
-    sr = ServiceRequest.create(:from_store => s, :request_store => ps, :qty => qty, :pharm_item => p, :brand => b, :order_id => order)
+    #if not from navbar
+    if params[:commit] != "Checkout Order"
+      #create service request
+      sr = ServiceRequest.create(:from_store => s, :request_store => ps, :qty => qty, :pharm_item => p, :brand => b, :order_id => order)
+    end
 
     #check if adding to existing order
-    if params[:commit] == "Complete Order"
+    if params[:commit] == "Complete Order" or params[:commit] == "Checkout Order"
       @order.update(:status => "ORDER_COMPLETE")
 
       User.with_any_role({:name => "Admin"}, {:name => "Store Manager", :resource => ps}, {:name => "Store Keeper", :resource => ps}).each do |u|
@@ -236,12 +240,11 @@ class SuppliesController < ApplicationController
             ExceptionNotifier.notify_exception(e)
           end
         else
-          UserMailer.delay.order_from_central_store(User.find_by_email("vigneshp.ceg@gmail.com"), qty, p, s, b , @order)
+          UserMailer.delay.order_from_central_store(User.find_by_email("vigneshp.ceg@gmail.com"), qty, p, s, b, @order)
         end
       end
-
-
       @notice = "Notified the central store about the order #{@order.number}"
+
     else
       @notice = "Added to cart of order #{@order.number}"
     end

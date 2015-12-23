@@ -1,8 +1,10 @@
 class Order < ActiveRecord::Base
   #status => ORDER_INCOMPLETE , ORDER_COMPLETE , SERVICE_COMPLETE , DELIVERY_COMPLETE
 
+  belongs_to :from_store , :class_name => "Store"
   has_many :service_requests , :dependent => :destroy
   validates_uniqueness_of :number
+  validates_presence_of :from_store_id
 
   before_create :set_configs
 

@@ -20,7 +20,7 @@ class VendorsController < ApplicationController
     Marketer.where(:id => params[:marketer][:id]).each do |v|
       begin
         UserMailer.delay.order_from_vendors(p, s ,v) if Rails.env == "production"
-        send_sms(v.contact_mobile, "Please contact the Chief Pharmacist regarding restocking of #{p.name} in store #{s.name}")   if v.contact_mobile and v.contact_name
+        send_sms(v.contact_mobile, "Please contact the Pharmacist in charge of PMP stores,SSH,Ondo on matters relating to the #{p.name} ")   if v.contact_mobile and v.contact_name
       rescue => e
         ExceptionNotifier.notify_exception(e)
       end

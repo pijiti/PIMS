@@ -47,7 +47,7 @@ class InventoryBatch < ActiveRecord::Base
 
         if sq_id.blank?
           #allotment from transfer batches
-          order = Order.create(:status => "SERVICE_COMPLETE" , :number => "#{PimsConfig.find_by_property_name('transfer_batches_prefix').property_value}-#{Sequence.last.number}")
+          order = Order.create(from_store => i.store, :status => "SERVICE_COMPLETE" , :number => "#{PimsConfig.find_by_property_name('transfer_batches_prefix').property_value}-#{Sequence.last.number}")
         else
           #allotment from service requests page
           order = ServiceRequest.find_by_id(sq_id).order

@@ -20,11 +20,14 @@
                 <li>
                   Current Active Store
                   <%= simple_form_for(current_store || Store.new, :method => :post, :url => set_active_store_stores_path ) do |f| %>
-                          <%= f.input :active_store, collection: stores_based_on_current_time , :selected => current_store.try(:id) ,  :input_html => {:class => "active_store" } , label: false  %>
+                          <%= f.input :active_store, collection: stores_based_on_current_time , :selected => current_store.try(:id)   , :include_blank => true, :input_html => {:class => "active_store" } , label: false  %>
                   <% end %>
                 </li>
             <li class="dropdown" id="notification_li">
               <%= render 'shared/notifications_menu' %>
+            </li>
+            <li class="dropdown" id="notification_li">
+              <%= render 'shared/orders_menu' %>
             </li>
 
             <li class="dropdown">

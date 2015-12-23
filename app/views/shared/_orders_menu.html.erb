@@ -1,0 +1,50 @@
+<% orders = incomplete_orders %>
+<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+  <i class="fa fa-shopping-cart">
+
+    <span id="notifications_count">
+        <%#= render 'shared/notifications_count' %>
+      <% if current_store and orders.count > 0 %>
+        <span class="badge">
+          <%= incomplete_orders.count %>
+        </span>
+      <% end %>
+    </span>
+
+  </i>
+</a>
+<ul class="dropdown-menu">
+  <% orders.each do |order| %>
+      <li>
+         <%= order.number %>
+        <br>
+        <table class="table">
+          <tr>
+            <th>Drug</th>
+            <th>Brand</th>
+            <th>Qty</th>
+            <th>Remove</th>
+          </tr>
+         <tbody>
+         <% order.service_requests.each do |s|%>
+             <tr>
+               <td><%= s.pharm_item.name %></td>
+               <td><%= s.brand.nil? ? "Any" : s.brand.name %></td>
+               <td><%= s.qty %></td>
+               <td></td>
+             </tr>
+             <%= form_for(Supply.new , :url => order_supplies_path , :method => :post ) do |supply_form| %>
+                 <%= supply_form.hidden_field :order_number , :value => order.id %>
+                 <%= supply_form.hidden_field :store_id , :value => order.from_store_id %>
+                 <%= supply_form.hidden_field :parent_store_id , :value => order.from_store.parent_store %>
+                 <%= supply_form.submit :class => "btn btn-primary btn-sm complete_order" , :value => "Checkout Order" %>
+             <%end%>
+         <% end %>
+         </tbody>
+        </table>
+
+      </li>
+      <li role="separator" class="divider" style="background-color:#e7e7e7;"></li>
+  <% end %>
+
+</ul>

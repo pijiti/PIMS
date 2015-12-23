@@ -199,9 +199,20 @@ module ApplicationHelper
 
   end
 
-
   def days_ago(t1,t2)
     ((t1 - t2)/(24*60*60)).round
+  end
+
+  def incomplete_orders
+    return [] if current_store.blank?
+    eligible_users = User.with_any_role({:name => "Pharmacist", :resource => current_store}, {:name => "Pharmacy Technician", :resource => current_store}, {:name => "Admin"})
+    if eligible_users.include? current_user
+      orders = Order.includes(:from_store).where(:from_store => current_store , :status => "ORDER_INCOMPLETE")
+    else
+      orders = []
+    end
+    logger.debug orders.to_json
+    orders
   end
 
 end

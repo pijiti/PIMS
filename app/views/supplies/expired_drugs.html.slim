@@ -17,7 +17,7 @@ h3.text-center Expired Batches
             = f.input :batch_number , collection: @batches , label:false
     .text-center
       = f.submit :class => "btn btn-success btn-tiny" , :value => "filter"
-p
+p#expired_total
  span
    b Total money lost on expired drugs = &nbsp;
  = "N #{total_money_lost_in_expired_drugs(@inventory_batches)}"

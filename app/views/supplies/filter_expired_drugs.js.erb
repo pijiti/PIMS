@@ -1,1 +1,2 @@
 $('#expired-drugs-table').html('<%= j render "expired_drugs_table" %>');
+$('#expired_total').html('<span><b>Total money lost on expired drugs = &nbsp;</b></span><%= total_money_lost_in_expired_drugs(@inventory_batches) %>');

@@ -48,7 +48,7 @@ $(document).ready(function () {
 
     //row group in datatable
     $(".order_data_table").dataTable({
-        "aaSorting": [] ,
+
     "columnDefs": [
         { "visible": false, "targets": 0 }
     ],
@@ -68,7 +68,8 @@ $(document).ready(function () {
                 last = group;
             }
         } );
-    }
+    }   ,
+        "order": [[ 0, "desc" ]]
 
     });
 

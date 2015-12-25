@@ -31,18 +31,17 @@
                <td><%= s.pharm_item.name %></td>
                <td><%= s.brand.nil? ? "Any" : s.brand.name %></td>
                <td><%= s.qty %></td>
-               <td></td>
+               <td><%= link_to "Remove" , remove_items_supplies_path(:id => order.id, :service_id => s.id) , :remote => true%></td>
              </tr>
-             <%= form_for(Supply.new , :url => order_supplies_path , :method => :post ) do |supply_form| %>
-                 <%= supply_form.hidden_field :order_number , :value => order.id %>
-                 <%= supply_form.hidden_field :store_id , :value => order.from_store_id %>
-                 <%= supply_form.hidden_field :parent_store_id , :value => order.from_store.parent_store %>
-                 <%= supply_form.submit :class => "btn btn-primary btn-sm complete_order" , :value => "Checkout Order" %>
-             <%end%>
          <% end %>
          </tbody>
         </table>
-
+        <%= form_for(Supply.new , :url => order_supplies_path , :method => :post ) do |supply_form| %>
+            <%= supply_form.hidden_field :order_number , :value => order.id %>
+            <%= supply_form.hidden_field :store_id , :value => order.from_store_id %>
+            <%= supply_form.hidden_field :parent_store_id , :value => order.from_store.parent_store %>
+            <%= supply_form.submit :class => "btn btn-primary btn-sm complete_order" , :value => "Checkout Order" %>
+        <%end%>
       </li>
       <li role="separator" class="divider" style="background-color:#e7e7e7;"></li>
   <% end %>

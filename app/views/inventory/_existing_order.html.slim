@@ -7,6 +7,7 @@
         th Generic Drug
         th Brand
         th Quantity
+        th Remove
     tbody
       - counter = 0
       - @order.service_requests.each do |s|
@@ -20,6 +21,9 @@
             = s.brand.try(:name)
           td
             = s.qty
+          td
+            = link_to "Remove" , remove_items_supplies_path(:id => @order.id, :service_id => s.id , :existing_order => true) , :remote => true
+
 
 
 

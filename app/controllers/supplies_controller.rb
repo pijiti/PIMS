@@ -258,6 +258,14 @@ class SuppliesController < ApplicationController
     @order = Order.find_by_id(params[:id])
   end
 
+  #remove items from cart
+  def remove_items
+    @service_request = ServiceRequest.find_by_id(params[:service_id])
+    @service_request.destroy
+    @order = Order.find_by_id(params[:id])
+    @order.destroy if @order.service_requests.blank? and params[:existing_order].blank?
+  end
+
   def index
     if can? :manage, :all
       @supplies = Supply.includes(:batches).order("created_at desc").all

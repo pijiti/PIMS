@@ -84,6 +84,7 @@ Rails.application.routes.draw do
       get 'transfer_drugs'
       get 'expired_drugs'
       get 'existing_order'
+      get 'remove_items'
       match 'search', via: [:get, :post]
     end
     member do

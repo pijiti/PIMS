@@ -51,7 +51,7 @@ table.table.table-responsive.table-hover
                                     = supply_form.hidden_field :store_id , :value => i.store_id
                                     = supply_form.hidden_field :parent_store_id , :value => i.store.parent.id
 
-                                    p#existing_order
+                                    p.existing_order_list_items
                                       = render "existing_order"
 
                                     p  Parent store - #{i.store.parent.name}

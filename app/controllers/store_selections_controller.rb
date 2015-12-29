@@ -1,4 +1,5 @@
 class StoreSelectionsController < ApplicationController
+  skip_before_filter :check_session
   before_action :authenticate_user!
 	#rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -40,7 +41,10 @@ class StoreSelectionsController < ApplicationController
   end
 
 
-
+  #def self.kill_session
+  #  session[:user_id] = nil
+  #  logger.debug "killing the session======>"
+  #end
 
   def select_store
     #authorize current_store
@@ -53,6 +57,9 @@ class StoreSelectionsController < ApplicationController
 		logger.debug{"#{c_time }"}
 		logger.debug{"#{d_time }"}
 		logger.debug{"#{Time.now}"}
+
+    #min = (current_store.close_time.in_time_zone("West Central Africa").min - Time.zone.now.min)
+    #StoreSelectionsController.delay(:run_at => Time.now + min).kill_session
 
     redirect_to dashboard_path
   end

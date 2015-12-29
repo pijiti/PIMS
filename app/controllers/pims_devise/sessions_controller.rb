@@ -1,5 +1,5 @@
 class PimsDevise::SessionsController < Devise::SessionsController
-
+  skip_before_filter :check_session
 
   layout "login"
 

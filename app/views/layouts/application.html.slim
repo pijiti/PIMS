@@ -22,7 +22,7 @@ html
 				    /-unless !current_store.try(:name).present?
 				        a.link-store-change href=store_selections_index_path Change Active Store
 					- flash.each do |key, msg|
-					    -if msg.is_a?(String) and key.to_s != "timedout"
+					    -if msg.is_a?(String) and key.to_s != "timedout" and msg != "true"
 	          			  = render 'notifies/notify', msg: msg
 					= yield
 

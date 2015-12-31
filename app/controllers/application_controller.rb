@@ -12,15 +12,13 @@ class ApplicationController < ActionController::Base
   #before_action :authenticate_user!
 
   def check_session
-    logger.debug "-------CHECKING SESSION----------"
-    if current_user and current_store
+    if current_user and !current_user.has_role? "Admin" and current_store
       current_time = Time.zone.now
       current_year = current_time.year
       current_month = current_time.month
       current_day = current_time.day
-      open_time = Time.zone.local(current_year, current_month, current_day, current_store.open_time.hour, current_store.open_time.min)
       close_time = Time.zone.local(current_year, current_month, current_day, current_store.close_time.hour, current_store.close_time.min)
-      if !Time.zone.now.between?(open_time, close_time)
+      if current_time > close_time
         notice = "#{current_store.name} is now closed"
         session[:active_store] = nil
         redirect_to(destroy_user_session_path, :notice => notice) and return

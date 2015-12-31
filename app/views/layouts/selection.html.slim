@@ -4,7 +4,8 @@ html
 	body
 			.container
 				= render 'shared/navbar'
-				- flash.each do |_, msg|
+				- flash.each do |key, msg|
+				     -if msg.is_a?(String) and key.to_s != "timedout" and msg != "true"
                         = render 'notifies/notify', msg: msg
 				= yield
 

@@ -208,8 +208,8 @@ class SuppliesController < ApplicationController
     @order = Order.find_by_id(order) if !order.blank?
 
     #if not from navbar and qty is blank
-    if qty.blank? and params[:commit] != "Checkout Order"
-      redirect_to(inventory_index_path, :notice => "Ordering failed. Quantity cannot be blank") and return
+    if (qty.blank? or qty.to_i <= 0) and params[:commit] != "Checkout Order"
+      redirect_to(inventory_index_path, :notice => "Ordering failed. Quantity value invalid") and return
     end
 
     if @order.blank?

@@ -35,7 +35,7 @@ class ReceiptsController < ApplicationController
 
         if r.received_qty.blank?
           redirect_to(receipts_path, :notice => "Received quantity can't be blank") and return
-        elsif  r.received_qty > r.qty
+        elsif r.received_qty > r.qty
           redirect_to(receipts_path, :notice => "Received quantity can't be more than requested quantity") and return
         end
 
@@ -143,10 +143,11 @@ class ReceiptsController < ApplicationController
     end
   end
 
+  # using webkit
   def generate_pdf
     @order = Order.find_by_id(params[:order])
     #check if file exists
-    file_path =  "#{$pdf_files_location}/#{@order.number}.pdf"
+    file_path = "#{$pdf_files_location}/#{@order.number}.pdf"
     if File.file?(file_path)
       logger.debug "=====found the file==="
     else
@@ -162,6 +163,68 @@ class ReceiptsController < ApplicationController
     #redirect_to invoices_path
     send_file file_path, :type => 'application/pdf', :disposition => 'inline'
   end
+
+
+  # using prawn
+  def print_pdf
+    @order = Order.find_by_id(params[:order])
+    #check if file exists
+    file_path = "#{$pdf_files_location}/#{@order.number}.pdf"
+
+
+    # kit = Prawn::Document.new
+    # kit.text "Help! I am trapped in a PDF factory!"
+    # kit.autoprint
+    # kit.render_file(file_path)
+
+    counter = 0
+    Prawn::Document.generate(file_path) do |pdf|
+      pdf.text "<strong><font size='22'>State Specialist Hospital, Ondo Pharmacy Department</font></strong>", :inline_format => true , :align => :center
+      pdf.text "<font size='18'>Store Requisition and Issue Voucher (SRV)</font>", :inline_format => true , :align => :center
+      pdf.text "Order No: #{@order.number}", :inline_format => true , :align => :left
+      pdf.text "Date printed: #{Time.now.strftime("%d/%m/%Y")}", :inline_format => true , :align => :left
+      table_data = []
+      table_data << [Prawn::Table::Cell::Text.new(pdf, [0, 0], :content => "SNo" , :inline_format => true),"Generic",  "Brand" , "Batch No", "Qty Requested" ,"Qty Issued"]
+      @order.service_requests.each do |s|
+        counter += 1
+        s.receipts.each do |r|
+          table_data << [Prawn::Table::Cell::Text.new(pdf, [0, 0], :content => "#{counter}", :inline_format => true), s.pharm_item.try(:name) , r.batch.try(:brand).try(:name) , r.batch.try(:batch_number) , r.qty , r.received_qty ]
+        end
+      end
+      pdf.table(table_data, :width => 500)
+      pdf.autoprint
+    end
+
+    #redirect_to invoices_path
+    send_file file_path, :type => 'application/pdf', :disposition => 'inline'
+  end
+
+
+  # def generate_pdf
+  #   @order = Order.find_by_id(params[:order])
+  #   #check if file exists
+  #   file_path =  "#{$pdf_files_location}/#{@order.number}.pdf"
+  #   if File.file?(file_path) and false
+  #     logger.debug "=====found the file==="
+  #   else
+  #     if Rails.env == "development"
+  #       kit = PDFKit.new("http://localhost:4050/receipts/order_receipt?id=#{params[:order]}")
+  #       kit = Prawn::Document.new
+  #       kit.text "Help! I am trapped in a PDF factory!"
+  #       kit.autoprint
+  #
+  #     else
+  #       kit = PDFKit.new("http://192.168.1.4:3000/receipts/order_receipt?id=#{params[:order]}")
+  #     end
+  #     # kit.to_file("#{$pdf_files_location}/#{@order.number}.pdf")
+  #     kit.render_file("#{$pdf_files_location}/#{@order.number}.pdf")
+  #   end
+  #
+  #
+  #   #redirect_to invoices_path
+  #   send_file file_path, :type => 'application/pdf', :disposition => 'inline'
+  # end
+
 
   def order_receipt
     @order = Order.find_by_id(params[:id])

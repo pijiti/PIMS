@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'reports/drugs'
+
   resources :alerts do
     collection do
       get 'mark_all_as_read'
@@ -16,6 +18,13 @@ Rails.application.routes.draw do
       get 'lost_drugs'
       get 'order_receipt'
       get 'generate_pdf'
+      get 'print_pdf'
+    end
+  end
+
+  resources :reports do
+    collection do
+      get 'drugs'
     end
   end
 

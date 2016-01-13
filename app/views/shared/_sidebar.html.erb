@@ -2,11 +2,8 @@
   <div class="list-group panel">
     <%= link_to '<i class="fa fa-table fa-fw x3 blue"></i>&nbsp;<br/>Dashboard</br><i class="fa"></i>'.html_safe, dashboard_path, class: "list-group-item text-center" %>
     <%= link_to '<i class="fa fa-pie-chart fa-fw x3 blue"></i>&nbsp;<br/>Reports <br/><i class="fa fa-caret-down"></i>'.html_safe, "#reports", class: "list-group-item list-group-item-success text-center", "data-toggle" => "collapse", "data-parent" => "#MainMenu" %>
-    <div class="collapse" id="reports2">
-      <%= link_to '<i class="fa fa-user-md fa-fw"></i>&nbsp;Medical'.html_safe, '#', class: "list-group-item" %>
-      <%= link_to '<i class="fa fa-dollar fa-fw"></i>&nbsp;Commercial'.html_safe, '#', class: "list-group-item" %>
-      <%= link_to '<i class="fa fa-sitemap fa-fw"></i>&nbsp;Demographics'.html_safe, '#', class: "list-group-item" %>
-
+    <div class="collapse" id="reports">
+      <%= link_to '<i class="fa fa-user-md fa-fw"></i>&nbsp;Drugs'.html_safe, reports_drugs_path , class: "list-group-item" %>
     </div>
 
     <% if can? :manage, User %>

@@ -17,7 +17,7 @@ gem 'therubyracer', platforms: :ruby
 gem 'pdf-core', '~> 0.4.0'
 gem 'prawn', '~> 1.3.0'
 gem 'prawnto', '~> 0.1.1'
-gem 'prawn-print', '~> 0.0.3'
+gem 'prawn-print', :git => 'git://github.com/barsoom/prawn-print.git'
 gem 'prawn-table', '~> 0.2.1'
 gem 'pg_search'
 gem 'axlsx', '~> 2.0.1'
@@ -71,6 +71,9 @@ gem 'chronic'
 #Docs gems
 gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'exception_notification'
+
+#Charts
+gem "highcharts-rails", "~> 3.0.0"
 
 
 

@@ -47,4 +47,21 @@ class Store < ActiveRecord::Base
     end
   end
 
+  def self.get_user_roles
+    roles = Role.all.pluck(:name).uniq.compact
+    role_count_hash,role_store_hash = {},{}
+    roles.each do |role|
+      role_count_hash[role] = 0
+      role_store_hash[role] = []
+    end
+    Store.all.each do |store|
+      store_roles = store.roles.pluck(:name)
+      store_roles.each do |store_role|
+        role_count_hash[store_role] += 1
+        role_store_hash[store_role] << store.name
+      end
+    end
+    [role_count_hash,role_store_hash]
+  end
+
 end

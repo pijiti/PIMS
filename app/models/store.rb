@@ -47,20 +47,60 @@ class Store < ActiveRecord::Base
     end
   end
 
-  def self.get_user_roles
+  # need to refactor - getting role count and user names for the current_store
+  def self.get_user_roles(current_store)
+
+    user_list = User.with_any_role(
+        {:name => "Admin", :resource => current_store},
+        {:name => "Auditor", :resource => current_store},
+        {:name => "Pharmacist", :resource => current_store},
+        {:name => "Pharmacy Technician", :resource => current_store},
+        {:name => "Store Keeper", :resource => current_store},
+        {:name => "Store Manager", :resource => current_store})
     roles = Role.all.pluck(:name).uniq.compact
     role_count_hash,role_store_hash = {},{}
     roles.each do |role|
       role_count_hash[role] = 0
       role_store_hash[role] = []
     end
-    Store.all.each do |store|
-      store_roles = store.roles.pluck(:name)
-      store_roles.each do |store_role|
-        role_count_hash[store_role] += 1
-        role_store_hash[store_role] << store.name
+    user_list.each do |user|
+      if user.has_role? "Admin"
+        role_count_hash["Admin"] += 1
+        role_store_hash["Admin"] << user.first_name + " " +user.last_name
+      end
+
+      if user.has_role? "Auditor" , current_store
+        role_count_hash["Auditor"] += 1
+        role_store_hash["Auditor"] << user.first_name + " " +user.last_name
+      end
+
+      if user.has_role? "Pharmacist" , current_store
+        role_count_hash["Pharmacist"] += 1
+        role_store_hash["Pharmacist"] << user.first_name + " " +user.last_name
+      end
+
+      if user.has_role? "Pharmacy Technician" , current_store
+        role_count_hash["Pharmacy Technician"] += 1
+        role_store_hash["Pharmacy Technician"] << user.first_name + " " +user.last_name
+      end
+
+      if user.has_role? "Store Keeper" , current_store
+        role_count_hash["Store Keeper"] += 1
+        role_store_hash["Store Keeper"] << user.first_name + " " +user.last_name
+      end
+
+      if user.has_role? "Store Manager" , current_store
+        role_count_hash["Store Manager"] += 1
+        role_store_hash["Store Manager"] << user.first_name + " " +user.last_name
       end
     end
+    #Store.all.each do |store|
+    #  store_roles = store.roles.pluck(:name)
+    #  store_roles.each do |store_role|
+    #    role_count_hash[store_role] += 1
+    #    role_store_hash[store_role] << store.name
+    #  end
+    #end
     [role_count_hash,role_store_hash]
   end
 

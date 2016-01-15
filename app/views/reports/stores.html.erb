@@ -1,0 +1,65 @@
+<!--#stores_chart_container style="min-width: 310px; height: 400px; margin: 0 auto"-->
+<%
+    chart_data = []
+    @role_store_count.each do |iter|
+      next if iter and iter[1] == 0
+      chart_data << {:name => iter[0] , :y => iter[1],:stores => @role_store_names[iter[0]] }
+    end
+%>
+<div id="stores_chart_container" style="min-width: 310px; height: 400px; margin: 0 auto">
+
+</div>
+<style>
+    .highcharts-tooltip span {
+        width:200px!important;
+        overflow:auto;
+        white-space:normal !important;
+    }
+</style>
+<script>
+    $(function () {
+
+        $(document).ready(function () {
+
+            var chart_json = JSON.parse('<%= raw chart_data.to_json %>');
+            console.log(chart_json);
+
+            // Build the chart
+            $('#stores_chart_container').highcharts({
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Stores vs Roles'
+                },
+                credits:{
+                  enabled: false
+                },
+                tooltip: {
+                    useHTML: true,
+                    formatter: function() {
+                        return '<b>'+ this.point.name +' : '+ this.point.y +'</b><br><span style="font-size: 10px;">'+ this.point.stores+'</span>';
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: false
+                        },
+                        showInLegend: true
+                    }
+                },
+                series: [{
+                    name: 'Stores',
+                    colorByPoint: true,
+                    data: chart_json
+                }]
+            });
+        });
+    });
+</script>

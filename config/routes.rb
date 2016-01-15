@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
 
   get 'reports/drugs'
+  resources :reports do
+    collection do
+      get 'stores'
+      get 'drugs'
+    end
+  end
 
   resources :alerts do
     collection do

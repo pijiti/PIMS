@@ -4,7 +4,7 @@ class ItemClassesController < ApplicationController
 
 
   def index
-    @item_classes = ItemClass.all
+    @item_classes = ItemClass.includes(:sub_classes).all
     new
     respond_to do |format|
       format.html

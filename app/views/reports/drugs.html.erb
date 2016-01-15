@@ -1,16 +1,7 @@
 <!--#drugs_chart_container style="min-width: 310px; height: 400px; margin: 0 auto"-->
-<%
-  chart_data = []
-  @item_classes.each do |item|
-    count = item.sub_classes.try(:count)
-    chart_data << {:name => item.sub_classes.pluck(:name).map { |x| x.gsub("'", "") }, :y => count, :item => item.name.gsub("'", "")}
-    item.sub_classes.each do |s|
 
-    end
-  end
-
-%>
-<div id="drugs_chart_container" style="min-width: 310px; height: 400px; margin: 0 auto">
+<div id="drugs_chart_container" style="min-width: 310px; height: 400px; margin: 0 auto">     </div>
+<div id="brands_chart_container" style="min-width: 310px; height: 400px; margin: 0 auto">
 
 </div>
 <style>
@@ -25,8 +16,7 @@
 
     $(document).ready(function () {
 
-      var chart_json = JSON.parse('<%= raw chart_data.to_json %>');
-      console.log(chart_json);
+      var chart_json = JSON.parse('<%= raw @chart_data.to_json %>');
 
       // Build the chart
       $('#drugs_chart_container').highcharts({
@@ -65,6 +55,55 @@
           data: chart_json
         }]
       });
+
+
+
+
+      var chart_json = JSON.parse('<%= raw @brand_data.to_json %>');
+
+      // Build the chart
+      $('#brands_chart_container').highcharts({
+        chart: {
+          type: 'column'
+        },
+        title: {
+          text: 'Generic Drugs and Brands'
+        },
+        credits: {
+          enabled: false
+        },
+        tooltip: {
+          useHTML: true,
+          formatter: function () {
+            return '<b>' + this.point.drug + ' : ' + this.point.y + '</b><br><span style="font-size: 10px;">' + this.point.name + '</span>';
+          }
+        },
+
+        plotOptions: {
+          column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+          }
+        },
+
+        yAxis: {
+          min: 0,
+          title: {
+            text: 'Brands count'
+          }
+        },
+        series: [{
+          name: 'Generic Drugs',
+          colorByPoint: true,
+          data: chart_json
+        }]
+      });
+
+
     });
   });
+
+
+
+
 </script>

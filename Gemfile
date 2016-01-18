@@ -36,6 +36,8 @@ gem 'bootstrap-tooltip-rails'
 gem 'wkhtmltopdf'
 gem 'pdfkit'
 
+#Notification
+gem "gritter", "1.2.0"
 
 
 

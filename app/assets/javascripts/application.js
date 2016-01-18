@@ -25,6 +25,7 @@
 //= require bootstrap/bootstrap-tooltip
 //= require highcharts
 //= require highcharts/highcharts-more
+//= require gritter
 //= require_tree .
 
 

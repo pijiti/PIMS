@@ -1,1 +1,4 @@
-= js add_gritter(msg, :image => :notice,:time => 5000,:title => "Notification")
+/.notify.alert.alert-info.alert-dismissable
+/  button.close type='button' data-dismiss='alert' &times;
+/  p.msg = msg
+= js add_gritter(msg, :image => :notice,:time => 5000,:title => "Notification" , :fade_out_speed => 1000 , :time => 4000)

@@ -18,7 +18,15 @@ class ApplicationController < ActionController::Base
       current_month = current_time.month
       current_day = current_time.day
       close_time = Time.zone.local(current_year, current_month, current_day, current_store.close_time.hour, current_store.close_time.min)
-      if current_time > close_time
+      open_time = Time.zone.local(current_year,current_month,current_day, current_store.open_time.hour , current_store.open_time.min)
+      logger.debug "current time ====> #{current_time}"
+      logger.debug "open time ====> #{open_time}"
+      logger.debug "close time ====> #{close_time}"
+      if close_time < open_time and current_time < open_time
+        notice = "#{current_store.name} is now closed"
+        session[:active_store] = nil
+        redirect_to(destroy_user_session_path, :notice => notice) and return
+      elsif close_time > open_time and current_time > close_time
         notice = "#{current_store.name} is now closed"
         session[:active_store] = nil
         redirect_to(destroy_user_session_path, :notice => notice) and return

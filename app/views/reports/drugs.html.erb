@@ -32,7 +32,7 @@
         tooltip: {
           useHTML: true,
           formatter: function () {
-            return '<b>' + this.point.item + ' : ' + this.point.y + '</b><br><span style="font-size: 10px;">' + this.point.name + '</span>';
+            return '<b>' + this.point.name + ' : ' + this.point.y + '</b><br><span style="font-size: 10px;">' + this.point.item + '</span>';
           }
         },
         plotOptions: {
@@ -42,11 +42,13 @@
           }
         },
         xAxis:{
+            type: 'category',
             labels:{
-                enabled: false
-            },
-            title:{
-                text: "Drugs"
+                rotation: -90,
+                style: {
+                    fontSize: '10px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
             }
         },
         yAxis: {

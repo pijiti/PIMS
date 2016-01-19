@@ -5,7 +5,7 @@ class ReportsController < ApplicationController
     @item_classes = ItemClass.includes(:sub_classes).all
     @chart_data = []
     @item_classes.each do |item|
-      @chart_data << {:name => item.sub_classes.pluck(:name).map { |x| x.gsub("'", "") }, :y => item.sub_classes.try(:count), :item => item.name.gsub("'", "")}
+      @chart_data << {:item => item.sub_classes.pluck(:name).map { |x| x.gsub("'", "") }, :y => item.sub_classes.try(:count), :name => item.name.gsub("'", "")}
     end
 
     @pharm_items = PharmItem.includes(:brands).all

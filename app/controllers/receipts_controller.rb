@@ -177,26 +177,29 @@ class ReceiptsController < ApplicationController
     # kit.autoprint
     # kit.render_file(file_path)
 
-    counter = 0
-    Prawn::Document.generate(file_path) do |pdf|
-      pdf.text "<strong><font size='22'>State Specialist Hospital, Ondo Pharmacy Department</font></strong>", :inline_format => true , :align => :center
-      pdf.text "<font size='18'>Store Requisition and Issue Voucher (SRV)</font>", :inline_format => true , :align => :center
-      pdf.text "Order No: #{@order.number}", :inline_format => true , :align => :left
-      pdf.text "Date printed: #{Time.now.strftime("%d/%m/%Y")}", :inline_format => true , :align => :left
-      table_data = []
-      table_data << [Prawn::Table::Cell::Text.new(pdf, [0, 0], :content => "SNo" , :inline_format => true),"Generic",  "Brand" , "Batch No", "Qty Requested" ,"Qty Issued"]
-      @order.service_requests.each do |s|
-        counter += 1
-        s.receipts.each do |r|
-          table_data << [Prawn::Table::Cell::Text.new(pdf, [0, 0], :content => "#{counter}", :inline_format => true), s.pharm_item.try(:name) , r.batch.try(:brand).try(:name) , r.batch.try(:batch_number) , r.qty , r.received_qty ]
-        end
-      end
-      pdf.table(table_data, :width => 500)
-      pdf.autoprint
-    end
+    voucher_pdf = Voucher.new(@order,file_path)
+    file_pdf    = voucher_pdf.generate()
+    #
+    #counter = 0
+    #Prawn::Document.generate(file_path) do |pdf|
+    #  pdf.text "<strong><font size='22'>State Specialist Hospital, Ondo Pharmacy Department</font></strong>", :inline_format => true , :align => :center
+    #  pdf.text "<font size='18'>Store Requisition and Issue Voucher (SRV)</font>", :inline_format => true , :align => :center
+    #  pdf.text "Order No: #{@order.number}", :inline_format => true , :align => :left
+    #  pdf.text "Date printed: #{Time.now.strftime("%d/%m/%Y")}", :inline_format => true , :align => :left
+    #  table_data = []
+    #  table_data << [Prawn::Table::Cell::Text.new(pdf, [0, 0], :content => "SNo" , :inline_format => true),"Generic",  "Brand" , "Batch No", "Qty Requested" ,"Qty Issued"]
+    #  @order.service_requests.each do |s|
+    #    counter += 1
+    #    s.receipts.each do |r|
+    #      table_data << [Prawn::Table::Cell::Text.new(pdf, [0, 0], :content => "#{counter}", :inline_format => true), s.pharm_item.try(:name) , r.batch.try(:brand).try(:name) , r.batch.try(:batch_number) , r.qty , r.received_qty ]
+    #    end
+    #  end
+    #  pdf.table(table_data, :width => 500)
+    #  pdf.autoprint
+    #end
 
     #redirect_to invoices_path
-    send_file file_path, :type => 'application/pdf', :disposition => 'inline'
+    send_file file_pdf, :type => 'application/pdf', :disposition => 'inline'
   end
 
 

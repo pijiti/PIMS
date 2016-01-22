@@ -172,11 +172,6 @@ class ReceiptsController < ApplicationController
     file_path = "#{$pdf_files_location}/#{@order.number}.pdf"
 
 
-    # kit = Prawn::Document.new
-    # kit.text "Help! I am trapped in a PDF factory!"
-    # kit.autoprint
-    # kit.render_file(file_path)
-
     voucher_pdf = Voucher.new(@order,file_path)
     file_pdf    = voucher_pdf.generate()
     #

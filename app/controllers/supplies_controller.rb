@@ -122,7 +122,7 @@ class SuppliesController < ApplicationController
       counter += v[:allot].to_i
     end
 
-    if counter == s.qty.to_i
+    if counter <= s.qty.to_i
       params[:supply][:batches_attributes].each do |k, v|
         next if v[:allot].blank?
         i = InventoryBatch.find_by_id(v[:inventory_batch_id])
@@ -135,19 +135,19 @@ class SuppliesController < ApplicationController
           s.order.update(:status => "SERVICE_COMPLETE")
 
           #  create pdf
-          if Rails.env == "development"
-            kit = PDFKit.new("http://localhost:4050/receipts/order_receipt?id=#{s.order.id}")
-          else
-            kit = PDFKit.new("http://192.168.1.4:3000/receipts/order_receipt?id=#{s.order.id}")
-          end
-
-          kit.delay.to_file("#{$pdf_files_location}/#{s.order.number}.pdf")
+          # if Rails.env == "development"
+          #   kit = PDFKit.new("http://localhost:4050/receipts/order_receipt?id=#{s.order.id}")
+          # else
+          #   kit = PDFKit.new("http://192.168.1.4:3000/receipts/order_receipt?id=#{s.order.id}")
+          # end
+          #
+          # kit.delay.to_file("#{$pdf_files_location}/#{s.order.number}.pdf")
         end
       else
         flash[:notice]= "Please select the batches for allocation"
       end
     else
-      flash[:notice] = "Quantity alloted does not match with the request. Please try again"
+      flash[:notice] = "Quantity issued can't be greater than the requested quantity. Please try again"
     end
 
     redirect_to service_request_supplies_path
@@ -172,7 +172,7 @@ class SuppliesController < ApplicationController
     end
 
 
-    @pharm_items = PharmItem.all
+    @pharm_items = PharmItem.includes(:brands).all
     @filter = ServiceRequest.new(:status => "ALL")
   end
 

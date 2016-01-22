@@ -125,7 +125,7 @@ class Voucher
         @document.bounding_box([0, @document.cursor], width: @document.bounds.right) do
         @document.pad_top 2.5 do
           @document.indent 50 do
-          @document.text "Requesting Store: #{@order.organization_name}", {
+          @document.text "Consign to: #{@order.from_store.name}", {
               size:  10,
               leading: 0,
               color: '000000'
@@ -134,7 +134,7 @@ class Voucher
         end
         @document.pad_top 5 do
           @document.indent 50 do
-            @document.text "Servicing Store: #{@order.organization_address}", {
+            @document.text "Serviced from : #{@order.service_requests.last.try(:request_store).try(:name)}", {
                 size:  10,
                 inline_format: true,
                 leading: 0,
@@ -197,7 +197,7 @@ def get_table_data
                            'Brand',
                            'Batch No',
                            'Qty Requested(Packs:Units)',
-                           'Qty Given(Packs:Units)'
+                           'Qty Issued(Packs:Units)'
                        ]
     counter = 0
   @order.service_requests.each do |s|
@@ -223,38 +223,50 @@ end
     (1..@document.page_count).each do |i|
       @document.go_to_page i
       @document.grid([34,0], [35,1]).bounding_box do
-        @document.text_box "#{i} of #{@document.page_count}", {
-            align:  :left,
-            valign: :bottom,
-            at: [@document.bounds.left + 50, @document.bounds.top + 15],
-            size: 10,
-        }
+        # @document.text_box "#{i} of #{@document.page_count}", {
+        #     align:  :left,
+        #     valign: :bottom,
+        #     at: [@document.bounds.left + 50, @document.bounds.top + 15],
+        #     size: 10,
+        # }
       end
     end
 
     #@document.grid([7,1], [7,2]).bounding_box do
       @document.fill_color '000000'
       @document.fill do
-        @document.rectangle [@document.bounds.left + 150, @document.bounds.bottom + 20], 138, 1
+        @document.rectangle [@document.bounds.left , @document.bounds.bottom + 20], 138, 1
       end
       @document.text_box "Store Keeper's Signature/Date", {
           align: :left,
           valign: :bottom,
-          at: [@document.bounds.left + 150, @document.bounds.top + 15],
+          at: [@document.bounds.left , @document.bounds.top + 15],
           size: 10,
           style: :italic
       }
+
+    @document.fill_color '000000'
+    @document.fill do
+      @document.rectangle [@document.bounds.left + 200 , @document.bounds.bottom + 20], 138, 1
+    end
+    @document.text_box "Approved by/Date", {
+        align: :left,
+        valign: :bottom,
+        at: [@document.bounds.left + 200 , @document.bounds.top + 15],
+        size: 10,
+        style: :italic
+    }
     #end
 
     #@document.grid([34,10], [35,11]).bounding_box do
       @document.fill_color '000000'
       @document.fill do
-        @document.rectangle [@document.bounds.left + 380, @document.bounds.bottom + 20], 117, 1
+        @document.rectangle [@document.bounds.left + 400, @document.bounds.bottom + 20], 117, 1
       end
       @document.text_box "Receiver's Signature/Date", {
           align: :left,
           valign: :bottom,
-          at: [@document.bounds.left + 380, @document.bounds.top + 15],
+          at: [@document.bounds.left + 400, @document.bounds.top + 15],
           size: 10,
           style: :italic
       }

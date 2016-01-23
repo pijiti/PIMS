@@ -14,7 +14,7 @@ table.table.order_data_table
         tr.data-rows
           td
             - if [ "SERVICE_COMPLETE" , "DELIVERY_COMPLETE" ].include? s.order.try(:status)
-              = link_to "#{s.order.try(:number)}  Requesting Store: #{s.from_store.try(:name)}", generate_pdf_receipts_path(:order => s.order_id) , :target => "_blank"
+              = link_to "#{s.order.try(:number)}  Requesting Store: #{s.from_store.try(:name)}", print_pdf_receipts_path(:order => s.order_id) , :target => "_blank"
             - else
               = "#{s.order.try(:number)}  Requesting Store: #{s.from_store.try(:name)}"
 

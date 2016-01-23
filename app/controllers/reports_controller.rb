@@ -12,7 +12,7 @@ class ReportsController < ApplicationController
 
     @brand_data = []
     @pharm_items.each do |p|
-      @brand_data << {:name => p.brands.pluck(:name).map { |x| x.gsub("'", "") }, :y => p.brands.try(:count), :drug => p.name.gsub("'", "")}
+      @brand_data << {:item => p.brands.pluck(:name).map { |x| x.gsub("'", "") }, :y => p.brands.try(:count), :name => p.name.gsub("'", "")}
     end
 
   end

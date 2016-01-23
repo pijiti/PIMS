@@ -21,7 +21,8 @@
       // Build the chart
       $('#drugs_chart_container').highcharts({
         chart: {
-          type: 'column'
+          type: 'column',
+          zoomType: 'x'
         },
         title: {
           text: 'Drug Classification'
@@ -68,11 +69,12 @@
 
 
       var chart_json = JSON.parse('<%= raw @brand_data.to_json %>');
-
+;;;;
       // Build the chart
       $('#brands_chart_container').highcharts({
         chart: {
-          type: 'column'
+          type: 'column',
+          zoomType: 'x'
         },
         title: {
           text: 'Generic Drugs and Brands'
@@ -83,7 +85,7 @@
         tooltip: {
           useHTML: true,
           formatter: function () {
-            return '<b>' + this.point.drug + ' : ' + this.point.y + '</b><br><span style="font-size: 10px;">' + this.point.name + '</span>';
+            return '<b>' + this.point.name + ' : ' + this.point.y + '</b><br><span style="font-size: 10px;">' + this.point.item + '</span>';
           }
         },
         plotOptions: {
@@ -93,12 +95,14 @@
           }
         },
         xAxis:{
-              labels:{
-                  enabled: false
-              },
-              title:{
-                  text: "Brands"
-              }
+            type: 'category',
+            labels:{
+                rotation: -90,
+                style: {
+                    fontSize: '10px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
           },
         yAxis: {
           min: 0,

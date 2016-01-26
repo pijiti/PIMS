@@ -135,7 +135,7 @@ $(document).ready(function () {
                 $('#subtotal_value').html(sub_total.toFixed(2));
                 $('#prescription_subtotal').val(sub_total.toFixed(2));
 
-                $('#grand_total').html(total.toFixed(2));
+                $('#grand_total').html(Math.ceil(total.toFixed(2)));
                 $('#prescription_total').val(total.toFixed(2));
 
             }

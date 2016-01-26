@@ -70,9 +70,9 @@ class Prescription < ActiveRecord::Base
     end
     self.subtotal = "%.2f" % subtotal
     self.surcharges = "%.2f" % surcharges
-    self.total = "%.2f" % (self.surcharges.to_f + self.subtotal.to_f)
-    logger.debug "=====TOTAL=========#{self.total}"
-    self.total
+    self.total = (self.surcharges.to_f + self.subtotal.to_f).ceil
+    logger.debug "=====TOTAL=========#{self.total.ceil}"
+    self.total.ceil
 
     #self.save
     #rescue => e

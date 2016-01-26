@@ -93,7 +93,7 @@ $(document).ready(function () {
 
     function subtotal_calculation() {
         sub_total = 0;
-        $('.prescription_qty').each(function (i, obj) {
+        $('.prescription_qty:visible').each(function (i, obj) {
             //Do not calculate if rate is NA or prescription qty is blank
             var selector_id = ($(obj).attr('id'));
             var row_id = selector_id.split('_')[1];
@@ -113,7 +113,6 @@ $(document).ready(function () {
             type: "GET",
             url: "/surcharges/active.json",
             success: function (data) {
-
                 sub_total = subtotal_calculation();
 
                 if (data["name"]) {

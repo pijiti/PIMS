@@ -4,7 +4,7 @@ tr
         td = "#{prescription.patient.try(:firstname)} #{prescription.patient.try(:surname)}"
         td = "Dr. #{prescription.doctor.try(:first_name)} #{prescription.doctor.try(:last_name)}"
         td.hospital = prescription.hospital_unit.try(:name  )
-        td.code = prescription.prescription_date.strftime("%d/%m/%Y at %I:%M%p")
+        td.code = prescription.created_at.strftime("%d/%m/%Y at %I:%M%p")
         td = "N #{prescription.total}"
         /td.batch = prescription.try(:batches).try(:size)
         - if [nil,"COLLATION PENDING"].include? prescription.status

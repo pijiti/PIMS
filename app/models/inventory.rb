@@ -30,14 +30,33 @@ class Inventory < ActiveRecord::Base
     logger.debug "=========@@@@@@@@@@@========>#{i.count}"
 
     CSV.generate({}) do |csv|
-      column_names = ["Generic Drug", "Brand", "Store", "Rate per unit", "Batch number", "Mfd date", "Expiry date" , "Units"]
+      csv << ["","State Specialist Hospital,Ondo."]
+      csv << ["","Pharmacy Department"]
+      csv << ["" ,"Inventory Balance"]
+      csv << ["Store Name: #{store.try(:name)}" , "" ,"" , "Date & Time: #{Time.now.strftime('%d-%m-%Y  at %I:%M%p')}"]
+      csv << []
+      # column_names = ["Generic Drug", "Brand", "Store", "Rate per unit", "Batch number", "Mfd date", "Expiry date" , "Units"]
+      column_names = ["SNo", "Generic Drug", "Brand", "Batch No", "Qty" , "Rate" , "SubTotal" ]
       csv << column_names
+      sno = 0
+      total = 0
       i.each do |inventory|
         inventory.inventory_batches.where(:expired => nil).each do |ib|
-          csv << [inventory.pharm_item.name, inventory.brand.name , inventory.store.name , inventory.rate_per_unit , ib.batch.batch_number , ib.batch.mfd_date , ib.batch.expiry_date , ib.units]
+          sno += 1
+          total +=  (ib.units*inventory.rate_per_unit)
+          csv << [sno , inventory.pharm_item.name, inventory.brand.name , ib.batch.batch_number ,  ib.units, inventory.rate_per_unit , (ib.units*inventory.rate_per_unit)]
         end
-        #  csv << inventory.attributes.values_at(["pharm_item_id" , "brand_id" , "store_id"])
       end
+      csv << ["" , "" , "", "","", "Total" , total]
+      csv << []
+      csv << []
+      csv << []
+      csv << []
+      csv << ["In Charge Name" , "" , "" ,"" ,"" , "Receiver Name"]
+      csv << []
+      csv << []
+      csv << []
+      csv << ["In Charge Signature & Date " , "" , "" ,"" ,"" , "Receiver Signature & Date"]
     end
 
 

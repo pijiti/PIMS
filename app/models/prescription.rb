@@ -12,15 +12,22 @@ class Prescription < ActiveRecord::Base
   belongs_to :doctor, class_name: "User"
   has_many :prescription_batches, :dependent => :destroy
 
-  validates_presence_of :prescription_date, :subtotal, :total, :patient , :hospital_unit , :doctor
+  validates_presence_of :prescription_date, :subtotal, :total, :patient, :doctor
+  # validates :hospital_unit, presence: { message: "Clinic is required" }
+  validate :hospital_unit_presence
   before_create :unique_code
   before_create :total_calculation
   before_update :total_calculation
 
-
-
   accepts_nested_attributes_for :prescription_batches, allow_destroy: true
+  attr_accessor :clinic
 
+
+  def hospital_unit_presence
+    if self.hospital_unit.blank?
+      errors.add(:clinic, " can't be blank")
+    end
+  end
 
   #PIMS1000
   #PIMS1001
@@ -63,10 +70,12 @@ class Prescription < ActiveRecord::Base
     end
     self.subtotal = "%.2f" % subtotal
     self.surcharges = "%.2f" % surcharges
-    self.total = "%.2f" % (self.surcharges.to_f + self.subtotal.to_f)
-    logger.debug "=====TOTAL=========#{self.total}"
-    self.total
+    self.total = (self.surcharges.to_f + self.subtotal.to_f).ceil
+    if self.total%5 != 0
+      self.total = self.total + (5 - self.total%5)
+    end
 
+    self.total
     #self.save
     #rescue => e
     #  logger.error e.message

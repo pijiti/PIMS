@@ -75,8 +75,11 @@ $(document).ready(function () {
 
     $('#receipts_data_table').dataTable({
         "aaSorting": []
-    })
+    });
 
+    $('#prescriptions_data_table').dataTable({
+        "aaSorting": []
+    });
 
     $(".collation_data_table").dataTable({
         "aaSorting": []
@@ -93,7 +96,7 @@ $(document).ready(function () {
 
     function subtotal_calculation() {
         sub_total = 0;
-        $('.prescription_qty').each(function (i, obj) {
+        $('.prescription_qty:visible').each(function (i, obj) {
             //Do not calculate if rate is NA or prescription qty is blank
             var selector_id = ($(obj).attr('id'));
             var row_id = selector_id.split('_')[1];
@@ -113,7 +116,6 @@ $(document).ready(function () {
             type: "GET",
             url: "/surcharges/active.json",
             success: function (data) {
-
                 sub_total = subtotal_calculation();
 
                 if (data["name"]) {
@@ -132,11 +134,13 @@ $(document).ready(function () {
                     $('#surcharges_value').html(surcharge.toFixed(2));
                     $('#prescription_surcharges').val(surcharge.toFixed(2));
                 }
-                total = surcharge + sub_total;
                 $('#subtotal_value').html(sub_total.toFixed(2));
                 $('#prescription_subtotal').val(sub_total.toFixed(2));
-
-                $('#grand_total').html(total.toFixed(2));
+                total = surcharge + sub_total;
+                total = Math.ceil(total.toFixed(2));
+                if(total%5 != 0)
+                   total = total + (5 - total%5);
+                $('#grand_total').html(total);
                 $('#prescription_total').val(total.toFixed(2));
 
             }

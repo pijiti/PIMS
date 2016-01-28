@@ -39,7 +39,7 @@ class InventoryController < ApplicationController
     #@prompt = "Create new order - #{PimsConfig.find_by_property_name('order_number_prefix').property_value}-#{1000 + Order.all.count}"
     respond_to do |format|
       format.html
-      format.csv { send_data Inventory.to_csv(params[:store], params[:generic], params[:brand]) }
+      format.csv { send_data Inventory.to_csv( current_store, params[:generic], params[:brand]) }
     end
   end
 

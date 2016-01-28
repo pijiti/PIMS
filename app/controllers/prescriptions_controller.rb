@@ -49,7 +49,7 @@ class PrescriptionsController < ApplicationController
 
     @brands = Brand.includes(:pharm_item).order('pharm_items.name ASC').all
     @patient_id = params[:patient_id]
-    @prescriptions = Prescription.where(:patient_id => params[:patient_id])
+    @prescriptions = Prescription.where(:patient_id => params[:patient_id]).order('code DESC')
     @patient = Patient.find_by_id(@patient_id) if @patient_id
     new
     @all_prescriptions = Prescription.order(:created_at)
@@ -94,6 +94,7 @@ class PrescriptionsController < ApplicationController
     @prescription = Prescription.new(prescription_params)
 
     respond_to do |format|
+      @prescription.total_calculation
       if @prescription.save
         format.html { redirect_to prescriptions_path(:patient_id => @prescription.patient_id), notice: 'Prescription was successfully created.' }
       else

@@ -126,8 +126,7 @@ table.table.table-responsive.table-hover
                                                          td = batch.rate
                                                          td = "#{i.inventory_batches.where(:batch =>batch).sum(:units)}(#{i.inventory_batches.where(:batch =>batch).sum(:units)/i.brand.pack_size.to_i})"
                                                          td
-                                                            - ratep = batch.rate / batch.brand.pack_size.to_f
-                                                            = "%.2f" % ratep
+                                                            = i.try(:rate_per_unit)
                                                          td = batch.mfd_date.strftime("%d/%m/%Y")
                                                          td = batch.expiry_date.strftime("%d/%m/%Y")
                                 .modal-footer

@@ -42,6 +42,7 @@ class Batch < ActiveRecord::Base
     self.giver_store = 0
     self.prescription_id = 0
     self.pharm_item = self.try(:brand).try(:pharm_item)
+    self.batch_number = self.batch_number.upcase
   end
 
   def retail_price

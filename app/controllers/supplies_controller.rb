@@ -295,10 +295,12 @@ class SuppliesController < ApplicationController
           approval_status = "approved"
           # update inventory
           batch = Batch.find(v[:id])
-          i = Inventory.where(:brand_id => batch.brand_id, :store_id => @supply.store_id).first
-          if i
-            i.update(:qty_last_added => batch.qty.to_f * batch.brand.pack_size.to_f, :rate_per_unit => "%.2f" % (batch.rate / batch.brand.pack_size.to_f))
 
+          i = Inventory.where(:brand_id => batch.brand_id, :store_id => @supply.store_id).first
+
+          if i
+            i.update(:qty_last_added => batch.qty.to_f * batch.brand.pack_size.to_f)
+            Inventory.where(:brand_id => batch.brand_id).update_all(:rate_per_unit => "%.2f" % (batch.rate / batch.brand.pack_size.to_f))
             #check if batch number already exists
             b = InventoryBatch.where(:batch_id => Batch.where(:batch_number => batch.batch_number).pluck(:id), :inventory => i).first
             if b.blank?

@@ -23,6 +23,10 @@ class User < ActiveRecord::Base
   #  1.hour
   #end
 
+  def get_alerts
+    self.alerts.includes(:order,:store).order('created_at DESC')
+  end
+
   def unread_alerts
     self.alerts.where(:status => "UNREAD").order('id DESC')
   end

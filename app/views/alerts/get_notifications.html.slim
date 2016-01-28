@@ -1,0 +1,16 @@
+div[style="margin-top: 20px;" ]
+  table.data_table.table.table-bordered.table-striped.table-hover
+    thead
+      tr
+        th Message
+        th Store
+        th Order
+        th Status
+
+    tbody
+      -@user_alerts.each do |alert|
+        tr
+          td = alert.message
+          td = alert.store.name rescue ""
+          td = alert.order.number rescue ""
+          td = alert.status

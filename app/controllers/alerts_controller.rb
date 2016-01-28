@@ -12,6 +12,9 @@ class AlertsController < ApplicationController
     render "alerts"
   end
 
+  def get_notifications
+    @user_alerts =  current_user.get_alerts
+  end
 
   # GET /alerts
   # GET /alerts.json

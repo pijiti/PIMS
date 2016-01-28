@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     collection do
       get 'mark_all_as_read'
       get 'clear'
+      get 'get_notifications'
     end
   end
 

@@ -96,6 +96,8 @@
         <%= link_to '<i class="fa fa-history fa-fw x3 blue"></i>&nbsp;</br>Audit <br/><i class="fa"></i>'.html_safe, "#audit", class: "list-group-item text-center" %>
     <% end %>
 
+    <%= link_to '<i class="fa fa-history fa-fw x3 blue"></i>&nbsp;</br>Notifications <br/><i class="fa"></i>'.html_safe, get_notifications_alerts_path, class: "list-group-item text-center" %>
+
     <%= link_to '<i class="fa fa-suitcase fa-fw x3 blue"></i>&nbsp;</br>My Account <br/><i class="fa fa-caret-down blue"></i>'.html_safe, "#account", class: "list-group-item list-group-item-success text-center", "data-toggle" => "collapse", "data-parent" => "#MainMenu" %>
     <div class="collapse" id="account2">
       <%= link_to '<i class="fa fa-user fa-fw blue"></i>&nbsp;User Information'.html_safe, user_profiles_path, class: "list-group-item" %>

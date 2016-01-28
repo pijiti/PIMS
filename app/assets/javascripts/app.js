@@ -75,8 +75,11 @@ $(document).ready(function () {
 
     $('#receipts_data_table').dataTable({
         "aaSorting": []
-    })
+    });
 
+    $('#prescriptions_data_table').dataTable({
+        "aaSorting": []
+    });
 
     $(".collation_data_table").dataTable({
         "aaSorting": []
@@ -131,11 +134,13 @@ $(document).ready(function () {
                     $('#surcharges_value').html(surcharge.toFixed(2));
                     $('#prescription_surcharges').val(surcharge.toFixed(2));
                 }
-                total = surcharge + sub_total;
                 $('#subtotal_value').html(sub_total.toFixed(2));
                 $('#prescription_subtotal').val(sub_total.toFixed(2));
-
-                $('#grand_total').html(Math.ceil(total.toFixed(2)));
+                total = surcharge + sub_total;
+                total = Math.ceil(total.toFixed(2));
+                if(total%5 != 0)
+                   total = total + (5 - total%5);
+                $('#grand_total').html(total);
                 $('#prescription_total').val(total.toFixed(2));
 
             }

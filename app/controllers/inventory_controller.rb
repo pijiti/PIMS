@@ -2,7 +2,7 @@ class InventoryController < ApplicationController
   before_action :authenticate_user!
   #get rate
   def rate
-    @inventory=Inventory.where(:store_id => params[:store_id], :brand_id => params[:brand_id]).first
+    @inventory=Inventory.where(:store_id => params[:store_id], :brand_id => params[:brand_id]).last
     result = {}
     result["row"] = params[:row_id]
     if @inventory.try(:rate_per_unit) and @inventory.inventory_batches.try(:sum,:units) > 0

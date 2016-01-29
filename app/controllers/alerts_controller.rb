@@ -13,6 +13,7 @@ class AlertsController < ApplicationController
   end
 
   def get_notifications
+    Alert.find(params[:alert_id]).update(:status => "READ") if params[:alert_id]
     @user_alerts =  current_user.get_alerts
   end
 

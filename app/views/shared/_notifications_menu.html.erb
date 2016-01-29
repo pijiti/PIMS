@@ -16,6 +16,8 @@
                <a href="<%= expired_drugs_supplies_path(:store_id => a.store_id , :alert_id => a.id , :batch_id => a.inventory_batch.try(:batch_id)) %>">
            <% elsif a.alert_type == "ORDER"  %>
                 <a href="<%= service_request_supplies_path(:alert => a.id) %>">
+            <% elsif a.alert_type == "CUSTOM"  %>
+                <a href="<%= get_notifications_alerts_path(:alert_id => a.id) %>">
            <% else %>
                 <a href="<%= receipts_path %>">
            <% end %>
@@ -30,8 +32,10 @@
       <li>
         <% if a.alert_type == "EXPIRY" %>
             <a href="<%= expired_drugs_supplies_path(:store_id => a.store_id , :batch_id => a.inventory_batch.try(:batch_id)) %>">
-        <% else  %>
+        <% elsif a.alert_type == "ORDER"  %>
             <a href="<%= service_request_supplies_path(:alert => a.id) %>">
+        <% else %>
+            <a href="<%= get_notifications_alerts_path(:alert_id => a.id) %>">
         <% end %>
          <%= a.message %>
         </a>

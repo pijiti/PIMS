@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       get 'mark_all_as_read'
       get 'clear'
       get 'get_notifications'
+      post 'create_custom_alert'
     end
   end
 

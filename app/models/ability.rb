@@ -26,12 +26,14 @@ class Ability
 
        if user.has_role? "Store Keeper" , current_store
          can :manage , Supply
+         can :manage, Alert
        end
 
        if user.has_role? "Store Manager" , current_store
          can :manage , Supply
          #dummy condition for approval
          can :manage , Store
+         can :manage, Alert
        end
 
        #current store must be central for accepting orders

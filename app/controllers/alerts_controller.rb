@@ -17,11 +17,14 @@ class AlertsController < ApplicationController
   end
 
   def create_custom_alert
-    store   = Store.find(params[:store_name])
-    message = params[:notif_message] || "Custom Alert"
-    roles   = (params[:options]) ? params[:options][0].keys : []
+    store     = Store.find(params[:store_name])
+    message   = params[:notif_message] || "Custom Alert"
+    roles     = (params[:options]) ? params[:options][0].keys : []
+    role_hash = Hash.new
     roles.each do |role|
       User.with_any_role({:name => role, :resource => store}).each do |u|
+        next if role_hash[u.id]
+        role_hash[u.id] = u
         #create alerts
         Alert.create(:store => store, :user => u, :status => "UNREAD", :order => nil, :alert_type => "CUSTOM", :message => message)
       end

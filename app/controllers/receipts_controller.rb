@@ -173,7 +173,8 @@ class ReceiptsController < ApplicationController
 
 
     voucher_pdf = Voucher.new(@order,file_path)
-    file_pdf    = voucher_pdf.generate()
+    # file_pdf    = voucher_pdf.generate()
+    file_pdf    = voucher_pdf.generate_for_pos()
     #
     #counter = 0
     #Prawn::Document.generate(file_path) do |pdf|

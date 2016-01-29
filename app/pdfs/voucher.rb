@@ -4,9 +4,17 @@ require 'prawn/table'
 class Voucher
 
   def initialize(order,dest)
-    @document = Prawn::Document.new
+    # @document = Prawn::Document.new(:page_size => [1000, 20000])
+    @document = Prawn::Document.new(:page_size => [80, 297])
     @order    = order
     @dest     = dest
+  end
+
+  def generate_for_pos
+    # @document.text "State Specialist Hospital, Ondo Pharmacy Department"
+    @document.text "state specialist"
+    @document.render_file @dest
+    @dest
   end
 
   def generate

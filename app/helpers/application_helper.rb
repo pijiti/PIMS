@@ -215,4 +215,17 @@ module ApplicationHelper
     orders
   end
 
+  def get_store_list
+    Store.all.pluck(:name,:id).sort
+  end
+
+  def get_user_roles
+    role_array = []
+    roles = Role.all.pluck(:name).uniq
+    roles.each do |role|
+      role_array << [false,role]
+    end
+    role_array
+  end
+
 end

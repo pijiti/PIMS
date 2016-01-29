@@ -16,6 +16,20 @@ class AlertsController < ApplicationController
     @user_alerts =  current_user.get_alerts
   end
 
+  def create_custom_alert
+    store   = Store.find(params[:store_name])
+    message = params[:notif_message] || "Custom Alert"
+    roles   = (params[:options]) ? params[:options][0].keys : []
+    roles.each do |role|
+      User.with_any_role({:name => role, :resource => store}).each do |u|
+        #create alerts
+        Alert.create(:store => store, :user => u, :status => "UNREAD", :order => nil, :alert_type => "CUSTOM", :message => message)
+      end
+    end
+    flash[:notice] = (roles.blank?) ? "No Users found" : "Notification Sent"
+    redirect_to dashboard_path
+  end
+
   # GET /alerts
   # GET /alerts.json
   def index

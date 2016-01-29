@@ -3,5 +3,5 @@ class Alert < ActiveRecord::Base
   belongs_to :user
   belongs_to :inventory_batch
   belongs_to :order
-
+  
 end

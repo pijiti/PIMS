@@ -70,7 +70,7 @@ class SuppliesController < ApplicationController
     @inventory_batches = @inventory_batches.includes(:inventory, :batch).where(:batch_id => batch_id) if !batch_id.blank?
 
     #update alert id status
-    if !batch_id.blank? and !alert_id.blank?
+    if !alert_id.blank?
       Alert.find_by_id(alert_id).update(:status => "READ")
     end
 

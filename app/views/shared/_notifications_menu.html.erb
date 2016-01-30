@@ -21,7 +21,8 @@
            <% elsif a.alert_type == "SERVICED" %>
                 <a href="<%= receipts_path %>">
            <% end %>
-             <%= a.message %>
+
+            <strong> <%= a.message %> </strong>
            </a>
           </li>
           <li role="separator" class="divider"  style="background-color:#e7e7e7;"></li>

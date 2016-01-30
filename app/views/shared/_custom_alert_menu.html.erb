@@ -16,7 +16,7 @@
         <% get_user_roles.each do |user_role| %>
           <div class="clearfix">
             <span class="pull-left" style="text-align: center;">
-              <%= check_box_tag "options[][#{user_role[1]}]",!user_role[0],user_role[0],class: "normal" %>
+              <%= check_box_tag "role_names[]",user_role[1],user_role[0],class: "normal" %>
                <span class=""><%= user_role[1] %></span>
             </span>
           </div>

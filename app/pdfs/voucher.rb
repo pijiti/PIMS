@@ -83,18 +83,18 @@ class Voucher
     @document.pad_top 5 do
       @document.bounding_box([0, @document.cursor], width: @document.bounds.right) do
       @document.pad_top 2.5 do
-        @document.text_box "Date Printed: #{@order.updated_at.strftime("%d/%m/%Y")} #{Time.now.strftime("%H:%M:%S")}", {
-            size:  10,
+        @document.text_box "Date Printed: #{Time.now.strftime("%d/%m/%Y %H:%M:%S")}", {
+            size:  9,
             leading: 0,
-            width: 170,
+            width: 230,
             height: 40,
-            at: [@document.cursor + 50, @document.bounds.top],
+            at: [@document.cursor + 35, @document.bounds.top],
             color: '000000'
         }
         @document.text_box "Ordering Dispensary: #{@order.from_store.name}", {
-            size: 10,
-            at: [@document.bounds.right - 230, @document.bounds.top + 30],
-            width: 170,
+            size: 9,
+            at: [@document.bounds.right - 260, @document.bounds.top + 30],
+            width: 230,
             height: 40,
             inline_format: true,
             align: :right,
@@ -106,19 +106,19 @@ class Voucher
       @document.pad_top 5 do
         @document.indent 1 do
           @document.text_box "Order No: #{@order.number}", {
-              size:  10,
-              at: [@document.cursor + 50, @document.bounds.top + 15],
+              size:  9,
+              at: [@document.cursor + 35, @document.bounds.top + 15],
               inline_format: true,
               leading: 0,
-              width: 170,
+              width: 230,
               height: 40,
               color: '000000'
           }
 
           @document.text_box "Ordering Personel:", {
-              size: 10,
-              at: [@document.bounds.right - 230, @document.bounds.top + 15],
-              width: 170,
+              size: 9,
+              at: [@document.bounds.right - 260, @document.bounds.top + 15],
+              width: 230,
               height: 40,
               inline_format: true,
               align: :right,

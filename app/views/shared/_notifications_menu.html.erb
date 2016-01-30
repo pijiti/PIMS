@@ -7,10 +7,10 @@
 
   </i>
 </a>
-<ul class="dropdown-menu">
+<ul class="dropdown-menu list-group">
   <% if current_user and !current_user.unread_alerts.blank? %>
       <% current_user.unread_alerts.each do |a| %>
-          <li style="background-color:#e7e7e7;">
+          <li style="padding: 0px;" class="list-group-item list-group-item-danger">
 
            <% if a.alert_type == "EXPIRY" %>
                <a href="<%= expired_drugs_supplies_path(:store_id => a.store_id , :alert_id => a.id , :batch_id => a.inventory_batch.try(:batch_id)) %>">
@@ -29,7 +29,7 @@
   <% end %>
   <!--Read alerts-->
   <% current_user.read_alerts.each do |a| %>
-      <li>
+      <li style="padding: 0px;"  class="list-group-item list-group-item-success">
         <% if a.alert_type == "EXPIRY" %>
             <a href="<%= expired_drugs_supplies_path(:store_id => a.store_id , :batch_id => a.inventory_batch.try(:batch_id)) %>">
         <% elsif a.alert_type == "ORDER"  %>

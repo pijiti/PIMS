@@ -1,4 +1,7 @@
 class Inventory < ActiveRecord::Base
+
+  require(File.join(Rails.root, "app", "pdfs", "inventory_voucher"))
+
   belongs_to :brand
   belongs_to :store
   belongs_to :pharm_item
@@ -70,5 +73,12 @@ class Inventory < ActiveRecord::Base
       i = Inventory.where(:brand_id => row["brand_id"], :store_id => row["store_id"]).first
       i.update(:units => i.units.to_f + (row["units"]).to_f, :qty_last_added => row["units"]) if i
     end
+  end
+
+  def self.to_pdf(current_user,store = nil, generic = nil, brand = nil)
+    file_path   = "#{$pdf_files_location}/Inventory_#{store.name}_#{Time.now.to_i}.pdf"
+    voucher_pdf = InventoryVoucher.new(file_path,current_user,store,generic,brand)
+    file_pdf    = voucher_pdf.generate()
+    file_pdf
   end
 end

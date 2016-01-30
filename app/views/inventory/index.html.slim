@@ -19,6 +19,8 @@ h3.text-center Inventory
     .text-center
       = f.submit :class => "btn btn-success btn-tiny" , :value => "filter"
 #download_inventory.text-right
+    =link_to "Download PDF" , inventory_index_path(format: "pdf")
+    span &nbsp;&nbsp;
     =link_to "Download Excel" , inventory_index_path(format: "csv")
 hr
 

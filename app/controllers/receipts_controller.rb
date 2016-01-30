@@ -172,7 +172,7 @@ class ReceiptsController < ApplicationController
     file_path = "#{$pdf_files_location}/#{@order.number}.pdf"
 
 
-    voucher_pdf = Voucher.new(@order,file_path)
+    voucher_pdf = Voucher.new(@order,file_path,current_user)
     file_pdf    = voucher_pdf.generate()
     #
     #counter = 0

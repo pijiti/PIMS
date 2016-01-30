@@ -3,10 +3,11 @@ require 'prawn/table'
 
 class Voucher
 
-  def initialize(order,dest)
-    @document = Prawn::Document.new
-    @order    = order
-    @dest     = dest
+  def initialize(order,dest,current_user)
+    @document     = Prawn::Document.new
+    @order        = order
+    @dest         = dest
+    @current_user = current_user
   end
 
   def generate
@@ -45,8 +46,8 @@ class Voucher
   #
   def write_page_headers
     @document.repeat(:all) do
-      @document.grid([0,0], [3, 11]).bounding_box do
-        @document.text_box "<strong><font size='17'>State Specialist Hospital, Ondo Pharmacy Department</font></strong>\n" + "<font size='13'>Store Requisition and Issue Voucher (SRV)</font>", {
+      @document.grid([0,0], [6, 11]).bounding_box do
+        @document.text_box "<strong><font size='17'>State Specialist Hospital,Ondo.\nPharmacy Department</font></strong>\n<font size='11'>Store Requisition & Issue Voucher (SRV)</font>", {
             align:         :center,
             valign:        :top,
             leading:       5,
@@ -62,7 +63,15 @@ class Voucher
   # Private: Write the content provided in the block into the 3rd through 11th rows and all columns.
   #
   def page_content
-    @document.grid([4,0], [33, 11]).bounding_box do
+    @document.grid([5,0], [31, 11]).bounding_box do
+      @document.pad_top 10 do
+        yield
+      end
+    end
+  end
+
+  def footer_content
+    @document.grid([32,0], [36, 11]).bounding_box do
       @document.pad_top 10 do
         yield
       end
@@ -74,7 +83,7 @@ class Voucher
     @document.pad_top 5 do
       @document.bounding_box([0, @document.cursor], width: @document.bounds.right) do
       @document.pad_top 2.5 do
-        @document.text_box "Order No: #{@order.number}", {
+        @document.text_box "Date Printed: #{@order.updated_at.strftime("%d/%m/%Y")} #{Time.now.strftime("%H:%M:%S")}", {
             size:  10,
             leading: 0,
             width: 170,
@@ -82,7 +91,7 @@ class Voucher
             at: [@document.cursor + 50, @document.bounds.top],
             color: '000000'
         }
-        @document.text_box "Date Printed: #{Time.now.strftime("%d/%m/%Y")}", {
+        @document.text_box "Ordering Dispensary: #{@order.from_store.name}", {
             size: 10,
             at: [@document.bounds.right - 230, @document.bounds.top + 30],
             width: 170,
@@ -96,7 +105,7 @@ class Voucher
 
       @document.pad_top 5 do
         @document.indent 1 do
-          @document.text_box "Order Date: #{@order.updated_at.strftime("%d/%m/%Y")}", {
+          @document.text_box "Order No: #{@order.number}", {
               size:  10,
               at: [@document.cursor + 50, @document.bounds.top + 15],
               inline_format: true,
@@ -106,7 +115,7 @@ class Voucher
               color: '000000'
           }
 
-          @document.text_box "Time Printed: #{Time.now.strftime("%H:%M:%S")}", {
+          @document.text_box "Ordering Personel:", {
               size: 10,
               at: [@document.bounds.right - 230, @document.bounds.top + 15],
               width: 170,
@@ -119,31 +128,31 @@ class Voucher
         end
       end
 
-      @document.move_down(15)
+      #@document.move_down(15)
 
-      @document.pad_top 5 do
-        @document.bounding_box([0, @document.cursor], width: @document.bounds.right) do
-        @document.pad_top 2.5 do
-          @document.indent 50 do
-          @document.text "Consign to: #{@order.from_store.name}", {
-              size:  10,
-              leading: 0,
-              color: '000000'
-          }
-            end
-        end
-        @document.pad_top 5 do
-          @document.indent 50 do
-            @document.text "Serviced from : #{@order.service_requests.last.try(:request_store).try(:name)}", {
-                size:  10,
-                inline_format: true,
-                leading: 0,
-                color: '000000'
-            }
-          end
-        end
-      end
-    end
+    #  @document.pad_top 5 do
+    #    @document.bounding_box([0, @document.cursor], width: @document.bounds.right) do
+    #    @document.pad_top 2.5 do
+    #      @document.indent 50 do
+    #      @document.text "Consign to: #{@order.from_store.name}", {
+    #          size:  10,
+    #          leading: 0,
+    #          color: '000000'
+    #      }
+    #        end
+    #    end
+    #    @document.pad_top 5 do
+    #      @document.indent 50 do
+    #        @document.text "Serviced from : #{@order.service_requests.last.try(:request_store).try(:name)}", {
+    #            size:  10,
+    #            inline_format: true,
+    #            leading: 0,
+    #            color: '000000'
+    #        }
+    #      end
+    #    end
+    #  end
+    #end
       end
   end
 end
@@ -151,7 +160,7 @@ end
 
 def write_service_requests
   page_content do
-    @document.move_down(75)
+    @document.move_down(40)
     @document.pad_top 10 do
       @document.table get_table_data,{
           header: true,
@@ -161,58 +170,63 @@ def write_service_requests
           cell_style: {
           padding: [4, 10, 10, 10],
           size: 10,
-          border_width: 0.5,
+          border_width: 1,
           border_color: '000000',
           valign: :center
       }
       } do
-
+        row(0).style do |c|
+          c.font_style = :bold
+          c.border_width = 2
+          c.border_color = '000000'
+        end
     end
   end
   end
 end
-
-def signature_line(label:,sign:)
-  @document.bounding_box [0, @document.cursor], {
-      width: @document.bounds.right,
-      height: 45
-  } do
-  if sign
-    @document.bounding_box [0,(@document.cursor - 20)],{
-        width: @document.bounds.right,
-        height: 30
-    }do
-    @document.text "#{sign}",size: 10,color: 'ffffff'
-  end
-end
-
-end
-end
+#
+#def signature_line(label:,sign:)
+#  @document.bounding_box [0, @document.cursor], {
+#      width: @document.bounds.right,
+#      height: 45
+#  } do
+#  if sign
+#    @document.bounding_box [0,(@document.cursor - 20)],{
+#        width: @document.bounds.right,
+#        height: 30
+#    }do
+#    @document.text "#{sign}",size: 10,color: 'ffffff'
+#  end
+#end
+#
+#end
+#end
 
 def get_table_data
   formatted_table = []
   formatted_table.push [
                            'S/N',
-                           'Generic',
+                           'Item',
                            'Brand',
                            'Batch No',
-                           'Qty Requested(Packs:Units)',
-                           'Qty Issued(Packs:Units)'
+                           'Qty Req',
+                           'Qty Issued'
                        ]
-    counter = 0
+  counter = 0
   @order.service_requests.each do |s|
     counter += 1
     s.receipts.each do |r|
-      formatted_table.push [
-                               counter,
-                               s.pharm_item.try(:name),
-                               r.batch.try(:brand).try(:name),
-                               r.batch.try(:batch_number),
-                               r.qty,
-                               r.received_qty
-                           ]
-    end
-  end
+    formatted_table.push [
+                           counter,
+                           s.pharm_item.try(:name),
+                           r.batch.try(:brand).try(:name),
+                           r.batch.try(:batch_number),
+                           r.qty,
+                           r.received_qty
+                         ]
+        end
+    #end
+   end
   formatted_table
 end
 
@@ -232,44 +246,74 @@ end
       end
     end
 
+    footer_content do
+    @document.fill_color '000000'
+    @document.fill do
+      @document.rectangle [@document.bounds.left + 50 , @document.bounds.bottom + 80], 138, 1
+    end
+    @document.text_box @current_user.first_name + " " + @current_user.last_name, {
+        align: :left,
+        at: [@document.bounds.left + 50 , @document.bounds.bottom + 92],
+        size: 10,
+        style: :italic
+    }
+    @document.text_box "Store Keeper Name", {
+        align: :left,
+        at: [@document.bounds.left + 50 , @document.bounds.bottom + 72],
+        size: 10,
+        style: :italic
+    }
+
+    @document.fill_color '000000'
+    @document.fill do
+      @document.rectangle [@document.bounds.left + 350, @document.bounds.bottom + 80], 117, 1
+    end
+    @document.text_box "Receiver Name", {
+        align: :left,
+        at: [@document.bounds.left + 350 , @document.bounds.bottom + 72],
+        size: 10,
+        style: :italic
+    }
+
     #@document.grid([7,1], [7,2]).bounding_box do
       @document.fill_color '000000'
       @document.fill do
-        @document.rectangle [@document.bounds.left , @document.bounds.bottom + 20], 138, 1
+        @document.rectangle [@document.bounds.left + 50, @document.bounds.bottom + 20], 138, 1
       end
       @document.text_box "Store Keeper's Signature/Date", {
           align: :left,
           valign: :bottom,
-          at: [@document.bounds.left , @document.bounds.top + 15],
+          at: [@document.bounds.left + 50, @document.bounds.top + 15],
           size: 10,
           style: :italic
       }
 
-    @document.fill_color '000000'
-    @document.fill do
-      @document.rectangle [@document.bounds.left + 200 , @document.bounds.bottom + 20], 138, 1
-    end
-    @document.text_box "Approved by/Date", {
-        align: :left,
-        valign: :bottom,
-        at: [@document.bounds.left + 200 , @document.bounds.top + 15],
-        size: 10,
-        style: :italic
-    }
+    #@document.fill_color '000000'
+    #@document.fill do
+    #  @document.rectangle [@document.bounds.left + 200 , @document.bounds.bottom + 20], 138, 1
+    #end
+    #@document.text_box "Approved by/Date", {
+    #    align: :left,
+    #    valign: :bottom,
+    #    at: [@document.bounds.left + 200 , @document.bounds.top + 15],
+    #    size: 10,
+    #    style: :italic
+    #}
     #end
 
     #@document.grid([34,10], [35,11]).bounding_box do
       @document.fill_color '000000'
       @document.fill do
-        @document.rectangle [@document.bounds.left + 400, @document.bounds.bottom + 20], 117, 1
+        @document.rectangle [@document.bounds.left + 350, @document.bounds.bottom + 20], 117, 1
       end
       @document.text_box "Receiver's Signature/Date", {
           align: :left,
           valign: :bottom,
-          at: [@document.bounds.left + 400, @document.bounds.top + 15],
+          at: [@document.bounds.left + 350, @document.bounds.top + 15],
           size: 10,
           style: :italic
       }
+    end
     #end
   end
 end

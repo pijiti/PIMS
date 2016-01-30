@@ -10,7 +10,7 @@
 <ul class="dropdown-menu list-group">
   <% if current_user and !current_user.unread_alerts.blank? %>
       <% current_user.unread_alerts.each do |a| %>
-          <li style="padding: 0px;">
+          <li style="padding: 0px;background-color:#e7e7e7;">
 
            <% if a.alert_type == "EXPIRY" %>
                <a href="<%= expired_drugs_supplies_path(:store_id => a.store_id , :alert_id => a.id , :batch_id => a.inventory_batch.try(:batch_id)) %>">

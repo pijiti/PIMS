@@ -18,7 +18,7 @@
                 <a href="<%= service_request_supplies_path(:alert => a.id) %>">
             <% elsif a.alert_type == "CUSTOM"  %>
                 <a href="<%= get_notifications_alerts_path(:alert_id => a.id) %>">
-           <% else %>
+           <% elsif a.alert_type == "SERVICED" %>
                 <a href="<%= receipts_path %>">
            <% end %>
              <%= a.message %>

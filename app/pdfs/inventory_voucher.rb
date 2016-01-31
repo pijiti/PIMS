@@ -119,7 +119,7 @@ def write_service_requests
           header: true,
           position: :center,
           width: @document.bounds.right - 60,
-          column_widths: [30, 100, 90, 70, 60,50,80],
+          column_widths: [40, 100, 80, 70, 60,50,80],
           cell_style: {
           padding: [4, 10, 10, 10],
           size: 10,
@@ -129,10 +129,17 @@ def write_service_requests
       }
       } do
         row(0).style do |c|
-          c.font_style = :bold
+          c.font_style   = :bold
           c.border_width = 2
           c.border_color = '000000'
         end
+      unless ((row(0) == row(-1)))
+        row(-1).style do |c|
+          c.font_style   = :bold
+          c.border_width = 0
+          c.border_color = '000000'
+        end
+      end
     end
   end
   end

@@ -74,7 +74,7 @@ class Inventory < ActiveRecord::Base
   end
 
   def self.to_pdf(current_user,store = nil, generic = nil, brand = nil)
-    file_path   = "#{$pdf_files_location}/#{store.try(:name)}_#{Time.now}.pdf"
+    file_path   = "#{$pdf_files_location}/inventory_#{store.try(:name)}_#{Time.now}.pdf"
     voucher_pdf = InventoryVoucher.new(file_path,current_user,store,generic,brand)
     file_pdf    = voucher_pdf.generate()
     file_pdf

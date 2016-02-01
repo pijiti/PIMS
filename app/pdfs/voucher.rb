@@ -45,7 +45,7 @@ class Voucher
   # Private: Write the top header section to all pages utilizing the first two grid rows and all columns.
   #
   def write_page_headers
-    @document.repeat(:all) do
+    @document.repeat([1]) do
       @document.grid([0,0], [6, 11]).bounding_box do
         @document.text_box "<strong><font size='17'>State Specialist Hospital,Ondo.\nPharmacy Department</font></strong>\n<font size='11'>Store Requisition & Issue Voucher (SRV)</font>", {
             align:         :center,
@@ -237,12 +237,12 @@ end
     (1..@document.page_count).each do |i|
       @document.go_to_page i
       @document.grid([34,0], [35,1]).bounding_box do
-        # @document.text_box "#{i} of #{@document.page_count}", {
-        #     align:  :left,
-        #     valign: :bottom,
-        #     at: [@document.bounds.left + 50, @document.bounds.top + 15],
-        #     size: 10,
-        # }
+        @document.text_box "#{i} of #{@document.page_count}", {
+            align:  :left,
+            valign: :bottom,
+            at: [@document.bounds.left + 50, @document.bounds.top + 15],
+            size: 10,
+        }
       end
     end
 
@@ -251,7 +251,7 @@ end
     @document.fill do
       @document.rectangle [@document.bounds.left + 50 , @document.bounds.bottom + 80], 138, 1
     end
-    @document.text_box @current_user.first_name + " " + @current_user.last_name, {
+    @document.text_box "", {
         align: :left,
         at: [@document.bounds.left + 50 , @document.bounds.bottom + 92],
         size: 10,

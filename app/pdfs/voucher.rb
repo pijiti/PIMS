@@ -63,7 +63,7 @@ class Voucher
   # Private: Write the content provided in the block into the 3rd through 11th rows and all columns.
   #
   def page_content
-    @document.grid([5,0], [31, 11]).bounding_box do
+    @document.grid([2,0], [31, 11]).bounding_box do
       @document.pad_top 10 do
         yield
       end
@@ -71,7 +71,7 @@ class Voucher
   end
 
   def footer_content
-    @document.grid([32,0], [36, 11]).bounding_box do
+    @document.grid([32,0], [35, 11]).bounding_box do
       @document.pad_top 10 do
         yield
       end
@@ -81,6 +81,7 @@ class Voucher
   def write_order_information
     page_content do
     @document.pad_top 5 do
+      @document.move_down 50
       @document.bounding_box([0, @document.cursor], width: @document.bounds.right) do
       @document.pad_top 2.5 do
         @document.text_box "Date Printed: #{Time.now.strftime("%d/%m/%Y %H:%M:%S")}", {
@@ -160,7 +161,7 @@ end
 
 def write_service_requests
   page_content do
-    @document.move_down(40)
+    @document.move_down 70
     @document.pad_top 10 do
       @document.table get_table_data,{
           header: true,
@@ -224,7 +225,7 @@ def get_table_data
                            r.qty,
                            r.received_qty
                          ]
-        end
+    end
     #end
    end
   formatted_table
@@ -236,11 +237,11 @@ end
   def write_page_footers
     (1..@document.page_count).each do |i|
       @document.go_to_page i
-      @document.grid([34,0], [35,1]).bounding_box do
+      @document.grid([0,0], [0,5]).bounding_box do
         @document.text_box "#{i} of #{@document.page_count}", {
             align:  :left,
             valign: :bottom,
-            at: [@document.bounds.left + 50, @document.bounds.top + 15],
+            at: [@document.bounds.left + 35, @document.bounds.top + 15],
             size: 10,
         }
       end
@@ -249,28 +250,28 @@ end
     footer_content do
     @document.fill_color '000000'
     @document.fill do
-      @document.rectangle [@document.bounds.left + 50 , @document.bounds.bottom + 80], 138, 1
+      @document.rectangle [@document.bounds.left + 50 , @document.bounds.bottom + 73], 138, 1
     end
     @document.text_box "", {
         align: :left,
-        at: [@document.bounds.left + 50 , @document.bounds.bottom + 92],
+        at: [@document.bounds.left + 50 , @document.bounds.bottom + 85],
         size: 10,
         style: :italic
     }
     @document.text_box "Store Keeper Name", {
         align: :left,
-        at: [@document.bounds.left + 50 , @document.bounds.bottom + 72],
+        at: [@document.bounds.left + 50 , @document.bounds.bottom + 65],
         size: 10,
         style: :italic
     }
 
     @document.fill_color '000000'
     @document.fill do
-      @document.rectangle [@document.bounds.left + 350, @document.bounds.bottom + 80], 117, 1
+      @document.rectangle [@document.bounds.left + 350, @document.bounds.bottom + 73], 117, 1
     end
     @document.text_box "Receiver Name", {
         align: :left,
-        at: [@document.bounds.left + 350 , @document.bounds.bottom + 72],
+        at: [@document.bounds.left + 350 , @document.bounds.bottom + 65],
         size: 10,
         style: :italic
     }

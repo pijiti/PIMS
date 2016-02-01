@@ -115,7 +115,7 @@ class Voucher
               color: '000000'
           }
 
-          @document.text_box "Ordering Personel:", {
+          @document.text_box "Ordering Personel: #{@order.ordered_by.try(:first_name)} #{@order.ordered_by.try(:last_name)}", {
               size: 9,
               at: [@document.bounds.right - 260, @document.bounds.top + 15],
               width: 230,

@@ -30,6 +30,12 @@ class PrescriptionVoucher
 
     @document.table( get_table_data, {cell_style: { size: 7.5, valign: :center, :align => :right, :border_width => 0}}) do |table|
       #table.header=(["Item", "Qty", "Rate", "Subtotal"])
+       table.column(0).style do |c|
+         c.align = :left
+       end
+       table.column(1).style do |c|
+         c.align = :left
+       end
       table.row(0)
     end
 
@@ -39,7 +45,10 @@ class PrescriptionVoucher
     @document.text "Served by: #{@dispensing_user.try(:first_name)}  #{@dispensing_user.try(:last_name)}", :size => 7.5
     @document.move_down 3.mm
     #the next line is only for free medical dispensary store
-    @document.text "Free Medical Service provided by ODSG to reduce maternal and child mortality", :size => 7 #,:align => :justified
+    if !@dispense_store.store_operation.try(:payment_required)
+       @document.text "Free Medical Service provided by ODSG to reduce maternal and child mortality", :size => 7 #,:align => :justified
+    end
+
     @document.move_down 5.mm
     @document.text "Don’t abuse drugs,consult a Pharmacist!", :size => 9, :styles => [:bold, :italic], :align => :center
     @document.move_down 5.mm
@@ -63,25 +72,26 @@ class PrescriptionVoucher
     @prescription.prescription_batches.each do |p|
       counter += 1
       total += ("%.2f" % ((p.qty.to_i) * ("%.2f" % p.rate).to_f)).to_f
+      sub = "%.2f" % ((p.qty.to_i) * ("%.2f" % p.rate).to_f)
       formatted_table.push [
                                counter,
                                p.brand.try(:name),
                                p.try(:qty),
-                               number_with_delimiter(p.try(:rate)),
-                               number_with_delimiter("%.2f" % ((p.qty.to_i) * ("%.2f" % p.rate).to_f) ),
+                               number_with_delimiter("#{p.try(:rate)}N"),
+                               number_with_delimiter( "#{sub}N"),
                            ]
     end
 
 
     total =   "%.2f" % total
     if counter != 0
-
+      grand_total = "%.2f" % @prescription.total
       formatted_table.push [
                                "",
                                "",
                                "",
                                "Total",
-                               number_with_delimiter( "%.2f" % @prescription.total )
+                               number_with_delimiter( "#{grand_total}N" )
                            ]
     end
     formatted_table

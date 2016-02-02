@@ -82,6 +82,7 @@ Rails.application.routes.draw do
       get 'dispense'
     end
     member do
+      get 'print_pdf'
       post 'complete_collation'
       post 'complete_dispense'
     end

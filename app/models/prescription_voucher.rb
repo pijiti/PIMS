@@ -63,8 +63,8 @@ class PrescriptionVoucher
                              'S/N',
                              'Item',
                              'Qty',
-                             'Rate',
-                             'Amount',
+                             'Rate(N)',
+                             'Amount(N)',
                          ]
     counter = 0
     total=0
@@ -77,8 +77,8 @@ class PrescriptionVoucher
                                counter,
                                p.brand.try(:name),
                                p.try(:qty),
-                               number_with_delimiter("#{p.try(:rate)}N"),
-                               number_with_delimiter( "#{sub}N"),
+                               number_with_delimiter("#{p.try(:rate)}"),
+                               number_with_delimiter( "#{sub}"),
                            ]
     end
 
@@ -90,8 +90,8 @@ class PrescriptionVoucher
                                "",
                                "",
                                "",
-                               "Total",
-                               number_with_delimiter( "#{grand_total}N" )
+                               "Total(N)",
+                               number_with_delimiter( "#{grand_total}" )
                            ]
     end
     formatted_table

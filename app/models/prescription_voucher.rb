@@ -21,10 +21,10 @@ class PrescriptionVoucher
     @document.text "State Specialist Hospital,Ondo", :size => 14, :styles => :bold, :align => :center
     @document.text "Pharmacy Department", :size => 12, :styles => :bold, :align => :center
     @document.text "Invoice", :size => 10, :align => :center
-    @document.draw_text "Patient Name: #{@prescription.patient.try(:firstname)} #{@prescription.patient.try(:surname)}  ", :at => [1.5.mm, 274.mm], :size => 7.5
-    @document.draw_text "Prescription Code: #{@prescription.code}", :at => [50.mm, 274.mm], :size => 7.5
-    @document.draw_text "Date: #{Time.now.strftime("%d/%m/%Y")}", :at => [1.5.mm, 271.mm], :size => 7.5
-    @document.draw_text "Time: #{Time.now.strftime("%I:%M %p")}", :at => [50.mm, 271.mm], :size => 7.5
+    @document.draw_text "#{@prescription.patient.try(:firstname)} #{@prescription.patient.try(:surname)}  ", :at => [1.5.mm, 274.mm], :size => 7.5
+    @document.draw_text "#{@prescription.code}", :at => [50.mm, 274.mm], :size => 7.5
+    @document.draw_text "#{Time.now.strftime("%d/%m/%Y")}", :at => [1.5.mm, 271.mm], :size => 7.5
+    @document.draw_text "#{Time.now.strftime("%I:%M %p")}", :at => [50.mm, 271.mm], :size => 7.5
     @document.move_down 15.mm
 
 
@@ -75,20 +75,7 @@ class PrescriptionVoucher
 
     total =   "%.2f" % total
     if counter != 0
-      formatted_table.push [
-                               "",
-                               "",
-                               "",
-                               "SubTotal",
-                               number_with_delimiter(total)
-                           ]
-      formatted_table.push [
-                               "",
-                               "",
-                               "",
-                               "Surcharges",
-                               number_with_delimiter( "%.2f" % @prescription.surcharges )
-                           ]
+
       formatted_table.push [
                                "",
                                "",

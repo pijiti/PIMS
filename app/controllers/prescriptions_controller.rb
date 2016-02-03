@@ -105,8 +105,9 @@ class PrescriptionsController < ApplicationController
     respond_to do |format|
       @prescription.total_calculation
       if @prescription.save
-        # format.html { redirect_to prescriptions_path(:patient_id => @prescription.patient_id), notice: 'Prescription was successfully created.' }
-        format.html{ redirect_to print_pdf_prescription_path(@prescription) }
+         flash[:prescription_created] = print_pdf_prescription_url(@prescription)
+         format.html { redirect_to prescriptions_path(:patient_id => @prescription.patient_id), notice: 'Prescription was successfully created.' }
+         # format.html{ redirect_to print_pdf_prescription_path(@prescription) }
       else
         @error = @prescription.errors.full_messages
         flash[:error] = "#{@error.to_sentence}"
@@ -128,8 +129,9 @@ class PrescriptionsController < ApplicationController
       params[:prescription][:total] = @prescription.total_calculation
       puts prescription_params
       if @prescription.update(prescription_params)
-        # format.html { redirect_to prescriptions_path(:patient_id => @prescription.patient_id), notice: 'Prescription was successfully updated.' }
-        format.html{ redirect_to print_pdf_prescription_path(@prescription) }
+         flash[:prescription_created] = print_pdf_prescription_url(@prescription)
+         format.html { redirect_to prescriptions_path(:patient_id => @prescription.patient_id), notice: 'Prescription was successfully updated.' }
+        # format.html{ redirect_to print_pdf_prescription_path(@prescription) }
       else
         @error = @prescription.errors.full_messages
         flash[:error] = "#{@error.to_sentence}"

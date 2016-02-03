@@ -107,7 +107,13 @@
 </div>
 
 
-
+<script type="text/javascript">
+    <% if flash[:prescription_created] %>
+      $(document).ready(function(){
+          window.open("<%= flash[:prescription_created] %>",'_newtab');
+      });
+    <% end %>
+</script>
  
 
 

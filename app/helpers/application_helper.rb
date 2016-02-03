@@ -159,7 +159,7 @@ module ApplicationHelper
 
   def order_more_btn(i, s)
     units_counter = generic_drug_count(i.pharm_item, s)
-    if units_counter == 0
+    if units_counter == 0  or units_counter.nil?
       "btn-danger"
     elsif (s.parent.blank? and !units_counter.blank? and units_counter > i.pharm_item.try(:main_restock_level)) or (!units_counter.blank? and units_counter > i.pharm_item.try(:dispensary_restock_level))
       "btn-success"

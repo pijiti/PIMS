@@ -4,7 +4,7 @@ table.table.table-striped.table-condensed.data_table
   thead
     tr.data-rows
        th Store
-       th Vendor
+       th Marketer
        th Reference
        th Supply Date
        th Supply Value
@@ -18,7 +18,7 @@ table.table.table-striped.table-condensed.data_table
     - @submitted_supplies.each do |submitted_supply|
       tr.data-rows
          td = submitted_supply.store.name
-         td.vendor = submitted_supply.vendor.try(:name)
+         td.vendor = submitted_supply.marketer.try(:name)
          td.supply-reference = submitted_supply.invoice_reference
          td.invoice-date = submitted_supply.invoice_date
          td.invoice-value = submitted_supply.invoice_value

@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
       logger.debug "current time ====> #{current_time}"
       logger.debug "open time ====> #{open_time}"
       logger.debug "close time ====> #{close_time}"
-      if close_time < open_time and current_time < open_time
+      if close_time < open_time and ( current_time < open_time and current_time > close_time)
         notice = "#{current_store.name} is now closed"
         session[:active_store] = nil
         redirect_to(destroy_user_session_path, :notice => notice) and return

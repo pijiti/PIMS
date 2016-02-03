@@ -161,7 +161,7 @@ module ApplicationHelper
     units_counter = generic_drug_count(i.pharm_item, s)
     if units_counter == 0
       "btn-danger"
-    elsif (s.parent.blank? and @units_counter.blank? and units_counter > i.pharm_item.try(:main_restock_level)) or (!units_counter.blank? and units_counter > i.pharm_item.try(:dispensary_restock_level))
+    elsif (s.parent.blank? and !units_counter.blank? and units_counter > i.pharm_item.try(:main_restock_level)) or (!units_counter.blank? and units_counter > i.pharm_item.try(:dispensary_restock_level))
       "btn-success"
     else
       "btn-warning"

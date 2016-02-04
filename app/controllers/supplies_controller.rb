@@ -327,7 +327,7 @@ class SuppliesController < ApplicationController
       if ["approved", "rejected"].include? approval_status
         #send sms
         sms_to = User.find_by_id(@supply.signed_off_by)
-        send_sms(sms_to.username, "Hello #{sms_to.first_name}, the batch of drugs with reference - #{@supply.invoice_reference} has been #{approval_status}.") if sms_to
+        # send_sms(sms_to.username, "Hello #{sms_to.first_name}, the batch of drugs with reference - #{@supply.invoice_reference} has been #{approval_status}.") if sms_to
       end
     rescue => e
       @notice = e.message
@@ -354,7 +354,7 @@ class SuppliesController < ApplicationController
           ExceptionNotifier.notify_exception(e)
         end
         #sms notification
-        send_sms(user.username, "Hello #{user.first_name}, You have an invoice with reference - #{@supply.invoice_reference} waiting for approval.")
+        # send_sms(user.username, "Hello #{user.first_name}, You have an invoice with reference - #{@supply.invoice_reference} waiting for approval.")
         recipients_counter += 1
       end
       flash[:notice] = "Submitted for approval. Mail and sms notification dispatched to #{recipients_counter} recipients"

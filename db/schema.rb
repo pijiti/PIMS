@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151119064731) do
+ActiveRecord::Schema.define(version: 20160205113915) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20151119064731) do
     t.datetime "updated_at"
     t.integer  "inventory_batch_id"
     t.string   "alert_type"
-    t.integer  "service_request_id"
+    t.integer  "order_id"
   end
 
   create_table "batches", force: true do |t|
@@ -197,6 +197,9 @@ ActiveRecord::Schema.define(version: 20151119064731) do
     t.string   "organization_contact_person"
     t.string   "organization_email"
     t.string   "organization_registration_number"
+    t.string   "status",                           default: "ORDER_INCOMPLETE"
+    t.integer  "from_store_id"
+    t.integer  "ordered_by_id"
   end
 
   create_table "organisations", force: true do |t|
@@ -219,9 +222,11 @@ ActiveRecord::Schema.define(version: 20151119064731) do
     t.string   "hospital_number"
     t.string   "firstname"
     t.string   "surname"
-    t.integer  "gender",          default: 0, null: false
+    t.integer  "gender",           default: 0, null: false
     t.string   "nok_name"
     t.string   "nok_mobile"
+    t.string   "inpatient_number"
+    t.text     "address"
   end
 
   create_table "pharm_item_sub_classes", force: true do |t|
@@ -308,6 +313,7 @@ ActiveRecord::Schema.define(version: 20151119064731) do
     t.integer  "service_request_id"
     t.string   "lost_reason"
     t.text     "comments"
+    t.integer  "order_id"
   end
 
   create_table "request_items", force: true do |t|
@@ -344,6 +350,13 @@ ActiveRecord::Schema.define(version: 20151119064731) do
   add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
   add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
 
+  create_table "sequences", force: true do |t|
+    t.string   "number"
+    t.string   "usage",      default: "ORDER"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "service_requests", force: true do |t|
     t.integer  "request_store_id"
     t.integer  "from_store_id"
@@ -353,7 +366,6 @@ ActiveRecord::Schema.define(version: 20151119064731) do
     t.datetime "updated_at"
     t.string   "status",           default: "PENDING"
     t.integer  "brand_id"
-    t.string   "order_number"
     t.integer  "order_id"
   end
 

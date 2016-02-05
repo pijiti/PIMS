@@ -164,10 +164,10 @@ class SuppliesController < ApplicationController
     end
 
     if can? :manage, :all
-      @service_requests ||= ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id).uniq).order("order_id DESC")
+      @service_requests ||= ServiceRequest.includes(:order, :pharm_item, :request_store, :from_store).where(:order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id).uniq).order("orders.created_at DESC")
       @stores = Store.all
     else
-      @service_requests ||= ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:request_store => current_store, :order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id)).order("order_id DESC")
+      @service_requests ||= ServiceRequest.includes(:order , :pharm_item, :request_store, :from_store).where(:request_store => current_store, :order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id)).order("orders.created_at DESC")
       @stores = Store.where(:id => current_store.id)
     end
 
@@ -185,16 +185,16 @@ class SuppliesController < ApplicationController
 
     @service_requests = ""
     if can? :manage, :all
-      @service_requests = ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id).uniq).order("order_id DESC")
+      @service_requests = ServiceRequest.includes(:order, :pharm_item, :request_store, :from_store).where(:order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id).uniq).order("orders.created_at DESC")
       @stores = Store.all
     else
-      @service_requests = ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:request_store => current_store, :order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id).uniq).order("order_id DESC")
+      @service_requests = ServiceRequest.includes(:order, :pharm_item, :request_store, :from_store).where(:request_store => current_store, :order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id).uniq).order("orders.created_at DESC")
       @stores = Store.where(:id => current_store.id)
     end
-    @service_requests = @service_requests.includes(:pharm_item, :request_store).where(:from_store_id => from_store) if !from_store.blank?
-    @service_requests = @service_requests.includes(:pharm_item, :request_store).where(:pharm_item_id => generic_drug) if !generic_drug.blank?
-    @service_requests = @service_requests.includes(:pharm_item, :request_store).where("created_at > ?", Time.strptime(requests_from, "%d/%m/%Y")) if !requests_from.blank?
-    @service_requests = @service_requests.includes(:pharm_item, :request_store).where(:status => status) if !status.blank? and status != "ALL"
+    @service_requests = @service_requests.includes(:order, :pharm_item, :request_store).where(:from_store_id => from_store).order("orders.created_at DESC") if !from_store.blank?
+    @service_requests = @service_requests.includes(:order,:pharm_item, :request_store).where(:pharm_item_id => generic_drug).order("orders.created_at DESC") if !generic_drug.blank?
+    @service_requests = @service_requests.includes(:order,:pharm_item, :request_store).where("created_at > ?", Time.strptime(requests_from, "%d/%m/%Y")).order("orders.created_at DESC") if !requests_from.blank?
+    @service_requests = @service_requests.includes(:order,:pharm_item, :request_store).where(:status => status).order("orders.created_at DESC") if !status.blank? and status != "ALL"
   end
 
   #order when drug stock is less. ordered for dispensary store

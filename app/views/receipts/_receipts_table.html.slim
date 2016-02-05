@@ -28,7 +28,8 @@ table.table#receipts_data_table
           /td = s.batch.brand.detailed_info
           td = (order.status == "SERVICE_COMPLETE" ? "AWAITING CONFIRMATION" : "COMPLETED")
           td
-             - if(order.status == "SERVICE_COMPLETE" and ((can? :manage , :all ) or order.ordered_by == current_user) )
+             - if(order.status == "SERVICE_COMPLETE" )
+               /and ((can? :manage , :all ) or order.ordered_by == current_user )
                a href="#" data-toggle="modal" data-target="#requests_#{order.id}"  Confirm
                = simple_form_for(order, :url => confirm_receipts_path , :method => :post ) do |f|
                      =f.hidden_field :id , :value => order.id

@@ -69,7 +69,7 @@ class PrescriptionVoucher
     counter = 0
     total=0
 
-    @prescription.prescription_batches.each do |p|
+    @prescription.prescription_batches.includes(:brand).order("brands.name ASC").each do |p|
       counter += 1
       total += ("%.2f" % ((p.qty.to_i) * ("%.2f" % p.rate).to_f)).to_f
       sub = "%.2f" % ((p.qty.to_i) * ("%.2f" % p.rate).to_f)

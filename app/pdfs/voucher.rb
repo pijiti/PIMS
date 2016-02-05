@@ -214,7 +214,7 @@ def get_table_data
                            'Qty Issued'
                        ]
   counter = 0
-  @order.service_requests.each do |s|
+  @order.service_requests.includes(:pharm_item).order('pharm_items.name ASC').each do |s|
     counter += 1
     s.receipts.each do |r|
     formatted_table.push [

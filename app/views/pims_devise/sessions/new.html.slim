@@ -1,33 +1,31 @@
 
-section#devise-sessions-new
+section#devise-sessions-new.loginWrapper
  
    #devise-sessions-new-header
        h2 Pharmaceutical Items Management System
        h4 State Specialist Hospital,Ondo
-   #devise-sessions-new-header-inner-homepath
-          = link_to "Home",root_path
+   #devise-sessions-new-header-inner-homepath.loginLogo
+          = link_to "Home",root_path 
+   .loginbox       
+     #devise-sessions-new-header-inner-label
+            h1 User Login
+            
+     #devise-sessions-new-body
           
-   #devise-sessions-new-header-inner-label
-          p Sign In
-          
-   #devise-sessions-new-body
-        
-        = simple_form_for(resource,
-                                       as: resource_name, 
-                                       url: session_path(resource_name)) do |f|
-             = f.input :username, placeholder: 'Your registered mobile number'
-             = f.input :password
-             
-             .checkbox
-              
-               label
+          = simple_form_for(resource,
+                                         as: resource_name, 
+                                         url: session_path(resource_name)) do |f|
+               = f.input :username, placeholder: 'Your registered mobile number'
+               = f.input :password
+               
+               .checkbox
                  - if devise_mapping.rememberable?
-                    
-                    = f.check_box :remember_me
-                    span Remember me
-             
-             .actions
-              = f.button :submit, 'Sign In', class: "btn-medium btn-primary"
+                      
+                      = f.check_box :remember_me
+                      label Remember me
+               
+               .actions
+                = f.button :submit, 'Sign In', class: "btn-medium btn-primary"
       
    footer#devise-sessions-new-footer
       

@@ -1,0 +1,391 @@
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Open Sans Light'), local('OpenSans-Light'), url(https://fonts.gstatic.com/s/opensans/v13/DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(https://fonts.gstatic.com/s/opensans/v13/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(https://fonts.gstatic.com/s/opensans/v13/MTP_ySUJH_bn48VBG8sNSnhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Open Sans Bold'), local('OpenSans-Bold'), url(https://fonts.gstatic.com/s/opensans/v13/k3k702ZOKiLJc3WVjuplzHhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+}
+.navbar-default {
+	background-color: $bgskyblue;
+	padding: 30px 0;
+	border: 0;
+	border-bottom: solid 2px #0b2637;
+	border-radius: 0; 
+	.navbar-brand {
+		padding-top: 0;
+		padding-bottom: 0;
+		height: auto;
+	}
+	.navbar-nav > li > a {
+		color: $Textwhite;
+		padding-left: 25px;
+		padding-right: 25px;
+		font-size: 15px;
+	}
+}
+.navbar-right {
+	li {
+		margin-right: 20px;
+	}
+	li:after {
+		width: 17px;
+		height: 17px;
+		position: absolute;
+		right: 0;
+		top: 17px;
+		background: image-url('sprite.png') no-repeat;
+		background-position: 0 0;
+		content: '';
+	}
+	li:nth-child(2):after {
+		background-position: 0 -20px;
+	}
+	li:last-child:after {
+		background-position: 0 -45px;	
+	}
+}
+.welcomeWrapper {
+	padding: 160px 0 0;
+	text-align: center;
+	color: $Textwhite;
+	position: relative;
+	z-index: 2;
+	font-family: 'Open Sans';
+	h1 {
+		font-size: 70px;
+		margin: 0;
+		font-weight: 600;
+	}
+	span {
+		padding: 20px 30px;
+		margin: 20px auto;
+		display: inline-block;
+		width: 200px;
+		background: $bgskyblue image-url('centerLogo.png') no-repeat center center;
+	}
+	p {
+		font-size: 30px;
+	}
+}
+.welcomeContainer {
+	position: relative;
+	padding-bottom: 10px;
+	.overlay {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		left: 0;
+		top: 0;
+		z-index: 1;
+		background: rgba(0, 0, 0, 0.6);
+	}
+}
+footer {
+	background-color: $bgskyblue;	
+	.copyright {
+		padding: 10px 0;
+		font-size: 13px;
+		text-align: center;
+		color: $Textwhite;
+	}
+}
+.applicatonMain {
+	.navbar-default {
+		padding: 20px 0 10px;
+	}
+}
+.loginWrapper {
+    padding: 50px 0 120px;
+    background-color: $bgskyblue;
+    h2 {
+    	margin: 0;
+    	padding: 50px 0 0;
+    	color: $Textwhite;
+    }
+    h4 {
+    	color: $Textwhite;
+    }
+    h2, h4 {
+    	text-align: center;
+    }
+    .loginLogo {
+    	background: image-url('logo.png') no-repeat center center;
+    	font-size: 0;
+    	width: 175px;
+    	height: 60px;
+    }
+    .loginbox {
+    	width: 360px;
+    	margin: 0 auto;
+    	background: $bgwhite;
+    	padding: 20px 30px;
+    	border-radius: 6px;
+    	h1 {
+    		margin-top: 0;
+    		margin-bottom: 20px;
+    		font-size: 16px;
+    		color: #4A9BCE;
+    		padding-left: 25px;
+    		background: image-url('sprite.png') no-repeat left -70px;
+    		line-height: 20px;
+    	}
+    	label {
+    		font-weight: normal;
+    		color: #666;
+    	}
+    	.form-control {
+    		border-radius: 3px;
+    		border-color: #ccc;
+    		padding: 10px;
+    		box-shadow: none;
+    		height: 40px;
+    		color: #999;
+    	}
+    	.form-control:focus {
+    		color: $Textdarkgray;
+    		border-color: #4A9BCE;
+    	}
+    	abbr[title], abbr[data-original-title] {
+    		border: none;
+    	}	
+    	.btn-primary {
+    		background-color: $bgskyblue;
+    		border: 0;
+    	}
+    }
+    #devise-sessions-new-footer {
+    	display: none;
+    }
+}
+.checkbox {
+	label:before {
+		width: 16px;
+		height: 16px;
+		position: absolute;
+		border: solid 1px #ccc;
+		background: $bgwhite;
+		content: '';
+		left: 0px;
+		top: 1px;
+		}
+	label {
+		padding-left: 25px;
+		cursor: default;
+		}
+	input[type="checkbox"] {
+			opacity: 0;
+			cursor: pointer;
+			margin: 0;
+			z-index: 2;
+			width: 18px;
+			height: 18px;
+	}
+	input[type="checkbox"]:checked + label:before {
+		content: '\2713';
+		line-height: 15px;
+		text-indent: 2px;
+		color: #4A9BCE;
+	}
+
+}
+.applicationMainBody {
+	.navbar-right li:after {
+		background: none;
+	}
+	.navbar-collapse.collapse {
+		padding: 0;
+	}
+}
+.navbar {
+	.hospitalName {
+		padding: 10px 15px;
+		color: #4a4a4a;
+		background-color: #fff;
+		border-radius: 6px;
+	}	
+}
+.mainMenu {
+	 font-size: 15px;
+	 float: right;
+	 margin: 0; 
+	 height: 56px;
+	 position: relative;
+	 z-index: 2;
+	 ul {
+	 	padding: 0;
+	 	margin: 0;
+	 }
+	 .panel {
+	 	border: 0;
+	 	background: none;
+	 	box-shadow: none;
+	 	margin: 15px 0 0;
+	 	li {
+	 		float: left;
+	 		list-style: none;
+	 		position: relative;
+	 	}
+	 	.collapse {
+	 		background-color: #2480ba; 
+	 		margin-top: 10px;
+	 		position: absolute;
+	 		height: auto !important;
+	 		width: 100%;
+	 		&:before {
+	 			position: absolute;
+	 			bottom: 100%;
+	 			right: 10px;
+	 			border-bottom: solid 7px #2480ba;
+	 			border-left: solid 7px transparent;
+	 			border-right: solid 7px transparent;
+	 			content: '';
+	 		}
+	 		a:hover {
+	 			background-color: #2b2b2b;
+	 			color: $Textwhite;
+	 		}
+	 		.list-group-item {
+	 			line-height: 20px;
+	 		}
+	 	}
+	 }
+	 .list-group-item {
+	 	font-size: 14px;
+	 	color: $Textwhite;
+	 	margin: 0;
+	 	border-radius: 0; 
+	 	text-align: left;
+	 	position: relative;
+	 	&:hover {
+	 		color: #444;
+	 	}
+	 	br {
+	 		display: none;
+	 	}
+	 }
+	 .list-group-item, .list-group-item:hover  {
+	 	background: none;
+	 	border: 0;
+
+	 }
+	 .list-group-item i.fa {
+	 	display: none;
+	 }
+	 .list-group-item:hover,
+	 .list-group-item:focus,
+	 .list-group-item-success:hover, 
+	 .list-group-item-success:focus {
+	 	background-color: #2480ba;
+	 	color: $Textwhite;
+	 	outline: none;
+	 	outline-offset: 0;
+	 }
+	 .list-group-item-success {
+	 	padding-right: 30px;
+	 	padding-left: 10px;
+	 }
+	 .list-group-item-success:after {
+	 	background: transparent image-url('sprite.png') no-repeat;
+	 	background-position: 0 -157px;
+	 	width: 18px;
+	 	height: 12px;
+	 	content: '';
+	 	position: absolute;
+	 	right: 5px;
+	 	top: 15px;
+	 }	
+}
+.active_store_ul {
+	max-width: 1160px;
+	margin: 0 auto 20px;
+	float: none;
+	padding: 20px 0 10px;
+	display: block;
+	border-bottom: solid 1px $borderGray;
+	li {
+		float: right;
+		strong {
+			margin: -2px 0 0 5px;
+			display: inline-block;
+		}
+	}
+	li:first-child {
+		float: left;
+	}
+	.form-group {
+		margin: 0;
+		border-radius: 0;
+		box-shadow: none;
+	}
+	.currentStore {
+		span {
+			float: left;
+			margin-right: 10px;
+			line-height: 30px;
+		}
+		.simple_form {
+			float: left;
+			width: 180px;
+		}
+		.select {
+			background: image-url('sprite.png') no-repeat 158px -97px;
+		} 	
+	}
+	.form-control {
+  		appearance: none;
+  		-webkit-appearance: none;
+  		-moz-appearance: none;
+  		-o-appearance: none;
+	}
+	li > a {
+		padding-top: 0;
+		padding-bottom: 0;
+		line-height: 30px;
+	}
+	li > a:hover, 
+	li > a:focus,
+	.open > a, 
+	.open > a:hover, 
+	.open > a:focus {
+		background: transparent;
+	}
+	.dropdown-menu {
+		min-width: 88%;
+		background: $bgskyblue;
+		box-shadow: none;
+		border: 0;
+		top: 45px;
+		right: 12px;
+		left: auto;
+		a {
+			color: $Textwhite;
+			text-decoration: none;
+		}
+		&:before {
+			position: absolute;
+ 			bottom: 100%;
+ 			right: 10px;
+ 			border-bottom: solid 7px #4A9BCE;
+ 			border-left: solid 7px transparent;
+ 			border-right: solid 7px transparent;
+ 			content: '';
+		}
+	}
+}

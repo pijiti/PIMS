@@ -205,7 +205,7 @@ $(document).ready(function () {
         total_calculation();
     });
 
-
+    $('.active_store_ul').insertAfter('.navbar-default');
 
 });
 

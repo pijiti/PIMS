@@ -67,9 +67,8 @@ class PrescriptionsController < ApplicationController
 
   def print_pdf
     pdf = PrescriptionVoucher.new(@prescription , current_store , current_user)
-    send_data pdf.generate ,filename: "#{@prescription.code}.pdf",
-              type: "application/pdf",
-              disposition: "inline"
+    file = pdf.generate
+    send_file file ,type: "application/pdf", disposition: "attachment"
 
   end
 

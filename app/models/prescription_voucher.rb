@@ -53,7 +53,9 @@ class PrescriptionVoucher
     @document.text "Don’t abuse drugs,consult a Pharmacist!", :size => 9, :styles => [:bold, :italic], :align => :center
     @document.move_down 5.mm
 
-    @document.render
+    puts "#{$pdf_files_location}/prescriptions/#{@prescription.code}.pdf"
+    @document.render_file "#{$pdf_files_location}/prescriptions/#{@prescription.code}.pdf"
+    "#{$pdf_files_location}/prescriptions/#{@prescription.code}.pdf"
   end
 
 

@@ -52,7 +52,7 @@ $(document).ready(function () {
     "columnDefs": [
         { "visible": false, "targets": 0 }
     ],
-        "order": [[ 1, 'asc' ]],
+        "order": [[ 0, 'desc' ]],
         "displayLength": 25,
         "drawCallback": function ( settings ) {
         var api = this.api();
@@ -62,14 +62,14 @@ $(document).ready(function () {
         api.column(0, {page:'current'} ).data().each( function ( group, i ) {
             if ( last !== group ) {
                 $(rows).eq( i ).before(
-                    '<tr class="group"><td colspan="9">'+group+'</td></tr>'
+                    '<tr class="group"><td colspan="7">'+group+'</td></tr>'
                 );
 
                 last = group;
             }
         } );
     }   ,
-        "order": [[ 0, "desc" ]]
+        //"order": [[ 6, "asc" ]]
 
     });
 

@@ -27,7 +27,8 @@ Rails.application.configure do
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = false
-  config.assets.logger = true
+  config.assets.logger = false
+  config.log_level = :info
 
   # Adds additional error checking when serving assets at runtime.
   # Checks for improperly declared sprockets dependencies.
@@ -43,6 +44,15 @@ Rails.application.configure do
       :password             => 'Billa123',
       :authentication       => :login,
   }
+  # config.action_mailer.smtp_settings = {
+  #     address:              'smtp.gmail.com',
+  #     port:                  587,
+  #     domain:               'gmail.com',
+  #     :user_name            => 'sshondopcy@gmail.com',
+  #     :password             => 'omega3/6',
+  #     :authentication       => :plain,
+  #     :enable_starttls_auto => true
+  # }
   #config.assets.precompile =  ['favicon.ico' , '*.png' , '*.jpg' , '*.ttf' , '*.woff']
   config.assets.precompile.push(Proc.new do |path|
     File.extname(path).in? [

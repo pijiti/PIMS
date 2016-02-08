@@ -1,4 +1,4 @@
-= simple_form_for @prescription,:html =>{class: "form-inline"} do |f|
+= simple_form_for @prescription,:html =>{class: "form-inline" } do |f|
   = f.hidden_field :patient_id , :value => @prescription.patient_id
   = f.input :code, as: :hidden
   table.table

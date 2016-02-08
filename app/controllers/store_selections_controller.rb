@@ -27,12 +27,11 @@ class StoreSelectionsController < ApplicationController
       next if store.open_time.blank? or store.close_time.blank? or !all_stores.include? store
       open_time = Time.zone.local(current_year,current_month,current_day, store.open_time.hour , store.open_time.min)
       close_time = Time.zone.local(current_year,current_month,current_day, store.close_time.hour , store.close_time.min)
-      logger.debug "===========Open time[#{open_time}]============"
-      logger.debug "===========Close time[#{close_time}]============"
-      if close_time < open_time and current_time > open_time
+      logger.info "===========Open time[#{open_time}]============"
+      logger.info "===========Close time[#{close_time}]============"
+      if close_time < open_time and (current_time > open_time or current_time < close_time)
         ids << store.id
       elsif current_time.between?(open_time,close_time)
-        logger.debug("YES!!!!#{store.id}")
         ids << store.id
       end
     end

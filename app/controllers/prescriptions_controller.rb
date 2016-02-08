@@ -1,6 +1,6 @@
 class PrescriptionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_prescription, only: [:show, :edit, :update, :destroy, :complete_dispense]
+  before_action :set_prescription, only: [:show, :edit, :update, :destroy, :complete_dispense, :print_pdf]
 
 
   def complete_dispense
@@ -64,6 +64,14 @@ class PrescriptionsController < ApplicationController
 
   end
 
+
+  def print_pdf
+    pdf = PrescriptionVoucher.new(@prescription , current_store , current_user)
+    file = pdf.generate
+    send_file file ,type: "application/pdf", disposition: "attachment"
+
+  end
+
   def search
     @prescriptions = Prescription.params[:query]
     render new
@@ -96,7 +104,9 @@ class PrescriptionsController < ApplicationController
     respond_to do |format|
       @prescription.total_calculation
       if @prescription.save
-        format.html { redirect_to prescriptions_path(:patient_id => @prescription.patient_id), notice: 'Prescription was successfully created.' }
+         flash[:prescription_created] = print_pdf_prescription_url(@prescription)
+         format.html { redirect_to prescriptions_path(:patient_id => @prescription.patient_id), notice: 'Prescription was successfully created.' }
+         # format.html{ redirect_to print_pdf_prescription_path(@prescription) }
       else
         @error = @prescription.errors.full_messages
         flash[:error] = "#{@error.to_sentence}"
@@ -118,7 +128,9 @@ class PrescriptionsController < ApplicationController
       params[:prescription][:total] = @prescription.total_calculation
       puts prescription_params
       if @prescription.update(prescription_params)
-        format.html { redirect_to prescriptions_path(:patient_id => @prescription.patient_id), notice: 'Prescription was successfully updated.' }
+         flash[:prescription_created] = print_pdf_prescription_url(@prescription)
+         format.html { redirect_to prescriptions_path(:patient_id => @prescription.patient_id), notice: 'Prescription was successfully updated.' }
+        # format.html{ redirect_to print_pdf_prescription_path(@prescription) }
       else
         @error = @prescription.errors.full_messages
         flash[:error] = "#{@error.to_sentence}"

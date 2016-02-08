@@ -81,8 +81,7 @@ class ReceiptsController < ApplicationController
     if can? :manage, :all
       @orders = Order.includes(:receipts).where(:status => ["SERVICE_COMPLETE", "DELIVERY_COMPLETE"]).order("id DESC")
     else
-      @to_store = current_store
-      @orders = Order.includes(:receipts).where(:status => ["SERVICE_COMPLETE", "DELIVERY_COMPLETE"]).order('id DESC')
+      @orders = Order.includes(:receipts).where(:from_store => current_store , :status => ["SERVICE_COMPLETE", "DELIVERY_COMPLETE"]).order('id DESC')
     end
     @filter = Receipt.new(:confirm_receipt => " ALL ")
     @stores = Store.all

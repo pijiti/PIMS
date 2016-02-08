@@ -1,5 +1,12 @@
 class UserMailer < ActionMailer::Base
-  default :from => "\"Auto Attend\" <admin@autoattend.com>"
+  # default :from => "sshondopcy@gmail.com"
+  default :from => "admin@autoattend.com"
+  def approval_alert(user, supply)
+    @user = user
+    @supply = supply
+    @signed_off = User.find_by_id(@supply.signed_off_by).try(:first_name)
+    mail(to: user.email, subject: 'New batch of drugs - Awaiting Approval')
+  end
 
   def approval_alert(user, supply)
     @user = user
@@ -29,6 +36,10 @@ class UserMailer < ActionMailer::Base
     @brand = b
     @order = order
     mail(to: u.email, subject: "Restocking of drugs request from #{s.name}")
+  end
+
+  def send_test_mail
+    mail(to: "vigneshp.ceg@gmail.com", subject: 'test mail')
   end
 
 

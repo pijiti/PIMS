@@ -164,10 +164,10 @@ class SuppliesController < ApplicationController
     end
 
     if can? :manage, :all
-      @service_requests ||= ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id).uniq).order("order_id DESC")
+      @service_requests ||= ServiceRequest.includes(:order, :pharm_item, :request_store, :from_store).where(:order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id).uniq).order("orders.created_at DESC").order('pharm_items.name ASC')
       @stores = Store.all
     else
-      @service_requests ||= ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:request_store => current_store, :order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id)).order("order_id DESC")
+      @service_requests ||= ServiceRequest.includes(:order , :pharm_item, :request_store, :from_store).where(:request_store => current_store, :order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id)).order("orders.created_at DESC").order('pharm_items.name ASC')
       @stores = Store.where(:id => current_store.id)
     end
 
@@ -185,16 +185,16 @@ class SuppliesController < ApplicationController
 
     @service_requests = ""
     if can? :manage, :all
-      @service_requests = ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id).uniq).order("order_id DESC")
+      @service_requests = ServiceRequest.includes(:order, :pharm_item, :request_store, :from_store).where(:order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id).uniq).order("orders.created_at DESC").order('pharm_items.name ASC')
       @stores = Store.all
     else
-      @service_requests = ServiceRequest.includes(:pharm_item, :request_store, :from_store).where(:request_store => current_store, :order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id).uniq).order("order_id DESC")
+      @service_requests = ServiceRequest.includes(:order, :pharm_item, :request_store, :from_store).where(:request_store => current_store, :order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id).uniq).order("orders.created_at DESC").order('pharm_items.name ASC')
       @stores = Store.where(:id => current_store.id)
     end
-    @service_requests = @service_requests.includes(:pharm_item, :request_store).where(:from_store_id => from_store) if !from_store.blank?
-    @service_requests = @service_requests.includes(:pharm_item, :request_store).where(:pharm_item_id => generic_drug) if !generic_drug.blank?
-    @service_requests = @service_requests.includes(:pharm_item, :request_store).where("created_at > ?", Time.strptime(requests_from, "%d/%m/%Y")) if !requests_from.blank?
-    @service_requests = @service_requests.includes(:pharm_item, :request_store).where(:status => status) if !status.blank? and status != "ALL"
+    @service_requests = @service_requests.includes(:order, :pharm_item, :request_store).where(:from_store_id => from_store).order("orders.created_at DESC").order('pharm_items.name ASC') if !from_store.blank?
+    @service_requests = @service_requests.includes(:order,:pharm_item, :request_store).where(:pharm_item_id => generic_drug).order("orders.created_at DESC").order('pharm_items.name ASC') if !generic_drug.blank?
+    @service_requests = @service_requests.includes(:order,:pharm_item, :request_store).where("created_at > ?", Time.strptime(requests_from, "%d/%m/%Y")).order("orders.created_at DESC").order('pharm_items.name ASC') if !requests_from.blank?
+    @service_requests = @service_requests.includes(:order,:pharm_item, :request_store).where(:status => status).order("orders.created_at DESC").order('pharm_items.name ASC') if !status.blank? and status != "ALL"
   end
 
   #order when drug stock is less. ordered for dispensary store
@@ -327,7 +327,7 @@ class SuppliesController < ApplicationController
       if ["approved", "rejected"].include? approval_status
         #send sms
         sms_to = User.find_by_id(@supply.signed_off_by)
-        send_sms(sms_to.username, "Hello #{sms_to.first_name}, the batch of drugs with reference - #{@supply.invoice_reference} has been #{approval_status}.") if sms_to
+        # send_sms(sms_to.username, "Hello #{sms_to.first_name}, the batch of drugs with reference - #{@supply.invoice_reference} has been #{approval_status}.") if sms_to
       end
     rescue => e
       @notice = e.message
@@ -354,7 +354,7 @@ class SuppliesController < ApplicationController
           ExceptionNotifier.notify_exception(e)
         end
         #sms notification
-        send_sms(user.username, "Hello #{user.first_name}, You have an invoice with reference - #{@supply.invoice_reference} waiting for approval.")
+        # send_sms(user.username, "Hello #{user.first_name}, You have an invoice with reference - #{@supply.invoice_reference} waiting for approval.")
         recipients_counter += 1
       end
       flash[:notice] = "Submitted for approval. Mail and sms notification dispatched to #{recipients_counter} recipients"

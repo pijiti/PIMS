@@ -63,7 +63,7 @@ class Voucher
   # Private: Write the content provided in the block into the 3rd through 11th rows and all columns.
   #
   def page_content
-    @document.grid([2,0], [31, 11]).bounding_box do
+    @document.grid([2,0], [35, 11]).bounding_box do
       @document.pad_top 10 do
         yield
       end
@@ -183,6 +183,7 @@ def write_service_requests
         end
     end
   end
+  write_signature_content
   end
 end
 #
@@ -246,75 +247,66 @@ end
         }
       end
     end
+    #footer_content do
+    #end
+    #end
+  end
 
-    footer_content do
+def write_signature_content
+  @document.move_down 120
+  if @document.y.to_f < 100
+    @document.start_new_page
+    @document.move_down(50)
+  end
+
     @document.fill_color '000000'
     @document.fill do
-      @document.rectangle [@document.bounds.left + 50 , @document.bounds.bottom + 73], 138, 1
+      @document.rectangle [@document.bounds.left + 50 ,  @document.cursor + 50], 138, 1
     end
     @document.text_box "", {
         align: :left,
-        at: [@document.bounds.left + 50 , @document.bounds.bottom + 85],
+        at: [@document.bounds.left + 50 , @document.cursor + 62],
         size: 10,
         style: :italic
     }
     @document.text_box "Store Keeper Name", {
         align: :left,
-        at: [@document.bounds.left + 50 , @document.bounds.bottom + 65],
+        at: [@document.bounds.left + 50 , @document.cursor + 42],
         size: 10,
         style: :italic
     }
 
     @document.fill_color '000000'
     @document.fill do
-      @document.rectangle [@document.bounds.left + 350, @document.bounds.bottom + 73], 117, 1
+      @document.rectangle [@document.bounds.left + 350, @document.cursor + 50], 117, 1
     end
     @document.text_box "Receiver Name", {
         align: :left,
-        at: [@document.bounds.left + 350 , @document.bounds.bottom + 65],
+        at: [@document.bounds.left + 350 , @document.cursor + 42],
         size: 10,
         style: :italic
     }
 
-    #@document.grid([7,1], [7,2]).bounding_box do
-      @document.fill_color '000000'
-      @document.fill do
-        @document.rectangle [@document.bounds.left + 50, @document.bounds.bottom + 20], 138, 1
-      end
-      @document.text_box "Store Keeper's Signature/Date", {
-          align: :left,
-          valign: :bottom,
-          at: [@document.bounds.left + 50, @document.bounds.top + 15],
-          size: 10,
-          style: :italic
-      }
-
-    #@document.fill_color '000000'
-    #@document.fill do
-    #  @document.rectangle [@document.bounds.left + 200 , @document.bounds.bottom + 20], 138, 1
-    #end
-    #@document.text_box "Approved by/Date", {
-    #    align: :left,
-    #    valign: :bottom,
-    #    at: [@document.bounds.left + 200 , @document.bounds.top + 15],
-    #    size: 10,
-    #    style: :italic
-    #}
-    #end
-
-    #@document.grid([34,10], [35,11]).bounding_box do
-      @document.fill_color '000000'
-      @document.fill do
-        @document.rectangle [@document.bounds.left + 350, @document.bounds.bottom + 20], 117, 1
-      end
-      @document.text_box "Receiver's Signature/Date", {
-          align: :left,
-          valign: :bottom,
-          at: [@document.bounds.left + 350, @document.bounds.top + 15],
-          size: 10,
-          style: :italic
-      }
+    @document.fill_color '000000'
+    @document.fill do
+      @document.rectangle [@document.bounds.left + 50, @document.cursor - 12], 138, 1
     end
-    #end
-  end
+    @document.text_box "Store Keeper's Signature/Date", {
+        align: :left,
+        at: [@document.bounds.left + 50, @document.cursor - 20],
+        size: 10,
+        style: :italic
+    }
+
+    @document.fill_color '000000'
+    @document.fill do
+      @document.rectangle [@document.bounds.left + 350, @document.cursor - 12], 117, 1
+    end
+    @document.text_box "Receiver's Signature/Date", {
+        align: :left,
+        at: [@document.bounds.left + 350, @document.cursor - 20],
+        size: 10,
+        style: :italic
+    }
+end
 end

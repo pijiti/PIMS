@@ -1,164 +1,166 @@
+<% if user_signed_in? and controller_name != "store_selections" %>
 <nav class="navbar navbar-default" role="navigation">
   <div class="container">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <%= link_to  front_pages_home_path, :class => "navbar-brand" do%>
-       <%= image_tag("logo.png", :alt => "logo.png") %>
-       <% end%>
-    </div>
-    <span class="hide " id="current_active_store"><%= current_store.try(:id)  %></span>
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <!--class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"-->
-    <div class="" id="">
-         <div class="text-right">
-            <span class="hospitalName"><%= PimsConfig.find_by_property_name("organization_name").property_value %></span>
-         </div>
-         <div id="MainMenu" class="mainMenu">
-          <div class="list-group panel">
-            <ul class="clearfix">
-              <li>
-                <%= link_to 'Dashboard'.html_safe, dashboard_path, class: "list-group-item text-center" %>
-              </li>
-              <li>
-                <%= link_to 'Reports'.html_safe, "#reports", class: "list-group-item list-group-item-success text-center",  "data-parent" => "#MainMenu" %>
-                <div class="collapse" id="reports">
-                  <%= link_to 'Stores'.html_safe, stores_reports_path , class: "list-group-item" %>
-                  <%= link_to 'Drugs'.html_safe, drugs_reports_path , class: "list-group-item" %>
-                </div>
-              </li>
-              <li>
-                <% if can? :manage, User %>
-                <%= link_to 'PIMS Management'.html_safe, "#application", class: "list-group-item list-group-item-success text-center",  "data-parent" => "#MainMenu" %>
-                
-                <div class="collapse" id="application">
-                  <div class="submenu">
-                  <%= link_to 'Store Setup'.html_safe, "#store", class: "list-group-item",  "data-parent" => "#SubMenu1" %>
 
-                  <div class="collapse list-group-submenu" id="store">
-                    <%= link_to "Store Category", store_types_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
-                    <%= link_to "Store Operation", store_operations_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
-                    <%= link_to "Store", stores_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
-                  </div>
-                  </div>
-                  <div class="submenu">
-                  <%= link_to 'User Setup'.html_safe, "#user", class: "list-group-item",  "data-parent" => "#SubMenu1" %>
-                  <div class="collapse list-group-submenu" id="user">
-                    <%= link_to "Staff Category", staff_categories_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
-                    <%= link_to "User", users_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
-                  </div>
-                </div>
-                <div class="submenu">
-                  <%= link_to 'General Setup'.html_safe, "#general", class: "list-group-item",  "data-parent" => "#SubMenu1" %>
-                  <div class="collapse list-group-submenu" id="general">
-                    <%= link_to "Vendor", vendors_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
-                    <%= link_to "Marketer", marketers_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
-                    <%= link_to "Hospital Unit", hospital_units_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
-                  </div>
-                 </div>
-                 <div class="submenu"> 
-                  <%= link_to 'Drug Item Setup'.html_safe, "#pharm_item", class: "list-group-item",  "data-parent" => "#SubMenu1" %>
-                  <div class="collapse list-group-submenu" id="pharm_item">
-                    <%= link_to "Drug Classification", item_classes_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
-                    <%= link_to "Dosage Form", unit_doses_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
-                    <%= link_to "Strength Unit", item_concentration_units_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
-                    <%= link_to "Generic", pharm_items_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
-                  </div>
-                </div>
-                <div class="submenu">
-                  <%= link_to 'Commercial'.html_safe, "#commercial", class: "list-group-item",  "data-parent" => "#SubMenu1" %>
-                  <div class="collapse list-group-submenu" id="commercial">
-                    <%= link_to "Surcharge", surcharges_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
-                  </div>
-                </div>
-                  <%= link_to 'PIMS configurations'.html_safe, pims_configs_path, class: "list-group-item" %>
-                </div>
-              <% end %>
-              </li>
-
-              <li>
-                <% if can? :manage, Supply %>
-                <%= link_to 'Items Management'.html_safe, "#item", class: "list-group-item list-group-item-success text-center",  "data-parent" => "#MainMenu" %>
-                <div class="collapse" id="item">
-                  <% if can? :manage , Vendor %>
-                      <%= link_to 'Supply'.html_safe, supplies_path, class: "list-group-item" %>
-                  <% end %>
-
-                  <% if can? :manage, Store %>
-                      <%= link_to 'Approval'.html_safe, approval_index_approvals_path, class: "list-group-item" %>
-                  <% end %>
-                  <%= link_to 'Inventory'.html_safe, inventory_index_path, class: "list-group-item" %>
-
-                  <% if (can? :manage , :all)  or (current_store and current_store.store_type.name.downcase.include? "main store")  %>
-                      <%= link_to 'Service Request'.html_safe, service_request_supplies_path, class: "list-group-item" %>
-                  <% end %>
-
-                  <% if (can? :manage , :all)  or (current_store.parent.blank?)  %>
-                      <%= link_to 'Transfer batches'.html_safe, transfer_drugs_supplies_path, class: "list-group-item" %>
-                  <% end %>
-                  <% if can? :manage, Store %>
-                      <%= link_to 'Confirm Delivery'.html_safe, receipts_path, class: "list-group-item" %>
-                      <%= link_to 'Expired drugs'.html_safe, expired_drugs_supplies_path, class: "list-group-item" %>
-                      <%= link_to 'Lost drugs'.html_safe, lost_drugs_receipts_path, class: "list-group-item" %>
-
-                      <%= link_to 'Ramp up batches'.html_safe, ramp_up_batches_path, class: "list-group-item" %>
-                  <% end %>
-                </div>
-
-             <% elsif can? :manage , Inventory%>
-                <%= link_to 'Items Management '.html_safe, "#item", class: "list-group-item list-group-item-success text-center",  "data-parent" => "#MainMenu" %>
-                    <div class="collapse" id="item">
-                      <%= link_to 'Inventory'.html_safe, inventory_index_path, class: "list-group-item" %>
-                      <% if can? :manage , Receipt %>
-                          <%= link_to 'Confirm Delivery'.html_safe, receipts_path, class: "list-group-item" %>
-                      <% end %>
-                    </div>
-
-              <% end %>
-              </li>
-              <li>
-                <% if can? :manage, Patient %>
-                <%= link_to 'Patient Management'.html_safe, "#patient", class: "list-group-item list-group-item-success text-center",  "data-parent" => "#MainMenu" %>
-                <div class="collapse" id="patient">
-                  <%= link_to 'Billing'.html_safe, patients_path, class: "list-group-item" %>
-                  <%= link_to 'Collate'.html_safe, collate_prescriptions_path, class: "list-group-item" %>
-                  <% if can? :manage, Prescription %>
-                      <%= link_to 'Dispense'.html_safe, dispense_prescriptions_path, class: "list-group-item" %>
-                  <% end %>
-                  <%#= link_to '<i class="fa fa-repeat fa-fw blue"></i>Request Items'.html_safe, requests_path, class: "list-group-item" %>
-                  <%= link_to 'Return'.html_safe, new_user_profile_path, class: "list-group-item" %>
-                </div>
-            <% end %>
-              </li>
-              <li>
-                <% if can? :manage, Surcharge %>
-                  <%= link_to 'Audit '.html_safe, "#audit", class: "list-group-item text-center" %>
-                <% end %>
-              </li>
-              <li>
-                <%= link_to 'Notifications '.html_safe, get_notifications_alerts_path, class: "list-group-item text-center" %>
-              </li>
-              <li>
-                <%= link_to 'My Account '.html_safe, "#account", class: "list-group-item list-group-item-success text-center",  "data-parent" => "#MainMenu" %>
-                <div class="collapse last" id="account2" >
-                  <%= link_to 'User Information'.html_safe, user_profiles_path, class: "list-group-item" %>
-                  <%= link_to 'Password'.html_safe, user_profiles_path, class: "list-group-item" %>
-                </div>
-              </li>
-            </ul>
-          </div>
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <%= link_to front_pages_home_path, :class => "navbar-brand" do %>
+              <%= image_tag("logo.png", :alt => "logo.png") %>
+          <% end %>
         </div>
-      <% if user_signed_in? and controller_name != "store_selections"%>
+        <span class="hide " id="current_active_store"><%= current_store.try(:id) %></span>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!--class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"-->
+        <div class="" id="">
+          <div class="text-right">
+            <span class="hospitalName"><%= PimsConfig.find_by_property_name("organization_name").property_value %></span>
+          </div>
+          <div id="MainMenu" class="mainMenu">
+            <div class="list-group panel">
+              <ul class="clearfix">
+                <li>
+                  <%= link_to 'Dashboard'.html_safe, dashboard_path, class: "list-group-item text-center" %>
+                </li>
+                <li>
+                  <%= link_to 'Reports'.html_safe, "#reports", class: "list-group-item list-group-item-success text-center", "data-parent" => "#MainMenu" %>
+                  <div class="collapse" id="reports">
+                    <%= link_to 'Stores'.html_safe, stores_reports_path, class: "list-group-item" %>
+                    <%= link_to 'Drugs'.html_safe, drugs_reports_path, class: "list-group-item" %>
+                  </div>
+                </li>
+                <li>
+                  <% if can? :manage, User %>
+                      <%= link_to 'PIMS Management'.html_safe, "#application", class: "list-group-item list-group-item-success text-center", "data-parent" => "#MainMenu" %>
+
+                      <div class="collapse" id="application">
+                        <div class="submenu">
+                          <%= link_to 'Store Setup'.html_safe, "#store", class: "list-group-item", "data-parent" => "#SubMenu1" %>
+
+                          <div class="collapse list-group-submenu" id="store">
+                            <%= link_to "Store Category", store_types_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
+                            <%= link_to "Store Operation", store_operations_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
+                            <%= link_to "Store", stores_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
+                          </div>
+                        </div>
+                        <div class="submenu">
+                          <%= link_to 'User Setup'.html_safe, "#user", class: "list-group-item", "data-parent" => "#SubMenu1" %>
+                          <div class="collapse list-group-submenu" id="user">
+                            <%= link_to "Staff Category", staff_categories_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
+                            <%= link_to "User", users_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
+                          </div>
+                        </div>
+                        <div class="submenu">
+                          <%= link_to 'General Setup'.html_safe, "#general", class: "list-group-item", "data-parent" => "#SubMenu1" %>
+                          <div class="collapse list-group-submenu" id="general">
+                            <%= link_to "Vendor", vendors_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
+                            <%= link_to "Marketer", marketers_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
+                            <%= link_to "Hospital Unit", hospital_units_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
+                          </div>
+                        </div>
+                        <div class="submenu">
+                          <%= link_to 'Drug Item Setup'.html_safe, "#pharm_item", class: "list-group-item", "data-parent" => "#SubMenu1" %>
+                          <div class="collapse list-group-submenu" id="pharm_item">
+                            <%= link_to "Drug Classification", item_classes_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
+                            <%= link_to "Dosage Form", unit_doses_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
+                            <%= link_to "Strength Unit", item_concentration_units_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
+                            <%= link_to "Generic", pharm_items_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
+                          </div>
+                        </div>
+                        <div class="submenu">
+                          <%= link_to 'Commercial'.html_safe, "#commercial", class: "list-group-item", "data-parent" => "#SubMenu1" %>
+                          <div class="collapse list-group-submenu" id="commercial">
+                            <%= link_to "Surcharge", surcharges_path, class: "list-group-item", "data-parent" => "#SubMenu1" %>
+                          </div>
+                        </div>
+                        <%= link_to 'PIMS configurations'.html_safe, pims_configs_path, class: "list-group-item" %>
+                      </div>
+                  <% end %>
+                </li>
+
+                <li>
+                  <% if can? :manage, Supply %>
+                      <%= link_to 'Items Management'.html_safe, "#item", class: "list-group-item list-group-item-success text-center", "data-parent" => "#MainMenu" %>
+                      <div class="collapse" id="item">
+                        <% if can? :manage, Vendor %>
+                            <%= link_to 'Supply'.html_safe, supplies_path, class: "list-group-item" %>
+                        <% end %>
+
+                        <% if can? :manage, Store %>
+                            <%= link_to 'Approval'.html_safe, approval_index_approvals_path, class: "list-group-item" %>
+                        <% end %>
+                        <%= link_to 'Inventory'.html_safe, inventory_index_path, class: "list-group-item" %>
+
+                        <% if (can? :manage, :all) or (current_store and current_store.store_type.name.downcase.include? "main store") %>
+                            <%= link_to 'Service Request'.html_safe, service_request_supplies_path, class: "list-group-item" %>
+                        <% end %>
+
+                        <% if (can? :manage, :all) or (current_store.parent.blank?) %>
+                            <%= link_to 'Transfer batches'.html_safe, transfer_drugs_supplies_path, class: "list-group-item" %>
+                        <% end %>
+                        <% if can? :manage, Store %>
+                            <%= link_to 'Confirm Delivery'.html_safe, receipts_path, class: "list-group-item" %>
+                            <%= link_to 'Expired drugs'.html_safe, expired_drugs_supplies_path, class: "list-group-item" %>
+                            <%= link_to 'Lost drugs'.html_safe, lost_drugs_receipts_path, class: "list-group-item" %>
+
+                            <%= link_to 'Ramp up batches'.html_safe, ramp_up_batches_path, class: "list-group-item" %>
+                        <% end %>
+                      </div>
+
+                  <% elsif can? :manage, Inventory %>
+                      <%= link_to 'Items Management '.html_safe, "#item", class: "list-group-item list-group-item-success text-center", "data-parent" => "#MainMenu" %>
+                      <div class="collapse" id="item">
+                        <%= link_to 'Inventory'.html_safe, inventory_index_path, class: "list-group-item" %>
+                        <% if can? :manage, Receipt %>
+                            <%= link_to 'Confirm Delivery'.html_safe, receipts_path, class: "list-group-item" %>
+                        <% end %>
+                      </div>
+
+                  <% end %>
+                </li>
+                <li>
+                  <% if can? :manage, Patient %>
+                      <%= link_to 'Patient Management'.html_safe, "#patient", class: "list-group-item list-group-item-success text-center", "data-parent" => "#MainMenu" %>
+                      <div class="collapse" id="patient">
+                        <%= link_to 'Billing'.html_safe, patients_path, class: "list-group-item" %>
+                        <%= link_to 'Collate'.html_safe, collate_prescriptions_path, class: "list-group-item" %>
+                        <% if can? :manage, Prescription %>
+                            <%= link_to 'Dispense'.html_safe, dispense_prescriptions_path, class: "list-group-item" %>
+                        <% end %>
+                        <%#= link_to '<i class="fa fa-repeat fa-fw blue"></i>Request Items'.html_safe, requests_path, class: "list-group-item" %>
+                        <%= link_to 'Return'.html_safe, new_user_profile_path, class: "list-group-item" %>
+                      </div>
+                  <% end %>
+                </li>
+                <li>
+                  <% if can? :manage, Surcharge %>
+                      <%= link_to 'Audit '.html_safe, "#audit", class: "list-group-item text-center" %>
+                  <% end %>
+                </li>
+                <li>
+                  <%= link_to 'Notifications '.html_safe, get_notifications_alerts_path, class: "list-group-item text-center" %>
+                </li>
+                <li>
+                  <%= link_to 'My Account '.html_safe, "#account", class: "list-group-item list-group-item-success text-center", "data-parent" => "#MainMenu" %>
+                  <div class="collapse last" id="account2">
+                    <%= link_to 'User Information'.html_safe, user_profiles_path, class: "list-group-item" %>
+                    <%= link_to 'Password'.html_safe, user_profiles_path, class: "list-group-item" %>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
           <ul class="nav navbar-nav active_store_ul clearfix">
             <li class="currentStore">
               <span>Current Active Store :</span>
-              <%= simple_form_for(current_store || Store.new, :method => :post, :url => set_active_store_stores_path ) do |f| %>
-                      <%= f.input :active_store, collection: stores_based_on_current_time , :selected => current_store.try(:id)   , :include_blank => true, :input_html => {:class => "active_store" } , label: false  %>
+              <%= simple_form_for(current_store || Store.new, :method => :post, :url => set_active_store_stores_path) do |f| %>
+                  <%= f.input :active_store, collection: stores_based_on_current_time, :selected => current_store.try(:id), :include_blank => true, :input_html => {:class => "active_store"}, label: false %>
               <% end %>
             </li>
             <li class="dropdown userDropdown">
@@ -174,28 +176,28 @@
               <%= render 'shared/notifications_menu' %>
             </li>
 
-            <% if can? :manage , Alert %>
-              <li class="dropdown custom_alert_menu" id="custom_alert_li">
-                <%= render 'shared/custom_alert_menu' %>
-              </li>
+            <% if can? :manage, Alert %>
+                <li class="dropdown custom_alert_menu" id="custom_alert_li">
+                  <%= render 'shared/custom_alert_menu' %>
+                </li>
             <% end %>
             <li class="dropdown" id="orders_li">
               <%= render 'shared/orders_menu' %>
             </li>
 
-            
+
           </ul>
-      <% elsif user_signed_in?  %>
-          <ul class="nav navbar-nav navbar-right active_store_ul">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">  <%= me.try(:full_name) %>
+    <% elsif user_signed_in? %>
+        <ul class="nav navbar-nav navbar-right active_store_ul">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">  <%= me.try(:full_name) %>
               <span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <%= link_to 'Logout', destroy_user_session_path, :method => :delete %>
-              </ul>
-            </li>
-          </ul>
-      <% end %>
+            <ul class="dropdown-menu" role="menu">
+              <%= link_to 'Logout', destroy_user_session_path, :method => :delete %>
+            </ul>
+          </li>
+        </ul>
+    <% end %>
     </div>
     <!-- /.navbar-collapse -->
   </div>

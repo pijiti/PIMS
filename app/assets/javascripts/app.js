@@ -206,7 +206,9 @@ $(document).ready(function () {
     });
 
     $('.active_store_ul').insertAfter('.navbar-default');
-
+    $('.mainMenu .submenu').on('mouseenter',function() {
+        $(this).parents('.list-group-submenu').slideDown();
+    });
 });
 
 

@@ -241,6 +241,14 @@ footer {
 	 		float: left;
 	 		list-style: none;
 	 		position: relative;
+	 		padding-bottom: 10px;
+	 	}
+	 	li:hover .collapse {
+	 		display: block;
+	 	}
+	 	li:hover a {
+	 		background-color: #2480ba;
+	 		color: $Textwhite;
 	 	}
 	 	.collapse {
 	 		background-color: #2480ba; 
@@ -265,6 +273,11 @@ footer {
 	 			line-height: 20px;
 	 		}
 	 	}
+	 	
+	 }
+	 .collapse.last {
+	 	width: 150px;
+	 	right: 0;
 	 }
 	 .list-group-item {
 	 	font-size: 14px;
@@ -310,6 +323,49 @@ footer {
 	 	position: absolute;
 	 	right: 5px;
 	 	top: 15px;
+	 	transition: all 0.3s ease-in-out;
+	 }
+	 .list-group-item-success:hover:after {
+	 	background-position: 0 -179px;
+	 }
+	 .submenu {
+	 	background-color: #2673a3;
+	 	position: relative;
+	 	overflow: hidden;
+	 	&:after {
+	 		position: absolute;
+	 		right: 10px;
+	 		top: 5px;
+	 		content: '+';
+	 		font-size: 20px;
+	 		color: #fff;
+	 	}
+	 	&:hover:after {
+	 		content: '_';
+	 		top: -3px;
+	 	}
+	 	&:hover a:first-child {
+	 		background-color: #2B2B2B;
+	 	}
+	 	&:hover {
+	 		overflow: visible;
+	 	}
+	 	.collapse:before {
+	 		display: none;
+	 	}
+	 	.list-group-submenu a {
+	 		background-color: #115784!important;
+	 		&:hover {
+	 			background-color: #2B2B2B!important;
+	 		}
+	 	}
+	 }
+	 .submenu:hover .list-group-submenu {
+	 		display: block ;
+	 		left: 100%;
+	 		top:0;
+	 		margin: 0;
+
 	 }	
 }
 .active_store_ul {
@@ -321,11 +377,22 @@ footer {
 	border-bottom: solid 1px $borderGray;
 	li {
 		float: right;
-		strong {
-			margin: -2px 0 0 5px;
-			display: inline-block;
+		.caret {
+			float: right;
+			margin: 12px 0 0 8px;
 		}
 	}
+	.userDropdown strong {
+			margin: -2px 0 0 10px;
+			float: right;
+			width: 32px;
+			height: 32px;
+			border-radius: 100%;
+			overflow: hidden;
+			img {
+				max-width: 100%; 
+			} 
+		}
 	li:first-child {
 		float: left;
 	}
@@ -338,22 +405,34 @@ footer {
 		span {
 			float: left;
 			margin-right: 10px;
-			line-height: 30px;
+			line-height: 34px;
 		}
 		.simple_form {
 			float: left;
 			width: 180px;
 		}
-		.select {
-			background: image-url('sprite.png') no-repeat 158px -97px;
-		} 	
 	}
-	.form-control {
+	#store_active_store {
+		height: 34px;
+		line-height: 22px;
+	}
+	select.form-control {
   		appearance: none;
   		-webkit-appearance: none;
   		-moz-appearance: none;
   		-o-appearance: none;
+  		padding-right: 30px;
+  		display: flex;
+  		padding-top: 8px;
+  		padding-bottom: 0;
 	}
+	select.form-control {
+		background: image-url('downarrow.png') no-repeat 95% 12px;
+		transition: all 0.3s ease-in-out;
+		&:focus {
+			background-position: 95% -28px;
+		}
+	} 
 	li > a {
 		padding-top: 0;
 		padding-bottom: 0;
@@ -367,25 +446,62 @@ footer {
 		background: transparent;
 	}
 	.dropdown-menu {
-		min-width: 88%;
-		background: $bgskyblue;
-		box-shadow: none;
-		border: 0;
-		top: 45px;
+		top: 44px;
 		right: 12px;
 		left: auto;
+		box-shadow: 1px 1px 2px #ccc; 
+		width: 150px;
+		li {
+			float: none;
+		}
 		a {
-			color: $Textwhite;
+			white-space: normal;
 			text-decoration: none;
+			display: block;
+			padding: 0;
+			font-size: 12px;
+			line-height: 20px;
+			strong {
+				font-weight: normal;
+				padding: 5px 0;
+				display: block;
+			}
 		}
 		&:before {
 			position: absolute;
  			bottom: 100%;
  			right: 10px;
- 			border-bottom: solid 7px #4A9BCE;
+ 			border-bottom: solid 7px #ccc;
  			border-left: solid 7px transparent;
  			border-right: solid 7px transparent;
  			content: '';
 		}
 	}
+	.list-group {
+		height: 250px;
+		overflow-y: scroll;
+		width: 250px;
+		li {
+			float: none;
+		}
+	}
+}
+.form-control {
+	border-radius: 0; 
+}
+.custom_alert_menu {
+	font-size: 13px;
+	.form-group {
+		margin-bottom: 10px;
+	}
+	textarea.form-control {
+		height: 80px;
+		resize: none;
+		font-size: 12px;
+	}
+}
+.btn, .btn-primary {
+	background-color: $bgskyblue;
+	border: 0;
+	color: $Textwhite;
 }

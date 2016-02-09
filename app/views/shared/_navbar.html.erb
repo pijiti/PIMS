@@ -165,14 +165,14 @@
             </li>
             <li class="dropdown userDropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">  <%= me.try(:full_name) %>
-                <strong><%= image_tag("vavtar.jpg", :alt => "vavtar.jpg") %></strong>
+                <strong><%= image_tag("usericon.png", :alt => "usericon.png") %></strong>
                 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu" role="menu">
                 <%= link_to 'Logout', destroy_user_session_path, :method => :delete %>
               </ul>
             </li>
-            <li class="dropdown" id="notification_li">
+            <li class="dropdown notificationDropdown" id="notification_li">
               <%= render 'shared/notifications_menu' %>
             </li>
 

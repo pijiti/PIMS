@@ -418,23 +418,6 @@ footer {
 		height: 34px;
 		line-height: 22px;
 	}
-	select.form-control {
-  		appearance: none;
-  		-webkit-appearance: none;
-  		-moz-appearance: none;
-  		-o-appearance: none;
-  		padding-right: 30px;
-  		display: flex;
-  		padding-top: 8px;
-  		padding-bottom: 0;
-	}
-	select.form-control {
-		background: image-url('downarrow.png') no-repeat 95% 12px;
-		transition: all 0.3s ease-in-out;
-		&:focus {
-			background-position: 95% -28px;
-		}
-	} 
 	li > a {
 		padding-top: 0;
 		padding-bottom: 0;

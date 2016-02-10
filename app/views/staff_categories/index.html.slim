@@ -14,7 +14,8 @@ section#pims-index
             tr
               th Name
               th Description
-              th
+              th.text-right 
+                span aria-hidden="true" class="glyphicon glyphicon-sort "
         
           tbody.staff-categories
             - @staff_categories.each do |staff_category| 

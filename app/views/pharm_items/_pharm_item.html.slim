@@ -42,6 +42,8 @@ tr.pharm-item data-id = pharm_item.id
                         td.name = brand.try(:min_dispensable)
                         td = brand.try(:main_restock_level)
                         td = brand.try(:dispensary_restock_level)
-        td.text-right
-            a.btn.btn-primary.btn-xs href = edit_pharm_item_path(pharm_item) data-remote='true'  Edit
-            a.btn.btn-danger.btn-xs href = pharm_item_path(pharm_item) data-confirm='Are you sure?' data-method = 'delete'  data-remote = 'true'  Destroy
+        td.actions
+            a href = edit_pharm_item_path(pharm_item) data-remote='true'
+                span aria-hidden="true" class="glyphicon glyphicon-pencil"
+            a href = pharm_item_path(pharm_item) data-confirm='Are you sure?' data-method = 'delete'  data-remote = 'true'
+                span aria-hidden="true" class="glyphicon glyphicon-trash"

@@ -11,9 +11,8 @@ section#pims-index
               tr
               th Hospital Unit
               th Description
-              th
-        
-        
+              th.text-right
+                 span aria-hidden="true" class="glyphicon glyphicon-sort"
         
           tbody.hospital-units
              - @hospital_units.each  do |hospital_unit|

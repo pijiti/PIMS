@@ -7,6 +7,8 @@
        td = marketer.contact_mobile
        td = marketer.contact_email
        td.foreign = marketer.foreign.to_s.capitalize
-       td.text-right
-            a.btn.btn-primary.btn-xs href = edit_marketer_path(marketer) data-remote='true'  data-disable-with='Editing...'  Edit 
-            a.btn.btn-danger.btn-xs href = marketer_path(marketer) data-method='delete'  data-remote=true  data-confirm='Are you sure you want delete?'   Destroy
+       td.actions
+            a href = edit_marketer_path(marketer) data-remote='true'  data-disable-with='Editing...'     
+                  span aria-hidden="true" class="glyphicon glyphicon-pencil"
+            a href = marketer_path(marketer) data-method='delete'  data-remote=true  data-confirm='Are you sure you want delete?'
+                  span aria-hidden="true" class="glyphicon glyphicon-trash"

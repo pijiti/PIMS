@@ -13,7 +13,8 @@ section#pims-index
              th Type
              th Charge rate
              th Status
-             th
+             th.text-right
+                span aria-hidden="true" class="glyphicon glyphicon-sort"
 
           tbody.surcharges
              - @surcharges.each do |surcharge|

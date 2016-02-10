@@ -13,6 +13,8 @@ tr.item-class  data-id = item_class.id
                     tr
                     td = sub_class.try(:name)
                     td = sub_class.try(:description)
-        td.text-right
-            a.btn.btn-primary.btn-xs href =  edit_item_class_path(item_class) data-remote='true'  Edit
-            a.btn.btn-danger.btn-xs href = item_class_path(item_class) data-method='delete'  data-remote='true'  Destroy
+        td.actions
+            a href =  edit_item_class_path(item_class) data-remote='true'
+                span aria-hidden="true" class="glyphicon glyphicon-pencil"
+            a href = item_class_path(item_class) data-method='delete'  data-remote='true'
+                span aria-hidden="true" class="glyphicon glyphicon-trash"

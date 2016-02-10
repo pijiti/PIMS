@@ -19,9 +19,13 @@
                                     td.name = role.try(:name)
                                     td.store-name = role.resource.try(:name)
 
-                      td.text-right
-                         a.btn.btn-info.btn-xs href=password_reset_user_path(user) data-method='patch' data-confirm='Are you sure?'  data-remote=true  Change Password
+                      td.actions
+                         a href=password_reset_user_path(user) data-method='patch' data-confirm='Are you sure?'  data-remote=true  
+                            span aria-hidden="true" class="glyphicon glyphicon-lock"
 
-                         a.btn.btn-primary.btn-xs href=edit_user_path(user) data-remote='true'   Edit
-                         /a.btn.btn-danger.btn-xs href=user_path(user) data-method='delete'   data-remote='true'   Destroy
-                         = link_to 'Destroy', user_path(user) ,:remote => true, method: :delete, data: { confirm: 'Are you sure?' } , class: "btn btn-danger btn-xs"
+                         a href=edit_user_path(user) data-remote='true'
+                            span aria-hidden="true" class="glyphicon glyphicon-pencil"
+                         /a.btn.btn-danger.btn-xs href=user_path(user) data-method='delete'   data-remote='true'
+                            span aria-hidden="true" class="glyphicon glyphicon-trash"
+                         = link_to 'Destroy', user_path(user) ,:remote => true, method: :delete, data: { confirm: 'Are you sure?' } , class: "" 
+                            

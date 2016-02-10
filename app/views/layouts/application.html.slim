@@ -11,7 +11,7 @@ html
 				= render 'shared/navbar'
 				#application-main-body-yield
 
-				.col-md-offset-1.col-md-10
+				.container
 				    /-unless !current_store.try(:name).present?    or current_user.has_role? :admin
 				        h5 ="Your active store is: #{current_store.try(:name)}"
 				    /-unless !current_store.try(:name).present?

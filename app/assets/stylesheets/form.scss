@@ -1,0 +1,58 @@
+.well {
+	box-shadow: none;
+}
+select.form-control {
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	-o-appearance: none;
+	padding-right: 30px;
+	display: flex!important;
+	padding-top: 8px;
+	padding-bottom: 0;
+	background: image-url('downarrow.png') no-repeat 95% 12px;
+	transition: all 0.3s ease-in-out;
+	&:focus {
+		background-position: 95% -28px;
+	}
+}
+.form-control {
+	box-shadow: none;
+}
+form {
+	label {
+		font-size: 16px;
+		font-weight: normal;
+	}
+}
+
+/*table css*/
+table {
+	thead {
+		background-color: $bgdarkgray;
+		th {
+			font-size: 15px;
+			color: $Textwhite;
+			font-weight: normal;
+			padding: 10px !important;
+		}
+	}
+	td {
+		padding: 8px !important;
+	}
+	.actions {
+		text-align: right;
+		a {
+			color: $Textdarkgray;
+			display: inline-block;
+			margin-left: 5px;
+		}
+		span {
+			padding: 5px;
+		}
+	}
+}
+.storeTypeEditForm {
+	width: 100%;
+	border-radius: 0;
+}

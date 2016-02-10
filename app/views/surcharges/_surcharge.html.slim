@@ -23,6 +23,9 @@ tr.surcharge data-id = surcharge.id
                       a href ='#' = number_to_percentage(surcharge_item.try(:value),precision: 0)
 
    td.active1 = surcharge.try(:active).to_s.capitalize
-   td.text-right
-        a.btn.btn-primary.btn-xs href = edit_surcharge_path(surcharge) data-remote='true'  Edit
-        a.btn.btn-danger.btn-xs href = surcharge_path(surcharge) data-method='delete'   data-remote='true'  Destroy
+   td.actions
+        a href = edit_surcharge_path(surcharge) data-remote='true'
+          span aria-hidden="true" class="glyphicon glyphicon-pencil"
+        a href = surcharge_path(surcharge) data-method='delete'   data-remote='true'
+          span aria-hidden="true" class="glyphicon glyphicon-trash"
+

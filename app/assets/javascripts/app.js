@@ -209,11 +209,7 @@ $(document).ready(function () {
     $('.mainMenu .submenu').on('mouseenter',function() {
         $(this).parents('.list-group-submenu').slideDown();
     });
-    $('.notificationDropdown p').insertBefore('.notificationDropdown li:first-child');
-
-    $('.notificationDropdown .list-group').append('<div class="notificationList"><div>');
-    $('.notificationDropdown li').appendTo('.notificationList');
-
+    
 });
 
 

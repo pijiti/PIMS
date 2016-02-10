@@ -455,10 +455,10 @@ footer {
 		width: 150px;
 		li {
 			float: none;
-			background-color: transparent!important;
+			background-color: transparent;
 		}
 		li.divider {
-			background-color: #ccc!important;
+			background-color: #ccc;
 		}
 		a {
 			white-space: normal;
@@ -514,30 +514,31 @@ footer {
 .active_store_ul {
 	.notificationDropdown {
 		.list-group {
-			
+			padding: 0;
+		}
+		.readmessages a {	
+			padding: 10px 0;
+			background-color: #fafafa;	
+			border: solid 1px #ccc; 
+			color: $Textdarkgray;
+			border-radius: 3px;
 		}
 		.notificationList {
 			height: 200px;
 			overflow-y: scroll;
-			padding-right: 10px;
+			padding: 10px;
 		}
-		p {
+		.notificationHead {
 			background-color: #c8dfeb;
-			border-bottom: solid 1px $borderGray; 
-			padding-bottom: 10px ;	
-			margin: 0 -5px 10px -10px;
+			border-bottom: solid 1px #4A9BCE; 
+			padding: 10px 0;	
+			margin-bottom: 10px;
 			a {
-				font-size: 14px !important;
+				font-size: 14px;
 				text-transform: capitalize;	
 				color: $Textdarkgray;
 				text-decoration: underline;
 			}
-		}
-		p:first-child { 
-			margin: -10px -5px 0 -10px;
-			border: 0;
-			padding: 0;
-			padding-top: 10px;
 		}
 	}
 }

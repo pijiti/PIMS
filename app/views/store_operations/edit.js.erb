@@ -1,1 +1,1 @@
-$(".store-operation[data-id='<%= @store_operation.id %>']").replaceWith('<%=j render 'edit', store_operation: @store_operation %>');
+$(".store-operation[data-id='<%= @store_operation.id %>']").html('<td colspan="4"><%=j render 'edit', store_operation: @store_operation %></td>');

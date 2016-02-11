@@ -10,14 +10,17 @@ select.form-control {
 	display: flex!important;
 	padding-top: 8px;
 	padding-bottom: 0;
-	background: image-url('downarrow.png') no-repeat 95% 12px;
+	background: image-url('downarrow.png') no-repeat right 12px;
 	transition: all 0.3s ease-in-out;
+	background-color: #fff;
+	height: 34px;
 	&:focus {
-		background-position: 95% -28px;
+		background-position: right -28px;
 	}
 }
 .form-control {
 	box-shadow: none;
+	height: 34px;
 }
 form {
 	label {
@@ -30,6 +33,7 @@ form {
 table {
 	thead {
 		background-color: $bgdarkgray;
+		
 		th {
 			font-size: 15px;
 			color: $Textwhite;
@@ -52,7 +56,184 @@ table {
 		}
 	}
 }
-.storeTypeEditForm {
+table.dataTable {
+	thead .sorting:after {
+		display:none;
+	}	
+	thead .sorting_asc:after, 
+	thead .sorting_desc:after {
+		display: none;
+	}
+}
+#pims-index {
+	.btn {
+		padding: 8px 20px;
+		font-size: 16px;
+	}
+}
+.dataTables_wrapper {
+	div.row:last-child {
+		margin: 20px 0 50px !important;
+		padding: 15px 0 5px;
+		background-color: #fafafa;
+		border-top: solid 1px $borderGray;
+		border-bottom: solid 1px $borderGray;
+	}
+	.dataTables_info {
+		text-transform: capitalize;
+	}
+}
+#pims-index {
+	.dataTables_length {
+		label {
+			display: block;
+			font-size: 13px;
+			color: $Textgray;
+			text-transform: capitalize;
+			overflow: hidden;
+		}
+		select {
+			float: left;
+			width: 100px;
+			height: 34px;
+			outline: none;
+		}
+	}
+	.store-form {
+		.roles {
+			clear: both;
+			padding: 0 15px;
+			line-height: 30px;
+			margin: 20px 0;
+			input[type='checkbox'] {
+				margin-right: 10px;
+				margin-top: 7px;
+				float: left;
+			}
+		}
+		.new_store {
+			label {
+				display: block;
+			}
+		}
+	}
+	.selectTime {
+		width: 49%;
+		float: left;
+		margin-right: 10px;
+		&:last-child {
+			margin: -17px 0 0 0;
+			position: relative;
+			z-index: 1;
+		}
+	}
+}
+.dataTables_filter{
+	padding-top: 18px;
+	input.form-control {
+		height: 34px;
+	}
+	label {
+		font-size: 13px;
+		color: $Textgray;
+		text-transform: capitalize;
+		overflow: hidden;
+		margin: 0;
+	}
+}
+.downloadExcel {
+	text-align: right;
+	background: transparent image-url('excel.png') right 8px no-repeat;
+	background-size: 40px;
+	padding: 20px 50px 20px 20px;
+	font-size: 15px;
+	margin-bottom: 10px;
+	clear: both;
+	a {
+		color: #08743b;
+	}
+}
+.simple_form {
+	.actions {
+		padding: 0 15px;
+	}
+}
+.users-form {
+	.nav-tabs li {
+		margin: 0 5px 10px 0;
+		.active {
+			margin: 0 5px 10px 0;
+		}
+	}
+	.nav-tabs li a {
+		background-color: $bgdarkgray;	
+		color: $Textwhite;
+		border: 0;
+		margin: 0;
+	}
+}
+.store-type-edit-form,
+.store-operation-edit-form,
+.store-edit-form,
+.staff-category-edit-form {
 	width: 100%;
 	border-radius: 0;
+	border: 0;
+	background: transparent;
+	padding: 10px;
+	margin: 0;
+	.actions {
+		text-align: left;
+	}
+	.form-group {
+		display: block;
+		margin-bottom: 15px;
+	}
+	label {
+		display: block;
+		font-size: 14px;
+		padding-bottom: 5px;
+	}
+	.form-control {
+		width: 300px;
+	}
+	.selectTime {
+		width: 48%;
+	}
+	h5 {
+		margin: 0 0 20px;
+	}
+	.checkbox label {
+		&:before {
+			display: none;
+		}
+	}
+	.checkbox input[type="checkbox"] {
+		opacity: 1;
+		margin-right: 5px;
+	}
+	.roles {
+		clear: both;
+		padding: 0 15px;
+		line-height: 30px;
+		margin: 20px 0;
+		input[type='checkbox'] {
+			margin-right: 10px;
+			margin-top: 7px;
+			float: left;
+		}
+	}
+}
+.store-edit-form {
+	.form-group {
+		float: left;
+		width: 50%;
+		padding-right: 10px;
+		&:nth-child(2) {
+			padding-right: 0;
+		}
+		.form-control {
+			width: 100%;
+		}
+	}
 }

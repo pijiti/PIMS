@@ -3,7 +3,7 @@
 section#pims-index
         .vendors-form
             = render 'form'
-        .text-right
+        .downloadExcel
             a href = vendors_path(:format => 'xlsx')  Download Excel
         table.table.table-striped.table-condensed.data_table
           thead
@@ -11,8 +11,8 @@ section#pims-index
              th Name 
              th Reg No
              th Detail
-             th.text-right 
-                span aria-hidden="true" class="glyphicon glyphicon-sort "
+             th.text-right
+                 span aria-hidden="true" class="glyphicon glyphicon-sort"
             
           tbody.vendors
             - @vendors.each do |vendor|

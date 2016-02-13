@@ -5,13 +5,11 @@
             = f.input :name,label:"Store"
             = f.association :parent , value_method: :id, label_method: :name
             = f.label :open_time
-            br
             = f.time_select :open_time, {}, { class: "form-control selectTime" }
           .col-md-6
             = f.association :store_type, value_method: :id, label_method: :name, include_blank: "Store Type"
             = f.association :store_operation,value_method: :id,label_method: :name, include_blank: "Select Operation"
             = f.label :close_time
-            br
             = f.time_select :close_time, {}, { class: "form-control selectTime" }
           .clearfix
           .roles

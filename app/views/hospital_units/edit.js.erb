@@ -1,1 +1,1 @@
-$(".hospital-unit[data-id='<%= @hospital_unit.id %>']").replaceWith('<%=j render 'edit', hospital_unit: @hospital_unit %>');
+$(".hospital-unit[data-id='<%= @hospital_unit.id %>']").html('<td colspan="3"><%=j render 'edit', hospital_unit: @hospital_unit %></td>');

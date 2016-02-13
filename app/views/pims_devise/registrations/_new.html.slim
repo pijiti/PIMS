@@ -13,7 +13,7 @@ section#devise-registration-new
                = f.input :validity, as: :select, collection: User::Validity, prompt: 'Validity Period'
                = f.input :password, as: :hidden,input_html: {value: 'password'}
                = f.input :password_confirmation, as: :hidden,input_html: {value: 'password'} 
-             .col-sm-12 
+             .col-sm-12.userTabs 
                ul.nav.nav-tabs
                   li : a href="#tab-pane-create-system" data-toggle='tab' System
                   - @stores.each do |store|
@@ -26,15 +26,14 @@ section#devise-registration-new
                       - next if store.store_roles.blank?
                       /.tab-pane id="tab-pane-create-#{store.id}" = f.association :roles, collection: store.store_roles, as: :check_boxes
                       .tab-pane id="tab-pane-create-#{store.id}"
+                        .checkboxWrapper
+                          - store.store_roles.each do |r|
+                            =  check_box_tag "user[stores][#{store.id}][store_roles][]", r
+                            = r
+                            .devider
 
-                        - store.store_roles.each do |r|
-                          =  check_box_tag "user[stores][#{store.id}][store_roles][]", r
-                          = r
-                          br
-
-             .col-sm-12
-              .actions
-                = f.button :submit, 'Save',class: 'btn btn-success btn-sm'
+             .actions
+               = f.button :submit, 'Save',class: 'btn btn-success btn-sm'
             
         #devise-registration-new-footer
           #devise-registration-new-footer-inner

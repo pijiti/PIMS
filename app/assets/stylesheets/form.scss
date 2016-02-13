@@ -8,12 +8,15 @@ select.form-control {
 	-o-appearance: none;
 	padding-right: 30px;
 	display: flex!important;
-	padding-top: 8px;
+	padding-top: 0px;
 	padding-bottom: 0;
 	background: image-url('downarrow.png') no-repeat right 12px;
 	transition: all 0.3s ease-in-out;
 	background-color: #fff;
 	height: 34px;
+	option {
+		padding: 8px;
+	}
 	&:focus {
 		background-position: right -28px;
 	}
@@ -35,7 +38,7 @@ table {
 		background-color: $bgdarkgray;
 		
 		th {
-			font-size: 15px;
+			font-size: 14px;
 			color: $Textwhite;
 			font-weight: normal;
 			padding: 10px !important;
@@ -43,6 +46,16 @@ table {
 	}
 	td {
 		padding: 8px !important;
+		table {
+			margin: 0!important;
+			thead {
+			background: transparent;
+				tr th {
+					border-bottom: 0;
+					color: $Textgray;
+				}
+			}
+		}
 	}
 	.actions {
 		text-align: right;
@@ -156,34 +169,40 @@ table.dataTable {
 .simple_form {
 	.actions {
 		padding: 0 15px;
-	}
-}
-.users-form {
-	.nav-tabs li {
-		margin: 0 5px 10px 0;
-		.active {
-			margin: 0 5px 10px 0;
+		clear: both;
+		overflow: hidden;
+		.btn {
+			float: left;
+			margin-right: 10px;
 		}
-	}
-	.nav-tabs li a {
-		background-color: $bgdarkgray;	
-		color: $Textwhite;
-		border: 0;
-		margin: 0;
 	}
 }
 .store-type-edit-form,
 .store-operation-edit-form,
-.store-edit-form,
-.staff-category-edit-form {
+.store-edit-form, .vendor-edit-form,
+.user-edit-form,
+.staff-category-edit-form,
+.marketer-edit-form,
+.hospital-unit-edit-form,
+.item-class-edit-form,
+.unit-dose-edit-form,
+.item-conc-unit-edit-form  {
 	width: 100%;
 	border-radius: 0;
 	border: 0;
 	background: transparent;
 	padding: 10px;
 	margin: 0;
+	.title {
+		text-align: left;
+	}
 	.actions {
 		text-align: left;
+		clear: both;
+	}
+	.action {
+		clear: both;
+		padding: 0 15px;
 	}
 	.form-group {
 		display: block;
@@ -223,6 +242,43 @@ table.dataTable {
 			float: left;
 		}
 	}
+	textarea.form-control {
+		min-height: 112px;
+	}
+}
+.data_table {
+	.link-detail {
+		display: block;
+	}
+	.nav.details {
+		background: $bgwhite;
+		border: solid 1px $borderGray;
+		padding: 10px;
+		border-radius: 3px;
+		position: absolute;
+		margin-top: 10px;
+		line-height: 20px;
+		color: #666;
+		&:after {
+			border-bottom: solid 8px #ccc;
+			border-left: solid 8px transparent;
+			border-right: solid 8px transparent;
+			position: absolute;
+			bottom: 100%;
+			left: 10px;
+			content: '';
+		} 
+		&:before {
+			border-bottom: solid 7px #fff;
+			border-left: solid 7px transparent;
+			border-right: solid 7px transparent;
+			position: absolute;
+			bottom: 100%;
+			left: 11px;
+			z-index: 2;
+			content: '';
+		}
+	}
 }
 .store-edit-form {
 	.form-group {
@@ -234,6 +290,274 @@ table.dataTable {
 		}
 		.form-control {
 			width: 100%;
+		}
+	}
+}
+.vendors-form,
+.marketers-form {
+	textarea.form-control {
+		min-height: 114px; 
+	}
+}
+.userTabs {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	.tab-content {
+		padding: 20px 10px 10px;
+		input[type='checkbox'] {
+			float: left;
+			margin: 2px 5px 0 0;
+			position: static;
+		}
+	}
+	.checkbox {
+		label {
+			padding: 0;
+		}
+		label:before {
+			display: none;
+		}
+		input[type='checkbox'] {
+			opacity: 1;
+			margin-right: 10px;
+			position: static;
+		}
+	}
+	.checkboxWrapper {
+		font-size: 14px;
+		.devider {
+			clear: both;
+			margin-bottom: 10px;
+		}
+	}
+	.nav-tabs li {
+		margin: 0 5px 10px 0;
+		.active {
+			margin: 0 5px 10px 0;
+		}
+	}
+	.nav-tabs li a {
+		background-color: $bgdarkgray;	
+		color: $Textwhite;
+		border-color: $boderdarkgray;
+		margin: 0;
+		outline: none;
+	}
+	li.active > a,
+	li.active > a:hover,
+	li.active > a:focus {
+		outline: none;
+		border-bottom: solid 1px #ddd;
+	}
+}
+.simple_form {
+	.checkbox label {
+		padding: 0;
+		&:before {
+			display: none;
+		}
+	}
+	.checkbox input[type="checkbox"] {
+		opacity: 1;
+		margin-right: 5px;
+		margin-top: 2px;
+		position: static;
+		float: left;
+	}
+}
+.marketersDataTable {
+	thead th {
+		min-width: 105px ;
+	}
+	.marketers tr {
+		td:nth-child(8) {
+			text-align: center;
+		}
+	}
+}
+.btn-default:hover, 
+.btn-default:focus, 
+.btn-default:active, 
+.btn-default.active, 
+.open > .btn-default.dropdown-toggle {
+	background-color: $bgdarkgray;
+	color: $Textwhite;
+}
+abbr[title], 
+abbr[data-original-title] {
+	border: 0;
+	color: red;
+}
+.itemDataTable {
+	thead th {
+		min-width: 200px ;
+	}
+	th:nth-child(3),
+	td:nth-child(3) {
+		text-align: center;
+	}
+}
+.subClassDropdown {
+	position: relative;
+	ul.sub-classes {
+		background: $bgwhite;
+		border: solid 1px $borderGray;
+		padding: 10px;
+		border-radius: 3px;
+		position: absolute;
+		margin-top: 10px;
+		line-height: 20px;
+		color: #666;
+		list-style: none;
+		z-index: 2;
+		&:after {
+			border-bottom: solid 8px #ccc;
+			border-left: solid 8px transparent;
+			border-right: solid 8px transparent;
+			position: absolute;
+			bottom: 100%;
+			left: 93px;
+			content: '';
+		} 
+		&:before {
+			border-bottom: solid 6px #fafafa;
+			border-left: solid 7px transparent;
+			border-right: solid 7px transparent;
+			position: absolute;
+			bottom: 100%;
+			left: 94px;
+			z-index: 2;
+			content: '';
+		}
+		li {
+			margin-bottom: 5px;
+			padding-bottom: 5px;
+			border-bottom: solid 1px $borderGray;
+			span {
+				display: table-cell;
+				vertical-align: top;
+				width: 50%;
+			}
+		}
+		.subclassesList {
+			height: 150px;
+			overflow-y: scroll;
+			text-align: left; 
+			padding-right: 10px;
+			margin-right: -5px;
+		}
+		h5 {
+			font-weight: normal;
+			margin: -10px -10px 10px;
+			padding: 5px;
+			background-color: #fafafa;
+			border-bottom: solid 1px $borderGray;
+			label {
+				font-weight: normal;
+				margin: 0;
+				font-size: 13px;
+				display: inline-block;
+				width: 50%;
+				text-align: left;
+			}
+		}
+		
+	}
+}
+.relative {
+	position: relative;
+}
+.customDropdown {
+	background: $bgwhite;
+	border: solid 1px $borderGray;
+	padding: 0px;
+	border-radius: 3px;
+	position: absolute;
+	margin-top: 10px;
+	line-height: 20px;
+	color: #666;
+	list-style: none;
+	z-index: 2;
+	ul {
+		padding: 0 10px 10px;
+		list-style: none; 
+	}
+	h5 {
+		font-weight: normal;
+		margin: 0 0 10px;
+		padding: 8px;
+		background-color: #fafafa;
+		border-bottom: solid 1px $borderGray;
+	}
+	&:after {
+		border-bottom: solid 8px #ccc;
+		border-left: solid 8px transparent;
+		border-right: solid 8px transparent;
+		position: absolute;
+		bottom: 100%;
+		left: 10px;
+		content: '';
+	} 
+	&:before {
+		border-bottom: solid 6px #fafafa;
+		border-left: solid 7px transparent;
+		border-right: solid 7px transparent;
+		position: absolute;
+		bottom: 100%;
+		left: 11px;
+		z-index: 2;
+		content: '';
+	}
+}
+.storeDataTable {
+	th:nth-child(7),
+	td:nth-child(7) {
+		text-align: center;
+	}
+	.customDropdown {
+		text-align: left;
+		width: 135px;
+		ul {
+			height: 100px;
+			overflow-y: scroll;
+		}
+		li {
+			margin-bottom: 5px;
+			padding-bottom: 2px;
+			border-bottom: solid 1px $borderGray; 
+		}
+		&:after {
+			left: 22px;
+		}
+		&:before {
+			border-bottom-color: #fafafa;
+			left: 23px;
+		}
+	}
+}
+.userDataTable {
+	th:nth-child(6),
+	td:nth-child(6) {
+		text-align: center;
+	}
+	.customDropdown {
+		text-align: left;
+		width: 135px;
+		ul {
+			height: 100px;
+			overflow-y: scroll;
+		}
+		li {
+			margin-bottom: 5px;
+			padding-bottom: 2px;
+			border-bottom: solid 1px $borderGray; 
+		}
+		&:after {
+			left: 36px;
+		}
+		&:before {
+			border-bottom-color: #fafafa;
+			left: 37px;
 		}
 	}
 }

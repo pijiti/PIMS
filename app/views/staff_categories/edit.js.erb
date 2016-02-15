@@ -1,1 +1,1 @@
-$(".staff-category[data-id='<%= @staff_category.id %>']").replaceWith('<%=j render 'edit', staff_category: @staff_catergory %>');
+$(".staff-category[data-id='<%= @staff_category.id %>']").html('<td colspan="3"><%=j render 'edit', staff_category: @staff_catergory %></td>');

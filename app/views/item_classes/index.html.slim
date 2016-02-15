@@ -3,20 +3,20 @@
 section#pims-index
         .item-classes-form
             = render 'form'
-        .text-right
+        .downloadExcel
             a href = item_classes_path(:format => 'xlsx')  Download Excel
         
         -if @item_classes.size == 0
           = "There are no records available for listing"
         
-        table.table.table-striped.table-condensed.data_table
+        table.table.table-striped.table-condensed.data_table.itemDataTable
           thead
               tr
               th Classification
               th Description
               th Sub Classes
               th.text-right
-                  span aria-hidden="true" class="glyphicon glyphicon-sort"
+                 span aria-hidden="true" class="glyphicon glyphicon-sort"
            
          
           tbody.item-classes

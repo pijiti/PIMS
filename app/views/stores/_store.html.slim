@@ -6,15 +6,14 @@
         td = store.try(:open_time).try(:strftime , "%I:%M%p" )
         td = store.try(:close_time).try(:strftime , "%I:%M%p" )
         td 
-            a.link-roles href ='#' = "#{store.store_roles.try(:count)}"
-            table.table.table-striped.table-condensed.roles.hide
-             thead
-                tr
-                    th Name
-             tbody
+           .reletive 
+            a.link-roles href ='javascript:void(0);' = "#{store.store_roles.try(:count)}"
+            .customDropdown.roles.hide
+             h5 Name
+             ul
                -store.store_roles.try(:each) do |role|
-                tr
-                    td = role
+                li
+                     = role
                 
         /!td = store.try(:open_time).strftime('%R')
         /!td = store.try(:close_time).strftime('%R')

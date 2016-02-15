@@ -4,7 +4,7 @@ section#pims-index
         .store-operations-form
             =render 'form'
             
-        .text-right  
+        .downloadExcel  
             a href = store_operations_path(:format => 'xlsx')  Download Excel
                 
         table.table.table-striped.table-condensed.data_table
@@ -13,8 +13,8 @@ section#pims-index
               th Name
               th Description
               th Payment required
-              th.text-right 
-                span aria-hidden="true" class="glyphicon glyphicon-sort"
+              th.text-right
+                 span aria-hidden="true" class="glyphicon glyphicon-sort"
                      
                 
            tbody.store-operations

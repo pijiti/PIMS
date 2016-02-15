@@ -1,1 +1,1 @@
-$(".item-conc-unit[data-id='<%= @item_concentration_unit.id %>']").replaceWith('<%=j render 'edit', item_concentration_unit: @item_concentration_unit%>');
+$(".item-conc-unit[data-id='<%= @item_concentration_unit.id %>']").html('<td colspan="3"><%=j render 'edit', item_concentration_unit: @item_concentration_unit%></td>');

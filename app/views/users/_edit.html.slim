@@ -9,21 +9,23 @@
     = f.association :staff_category, value_method: :id, label_method: :name, include_blank: 'Select Category'
     = f.input :validity,as: :select, collection: User::Validity
 
-    ul.nav.nav-tabs
-      li : a href="#tab-pane-update-system" data-toggle='tab' System
-      - @stores.each do |store|
-        li : a href="#tab-pane-update-#{store.id}" data-toggle='tab' = store.try(:name)
+    .userTabs
+      ul.nav.nav-tabs
+        li : a href="#tab-pane-update-system" data-toggle='tab' System
+        - @stores.each do |store|
+          li : a href="#tab-pane-update-#{store.id}" data-toggle='tab' = store.try(:name)
 
 
 
-    .tab-content
-      .tab-pane id="tab-pane-update-system" = f.association :roles, collection: Role.where(name: 'Admin'), as: :check_boxes
-      - @stores.each do |store|
-        .tab-pane id="tab-pane-update-#{store.id}"
-             - store.store_roles.each do |r|
-                  =  check_box_tag "user[stores][#{store.id}][store_roles][]", r , (user.has_role? r , store)
-                  = r
-                  br
+      .tab-content
+        .tab-pane id="tab-pane-update-system" = f.association :roles, collection: Role.where(name: 'Admin'), as: :check_boxes
+        - @stores.each do |store|
+          .tab-pane id="tab-pane-update-#{store.id}"
+            .checkboxWrapper
+               - store.store_roles.each do |r|
+                    =  check_box_tag "user[stores][#{store.id}][store_roles][]", r , (user.has_role? r , store)
+                    = r
+                    .devider
 
 
 

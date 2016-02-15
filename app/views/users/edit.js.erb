@@ -1,4 +1,4 @@
-$(".user[data-id='<%= @user.id %>']").replaceWith('<%=j render 'edit', user: @user %>');
+$(".user[data-id='<%= @user.id %>']").html('<td colspan="8"><%=j render 'edit', user: @user %></td>');
 
 $('.users-form-update li:first-child').addClass('active');
 $('.users-form-update .tab-pane:first-child').addClass('active');

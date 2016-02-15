@@ -1,1 +1,1 @@
-$(".marketer[data-id='<%= @marketer.id %>']").replaceWith('<%=j render 'edit', marketer: @marketer%>');
+$(".marketer[data-id='<%= @marketer.id %>']").html('<td colspan="9"><%=j render 'edit', marketer: @marketer%></td>');

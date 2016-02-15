@@ -3,24 +3,23 @@
           .col-md-6
             = f.input :name,label:"Store"
             = f.association :parent , collection: @stores,value_method: :id, label_method: :name,label:"Parent Store"
-            = f.label :open_time
-            br
-            = f.time_select :open_time
+            = f.label :open_time 
+            
+            = f.time_select :open_time, {}, { class: "form-control selectTime" }
           .col-md-6
-            = f.association :store_type, value_method: :id, label_method: :name, include_blank: "Select Category",label:"Store Category"
+            = f.association :store_type, value_method: :id, label_method: :name, include_blank: "Select Category",label:"Store Category", :input_html => {class: "form-control"}
             = f.association :store_operation,value_method: :id,label_method: :name, include_blank: "Select Operation",label:"Store Operation"
             = f.label :close_time
-            br
-            = f.time_select :close_time
-
-          .col-md-12
-            br
+            
+            = f.time_select :close_time, {}, { class: "form-control selectTime" }
+          .clearfix
           .roles
             -  Role.store_roles.each do |r|
               /=# f.select :store_roles, :collection =>  Role.store_roles
               =  check_box_tag "store[store_roles][]", r
               =  r
-              br
+              .clearfix
           .actions
             = f.button :submit,'Save',class:'btn-success btn-sm'
+
 

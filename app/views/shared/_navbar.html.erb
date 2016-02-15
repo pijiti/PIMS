@@ -19,6 +19,7 @@
         <!--class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"-->
         <div class="" id="">
           <div class="text-right">
+            <%= Time.current.strftime("%I:%M %p") %>
             <span class="hospitalName"><%= PimsConfig.find_by_property_name("organization_name").property_value %></span>
           </div>
           <div id="MainMenu" class="mainMenu">

@@ -52,7 +52,7 @@ class Prescription < ActiveRecord::Base
     #begin
     #subtotal
     self.prescription_batches.each do |p|
-      subtotal += (p.qty.to_i) * ("%.2f" % p.rate).to_f
+      subtotal += (p.qty.to_i) * ("%.2f" % p.rate).to_f   if p.rate != "NA"
     end
     logger.debug "======SUBTOTAL CALCULATION=========#{subtotal}"
     #surcharge calculation

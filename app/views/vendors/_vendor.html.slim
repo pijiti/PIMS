@@ -12,6 +12,6 @@ tr.vendor data-id = vendor.id
                 li ="Contact Email : #{ vendor.store.try(:name)}"
        td.actions
             a href = edit_vendor_path(vendor) data-remote='true'
-              span aria-hidden="true" class="glyphicon glyphicon-pencil"
+              i class="fa fa-pencil"
             a href = vendor_path(vendor) data-method='delete'   data-remote='true'
-              span aria-hidden="true" class="glyphicon glyphicon-lock"
+              i class="fa fa-lock"

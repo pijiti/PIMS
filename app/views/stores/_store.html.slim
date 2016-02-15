@@ -19,8 +19,8 @@
         /!td = store.try(:close_time).strftime('%R')
         td.actions
             a  href = edit_store_path(store) data-remote='true'
-                span aria-hidden="true" class="glyphicon glyphicon-pencil"
+                i class="fa fa-pencil"
             /control deletion of stores
             - if store.inventories.blank?
               a href = store_path( store) data-method='delete' data-confirm='Are you sure ?'  data-remote='true'  
-                span aria-hidden="true" class="glyphicon glyphicon-trash"
+                i class="fa fa-trash-o"

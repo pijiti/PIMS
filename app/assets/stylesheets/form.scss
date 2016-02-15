@@ -63,8 +63,9 @@ table {
 			color: $Textdarkgray;
 			display: inline-block;
 			margin-left: 5px;
+			font-size: 14px;
 		}
-		span {
+		span, i {
 			padding: 5px;
 		}
 	}
@@ -110,6 +111,7 @@ table.dataTable {
 			width: 100px;
 			height: 34px;
 			outline: none;
+			margin-right: 20px;
 		}
 	}
 	.store-form {
@@ -186,7 +188,8 @@ table.dataTable {
 .hospital-unit-edit-form,
 .item-class-edit-form,
 .unit-dose-edit-form,
-.item-conc-unit-edit-form  {
+.item-conc-unit-edit-form,
+.pharm-item-edit-form  {
 	width: 100%;
 	border-radius: 0;
 	border: 0;
@@ -560,4 +563,71 @@ abbr[data-original-title] {
 			left: 37px;
 		}
 	}
+}
+.pharm_item_sub_classes {
+	select {
+		background-image: none;
+	}
+}
+.genericDataTable {
+	tr th:nth-child(2),
+	tr th:nth-child(3),
+	tr td:nth-child(2),
+	tr td:nth-child(3) {
+		text-align: center ;
+	}
+	.customDropdown {
+		h5 {
+			overflow: hidden;
+		}
+		text-align: left;
+		label {
+			width: 50%;
+			margin: 0;
+			font-weight: normal;
+		}
+		li span {
+			display: table-cell;
+			width: 50%;
+		}
+		&:after, &:before {
+			margin-left:20%;
+		}
+	}
+	.brands {
+		h5, ul {
+			width: 1700px;
+		}
+		ul {
+			height: 100px;
+		}
+		left: auto;
+		right: 30px;
+		.innercontainer {
+			overflow: scroll;	
+			width: 1130px;
+		}
+		
+		label, span {
+			width: 165px!important;
+			float: left;
+		}
+		&:after, &:before {
+			left: auto;
+			right: 19%;
+			
+		}
+		&:before {
+			margin-right: 1px;
+		}
+	}
+}
+.link-detail,
+.link-roles, .link-brand,
+.link-sub {
+		text-decoration: underline;
+		
+}
+.pharmaDataTable {
+	max-width: 100%;
 }

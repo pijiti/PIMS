@@ -206,10 +206,11 @@ $(document).ready(function () {
     });
 
     $('.active_store_ul').insertAfter('.navbar-default');
-    $('.mainMenu .submenu').on('mouseenter',function() {
-        $(this).parents('.list-group-submenu').slideDown();
-    });
-    
+    // $('.mainMenu .submenu').on('mouseenter',function() {
+    //     $(this).parents('.list-group-submenu').slideDown();
+    // });
+    $('<br>').appendTo('.dataTables_length label');
+    $('.dataTables_length select').appendTo('.dataTables_length label');
 });
 
 

@@ -24,7 +24,7 @@
 
                          a href=edit_user_path(user) data-remote='true'
                             span aria-hidden="true" class="glyphicon glyphicon-pencil"
-                         /a.btn.btn-danger.btn-xs href=user_path(user) data-method='delete'   data-remote='true'
-                         = link_to 'Destroy', user_path(user) ,:remote => true, method: :delete, data: { confirm: 'Are you sure?' } , class: ""
-                            
+                         a href = user_path(user) data-confirm='Are you sure?' data-method = 'delete' data-remote = 'true'
+                            span aria-hidden="true" class="glyphicon glyphicon-trash"
+
                             

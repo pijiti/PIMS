@@ -546,6 +546,14 @@ abbr[data-original-title] {
 	.customDropdown {
 		text-align: left;
 		width: 135px;
+		h5 {
+			font-weight: normal;
+		}
+		label {
+			width: 50%;
+			margin: 0;
+			font-weight: normal;
+		}
 		ul {
 			height: 100px;
 			overflow-y: scroll;
@@ -556,11 +564,11 @@ abbr[data-original-title] {
 			border-bottom: solid 1px $borderGray; 
 		}
 		&:after {
-			left: 36px;
+			left: 23px;
 		}
 		&:before {
 			border-bottom-color: #fafafa;
-			left: 37px;
+			left: 24px;
 		}
 	}
 }

@@ -17,10 +17,10 @@
         <span class="hide " id="current_active_store"><%= current_store.try(:id) %></span>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <!--class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"-->
-        <div class="" id="">
-          <div class="text-right">
-            <%= Time.current.strftime("%I:%M %p") %>
+        <div class="topRightBar" id="">
+          <div class="toplabelwapper">
             <span class="hospitalName"><%= PimsConfig.find_by_property_name("organization_name").property_value %></span>
+            <div class="timmer"><%= Time.current.strftime("%I : %M  %p") %></div>
           </div>
           <div id="MainMenu" class="mainMenu">
             <div class="list-group panel">

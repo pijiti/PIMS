@@ -20,11 +20,12 @@
                                     span.store-name = role.resource.try(:name)
                       td.actions
                          a href=password_reset_user_path(user) data-method='patch' data-confirm='Are you sure?'  data-remote=true  
-                            span aria-hidden="true" class="glyphicon glyphicon-lock"
+                            i class="fa fa-lock"
 
                          a href=edit_user_path(user) data-remote='true'
-                            span aria-hidden="true" class="glyphicon glyphicon-pencil"
+                            i class="fa fa-pencil"
+               
                          a href = user_path(user) data-confirm='Are you sure?' data-method = 'delete' data-remote = 'true'
-                            span aria-hidden="true" class="glyphicon glyphicon-trash"
+                            i class="fa fa-trash-o"
 
                             

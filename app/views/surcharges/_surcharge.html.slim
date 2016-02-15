@@ -25,7 +25,7 @@ tr.surcharge data-id = surcharge.id
    td.active1 = surcharge.try(:active).to_s.capitalize
    td.actions
         a href = edit_surcharge_path(surcharge) data-remote='true'
-          span aria-hidden="true" class="glyphicon glyphicon-pencil"
+          i class="fa fa-pencil"
         a href = surcharge_path(surcharge) data-method='delete'   data-remote='true'
-          span aria-hidden="true" class="glyphicon glyphicon-trash"
+          i class="fa fa-trash-o"
 

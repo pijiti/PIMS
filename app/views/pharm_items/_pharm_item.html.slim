@@ -2,48 +2,50 @@ tr.pharm-item data-id = pharm_item.id
 
         td.name = pharm_item.try(:name)
         td
+          .reletive 
             a.link-sub href = '#' =  pharm_item.sub_classes.size
-            table.table.table-striped.table-condensed.sub-classes.hide
-                thead
-                        tr
-                        th #
-                        th Name
-                tbody
+            .customDropdown.sub-classes.hide
+                h5
+                        label #
+                        label Name
+                ul
                  -pharm_item.sub_classes.each_with_index do |sub_class,index|
-                        tr
-                        td.index = index + 1
-                        td.name = sub_class.try(:sub_main)
+                        li
+                            span.index = index + 1
+                            span.name = sub_class.try(:sub_main)
                         
         td.brand
-            a.link-brand href = '#' = pharm_item.brands.size
-            table.table.table-striped.table-condensed.brands.hide
-                thead
-                        tr
-                        th #
-                        th Brand
-                        th Dosage Form
-                        th Strength
-                        th Strength Unit
-                        th Marketer
-                        th Pack Size
-                        th Min Dispensable
-                        th Main restock level
-                        th Dispensary restock level
-                tbody
-                 -pharm_item.brands.each_with_index do | brand,index|
-                        tr
-                        td.index = index + 1
-                        td.name = brand.try(:name)
-                        td.name = brand.try(:unit_dose).try(:name)
-                        td.name = brand.try(:concentration)
-                        td.name = brand.try(:item_concentration_unit).try(:name)
-                        td.name = brand.try(:marketer).try(:name)
-                        td.name = brand.try(:pack_size)
-                        td.name = brand.try(:min_dispensable)
-                        td = brand.try(:main_restock_level)
-                        td = brand.try(:dispensary_restock_level)
+            .reletive
+                a.link-brand href = '#' = pharm_item.brands.size
+                .customDropdown.brands.hide
+                    .innercontainer
+                        h5
+                                
+                                label #
+                                label Brand
+                                label Dosage Form
+                                label Strength
+                                label Strength Unit
+                                label Marketer
+                                label Pack Size
+                                label Min Dispensable
+                                label Main restock level
+                                label Dispensary restock level
+                        ul
+                         -pharm_item.brands.each_with_index do | brand,index|
+                            li    
+                                span.index = index + 1
+                                span.name = brand.try(:name)
+                                span.name = brand.try(:unit_dose).try(:name)
+                                span.name = brand.try(:concentration)
+                                span.name = brand.try(:item_concentration_unit).try(:name)
+                                span.name = brand.try(:marketer).try(:name)
+                                span.name = brand.try(:pack_size)
+                                span.name = brand.try(:min_dispensable)
+                                span = brand.try(:main_restock_level)
+                                span = brand.try(:dispensary_restock_level)
         td.actions
             a href = edit_pharm_item_path(pharm_item) data-remote='true'
-                span aria-hidden="true" class="glyphicon glyphicon-pencil"
+                i class="fa fa-pencil"
             a href = pharm_item_path(pharm_item) data-confirm='Are you sure?' data-method = 'delete'  data-remote = 'true'
-                span aria-hidden="true" class="glyphicon glyphicon-trash"
+                i class="fa fa-trash-o"

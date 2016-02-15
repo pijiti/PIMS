@@ -4,6 +4,6 @@
         td.description = store_type.try(:description)
         td.actions
             a href = edit_store_type_path(store_type) data-remote='true'  
-            	span aria-hidden="true" class="glyphicon glyphicon-pencil"
+            	i class="fa fa-pencil"
             a href = store_type_path(store_type) data-method='delete'   data-remote='true'  
-            	span aria-hidden="true" class="glyphicon glyphicon-trash"
+            	i class="fa fa-trash-o"

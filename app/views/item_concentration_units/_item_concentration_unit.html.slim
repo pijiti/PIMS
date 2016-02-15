@@ -3,6 +3,6 @@ tr.item-conc-unit data-id = item_concentration_unit.id
   td.conc_name = item_concentration_unit.try(:description)
   td.actions
     a href = edit_item_concentration_unit_path(item_concentration_unit) data-remote='true'
-    	span aria-hidden="true" class="glyphicon glyphicon-pencil"
+    	i class="fa fa-pencil"
     a href = item_concentration_unit_path(item_concentration_unit)  data-method='delete'  data-remote='true' 
-    	span aria-hidden="true" class="glyphicon glyphicon-trash" 
+    	i class="fa fa-trash-o" 

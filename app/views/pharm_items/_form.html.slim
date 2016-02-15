@@ -8,8 +8,8 @@
       table.table
         thead
           tr
-            th.col-sm-3.text-center Name
-            th.col-sm-3.text-center Sub classes
+            th.col-sm-3 Name
+            th.col-sm-3 Sub classes
         tbody
           tr
             td = f.input :name, label: false
@@ -36,7 +36,8 @@
             = f.simple_fields_for :brands , brand_item do |brand_form|
               = render 'brand_fields', f: brand_form , :brand => @brand
 
-      = link_to_add_association "Add brand",  f , :brands, :"data-association-insertion-node" => "tbody#brands" , :"data-association-insertion-method" => "append" , :partial => "brand_fields"
+     
       .actions
-       = f.button :submit,'Save',class: 'btn-success btn-sm'
+        = link_to_add_association "Add brand",  f , :brands, :"data-association-insertion-node" => "tbody#brands" , :"data-association-insertion-method" => "append" , :partial => "brand_fields"
+        = f.button :submit,'Save',class: 'btn-success btn-sm'
 

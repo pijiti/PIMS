@@ -18,7 +18,6 @@
                                   li
                                     span.name = role.try(:name)
                                     span.store-name = role.resource.try(:name)
-                      td
                       td.actions
                          a href=password_reset_user_path(user) data-method='patch' data-confirm='Are you sure?'  data-remote=true  
                             span aria-hidden="true" class="glyphicon glyphicon-lock"

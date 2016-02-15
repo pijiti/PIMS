@@ -79,7 +79,7 @@ class ReceiptsController < ApplicationController
     #end
 
     if can? :manage, :all
-      @orders = Order.includes(:receipts).where(:status => ["SERVICE_COMPLETE", "DELIVERY_COMPLETE"]).order("id DESC")
+      @orders = Order.includes(receipts: [batch: [:pharm_item]]).where(:status => ["SERVICE_COMPLETE", "DELIVERY_COMPLETE"]).order("id DESC")
     else
       @orders = Order.includes(:receipts).where(:from_store => current_store , :status => ["SERVICE_COMPLETE", "DELIVERY_COMPLETE"]).order('id DESC')
     end

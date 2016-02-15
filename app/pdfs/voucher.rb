@@ -47,7 +47,7 @@ class Voucher
   def write_page_headers
     @document.repeat([1]) do
       @document.grid([0,0], [6, 11]).bounding_box do
-        @document.text_box "<strong><font size='17'>State Specialist Hospital,Ondo.\nPharmacy Department</font></strong>\n<font size='11'>Store Requisition & Issue Voucher (SRV)</font>", {
+        @document.text_box "<strong><font size='17'>State Specialist Hospital,Ondo.\nPharmacy Department</font></strong>\n<font size='11'>Store Requisition & Issue Voucher (SRIV)</font>", {
             align:         :center,
             valign:        :top,
             leading:       5,

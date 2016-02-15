@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  # default :from => "sshondopcy@gmail.com"
+   # default :from => "sshondopcy@gmail.com"
   default :from => "admin@autoattend.com"
   def approval_alert(user, supply)
     @user = user

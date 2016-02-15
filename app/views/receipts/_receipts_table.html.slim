@@ -18,7 +18,7 @@ table.table#receipts_data_table
                 th Drug
                 th Units
               tbody
-                - order.receipts.each do |r|
+                - order.receipts.includes(batch: [:pharm_item]).order('pharm_items.name ASC').each do |r|
                   tr
                     td = r.batch.pharm_item.try(:name)
                     td = r.qty
@@ -59,7 +59,7 @@ table.table#receipts_data_table
 
 
                                      tbody
-                                       - order.receipts.each do |s|
+                                       - order.receipts.includes(batch: [:brand]).order('brands.name ASC').each do |s|
                                           = f.simple_fields_for :receipts , s do |ff|
                                               -  batch = s.batch
                                               - s.received_qty = s.qty

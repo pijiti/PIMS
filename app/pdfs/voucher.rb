@@ -223,7 +223,7 @@ def get_table_data
                            s.pharm_item.try(:name),
                            r.batch.try(:brand).try(:name),
                            r.batch.try(:batch_number),
-                           r.qty,
+                           s.qty,
                            r.received_qty
                          ]
     end

@@ -58,7 +58,8 @@ class InventoryBatch < ActiveRecord::Base
                        :batch_id => self.batch_id ,
                        :to_store_id => store_id ,
                        :service_request_id => sq_id,
-                       :order_id => order.id
+                       :order_id => order.id,
+                       :received_qty => allot
         )
 
         store = Store.find_by_id(store_id)

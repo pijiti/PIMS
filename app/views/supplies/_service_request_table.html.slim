@@ -18,7 +18,7 @@ table.table.order_data_table
             - else
               = "#{s.order.try(:number)}  Requesting Store: #{s.from_store.try(:name)}"
 
-          td = s.pharm_item.name
+          td = s.pharm_item.try(:name)
           td = s.brand.blank? ? "Any" : s.brand.name
           td = s.qty
           td = generic_drug_count(s.pharm_item,s.request_store)
@@ -38,7 +38,7 @@ table.table.order_data_table
                              .modal-header
                                button.close.approval-close aria-label="Close" data-dismiss="modal" type="button"
                                  span aria-hidden="true"  &times;
-                               h4#myModalLabel.modal-title Allot #{s.qty} units of #{s.pharm_item.name} to #{s.from_store.try(:name)} from #{s.request_store.try(:name)} store
+                               h4#myModalLabel.modal-title Allot #{s.qty} units of #{s.pharm_item.try(:name)} to #{s.from_store.try(:name)} from #{s.request_store.try(:name)} store
                              .modal-body
                                  table.table.table-striped.table-condensed.batches.batches_modal_table.data_table
                                        thead

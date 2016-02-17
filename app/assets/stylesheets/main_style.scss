@@ -22,8 +22,11 @@
   font-weight: 700;
   src: local('Open Sans Bold'), local('OpenSans-Bold'), url(https://fonts.gstatic.com/s/opensans/v13/k3k702ZOKiLJc3WVjuplzHhCUOGz7vYGh680lGh-uXM.woff) format('woff');
 }
-body {
+body, .badge {
 	font-family: 'Open Sans';
+}
+a {
+	outline: none;
 }
 .toplabelwapper {
 	float: right;
@@ -253,7 +256,7 @@ footer {
 	 margin: 0; 
 	 height: 56px;
 	 position: relative;
-	 z-index: 2;
+	 z-index: 9999;
 	 ul {
 	 	padding: 0;
 	 	margin: 0;
@@ -401,6 +404,7 @@ footer {
 	padding: 20px 0 10px;
 	display: block;
 	border-bottom: solid 1px $borderGray;
+	z-index: 999;
 	li {
 		float: right;
 		.caret {
@@ -486,10 +490,20 @@ footer {
 		&:before {
 			position: absolute;
  			bottom: 100%;
- 			right: 10px;
- 			border-bottom: solid 7px #ccc;
+ 			right: 11px;
+ 			border-bottom: solid 6px #fff;
  			border-left: solid 7px transparent;
  			border-right: solid 7px transparent;
+ 			content: '';
+ 			z-index: 2;
+		}
+		&:after {
+			position: absolute;
+ 			bottom: 100%;
+ 			right: 10px;
+ 			border-bottom: solid 8px #ccc;
+ 			border-left: solid 8px transparent;
+ 			border-right: solid 8px transparent;
  			content: '';
 		}
 	}
@@ -518,6 +532,13 @@ footer {
 .btn, .btn-primary {
 	background-color: $bgskyblue;
 	border: 0;
+	color: $Textwhite;
+	outline: none;
+}
+.btn:hover, .btn-primary:hover,
+.btn:focus, .btn-primary:focus, 
+.btn:visited, .btn-primary:visited {
+	background-color: $bgdarkgray;
 	color: $Textwhite;
 }
 .active_store_ul {
@@ -550,4 +571,37 @@ footer {
 			}
 		}
 	}
+}
+.cartDropdown {
+	.dropdown-menu {
+		text-align: left;
+		width: auto;
+	}
+	h5 {
+		margin: 5px 0 15px 0;
+		font-weight: 600;
+	}
+	table tr th {
+		background-color: #fafafa;
+		font-weight: normal;
+		color: $Textdarkgray;
+		border-bottom-width: 1px!important; 
+		border-top: solid 1px $borderGray !important;
+	}
+	table td {
+		vertical-align: middle;
+	} 
+	.cartListItem {
+		height: 300px;
+		overflow-y: scroll; 
+		padding-right: 15px;
+		.fa {
+			font-size: 18px;
+			color: $Textblack;
+		}
+	}
+	.new_supply {
+		text-align: center;
+	}
+
 }

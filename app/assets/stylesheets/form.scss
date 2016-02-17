@@ -101,10 +101,9 @@ table.dataTable {
 	.dataTables_length {
 		label {
 			display: block;
-			font-size: 13px;
+			font-size: 14px;
 			color: $Textgray;
 			text-transform: capitalize;
-			overflow: hidden;
 		}
 		select {
 			float: left;
@@ -149,7 +148,7 @@ table.dataTable {
 		height: 34px;
 	}
 	label {
-		font-size: 13px;
+		font-size: 14px;
 		color: $Textgray;
 		text-transform: capitalize;
 		overflow: hidden;
@@ -247,6 +246,10 @@ table.dataTable {
 	}
 	textarea.form-control {
 		min-height: 112px;
+	}
+	.nested-fields {
+		margin: 20px 0;
+		padding-bottom: 10px;
 	}
 }
 .data_table {
@@ -413,6 +416,7 @@ abbr[data-original-title] {
 		color: #666;
 		list-style: none;
 		z-index: 2;
+		width: 300px;
 		&:after {
 			border-bottom: solid 8px #ccc;
 			border-left: solid 8px transparent;
@@ -585,6 +589,11 @@ abbr[data-original-title] {
 		text-align: center ;
 	}
 	.customDropdown {
+		ul {
+			height: 100px;
+			overflow-y: scroll;
+		}
+		width: 270px;
 		h5 {
 			overflow: hidden;
 		}
@@ -603,6 +612,7 @@ abbr[data-original-title] {
 		}
 	}
 	.brands {
+		width: auto;
 		h5, ul {
 			width: 1700px;
 		}
@@ -612,7 +622,7 @@ abbr[data-original-title] {
 		left: auto;
 		right: 30px;
 		.innercontainer {
-			overflow: scroll;	
+			overflow-x: scroll;	
 			width: 1130px;
 		}
 		
@@ -639,3 +649,67 @@ abbr[data-original-title] {
 .pharmaDataTable {
 	max-width: 100%;
 }
+.remove_fields, .add_fields {
+	padding-left: 30px!important;
+	position: relative;
+	text-decoration: none;
+	&:hover {
+		color: $Textwhite;
+		text-decoration: none;
+	}
+	&:before {
+		width: 13px;
+		height: 13px;
+		position: absolute;
+		left: 10px;
+		top: 15px;
+		content: '';
+		background: image-url('sprite.png') no-repeat;
+	}
+}
+.remove_fields:before {
+	background-position: 0 -225px;
+}
+
+.add_fields:before {
+	background-position: 0 -203px;
+}
+.item-class-edit-form {
+	.padLR15 {
+		padding: 0 15px;
+	}
+	.col-md-12 .padLR15 {
+		padding: 0;
+	}
+	hr {
+		border-color: #ddd;
+	}
+}
+.item-class-form {
+	.remove_fields {
+		margin-top: 5px;
+	}
+	.nested-fields {
+		margin-bottom: 20px;
+		padding: 0 15px;
+	}
+	.nestedForm {
+		.nested-fields {
+			padding: 0;
+		}
+	}
+}
+#pims-index {
+	.brandTable {
+		thead tr th {
+			width: 100px;
+		}
+		th {
+			font-size: 12px;
+		}
+		td .remove_fields {
+			font-size: 15px;
+			padding-right: 10px;
+		}
+	}
+} 

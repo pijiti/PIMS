@@ -5,7 +5,7 @@
            .col-md-6
             = f.input :description 
            .clearfix
-           .actions.clearfix      
+           .actions.clearfix.nestedForm      
                 =f.simple_fields_for :sub_classes do |sub_class|
                   = render 'sub_class_fields', f: sub_class   
                   = link_to_add_association 'Add Item', f, :sub_classes, class: 'btn btn-link btn-sm'

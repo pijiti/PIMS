@@ -3,7 +3,7 @@
         = simple_form_for @unit_dose,remote:true  do |f| 
           .col-md-6
             = f.input :name,label: "Dosage Form"
-          .col-md-6
+          
             = f.input :form_type,as: :select,collection: UnitDose::Unit_Types,label:"Route of Administration"
           .actions
             = f.button :submit,'Save',class: 'btn btn-success btn-sm'

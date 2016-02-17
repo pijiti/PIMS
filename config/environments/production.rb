@@ -92,15 +92,22 @@ Rails.application.configure do
                                           }
 
   config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.smtp_settings = {
+  #     address:              'smtp.zoho.com',
+  #     port:                  587,
+  #     domain:               'autoattend.com',
+  #     :user_name            => 'admin@autoattend.com',
+  #     :password             => 'Billa123',
+  #     :authentication       => :login,
+  # }
   config.action_mailer.smtp_settings = {
       address:              'smtp.zoho.com',
       port:                  587,
-      domain:               'autoattend.com',
-      :user_name            => 'admin@autoattend.com',
-      :password             => 'Billa123',
+      domain:               'sshondopharmacy.com.ng',
+      :user_name            => 'pims@sshondopharmacy.com.ng',
+      :password             => 'omega3/6',
       :authentication       => :login,
   }
-
   #config.assets.precompile =  ['favicon.ico' ,'*.js', '*.css', '*.css.erb' , '*.png' , '*.jpg' , '*.ttf' , '*.woff']
 
   config.assets.precompile.push(Proc.new do |path|

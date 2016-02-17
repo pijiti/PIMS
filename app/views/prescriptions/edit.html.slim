@@ -1,4 +1,4 @@
-h3 Editing prescription
+h3 Editing Prescription for  #{@prescription.patient.firstname} #{@prescription.patient.surname}
 
 = render 'form'
 = link_to "Back" , prescriptions_path(:patient_id => @prescription.patient_id)

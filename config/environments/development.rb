@@ -28,7 +28,7 @@ Rails.application.configure do
   # number of complex assets.
   config.assets.debug = false
   config.assets.logger = false
-  config.log_level = :info
+  config.log_level = :debug
 
   # Adds additional error checking when serving assets at runtime.
   # Checks for improperly declared sprockets dependencies.
@@ -39,9 +39,9 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
       address:              'smtp.zoho.com',
       port:                  587,
-      domain:               'autoattend.com',
-      :user_name            => 'admin@autoattend.com',
-      :password             => 'Billa123',
+      domain:               'sshondopharmacy.com.ng',
+      :user_name            => 'pims@sshondopharmacy.com.ng',
+      :password             => 'omega3/6',
       :authentication       => :login,
   }
   # config.action_mailer.smtp_settings = {

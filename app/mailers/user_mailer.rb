@@ -1,12 +1,8 @@
 class UserMailer < ActionMailer::Base
-   # default :from => "sshondopcy@gmail.com"
-  default :from => "admin@autoattend.com"
-  def approval_alert(user, supply)
-    @user = user
-    @supply = supply
-    @signed_off = User.find_by_id(@supply.signed_off_by).try(:first_name)
-    mail(to: user.email, subject: 'New batch of drugs - Awaiting Approval')
-  end
+    # default :from => "pmpstore@sshondopharmacy.com.ng"
+    default :from => "pims@sshondopharmacy.com.ng"
+    # default :from => "admin@autoattend.com"
+
 
   def approval_alert(user, supply)
     @user = user
@@ -25,7 +21,7 @@ class UserMailer < ActionMailer::Base
     @pharm = p
     @store = s
     @vendor = v
-    mail(to: v.contact_email, subject: "Restocking of drugs request from #{s.name}")
+    mail(to: v.contact_email, subject: "PMP Store, SSH Ondo")
   end
 
   def order_from_central_store(u,q,d,s,b, order = nil)
@@ -39,7 +35,13 @@ class UserMailer < ActionMailer::Base
   end
 
   def send_test_mail
-    mail(to: "vigneshp.ceg@gmail.com", subject: 'test mail')
+    # delivery_options = { user_name: "pmpstore@sshondopharmacy.com.ng",
+    #                      password: "omega3/6",
+    #                      address: 'smtp.zoho.com' ,
+    #                      port: 587,
+    #                      :authentication       => :login
+    # }
+    mail(from: "pmpstore@sshondopharmacy.com.ng" , to: "vigneshp.ceg@gmail.com", subject: 'test mail' )
   end
 
 

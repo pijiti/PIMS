@@ -2,6 +2,7 @@ table.table.data_table
   thead
     th Outpatient number
     th Inpatient number
+    th Title
     th Firstname
     th Surname
     /th Gender
@@ -20,7 +21,8 @@ table.table.data_table
         tr.data-rows
           td = patient.hospital_number
           td = patient.inpatient_number
-          td = "#{patient.title.name}.#{patient.firstname}"
+          td = patient.title.name
+          td = "#{patient.firstname}"
           td = patient.surname
           /td = patient.gender
           td = patient.age

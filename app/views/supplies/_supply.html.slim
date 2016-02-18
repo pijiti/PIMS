@@ -36,7 +36,7 @@ tr.data-rows.supply
                                      th Rate per unit
                                      th Mfd Date
                                      th Expiry Date
-                                     th Approval status
+                                     th.text-right Status
 
                                 tbody
                                   -supply.batches.try(:each) do |batch|
@@ -55,7 +55,7 @@ tr.data-rows.supply
                                                 i class="fa fa-info fa-fw blue"
                                        td = batch.mfd_date.strftime("%d/%m/%Y")
                                        td = batch.expiry_date.strftime("%d/%m/%Y")
-                                       td = batch.approval_status
+                                       td.text-right = batch.approval_status
               .modal-footer
                 button.btn.btn-default data-dismiss="modal" type="button"  Close
      - if supply.approval_status == "NOT SENT" and ((can? :manage , :all) or current_user.id == supply.signed_off_by.to_i)

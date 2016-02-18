@@ -8,7 +8,8 @@
       th.col-sm-2.text-center Value
       th.col-sm-2.text-center Date
       th.col-sm-2.text-center Signed Off by
-
+      th
+      th
 
    tbody
     tr
@@ -25,7 +26,7 @@
       td   = f.input :invoice_value, as: :string, label: false, placeholder: "Invoice Value" ,input_html: { maxlength: 12 }
       td
          .form-group.string.supply_invoice_date
-           = f.text_field :invoice_date ,  :data => { :provide  => 'datepicker', "date-format" => "dd/mm/yyyy" } , :input_html => {class: 'datepicker string required form-control input-sm form-group' }, as: :string , label: false , :value => invoice_date_display(@supply)
+           = f.text_field :invoice_date ,  :data => { :provide  => 'datepicker', "date-format" => "dd/mm/yyyy" } , :class => "form-control", :input_html => {class: 'datepicker string required form-control input-sm form-group' }, as: :string , label: false , :value => invoice_date_display(@supply)
       td   = f.input :signed_off_by, collection: @users, value_method: :id, label_method: :full_name, include_blank: "Select Name" ,label: false
       td   = f.input :user_id, as: :hidden,input_html: {value: 10}
       td   = f.input :approval_status, as: :hidden
@@ -47,7 +48,7 @@
             = f.simple_fields_for :batches , batch do |batch_form|
               = render "batch_fields"  , :f => batch_form , :batch => @batch
 
-  = link_to_add_association "Add batch",  f , :batches, :"data-association-insertion-node" => "tbody#batches" , :"data-association-insertion-method" => "append" , :partial => "batch_fields"
+  = link_to_add_association "Add batch",  f , :batches, :"data-association-insertion-node" => "tbody#batches" , :"data-association-insertion-method" => "append" , :partial => "batch_fields", :class => "btn"
   div
   br
      .text-center

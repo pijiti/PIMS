@@ -1,7 +1,6 @@
 table.table.table-responsive.table-hover
     thead
       tr.data-rows
-         th
          th Generic Drug
          th Brand
          th Store
@@ -57,9 +56,9 @@ table.table.table-responsive.table-hover
                                     p  Parent store - #{i.store.parent.name}
                                     .actions.text-center
                                       .row
-                                        .col-xs-6
+                                        
                                           = supply_form.submit :class => "btn btn-primary btn-sm add_to_order" , :value => "Add to Order"
-                                        .col-xs-6
+                                        
                                           = supply_form.submit :class => "btn btn-primary btn-sm complete_order" , :value => "Complete Order"
 
 
@@ -80,7 +79,6 @@ table.table.table-responsive.table-hover
                   /= Inventory.where(:store => i.store.parent , :brand =>i.brand ).try(:first).try(:units)
 
         tr(class ="data-rows collapse in row#{current_pharm_item}" )
-           td
            td
            td
              = i.brand.try(:mini_info)

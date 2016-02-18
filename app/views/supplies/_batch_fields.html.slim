@@ -6,7 +6,7 @@ tr.nested-fields
     - if !@batch.new_record?
       td.col-sm-1.text-right
                              span.batch_units = calculate_units_in_pack(@batch)
-    td.col-sm-1    = f.text_field :mfd_date ,  :data => { :provide  => 'datepicker', "date-format" => "dd/mm/yyyy" } ,  :input_html => {class: 'string required form-control input-sm form-group datepicker'} , as: :string ,label: false , :value => mfd_date_display(@batch)
-    td.col-sm-1    = f.text_field :expiry_date ,  :data => { :provide  => 'datepicker', "date-format" => "dd/mm/yyyy" } ,  :input_html => {class: 'string required form-control input-sm form-group datepicker'} , as: :string , label: false , :value => expiry_date_display(@batch)
+    td.col-sm-1    = f.text_field :mfd_date ,  :data => { :provide  => 'datepicker', "date-format" => "dd/mm/yyyy" } , :class => "form-control",  :input_html => {class: 'string required form-control input-sm form-group datepicker'} , as: :string ,label: false , :value => mfd_date_display(@batch)
+    td.col-sm-1    = f.text_field :expiry_date ,  :data => { :provide  => 'datepicker', "date-format" => "dd/mm/yyyy" } , :class => "form-control",  :input_html => {class: 'string required form-control input-sm form-group datepicker'} , as: :string , label: false , :value => expiry_date_display(@batch)
     = f.input :recipient_store, as: :hidden
-    td.col-sm-1    = link_to_remove_association "remove batch", f
+    td.col-sm-1    = link_to_remove_association "Remove Batch", f

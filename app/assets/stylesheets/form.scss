@@ -79,11 +79,9 @@ table.dataTable {
 		display: none;
 	}
 }
-#pims-index {
-	.btn {
-		padding: 8px 20px;
-		font-size: 16px;
-	}
+.btn, .add_fields, .remove_fields {
+	padding: 8px 20px;
+	font-size: 16px;
 }
 .dataTables_wrapper {
 	div.row:last-child {
@@ -97,22 +95,22 @@ table.dataTable {
 		text-transform: capitalize;
 	}
 }
-#pims-index {
-	.dataTables_length {
-		label {
-			display: block;
-			font-size: 14px;
-			color: $Textgray;
-			text-transform: capitalize;
-		}
-		select {
-			float: left;
-			width: 100px;
-			height: 34px;
-			outline: none;
-			margin-right: 20px;
-		}
+.dataTables_length {
+	label {
+		display: block;
+		font-size: 14px;
+		color: $Textgray;
+		text-transform: capitalize;
 	}
+	select {
+		float: left;
+		width: 100px;
+		height: 34px;
+		outline: none;
+		margin-right: 20px;
+	}
+}
+#pims-index {
 	.store-form {
 		.roles {
 			clear: both;
@@ -157,16 +155,25 @@ table.dataTable {
 }
 .downloadExcel {
 	text-align: right;
-	background: transparent image-url('excel.png') right 8px no-repeat;
+	background: transparent image-url('excel.png') right 6px no-repeat;
 	background-size: 40px;
-	padding: 20px 50px 20px 20px;
-	font-size: 15px;
 	margin-bottom: 10px;
 	clear: both;
 	a {
 		color: #08743b;
+		display: inline-block;
+		padding: 15px 50px 15px 20px;
+		font-size: 15px;
+		font-weight: normal;
+	}
+	.downloadPdf, a[href="/inventory.pdf?brand=&generic=35&store=1"] {
+		background: transparent image-url('pdf.png') right 6px no-repeat;
+		margin-right: 10px;
+		color: #ee3c34;
+		background-size: 30px;
 	}
 }
+
 .simple_form {
 	.actions {
 		padding: 0 15px;
@@ -653,10 +660,11 @@ abbr[data-original-title] {
 .pharmaDataTable {
 	max-width: 100%;
 }
-.remove_fields, .add_fields {
+.add_fields, .filterBtn {
 	padding-left: 30px!important;
 	position: relative;
 	text-decoration: none;
+	display: inline-block;
 	&:hover {
 		color: $Textwhite;
 		text-decoration: none;
@@ -671,12 +679,20 @@ abbr[data-original-title] {
 		background: image-url('sprite.png') no-repeat;
 	}
 }
-.remove_fields:before {
-	background-position: 0 -225px;
-}
 
 .add_fields:before {
 	background-position: 0 -203px;
+}
+.filterBtn:before {
+	background-position: 0 -254px;
+	top: 13px;
+}
+.filterBtn {
+	input[type="submit"] {
+		background: transparent;
+		border: 0;
+		padding: 0;
+	}
 }
 .item-class-edit-form {
 	.padLR15 {
@@ -703,17 +719,57 @@ abbr[data-original-title] {
 		}
 	}
 }
-#pims-index {
-	.brandTable {
-		thead tr th {
+.brandTable {
+	thead tr th {
+		width: 100px;
+	}
+	th {
+		font-size: 12px;
+	}
+}
+#inventory-table {
+	table th, table td {
+		width: 100px;
+	}
+	table th:last-child, 
+	table td:last-child {
+		width: 150px;
+	}
+	.modal-dialog {
+		width: 1000px;
+		table th {
 			width: 100px;
+			color: $Textwhite;
 		}
-		th {
-			font-size: 12px;
-		}
-		td .remove_fields {
-			font-size: 15px;
-			padding-right: 10px;
+		table thead {
+			background-color: $bgdarkgray;
 		}
 	}
-} 
+}
+.close {
+	font-size: 28px;
+	margin: 0;
+}
+.supplies_table {
+	.modal-dialog {
+		table th {
+			width: 100px;
+			color: $Textwhite;
+		}
+		table thead {
+			background-color: $bgdarkgray;
+		}
+	}
+}
+.remove_fields {
+	width: 32px;
+	height: 32px;
+	padding: 0;
+	font-size: 0;
+	background: image-url('remove_icon.png') center center no-repeat;
+	background-color: transparent;
+	display: block;
+	&:hover, &:focus, &:visited {
+		background-color: transparent;
+	}
+}

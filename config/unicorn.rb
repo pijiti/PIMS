@@ -1,6 +1,6 @@
-root = '/apps/PIMS/current'
+root = '/Volumes/CodeZone/RailsProjects/PIMS'
 working_directory root
-pid "/apps/PIMS/shared/pids/unicorn.pid"
+pid "#{root}/tmp/pids/unicorn.pid"
 stderr_path "#{root}/log/unicorn.log"
 stdout_path "#{root}/log/unicorn.log"
 
@@ -15,7 +15,7 @@ if environment == 'development'
   #listen '172.31.22.5:3000'
 elsif environment == 'production'
   listen '172.31.20.188:3000'
-  worker_processes 8
+  worker_processes 2
 end
 
 

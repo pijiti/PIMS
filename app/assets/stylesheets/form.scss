@@ -766,8 +766,9 @@ abbr[data-original-title] {
 	height: 32px;
 	padding: 0;
 	font-size: 0;
-	background: image-url('remove.png') center center no-repeat;
+	background: image-url('remove_icon.png') center center no-repeat;
 	background-color: transparent;
+	display: block;
 	&:hover, &:focus, &:visited {
 		background-color: transparent;
 	}

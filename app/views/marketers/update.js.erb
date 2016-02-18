@@ -8,7 +8,7 @@ newErrorNotify.notifyRemove();
 
 <% else %>
 
-$(".marketer-edit-form[data-id='<%= @marketer.id %>']").replaceWith('<%=j render @marketer%>');
+$(".marketer[data-id='<%= @marketer.try(:id) %>']").html('<td colspan="9"><%=j render "marketers/marketer", :marketer => @marketer %></td>');
 var newSuccessNotify = $("<%=j render 'notifies/notify', msg: "#{@marketer.name} "  + "record has been updated" %>");
 application.find('#application-main-body-yield').prepend(newSuccessNotify);
 newSuccessNotify.notifyRemove();

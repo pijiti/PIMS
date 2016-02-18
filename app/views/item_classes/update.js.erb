@@ -8,7 +8,7 @@ newErrorNotify.notifyRemove();
 
 <% else %>
 
-$(".item-class-edit-form[data-id='<%= @item_class.id %>']").replaceWith('<%=j render @item_class%>');
+$(".item-class[data-id='<%= @item_class.try(:id) %>']").html('<td colspan="4"><%=j render "item_classes/item_class", :item_class => @item_class %></td>');
 var newSuccessNotify = $("<%=j render 'notifies/notify', msg: "#{@item_class.name} "  + "record has been updated" %>");
 application.find('#application-main-body-yield').prepend(newSuccessNotify);
 newSuccessNotify.notifyRemove();

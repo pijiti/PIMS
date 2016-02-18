@@ -9,6 +9,7 @@ newErrorNotify.notifyRemove();
 <% else %>
 
 $(".surcharge-edit-form[data-id='<%= @surcharge.id %>']").replaceWith('<%=j render @surcharge %>');
+
 var newSuccessNotify = $("<%=j render 'notifies/notify', msg: "#{@surcharge.name} "  + "record has been updated" %>");
 application.find('#application-main-body-yield').prepend(newSuccessNotify);
 newSuccessNotify.notifyRemove();

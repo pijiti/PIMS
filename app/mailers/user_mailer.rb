@@ -1,7 +1,6 @@
 class UserMailer < ActionMailer::Base
     # default :from => "pmpstore@sshondopharmacy.com.ng"
     default :from => "pims@sshondopharmacy.com.ng"
-    # default :from => "admin@autoattend.com"
 
 
   def approval_alert(user, supply)

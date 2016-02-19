@@ -12,8 +12,8 @@ tr.data-rows.supply
         /button.btn.btn-primary.btn-sm data-target="#myModal1" data-toggle="modal" type="button"
         /  | View Batches
 
-        a href="#" data-toggle="modal" data-target="#myModal_#{supply.id}"  View Batches
-
+        a href="#" data-toggle="modal" data-target="#myModal_#{supply.id}"
+          i.fa.fa-pencil
 
         /! Modal
         div[id="myModal_#{supply.id}" class="modal modal-approvals" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
@@ -59,7 +59,9 @@ tr.data-rows.supply
               .modal-footer
                 button.btn.btn-default data-dismiss="modal" type="button"  Close
      - if supply.approval_status == "NOT SENT" and ((can? :manage , :all) or current_user.id == supply.signed_off_by.to_i)
-       td.approval-link = link_to 'Submit For Approval', submit_supply_path(supply),method: :patch
+       td.approval-link
+          = link_to  submit_supply_path(supply),method: :patch do
+            i.fa.fa-pencil
        td.edit
          = link_to edit_supply_path(supply) do
             i.fa.fa-pencil

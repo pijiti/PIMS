@@ -19,8 +19,8 @@ h3.text-center Inventory
     .text-center
       .btn.btn-success.btn-tiny.filterBtn
         = f.submit :class => "" , :value => "Filter"
-#download_inventory.text-right.downloadExcel
-    =link_to "Download PDF" , inventory_index_path(format: "pdf")  , :target => "_blank", class: 'downloadPdf'
+#download_inventory.text-right.downloadExcel.pdfdownload
+    =link_to "Download PDF" , inventory_index_path(format: "pdf")  , :target => "_blank", :class => 'downloadPdf'
     
     =link_to "Download Excel" , inventory_index_path(format: "csv")
 hr

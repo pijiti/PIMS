@@ -206,10 +206,6 @@ $(document).ready(function () {
     });
 
     $('.active_store_ul').insertAfter('.navbar-default');
-    
-    // $('<br>').appendTo('.dataTables_length label');
-    // $('.dataTables_length select').appendTo('.dataTables_length label');
-    $('.pharm-items-form .add_fields, .pharm-item-edit-form .add_fields, .remove_fields').addClass('btn');
 
 });
 

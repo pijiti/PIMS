@@ -79,7 +79,7 @@ table.dataTable {
 		display: none;
 	}
 }
-.btn, .add_fields, .remove_fields {
+.btn, .remove_fields {
 	padding: 8px 20px;
 	font-size: 16px;
 }
@@ -153,7 +153,7 @@ table.dataTable {
 		margin: 0;
 	}
 }
-.downloadExcel {
+.downloadExcel  {
 	text-align: right;
 	background: transparent image-url('excel.png') right 6px no-repeat;
 	background-size: 40px;
@@ -166,14 +166,21 @@ table.dataTable {
 		font-size: 15px;
 		font-weight: normal;
 	}
-	.downloadPdf, a[href="/inventory.pdf?brand=&generic=35&store=1"] {
+	.downloadPdf  {
 		background: transparent image-url('pdf.png') right 6px no-repeat;
 		margin-right: 10px;
 		color: #ee3c34;
 		background-size: 30px;
 	}
 }
-
+.pdfdownload {
+	a:first-child {
+		background: transparent image-url('pdf.png') right 6px no-repeat;
+		margin-right: 10px;
+		color: #ee3c34;
+		background-size: 30px;
+	}
+}
 .simple_form {
 	.actions {
 		padding: 0 15px;
@@ -660,7 +667,7 @@ abbr[data-original-title] {
 .pharmaDataTable {
 	max-width: 100%;
 }
-.add_fields, .filterBtn {
+.filterBtn {
 	padding-left: 30px!important;
 	position: relative;
 	text-decoration: none;
@@ -680,9 +687,6 @@ abbr[data-original-title] {
 	}
 }
 
-.add_fields:before {
-	background-position: 0 -203px;
-}
 .filterBtn:before {
 	background-position: 0 -254px;
 	top: 13px;
@@ -762,11 +766,23 @@ abbr[data-original-title] {
 	}
 }
 .remove_fields {
-	width: 32px;
-	height: 32px;
+	width: 34px;
+	height: 34px;
 	padding: 0;
 	font-size: 0;
-	background: image-url('remove_icon.png') center center no-repeat;
+	background: image-url('removebtn.png') center center no-repeat;
+	background-color: transparent;
+	display: block;
+	&:hover, &:focus, &:visited {
+		background-color: transparent;
+	}
+}
+.add_fields {
+	width: 34px;
+	height: 34px;
+	padding: 0;
+	font-size: 0;
+	background: image-url('addbtn.png') center center no-repeat;
 	background-color: transparent;
 	display: block;
 	&:hover, &:focus, &:visited {

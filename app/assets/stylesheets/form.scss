@@ -784,7 +784,7 @@ abbr[data-original-title] {
 	font-size: 0;
 	background: image-url('removebtn.png') center center no-repeat;
 	background-color: transparent;
-	display: block;
+	display: inline-block;
 	&:hover, &:focus, &:visited {
 		background-color: transparent;
 	}
@@ -796,7 +796,7 @@ abbr[data-original-title] {
 	font-size: 0;
 	background: image-url('addbtn.png') center center no-repeat;
 	background-color: transparent;
-	display: block;
+	display: inline-block;
 	&:hover, &:focus, &:visited {
 		background-color: transparent;
 	}
@@ -815,3 +815,40 @@ table .actions.text-center {
 		border: 0 !important;
 	}
 }
+.batches_table {
+	th:first-child {
+		max-width:190px;
+	}
+}
+.prescriptions {
+	table {
+		border: solid 1px #ddd;
+	}
+}
+.pharm-item-form {
+	.actions .add_fields {
+		float: left;
+		margin-right: 15px;
+	}
+}
+
+.status {
+	.alert {
+	    display: inline-block;
+	    margin: 0;
+	    padding: 5px 10px;
+	}
+	.alert-success {
+	    border-color: #6ea86f;
+	}
+	.alert-danger {
+	    border-color: #e17c7a;
+	}
+	.alert-info {
+	    border-color: #64a3c2;
+	}
+	.alert-warning {
+	    border-color: #a88b59;
+	}
+}
+

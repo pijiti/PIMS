@@ -1,23 +1,21 @@
 h3.text-center Batches
 .well
   = simple_form_for(@batch) do |f|
-    = f.input :recipient_store , collection: Store.all , label: "Store" , :selected => current_store.try(:id)
-    = f.association :brand, collection: @brands, value_method: :id, label_method: :detailed_info,  prompt: "Select Brand"
-    = f.input :batch_number, as: :string, placeholder: "Batch No"
-    = f.input :rate, placeholder: "Rate", as: :string, maxlength: 15 , :input_html => { :class => "rate_batch" }
-    = f.input :qty , placeholder: "Quantity(Packs)" , label: "Qty (Packs)"
-    = f.input :loose_units , placeholder: "Loose units" , label: "Loose units"
-    = f.input :approval_status , as: :hidden , :value => "APPROVED"
-    = f.label :Mfd_date
-    br
-    = f.text_field :mfd_date ,  :data => { :provide  => 'datepicker', "date-format" => "dd/mm/yyyy" } ,  :input_html => {class: 'string required form-control input-sm form-group datepicker'} , as: :string
-    br
-    = f.label :Expiry_date
-    br
-    = f.text_field :expiry_date ,  :data => { :provide  => 'datepicker', "date-format" => "dd/mm/yyyy" } ,  :input_html => {class: 'string required form-control input-sm form-group datepicker'} , as: :string , label: "Expiry date"
-    br
-    br
-    .text-center
+    .col-sm-6
+      = f.input :recipient_store , collection: Store.all , label: "Store" , :selected => current_store.try(:id)
+      = f.association :brand, collection: @brands, value_method: :id, label_method: :detailed_info,  prompt: "Select Brand"
+      = f.input :batch_number, as: :string, placeholder: "Batch No"
+      = f.label :Mfd_date
+      = f.text_field :mfd_date ,  :data => { :provide  => 'datepicker', "date-format" => "dd/mm/yyyy" } ,  :class=> "form-control", :input_html => {class: 'string required form-control input-sm form-group datepicker'} , as: :string
+    .col-sm-6  
+      = f.input :rate, placeholder: "Rate", as: :string, maxlength: 15 , :input_html => { :class => "rate_batch" }
+      = f.input :qty , placeholder: "Quantity(Packs)" , label: "Qty (Packs)"
+      = f.input :loose_units , placeholder: "Loose units" , label: "Loose units"
+      = f.input :approval_status , as: :hidden , :value => "APPROVED"
+      = f.label :Expiry_date
+      = f.text_field :expiry_date ,  :data => { :provide  => 'datepicker', "date-format" => "dd/mm/yyyy" } , :class=> "form-control", :input_html => {class: 'string required form-control input-sm form-group datepicker'} , as: :string , label: "Expiry date"
+    .clearfix 
+    .text-center.marginTop20
       = f.submit :class => "btn btn-success"
 
 hr
@@ -53,5 +51,6 @@ hr
               /      i class="fa fa-info fa-fw blue"
            td = batch.mfd_date.strftime("%d/%m/%Y")
            td = batch.expiry_date.strftime("%d/%m/%Y")
-           td
-              a href=batch_path(batch) data-method = 'delete' data-confirm = "Are you sure ?" Destroy
+           td.actions
+              a href=batch_path(batch) data-method = 'delete' data-confirm = "Are you sure ?" 
+                i.fa.fa-trash-o

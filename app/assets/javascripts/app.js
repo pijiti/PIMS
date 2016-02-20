@@ -207,6 +207,17 @@ $(document).ready(function () {
 
     $('.active_store_ul').insertAfter('.navbar-default');
 
+    // custom dropdown 
+    $(".reletive a").on("click",function(){
+        $(this).next(".customDropdown").show();
+    });
+});
+
+$(document).on("click", function(event){
+        var $trigger = $(".reletive a");
+        if($trigger !== event.target && !$trigger.has(event.target).length){
+            $(".customDropdown").hide();
+        }            
 });
 
 

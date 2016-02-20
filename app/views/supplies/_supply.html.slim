@@ -4,16 +4,16 @@ tr.data-rows.supply
      td.supply-reference = supply.invoice_reference
      td.invoice-date = (supply.invoice_date.strftime("%e/%m/%Y") if supply.invoice_date)
      td.invoice-value = supply.invoice_value
-     td.supply = supply.batches.length
+     td.text-center.supply = supply.batches.length
      td.sign-off = supply.user.try(:full_name)
      td.approval-status= supply.try(:approval_status)
-     td.add-item
+     td.actions.add-item.text-center
         /! Button trigger modal
         /button.btn.btn-primary.btn-sm data-target="#myModal1" data-toggle="modal" type="button"
         /  | View Batches
 
         a href="#" data-toggle="modal" data-target="#myModal_#{supply.id}"
-          i.fa.fa-pencil
+          i.fa.fa-eye
 
         /! Modal
         div[id="myModal_#{supply.id}" class="modal modal-approvals" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
@@ -59,13 +59,13 @@ tr.data-rows.supply
               .modal-footer
                 button.btn.btn-default data-dismiss="modal" type="button"  Close
      - if supply.approval_status == "NOT SENT" and ((can? :manage , :all) or current_user.id == supply.signed_off_by.to_i)
-       td.approval-link
+       td.actions.approval-link
           = link_to  submit_supply_path(supply),method: :patch do
-            i.fa.fa-pencil
-       td.edit
+            i.fa.fa-check-circle-o
+       td.actions.edit
          = link_to edit_supply_path(supply) do
             i.fa.fa-pencil
-       td.destroy
+       td.actions.destroy
          = link_to supply,:remote => true, method: :delete, data: { confirm: 'Are you sure?' } do
             i.fa.fa-trash-o
      - else

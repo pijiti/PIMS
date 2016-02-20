@@ -1,4 +1,4 @@
-table.table.data_table
+table.table.data_table.transferDrugs
   thead
         tr.data-rows
            th Store
@@ -7,7 +7,7 @@ table.table.data_table
            th Batch Number
            th Expiry date
            th Available Units(Packs)
-           th Transfer
+           th.text-right Transfer
   tbody
     - @inventory_batches.each do |s|
         - next if s.units.to_i == 0 or s.inventory.blank?
@@ -19,8 +19,9 @@ table.table.data_table
           td = s.batch.expiry_date.strftime("%d/%m/%Y at %I:%M%p")
           /td = generic_drug_count(s.batch.pharm_item,s.inventory.store)
           td = "#{s.units}(#{pack_and_units(s.units,s.batch.brand.pack_size.to_i)})"
-          td
-                 a href="#" data-toggle="modal" data-target="#requests_#{s.id}"  Transfer
+          td.actions
+                 a href="#" data-toggle="modal" data-target="#requests_#{s.id}" 
+                   i class="fa fa-exchange"
                  = form_for(Supply.new , :url => transfer_batches_v2_supplies_path , :method => :post ) do |supply_form|
                        = supply_form.hidden_field :service_request_id , :value => s.id
                        /! Modal

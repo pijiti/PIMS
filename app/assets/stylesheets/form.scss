@@ -765,6 +765,18 @@ abbr[data-original-title] {
 		}
 	}
 }
+.batches_modal_table {
+	th {
+		color: $Textwhite;
+	}
+	th:first-child, th:nth-last-child(2) {
+		width: 100px;
+	}
+	thead {
+		background-color: $bgdarkgray;
+		
+	}
+}
 .remove_fields {
 	width: 34px;
 	height: 34px;
@@ -787,5 +799,19 @@ abbr[data-original-title] {
 	display: block;
 	&:hover, &:focus, &:visited {
 		background-color: transparent;
+	}
+}
+table .actions.text-center {
+	text-align: center;
+}
+.transferDrugs, .expiredDrugsDataTable {
+	th {
+		min-width: 150px;
+	}
+}
+.receiptsDataTable {
+	th, td {
+		background: #fafafa !important;
+		border: 0 !important;
 	}
 }

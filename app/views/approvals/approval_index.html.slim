@@ -8,8 +8,8 @@ table.table.table-striped.table-condensed.data_table
        th Reference
        th Supply Date
        th Supply Value
-       th Number of batches
-       th Signed Off by
+       th Batches
+       th Signed Off 
        th Approval Status
        th View Items
 
@@ -22,11 +22,13 @@ table.table.table-striped.table-condensed.data_table
          td.supply-reference = submitted_supply.invoice_reference
          td.invoice-date = submitted_supply.invoice_date
          td.invoice-value = submitted_supply.invoice_value
-         td.supply = submitted_supply.batches.count
+         td.text-center.supply = submitted_supply.batches.count
          td.sign-off = submitted_supply.user.try(:first_name)
          td.status= submitted_supply.try(:approval_status)
-         td.add-item
-           a href="#" data-toggle="modal" data-target="#myModal_#{submitted_supply.id}"  View Batches
+         td.add-item.actions.text-center
+           a href="#" data-toggle="modal" data-target="#myModal_#{submitted_supply.id}"
+             i.fa.fa-eye
+
            = form_for(submitted_supply , :url => approval_supply_path(:id => submitted_supply.id ) , :method => :post ) do |supply_form|
                  /! Modal
                  div[id="myModal_#{submitted_supply.id}" class="modal modal-approvals" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]

@@ -852,3 +852,12 @@ table .actions.text-center {
 	}
 }
 
+.new_supply {
+	#batches td:last-child {
+		text-align: center;
+	}
+}
+table td .remove_fields {
+		display: block;
+		margin: 0 auto;
+}

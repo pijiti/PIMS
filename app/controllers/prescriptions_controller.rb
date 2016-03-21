@@ -108,7 +108,7 @@ class PrescriptionsController < ApplicationController
          format.html { redirect_to prescriptions_path(:patient_id => @prescription.patient_id), notice: 'Prescription was successfully created.' }
          # format.html{ redirect_to print_pdf_prescription_path(@prescription) }
       else
-        @error = @prescription.errors.full_messages
+        @error = @prescription.errors.values.flatten
         flash[:error] = "#{@error.to_sentence}"
 
         @prescriptions = Prescription.where(:patient_id => @prescription.patient_id)

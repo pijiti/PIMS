@@ -20,9 +20,9 @@ class PrescriptionBatch < ActiveRecord::Base
 
   def rate_blank_check
     if self.rate.blank?
-      errors.add(:rate, "can't be blank")
+      errors.add(:rate, "rate can't be blank")
     elsif self.rate == "NA"
-      errors.add(:brand, "is not available in the store")
+      errors.add(:brand, "#{brand.try(:name)} is not available in the store")
     end
   end
 
@@ -37,9 +37,9 @@ class PrescriptionBatch < ActiveRecord::Base
     i = Inventory.where(:brand_id => self.brand_id , :store_id => self.store_id).first
     available_units  = i.inventory_batches.where(:expired => nil).sum(:units) if i
     if i.blank?
-      errors.add(:brand , "#{brand.try(:name)} is unavailable in the store")
+      errors.add( "" , "#{brand.try(:name)} is unavailable in the store")
     elsif available_units.to_i < self.qty.to_i
-      errors.add("" , "#{available_units} of #{brand.try(:name)} available in the store")
+      errors.add( "", "Only #{available_units} units of #{brand.try(:name)} is available in the store")
     end
   end
 

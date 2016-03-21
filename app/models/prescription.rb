@@ -25,7 +25,7 @@ class Prescription < ActiveRecord::Base
 
   def hospital_unit_presence
     if self.hospital_unit.blank?
-      errors.add(:clinic, " can't be blank")
+      errors.add(:clinic, "can't be blank")
     end
   end
 

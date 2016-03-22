@@ -3,7 +3,7 @@ set :default_stage, 'production'
 
 
 # config valid only for current version of Capistrano
-lock '3.2.1'
+lock '3.4.0'
 
 set :application, 'PIMS'
 set :repo_url, "https://pijiti@github.com/pijiti/PIMS.git"
@@ -12,7 +12,7 @@ set :user, "ubuntu"
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, ENV['BRANCH'] || 'bug_fixes'
+set :branch, ENV['BRANCH'] || 'new_ui_ravindra'
 set :rails_env, "production"
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, '/apps/PIMS'

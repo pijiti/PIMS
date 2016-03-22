@@ -4,30 +4,39 @@ class PrescriptionsController < ApplicationController
 
 
   def complete_dispense
+    errors = []
     @prescription.prescription_batches.each do |p|
       p.collation_batches.each do |cb|
-         cb.inventory_batch.update(:units => cb.inventory_batch.units.to_i - cb.units.to_i )
+        if (cb.inventory_batch.units.to_i - cb.units.to_i) >= 0
+          cb.inventory_batch.update(:units => cb.inventory_batch.units.to_i - cb.units.to_i)
+        else
+          errors << "Only #{cb.inventory_batch.units} units of  #{cb.inventory_batch.try(:batch).try(:brand).try(:name)} available."
+        end
       end
     end
 
-    @prescription.update(prescription_params)
-    @prescription.update(:status => "DISPENSED")
-
-    redirect_to dispense_prescriptions_path , :notice => "Prescription #{@prescription.code} has been dispensed successfully"
+    if errors.blank? and @prescription.update(prescription_params)
+      @prescription.update(:status => "DISPENSED")
+      redirect_to dispense_prescriptions_path, :notice => "Prescription #{@prescription.code} has been dispensed successfully"
+    else
+      flash[:error] = errors.to_sentence
+      flash[:error] << @prescription.errors.values.flatten.to_sentence if @prescription.errors
+      redirect_to dispense_prescriptions_path
+    end
   end
 
   def dispense
-    @prescriptions = Prescription.includes(:prescription_batches  , :doctor , :patient).where(:status => ["COLLATION COMPLETED", "DISPENSED"], :id => PrescriptionBatch.where(:store => current_store).pluck(:prescription_id).uniq).order('code DESC')
+    @prescriptions = Prescription.includes(:prescription_batches, :doctor, :patient).where(:status => ["COLLATION COMPLETED", "DISPENSED"], :id => PrescriptionBatch.where(:store => current_store).pluck(:prescription_id).uniq).order('code DESC')
   end
 
   def collate
-    @prescriptions = Prescription.includes(:prescription_batches  , :doctor , :patient).where(:id => PrescriptionBatch.where(:store => current_store).pluck(:prescription_id).uniq).order('code DESC')
+    @prescriptions = Prescription.includes(:prescription_batches, :doctor, :patient).where(:id => PrescriptionBatch.where(:store => current_store).pluck(:prescription_id).uniq).order('code DESC')
     @prescriptions.each do |prescription|
       prescription.prescription_batches.each do |p|
         next if !p.inventory_batches.blank?
         InventoryBatch.includes(:batch).where(:expired => nil, :inventory => Inventory.where(:brand_id => p.brand_id, :store => p.store)).each do |inventory_batch|
           next if inventory_batch.units.to_i == 0
-          p.inventory_batches <<  inventory_batch
+          p.inventory_batches << inventory_batch
         end
       end
     end
@@ -38,10 +47,10 @@ class PrescriptionsController < ApplicationController
     @prescription_batch = PrescriptionBatch.find(params[:id])
     if @prescription_batch.update(prescription_batch_params)
       @prescription_batch.update(:approved => true)
-      @prescription_batch.prescription.update(:status => "COLLATION COMPLETED") if  @prescription_batch.prescription.prescription_batches.where(:approved => nil).blank?
-      redirect_to collate_prescriptions_path , :notice => "Assigned the batch successfully"
+      @prescription_batch.prescription.update(:status => "COLLATION COMPLETED") if @prescription_batch.prescription.prescription_batches.where(:approved => nil).blank?
+      redirect_to collate_prescriptions_path, :notice => "Assigned the batch successfully"
     else
-      redirect_to collate_prescriptions_path , :notice => "Assigned the batch failed"
+      redirect_to collate_prescriptions_path, :notice => "Assigned the batch failed"
     end
   end
 
@@ -66,9 +75,9 @@ class PrescriptionsController < ApplicationController
 
 
   def print_pdf
-    pdf = PrescriptionVoucher.new(@prescription , current_store , current_user)
+    pdf = PrescriptionVoucher.new(@prescription, current_store, current_user)
     file = pdf.generate
-    send_file file ,filename: "pims_invoice.pdf" ,type: "application/pdf", disposition: "attachment"
+    send_file file, filename: "pims_invoice.pdf", type: "application/pdf", disposition: "attachment"
 
   end
 
@@ -104,11 +113,11 @@ class PrescriptionsController < ApplicationController
     respond_to do |format|
       @prescription.total_calculation
       if @prescription.save
-         flash[:prescription_created] = print_pdf_prescription_url(@prescription)
-         format.html { redirect_to prescriptions_path(:patient_id => @prescription.patient_id), notice: 'Prescription was successfully created.' }
-         # format.html{ redirect_to print_pdf_prescription_path(@prescription) }
+        flash[:prescription_created] = print_pdf_prescription_url(@prescription)
+        format.html { redirect_to prescriptions_path(:patient_id => @prescription.patient_id), notice: 'Prescription was successfully created.' }
+        # format.html{ redirect_to print_pdf_prescription_path(@prescription) }
       else
-        @error = @prescription.errors.full_messages
+        @error = @prescription.errors.values.flatten
         flash[:error] = "#{@error.to_sentence}"
 
         @prescriptions = Prescription.where(:patient_id => @prescription.patient_id)
@@ -128,8 +137,8 @@ class PrescriptionsController < ApplicationController
       params[:prescription][:total] = @prescription.total_calculation
       puts prescription_params
       if @prescription.update(prescription_params)
-         flash[:prescription_created] = print_pdf_prescription_url(@prescription)
-         format.html { redirect_to prescriptions_path(:patient_id => @prescription.patient_id), notice: 'Prescription was successfully updated.' }
+        flash[:prescription_created] = print_pdf_prescription_url(@prescription)
+        format.html { redirect_to prescriptions_path(:patient_id => @prescription.patient_id), notice: 'Prescription was successfully updated.' }
         # format.html{ redirect_to print_pdf_prescription_path(@prescription) }
       else
         @error = @prescription.errors.full_messages
@@ -167,12 +176,12 @@ class PrescriptionsController < ApplicationController
 
   def prescription_params
     params.require(:prescription).permit(:user_id, :hospital_unit_id, :patient_id, :code, :doctor_id, :prescription_date, :subtotal, :surcharges_name, :surcharges, :total,
-                                         prescription_batches_attributes: [:id, :store_id, :pharm_item_id, :brand_id, :rate, :qty, :batch_number, :comments, :approved, :_destroy] ,
-                                         )
+                                         prescription_batches_attributes: [:id, :store_id, :pharm_item_id, :brand_id, :rate, :qty, :batch_number, :comments, :approved, :_destroy],
+    )
   end
 
 
   def prescription_batch_params
-    params.require(:prescription_batch).permit(:id , :id, :store_id, :pharm_item_id, :brand_id, :rate, :qty, :batch_number, :comments, :approved, :_destroy , collation_batches_attributes: [:id, :batch_id , :inventory_batch_id , :units ])
+    params.require(:prescription_batch).permit(:id, :id, :store_id, :pharm_item_id, :brand_id, :rate, :qty, :batch_number, :comments, :approved, :_destroy, collation_batches_attributes: [:id, :batch_id, :inventory_batch_id, :units])
   end
 end

@@ -4,16 +4,16 @@ include ActionView::Helpers::NumberHelper
 
 class InventoryVoucher
 
-  def initialize(dest,current_user,store = nil, generic = nil, brand = nil)
-    @document     = Prawn::Document.new
-    @inventory    = Inventory.includes(:store, :brand, :batches, :inventory_batches, :pharm_item, pharm_item: [:brands], inventory_batches: [:batch], store: [:parent], batches: [:brand]).order("pharm_items.name ASC").all
-    @inventory    = @inventory.where(:store_id => store) if !store.blank?
-    @inventory    = @inventory.where(:pharm_item_id => generic) if !generic.blank?
-    @inventory    = @inventory.where(:brand_id => brand) if !brand.blank?
-    @store        = store
-    @generic      = generic
-    @brand        = brand
-    @dest         = dest
+  def initialize(dest, current_user, store = nil, generic = nil, brand = nil)
+    @document = Prawn::Document.new
+    @inventory = Inventory.includes(:store, :brand, :batches, :inventory_batches, :pharm_item, pharm_item: [:brands], inventory_batches: [:batch], store: [:parent], batches: [:brand]).order("pharm_items.name ASC").all
+    @inventory = @inventory.where(:store_id => store) if !store.blank?
+    @inventory = @inventory.where(:pharm_item_id => generic) if !generic.blank?
+    @inventory = @inventory.where(:brand_id => brand) if !brand.blank?
+    @store = store
+    @generic = generic
+    @brand = brand
+    @dest = dest
     @current_user = current_user
   end
 
@@ -35,8 +35,8 @@ class InventoryVoucher
   def create_grid
     @document.define_grid(
         columns: 12,
-        rows:    36,
-        gutter:  10
+        rows: 36,
+        gutter: 10
     )
   end
 
@@ -45,11 +45,11 @@ class InventoryVoucher
   #
   def write_page_headers
     @document.repeat([1]) do
-      @document.grid([0,0], [6, 11]).bounding_box do
+      @document.grid([0, 0], [6, 11]).bounding_box do
         @document.text_box "<strong><font size='17'>State Specialist Hospital,Ondo.\nPharmacy Department</font></strong>\n<font size='11'>Inventory Balance</font>", {
-            align:         :center,
-            valign:        :top,
-            leading:       5,
+            align: :center,
+            valign: :top,
+            leading: 5,
             inline_format: true,
             size: 10,
             at: [@document.bounds.left, @document.bounds.top - 12]
@@ -62,7 +62,7 @@ class InventoryVoucher
   # Private: Write the content provided in the block into the 3rd through 11th rows and all columns.
   #
   def page_content
-    @document.grid([2,0], [35, 11]).bounding_box do
+    @document.grid([2, 0], [35, 11]).bounding_box do
       @document.pad_top 10 do
         yield
       end
@@ -70,7 +70,7 @@ class InventoryVoucher
   end
 
   def footer_content
-    @document.grid([32,0], [35, 11]).bounding_box do
+    @document.grid([32, 0], [35, 11]).bounding_box do
       @document.pad_top 10 do
         yield
       end
@@ -79,117 +79,118 @@ class InventoryVoucher
 
   def write_store_info
     page_content do
-    @document.pad_top 5 do
-      @document.move_down 50
-      @document.bounding_box([0, @document.cursor], width: @document.bounds.right) do
-      @document.pad_top 2.5 do
-        @document.text_box "Date & Time: #{Time.now.strftime('%d-%m-%Y  at %I:%M%p')}", {
-            size: 9,
-            at: [@document.bounds.right - 260, @document.bounds.top + 30],
-            width: 230,
-            height: 40,
-            inline_format: true,
-            align: :right,
-            valign: :center,
-            leading: 5
-        }
-      end
-
       @document.pad_top 5 do
-        @document.indent 1 do
-          @document.text_box "Store Name: #{@store.try(:name)}", {
-              size:  9,
-              at: [@document.cursor + 35, @document.bounds.top + 15],
-              inline_format: true,
-              leading: 0,
-              width: 230,
-              height: 40,
-              color: '000000'
-          }
-        end
-      end
-      end
-  end
-end
-end
+        @document.move_down 50
+        @document.bounding_box([0, @document.cursor], width: @document.bounds.right) do
+          @document.pad_top 2.5 do
+            @document.text_box "Date & Time: #{Time.now.strftime('%d-%m-%Y  at %I:%M%p')}", {
+                size: 9,
+                at: [@document.bounds.right - 260, @document.bounds.top + 30],
+                width: 230,
+                height: 40,
+                inline_format: true,
+                align: :right,
+                valign: :center,
+                leading: 5
+            }
+          end
 
-def write_service_requests
-  page_content do
-    @document.move_down 60
-    @document.pad_top 10 do
-      @document.table get_table_data,{
-          header: true,
-          position: :center,
-          width: @document.bounds.right - 60,
-          column_widths: [40, 100, 80, 70, 60,50,80],
-          cell_style: {
-          padding: [4, 10, 10, 10],
-          size: 10,
-          border_width: 1,
-          border_color: '000000',
-          valign: :center
-      }
-      } do
-        row(0).style do |c|
-          c.font_style   = :bold
-          c.border_width = 2
-          c.border_color = '000000'
-        end
-      unless ((row(0) == row(-1)))
-        row(-1).style do |c|
-          c.font_style   = :bold
-          c.border_width = 0
-          c.border_color = '000000'
+          @document.pad_top 5 do
+            @document.indent 1 do
+              @document.text_box "Store Name: #{@store.try(:name)}", {
+                  size: 9,
+                  at: [@document.cursor + 35, @document.bounds.top + 15],
+                  inline_format: true,
+                  leading: 0,
+                  width: 230,
+                  height: 40,
+                  color: '000000'
+              }
+            end
+          end
         end
       end
     end
   end
-  write_signature_content
-  end
-end
 
-def get_table_data
-  formatted_table = []
-  formatted_table.push [
-                           'S/N',
-                           'Item',
-                           'Brand',
-                           'Batch No',
-                           'Qty',
-                           'Rate',
-                           'Subtotal'
-                       ]
-  counter = 0
-  total   = 0
-  @inventory.each do |inventory|
-    inventory.inventory_batches.where(:expired => nil).each do |ib|
-    counter += 1
-    total   +=  (ib.units*inventory.rate_per_unit)
-    formatted_table.push [
-                           counter,
-                           inventory.pharm_item.name,
-                           inventory.brand.name,
-                           ib.batch.batch_number,
-                           ib.units,
-                           inventory.rate_per_unit,
-                           number_with_delimiter("%.2f" %(ib.units*inventory.rate_per_unit))
-                         ]
+  def write_service_requests
+    page_content do
+      @document.move_down 60
+      @document.pad_top 10 do
+        @document.table get_table_data, {
+            header: true,
+            position: :center,
+            width: @document.bounds.right - 60,
+            column_widths: [40, 100, 80, 70, 60, 50, 80],
+            cell_style: {
+                padding: [4, 10, 10, 10],
+                size: 10,
+                border_width: 1,
+                border_color: '000000',
+                valign: :center
+            }
+        } do
+          row(0).style do |c|
+            c.font_style = :bold
+            c.border_width = 2
+            c.border_color = '000000'
+          end
+          unless ((row(0) == row(-1)))
+            row(-1).style do |c|
+              c.font_style = :bold
+              c.border_width = 0
+              c.border_color = '000000'
+            end
+          end
+        end
+      end
+      write_signature_content
     end
   end
-  total =   "%.2f" % total
-  if counter != 0
+
+  def get_table_data
+    formatted_table = []
     formatted_table.push [
-                             "",
-                             "",
-                             "",
-                             "",
-                             "",
-                             "Total",
-                             number_with_delimiter(total)
+                             'S/N',
+                             'Item',
+                             'Brand',
+                             'Batch No',
+                             'Qty',
+                             'Rate',
+                             'Subtotal'
                          ]
+    counter = 0
+    total = 0
+    @inventory.each do |inventory|
+      inventory.inventory_batches.where(:expired => nil).each do |ib|
+        next if ib.units.to_i <= 0
+        counter += 1
+        total += (ib.units*inventory.rate_per_unit)
+        formatted_table.push [
+                                 counter,
+                                 inventory.pharm_item.name,
+                                 inventory.brand.name,
+                                 ib.batch.batch_number,
+                                 ib.units,
+                                 inventory.rate_per_unit,
+                                 number_with_delimiter("%.2f" %(ib.units*inventory.rate_per_unit))
+                             ]
+      end
+    end
+    total = "%.2f" % total
+    if counter != 0
+      formatted_table.push [
+                               "",
+                               "",
+                               "",
+                               "",
+                               "",
+                               "Total",
+                               number_with_delimiter(total)
+                           ]
+    end
+    formatted_table
   end
-  formatted_table
-end
 
   #
   # Private: Write the bottom footer section to all pages utilizing the last grid row and all columns.
@@ -197,9 +198,9 @@ end
   def write_page_footers
     (1..@document.page_count).each do |i|
       @document.go_to_page i
-      @document.grid([0,0], [0,5]).bounding_box do
+      @document.grid([0, 0], [0, 5]).bounding_box do
         @document.text_box "#{i} of #{@document.page_count}", {
-            align:  :left,
+            align: :left,
             valign: :bottom,
             at: [@document.bounds.left + 35, @document.bounds.top + 15],
             size: 10,
@@ -210,61 +211,61 @@ end
     #end
   end
 
-def write_signature_content
-  @document.move_down 120
-  if @document.y.to_f < 100
-    @document.start_new_page
-    @document.move_down(50)
-  end
+  def write_signature_content
+    @document.move_down 120
+    if @document.y.to_f < 100
+      @document.start_new_page
+      @document.move_down(50)
+    end
 
-  @document.fill_color '000000'
-  @document.fill do
-    @document.rectangle [@document.bounds.left + 50 ,  @document.cursor + 50], 138, 1
-  end
-  @document.text_box "", {
-      align: :left,
-      at: [@document.bounds.left + 50 , @document.cursor + 62],
-      size: 10,
-      style: :italic
-  }
-  @document.text_box "In Charge Name", {
-      align: :left,
-      at: [@document.bounds.left + 50 , @document.cursor + 42],
-      size: 10,
-      style: :italic
-  }
+    @document.fill_color '000000'
+    @document.fill do
+      @document.rectangle [@document.bounds.left + 50, @document.cursor + 50], 138, 1
+    end
+    @document.text_box "", {
+        align: :left,
+        at: [@document.bounds.left + 50, @document.cursor + 62],
+        size: 10,
+        style: :italic
+    }
+    @document.text_box "In Charge Name", {
+        align: :left,
+        at: [@document.bounds.left + 50, @document.cursor + 42],
+        size: 10,
+        style: :italic
+    }
 
-  @document.fill_color '000000'
-  @document.fill do
-    @document.rectangle [@document.bounds.left + 350, @document.cursor + 50], 117, 1
-  end
-  @document.text_box "Receiver Name", {
-      align: :left,
-      at: [@document.bounds.left + 350 , @document.cursor + 42],
-      size: 10,
-      style: :italic
-  }
+    @document.fill_color '000000'
+    @document.fill do
+      @document.rectangle [@document.bounds.left + 350, @document.cursor + 50], 117, 1
+    end
+    @document.text_box "Receiver Name", {
+        align: :left,
+        at: [@document.bounds.left + 350, @document.cursor + 42],
+        size: 10,
+        style: :italic
+    }
 
-  @document.fill_color '000000'
-  @document.fill do
-    @document.rectangle [@document.bounds.left + 50, @document.cursor - 12], 138, 1
-  end
-  @document.text_box "In Charge Signature & Date", {
-      align: :left,
-      at: [@document.bounds.left + 50, @document.cursor - 20],
-      size: 10,
-      style: :italic
-  }
+    @document.fill_color '000000'
+    @document.fill do
+      @document.rectangle [@document.bounds.left + 50, @document.cursor - 12], 138, 1
+    end
+    @document.text_box "In Charge Signature & Date", {
+        align: :left,
+        at: [@document.bounds.left + 50, @document.cursor - 20],
+        size: 10,
+        style: :italic
+    }
 
-  @document.fill_color '000000'
-  @document.fill do
-    @document.rectangle [@document.bounds.left + 350, @document.cursor - 12], 117, 1
+    @document.fill_color '000000'
+    @document.fill do
+      @document.rectangle [@document.bounds.left + 350, @document.cursor - 12], 117, 1
+    end
+    @document.text_box "Receiver's Signature & Date", {
+        align: :left,
+        at: [@document.bounds.left + 350, @document.cursor - 20],
+        size: 10,
+        style: :italic
+    }
   end
-  @document.text_box "Receiver's Signature & Date", {
-      align: :left,
-      at: [@document.bounds.left + 350, @document.cursor - 20],
-      size: 10,
-      style: :italic
-  }
-end
 end

@@ -23,14 +23,12 @@ class Inventory < ActiveRecord::Base
 
   def self.to_csv(store = nil, generic = nil, brand = nil)
 
-    logger.debug "=======TO CSV============"
 
     i = Inventory.includes(:store, :brand, :batches, :inventory_batches, :pharm_item, pharm_item: [:brands], inventory_batches: [:batch], store: [:parent], batches: [:brand]).order("pharm_items.name ASC").all
     i = i.where(:store_id => store) if !store.blank?
     i = i.where(:pharm_item_id => generic) if !generic.blank?
     i = i.where(:brand_id => brand) if !brand.blank?
 
-    logger.debug "=========@@@@@@@@@@@========>#{i.count}"
 
     CSV.generate({}) do |csv|
       csv << ["","State Specialist Hospital,Ondo."]
@@ -45,6 +43,7 @@ class Inventory < ActiveRecord::Base
       total = 0
       i.each do |inventory|
         inventory.inventory_batches.where(:expired => nil).each do |ib|
+          next if ib.units.to_i <= 0
           sno += 1
           total +=  (ib.units*inventory.rate_per_unit)
           csv << [sno , inventory.pharm_item.name, inventory.brand.name , ib.batch.batch_number ,  ib.units, inventory.rate_per_unit , (ib.units*inventory.rate_per_unit)]

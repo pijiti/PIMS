@@ -1,8 +1,6 @@
 class UserMailer < ActionMailer::Base
-    # default :from => "pmpstore@sshondopharmacy.com.ng"
-    default :from => "pims@sshondopharmacy.com.ng"
-    # default :from => "admin@autoattend.com"
-
+  # default :from => "pmpstore@sshondopharmacy.com.ng"
+  default :from => "\"SSHOndo PIMS\" <pims@sshondopharmacy.com.ng>"
 
   def approval_alert(user, supply)
     @user = user
@@ -24,7 +22,7 @@ class UserMailer < ActionMailer::Base
     mail(to: v.contact_email, subject: "PMP Store, SSH Ondo")
   end
 
-  def order_from_central_store(u,q,d,s,b, order = nil)
+  def order_from_central_store(u, q, d, s, b, order = nil)
     @qty = q
     @pharm = d
     @store = s
@@ -41,7 +39,7 @@ class UserMailer < ActionMailer::Base
     #                      port: 587,
     #                      :authentication       => :login
     # }
-    mail(from: "pmpstore@sshondopharmacy.com.ng" , to: "vigneshp.ceg@gmail.com", subject: 'test mail' )
+    mail(from: "pmpstore@sshondopharmacy.com.ng", to: "vigneshp.ceg@gmail.com", subject: 'test mail')
   end
 
 

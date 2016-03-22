@@ -33,7 +33,7 @@ class PrescriptionBatch < ActiveRecord::Base
 
   def check_available_qty
     # no need to check during dispense
-    if self.prescription and self.prescription.status != "COLLATION COMPLETED"
+    if (!self.prescription.blank? and self.prescription.status != "COLLATION COMPLETED") or self.prescription.blank?
       puts "Store id => #{self.store_id}"
       puts "brand id => #{self.brand_id}"
       i = Inventory.where(:brand_id => self.brand_id, :store_id => self.store_id).first

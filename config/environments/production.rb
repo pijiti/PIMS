@@ -84,22 +84,14 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: '192.168.1.4', port: 3000 }
 
   #exception notifier
-  Rails.application.config.middleware.use ExceptionNotification::Rack,
-                                          :email => {
-                                              :email_prefix => "Error Notification",
-                                              :sender_address => %{"Error Notifier" <admin@autoattend.com>},
-                                              :exception_recipients => %w{vigneshp.ceg@gmail.com pijiti@epitome.com.ng}
-                                          }
+  #Rails.application.config.middleware.use ExceptionNotification::Rack,
+  #                                        :email => {
+  #                                            :email_prefix => "Error Notification",
+  #                                            :sender_address => %{"Error Notifier" <admin@autoattend.com>},
+  #                                            :exception_recipients => %w{vigneshp.ceg@gmail.com pijiti@epitome.com.ng}
+  #                                        }
 
   config.action_mailer.delivery_method = :smtp
-  # config.action_mailer.smtp_settings = {
-  #     address:              'smtp.zoho.com',
-  #     port:                  587,
-  #     domain:               'autoattend.com',
-  #     :user_name            => 'admin@autoattend.com',
-  #     :password             => 'Billa123',
-  #     :authentication       => :login,
-  # }
   config.action_mailer.smtp_settings = {
       address:              'smtp.zoho.com',
       port:                  587,

@@ -1,6 +1,6 @@
-root = '/apps/PIMS/current'
+root = '/apps/PIMS'
 working_directory root
-pid "/apps/PIMS/shared/pids/unicorn.pid"
+pid "/apps/PIMS/tmp/pids/unicorn.pid"
 stderr_path "#{root}/log/unicorn.log"
 stdout_path "#{root}/log/unicorn.log"
 
@@ -14,7 +14,7 @@ if environment == 'development'
   worker_processes 4
   #listen '172.31.22.5:3000'
 elsif environment == 'production'
-  listen '172.31.20.188:3000'
+  listen '192.168.1.4:3000'
   worker_processes 8
 end
 

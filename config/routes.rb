@@ -2,12 +2,16 @@ Rails.application.routes.draw do
 
   get 'reports/drugs'
   get 'reports/requisition'
-  post 'reports/filter_by_month'
 
   resources :reports do
     collection do
       get 'stores'
       get 'drugs'
+      get 'sales'
+      get 'supplies'
+      post 'supplies_filter_by_month'
+      post 'sales_filter_by_month'
+      post 'filter_by_month'
     end
   end
 

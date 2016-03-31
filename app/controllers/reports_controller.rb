@@ -3,19 +3,48 @@ class ReportsController < ApplicationController
 
 
   def filter_by_month
-    date = DateTime.now
     @start_time = Time.new(params[:year], params[:month], 01)
     @end_time = @start_time.end_of_month
     requisition_filter
   end
 
 
+  def sales_filter_by_month
+    @start_time = Time.new(params[:year], params[:month], 01)
+    @end_time = @start_time.end_of_month
+    sales_filter
+  end
+
+  def supplies_filter_by_month
+    @start_time = Time.new(params[:year], params[:month], 01)
+    @end_time = @start_time.end_of_month
+    supply_filter
+  end
+
+  def supplies
+    date = DateTime.now
+    @start_time = Time.new(date.year, date.month, 01)
+    @end_time = Time.now.end_of_month
+
+    supply_filter
+  end
+
+  # requistion made for every month
   def requisition
     date = DateTime.now
     @start_time = Time.new(date.year, date.month, 01)
     @end_time = Time.now.end_of_month
 
     requisition_filter
+  end
+
+  # sales per month
+  def sales
+    date = DateTime.now
+    @start_time = Time.new(date.year, date.month, 01)
+    @end_time = Time.now.end_of_month
+
+    sales_filter
   end
 
 
@@ -32,8 +61,8 @@ class ReportsController < ApplicationController
     @pharm_items.each do |p|
       @brand_data << {:item => p.brands.pluck(:name).map { |x| x.gsub("'", "") }, :y => p.brands.try(:count), :name => p.name.gsub("'", "")}
     end
-
   end
+
 
   def stores
     @role_store_count, @role_store_names = Store.get_user_roles(current_store)
@@ -42,10 +71,79 @@ class ReportsController < ApplicationController
 
   private
 
+  def supply_filter
+    @receipts = {}
+
+    current_date = @start_time.beginning_of_month.to_date
+    current_month = @end_time.month
+
+    @weekly_receipts = []
+    weekly_total = 0
+    weeks = 0
+    31.times do |i|
+      break if current_date.month != current_month
+
+      # all_receipts = receipts.where("date(updated_at) = ?", current_date)
+      all_receipts = Supply.where(:approval_status => "APPROVED", :store => current_store).where("date(updated_at) = ?", current_date)
+
+      total_value = all_receipts.sum(:invoice_value)
+
+      @receipts[current_date] = total_value.round(2)
+      weekly_total += total_value.round(2)
+      # weekly
+      if (i+1) % 7 == 0
+        @weekly_receipts << weekly_total.round(2)
+        # resetting
+        weekly_total = 0
+        weeks += 1
+      end
+
+
+      current_date = current_date.next
+    end
+
+    @weekly_receipts << weekly_total
+  end
+
+  def sales_filter
+    p = PrescriptionBatch.where(:store_id => current_store.try(:id)).pluck(:prescription_id)
+    @receipts = {}
+
+    current_date = @start_time.beginning_of_month.to_date
+    current_month = @end_time.month
+
+    @weekly_receipts = []
+    weekly_total = 0
+    weeks = 0
+    31.times do |i|
+      break if current_date.month != current_month
+
+      # all_receipts = receipts.where("date(updated_at) = ?", current_date)
+      all_receipts = Prescription.where(:status => "DISPENSED", :id => p).where("date(updated_at) = ?", current_date)
+
+      total_value = 0
+      all_receipts.each do |r|
+        total_value += r.total.to_f.round(2) rescue 0
+      end
+
+      @receipts[current_date] = total_value.round(2)
+      weekly_total += total_value.round(2)
+      # weekly
+      if (i+1) % 7 == 0
+        @weekly_receipts << weekly_total.round(2)
+        # resetting
+        weekly_total = 0
+        weeks += 1
+      end
+
+
+      current_date = current_date.next
+    end
+
+    @weekly_receipts << weekly_total
+  end
 
   def requisition_filter
-    receipts = Receipt.where(:confirm_receipt => "COMPLETED", :to_store_id => current_store.try(:id))
-                   .where("updated_at > ? and updated_at < ?", @start_time, @end_time)
     @receipts = {}
 
     current_date = @start_time.beginning_of_month.to_date
@@ -83,4 +181,5 @@ class ReportsController < ApplicationController
 
     @weekly_receipts << weekly_total
   end
+
 end

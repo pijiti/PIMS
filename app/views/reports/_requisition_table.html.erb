@@ -9,7 +9,7 @@
     <% @receipts.each do |k, v| %>
         <tr>
           <td><%= k %></td>
-          <td><%= v %></td>
+          <td style="text-align: right"><%= number_to_currency v , unit: "" %></td>
         </tr>
     <% end %>
     </tbody>
@@ -29,7 +29,7 @@
     <% @weekly_receipts.each do |total| %>
         <tr>
           <td><%= "Week #{week}" %></td>
-          <td><%= total %></td>
+          <td style="text-align: right"><%= number_to_currency total , unit: "" %></td>
         </tr>
         <% week += 1 %>
     <% end %>

@@ -17,6 +17,8 @@ class ReportsController < ApplicationController
 
   def supplies_filter_by_month
     @start_time = Time.new(params[:year], params[:month], 01)
+    @marketer = params[:marketer]
+    @marketer = Marketer.all.pluck(:id) if @marketer.blank?
     @end_time = @start_time.end_of_month
     supply_filter
   end
@@ -84,7 +86,7 @@ class ReportsController < ApplicationController
       break if current_date.month != current_month
 
       # all_receipts = receipts.where("date(updated_at) = ?", current_date)
-      all_receipts = Supply.where(:approval_status => "APPROVED", :store => current_store).where("date(updated_at) = ?", current_date)
+      all_receipts = Supply.where(:marketer_id => @marketer, :approval_status => "APPROVED", :store => current_store).where("date(updated_at) = ?", current_date)
 
       total_value = all_receipts.sum(:invoice_value)
 

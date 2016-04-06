@@ -134,13 +134,13 @@ $(document).ready(function () {
                     $('#surcharges_value').html(surcharge.toFixed(2));
                     $('#prescription_surcharges').val(surcharge.toFixed(2));
                 }
-                $('#subtotal_value').html(sub_total.toFixed(2));
+                $('#subtotal_value').html('<h5>' + sub_total.toFixed(2) + '</h5>');
                 $('#prescription_subtotal').val(sub_total.toFixed(2));
                 total = surcharge + sub_total;
                 total = Math.ceil(total.toFixed(2));
                 if(total%5 != 0)
                    total = total + (5 - total%5);
-                $('#grand_total').html(total);
+                $('#grand_total').html('<h5>' + total + '</h5>');
                 $('#prescription_total').val(total.toFixed(2));
 
             }

@@ -92,6 +92,20 @@ class PrescriptionVoucher
                                "",
                                "",
                                "",
+                               "Subtotal(N)",
+                               number_with_delimiter( "#{"%.2f" % @prescription.subtotal}" )
+                           ]
+      formatted_table.push [
+                               "",
+                               "",
+                               "",
+                               "Service charge(N)",
+                               number_with_delimiter( "#{"%.2f" % @prescription.surcharges}" )
+                           ]
+      formatted_table.push [
+                               "",
+                               "",
+                               "",
                                "Total(N)",
                                number_with_delimiter( "#{grand_total}" )
                            ]

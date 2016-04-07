@@ -24,7 +24,7 @@ table.table.table-responsive.table-hover
                       i.fa.fa-plus
                 td = i.brand.try(:pharm_item).try(:name)
                 td
-                    a href="#" class="btn btn-sm #{order_more_btn(i,i.store)}" data-toggle="modal" data-target="#order_#{current_pharm_item}"  Order
+                    a href="#" class="btn btn-sm  #{order_more_btn(i,i.store)}" data-toggle="modal" data-target="#order_#{current_pharm_item}"  Order
                     div[id="order_#{current_pharm_item}" class="modal" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
                       .modal-dialog role="document"
                         .modal-content
@@ -134,5 +134,5 @@ table.table.table-responsive.table-hover
            td = i.updated_at.strftime("%d/%m/%Y at %I:%M%p")
            td = i.store.parent.try(:name)
            td
-             - parent_store_units = Inventory.where(:store => i.store.parent , :brand =>i.brand ).try(:first).try(:inventory_batches).try(:sum, :units)
+             - parent_store_units = Inventory.where(:store => i.store.parent , :brand =>i.brand ).try(:first).try(:inventory_batches).try(:where , :expired => nil).try(:sum, :units)
              = "#{parent_store_units}(#{pack_and_units(parent_store_units,i.brand.pack_size)})"

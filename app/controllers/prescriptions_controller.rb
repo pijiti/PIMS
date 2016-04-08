@@ -46,9 +46,19 @@ class PrescriptionsController < ApplicationController
     logger.debug "=====#{params[:prescription_batch].symbolize_keys}======"
     @prescription_batch = PrescriptionBatch.find(params[:id])
     if @prescription_batch.update(prescription_batch_params)
-      @prescription_batch.update(:approved => true)
-      @prescription_batch.prescription.update(:status => "COLLATION COMPLETED") if @prescription_batch.prescription.prescription_batches.where(:approved => nil).blank?
-      redirect_to collate_prescriptions_path, :notice => "Assigned the batch successfully"
+
+      sum_units = 0
+      @prescription_batch.collation_batches.each do |b|
+        sum_units += b.units.to_i if b.units
+      end
+      if sum_units != @prescription_batch.qty.to_i
+        redirect_to collate_prescriptions_path, :notice => "Quantity assigned does not match the billed quantity"
+      else
+        @prescription_batch.update(:approved => true)
+        @prescription_batch.prescription.update(:status => "COLLATION COMPLETED") if @prescription_batch.prescription.prescription_batches.where(:approved => nil).blank?
+        redirect_to collate_prescriptions_path, :notice => "Assigned the batch successfully"
+      end
+
     else
       redirect_to collate_prescriptions_path, :notice => "Assigned the batch failed"
     end

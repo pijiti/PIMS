@@ -65,8 +65,9 @@ class PrescriptionsController < ApplicationController
   end
 
   def index
-    b = Inventory.where(:store_id => current_store.try(:id) , :id => InventoryBatch.where.not(:units => 0).pluck(:inventory_id)).pluck(:brand_id)
+    b = Inventory.where(:store_id => current_store.try(:id) , :id => InventoryBatch.where(:expired => nil).where.not(:units => 0).pluck(:inventory_id)).pluck(:brand_id)
     @brands = Brand.includes(:pharm_item).order('pharm_items.name ASC').where(:id => b)
+    logger.debug "==============BRANDS===> #{@brands.ids.sort}"
     @patient_id = params[:patient_id]
     @prescriptions = Prescription.where(:patient_id => params[:patient_id]).order('code DESC')
     @patient = Patient.find_by_id(@patient_id) if @patient_id
@@ -111,7 +112,8 @@ class PrescriptionsController < ApplicationController
 
 
   def edit
-    @brands = Brand.includes(:pharm_item).order('pharm_items.name ASC').all
+    b = Inventory.where(:store_id => current_store.try(:id) , :id => InventoryBatch.where(:expired => nil).where.not(:units => 0).pluck(:inventory_id)).pluck(:brand_id)
+    @brands = Brand.includes(:pharm_item).order('pharm_items.name ASC').where(:id => b)
     @patient_id = params[:patient_id]
     @patient = Patient.find_by_id(@patient_id) if @patient_id
   end

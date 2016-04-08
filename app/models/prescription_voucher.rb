@@ -5,7 +5,7 @@ include ActionView::Helpers::NumberHelper
 
 class PrescriptionVoucher
 
-  def initialize(prescription , dispense_store , d_user)
+  def initialize(prescription, dispense_store, d_user)
     @document = Prawn::Document.new(:page_size => [72.mm, 297.mm], :page_layout => :portrait,
                                     :left_margin => 1.mm,
                                     :right_margin => 1.mm,
@@ -28,15 +28,17 @@ class PrescriptionVoucher
     @document.move_down 15.mm
 
 
-    @document.table( get_table_data, {cell_style: { size: 7.5, valign: :center, :align => :right, :border_width => 0}}) do |table|
+    @document.table(get_table_data, {cell_style: {size: 7.5, valign: :center, :align => :right, :border_width => 0}}) do |table|
       #table.header=(["Item", "Qty", "Rate", "Subtotal"])
-       table.column(0).style do |c|
-         c.align = :left
-       end
-       table.column(1).style do |c|
-         c.align = :left
-       end
-      table.row(0)
+      table.column(0).style do |c|
+        c.align = :left
+      end
+      table.column(1).style do |c|
+        c.align = :left
+      end
+      table.row(-1).size = 9
+      table.row(-1).font_style = :bold
+      table.row(-3).font_style = :bold
     end
 
     @document.move_down 15.mm
@@ -46,7 +48,7 @@ class PrescriptionVoucher
     @document.move_down 3.mm
     #the next line is only for free medical dispensary store
     if !@dispense_store.store_operation.try(:payment_required)
-       @document.text "Free Medical Service provided by ODSG to reduce maternal and child mortality", :size => 7 #,:align => :justified
+      @document.text "Free Medical Service provided by ODSG to reduce maternal and child mortality", :size => 7 #,:align => :justified
     end
 
     @document.move_down 5.mm
@@ -80,12 +82,12 @@ class PrescriptionVoucher
                                p.brand.try(:name),
                                p.try(:qty),
                                number_with_delimiter("#{p.try(:rate)}"),
-                               number_with_delimiter( "#{sub}"),
+                               number_with_delimiter("#{sub}"),
                            ]
     end
 
 
-    total =   "%.2f" % total
+    total = "%.2f" % total
     if counter != 0
       grand_total = "%.2f" % @prescription.total
       formatted_table.push [
@@ -93,24 +95,23 @@ class PrescriptionVoucher
                                "",
                                "",
                                "Subtotal(N)",
-                               number_with_delimiter( "#{"%.2f" % @prescription.subtotal}" )
+                               number_with_delimiter("#{"%.2f" % @prescription.subtotal}")
                            ]
       formatted_table.push [
                                "",
                                "",
                                "",
                                "Service charge(N)",
-                               number_with_delimiter( "#{"%.2f" % @prescription.surcharges}" )
+                               number_with_delimiter("#{"%.2f" % @prescription.surcharges}")
                            ]
       formatted_table.push [
                                "",
                                "",
                                "",
                                "Total(N)",
-                               number_with_delimiter( "#{grand_total}" )
+                               number_with_delimiter("#{grand_total}")
                            ]
     end
-    formatted_table
     formatted_table
   end
 

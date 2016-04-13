@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   get 'reports/drugs'
   get 'reports/requisition'
+  get 'reports/daily'
 
   resources :reports do
     collection do
@@ -12,6 +13,7 @@ Rails.application.routes.draw do
       post 'supplies_filter_by_month'
       post 'sales_filter_by_month'
       post 'filter_by_month'
+      post 'sales_filter_by_date'
     end
   end
 

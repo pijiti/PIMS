@@ -36,7 +36,6 @@ class PrescriptionVoucher
       table.column(1).style do |c|
         c.align = :left
       end
-      table.row(-1).size = 9
       table.row(-1).font_style = :bold
       table.row(-3).font_style = :bold
     end

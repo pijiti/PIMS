@@ -2,15 +2,14 @@
   <div class="list-group panel">
     <%= link_to '<i class="fa fa-table fa-fw x3 blue"></i>&nbsp;<br/>Dashboard</br><i class="fa"></i>'.html_safe, dashboard_path, class: "list-group-item text-center" %>
     <%= link_to '<i class="fa fa-pie-chart fa-fw x3 blue"></i>&nbsp;<br/>Reports <br/><i class="fa fa-caret-down"></i>'.html_safe, "#reports", class: "list-group-item list-group-item-success text-center", "data-toggle" => "collapse", "data-parent" => "#MainMenu" %>
-    <% if can? :manage, User %>
         <div class="collapse" id="reports">
           <%= link_to '<i class="fa fa-bank fa-fw"></i>&nbsp;Stores'.html_safe, stores_reports_path, class: "list-group-item" %>
           <%= link_to '<i class="fa fa-medkit fa-fw"></i>&nbsp;Drugs'.html_safe, drugs_reports_path, class: "list-group-item" %>
           <%= link_to '<i class="fa fa-medkit fa-fw"></i>&nbsp;Requisition'.html_safe, reports_requisition_path, class: "list-group-item" %>
           <%= link_to '<i class="fa fa-money fa-fw"></i>&nbsp;Sales'.html_safe, sales_reports_path, class: "list-group-item" %>
           <%= link_to '<i class="fa fa-truck fa-fw"></i>&nbsp;Supplies'.html_safe, supplies_reports_path, class: "list-group-item" %>
+          <%= link_to '<i class="fa fa-file fa-fw"></i>&nbsp;Daily Sales'.html_safe, reports_daily_path, class: "list-group-item" %>
         </div>
-    <% end %>
 
     <% if can? :manage, User %>
         <%= link_to '<i class="fa fa-plus-square fa-fw x3 blue"></i>&nbsp;</br>PIMS Management <br/><i class="fa fa-caret-down"></i>'.html_safe, "#application", class: "list-group-item list-group-item-success text-center", "data-toggle" => "collapse", "data-parent" => "#MainMenu" %>

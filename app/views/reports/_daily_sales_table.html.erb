@@ -1,0 +1,52 @@
+<div class="col-xs-12">
+  <h4>Sales for the day: <%= number_to_currency @total_value, unit: "N " %></h4>
+  <table class="table table-striped data_table table-condensed">
+    <thead>
+    <th>Name of Patient</th>
+    <th>Hospital Unit</th>
+    <th>Transaction date</th>
+    <th>Items bought</th>
+    <th>Subtotal(N)</th>
+    <% if can? :manage , "Report" %>
+    <th>Surcharges(N)</th>
+    <th>Total(N)</th>
+    <% end %>
+
+    </thead>
+
+    <tbody>
+    <% @receipts.each do |r| %>
+        <tr>
+          <td><%= r.patient.name %></td>
+          <td><%= r.hospital_unit.try(:name) %></td>
+          <td><%= r.updated_at.strftime(" %m-%d-%Y  at %I:%M%p") %></td>
+          <td>
+            <table class="table ">
+              <thead>
+
+              <th>Brand</th>
+              <th>Units</th>
+              </thead>
+              <tbody>
+              <% r.prescription_batches.each do |pb|  %>
+              <tr>
+                <td><%= pb.brand.drug_prescription_info %></td>
+                <td><%= pb.qty %></td>
+              </tr>
+              <% end  %>
+              </tbody>
+
+            </table>
+          </td>
+          <td style="text-align: right"><%= number_to_currency r.subtotal ,unit: "" %></td>
+          <% if can? :manage , "Report" %>
+              <td style="text-align: right"><%= number_to_currency r.surcharges ,unit: "" %></td>
+              <td style="text-align: right"><%= number_to_currency r.total ,unit: "" %></td>
+          <% end  %>
+        </tr>
+    <% end %>
+    </tbody>
+
+  </table>
+</div>
+

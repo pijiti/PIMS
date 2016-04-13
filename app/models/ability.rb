@@ -8,6 +8,7 @@ class Ability
     #   current_store ||= Store.find(session[:active_store]) if session[:active_store]
        if user.has_role? "Admin"
          can :manage, :all
+         can :manage , "Report"
        end
 
        if user.has_role? "Pharmacist" , current_store
@@ -34,6 +35,7 @@ class Ability
          #dummy condition for approval
          can :manage , Store
          can :manage, Alert
+         can :manage, "Report"
        end
 
        #current store must be central for accepting orders

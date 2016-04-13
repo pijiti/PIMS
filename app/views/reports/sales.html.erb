@@ -1,0 +1,24 @@
+<div class="row">
+  <h3 class="text-center">Sales Reports</h3>
+  <div class="col-xs-12">
+    <%= select_month(Date.today, {}, {class: 'form-control input-transparent report-filter', id: 'filter_month'}) %>
+    <%= select_year(Date.today, {}, {class: 'form-control input-transparent report-filter', id: 'filter_year'}) %>
+
+    <div id="sales_table">
+      <%= render 'requisition_table' %>
+    </div>
+
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+  $(".report-filter").on("change", function () {
+    $.ajax({
+      url: '/reports/sales_filter_by_month',
+      type: 'post',
+      data: { month: $("#filter_month").val() , year:$("#filter_year").val() }
+    });
+  });
+</script>

@@ -1,0 +1,24 @@
+<div class="row">
+  <h3 class="text-center">Daily Sales Reports</h3>
+  <div class="col-xs-12">
+    <label for="date">Date</label>
+    <%= text_field_tag(:date, Date.today.strftime("%d/%m/%Y"), {class: 'form-control input-transparent report-filter datepicker date-picker', id: 'filter_date'}) %>
+
+    <div id="daily_sales_table">
+      <%= render 'daily_sales_table' %>
+    </div>
+
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+  $(".report-filter").on("change", function () {
+    $.ajax({
+      url: '/reports/sales_filter_by_date',
+      type: 'post',
+      data: { date: $("#filter_date").val() }
+    });
+  });
+</script>

@@ -2,10 +2,14 @@
   <div class="list-group panel">
     <%= link_to '<i class="fa fa-table fa-fw x3 blue"></i>&nbsp;<br/>Dashboard</br><i class="fa"></i>'.html_safe, dashboard_path, class: "list-group-item text-center" %>
     <%= link_to '<i class="fa fa-pie-chart fa-fw x3 blue"></i>&nbsp;<br/>Reports <br/><i class="fa fa-caret-down"></i>'.html_safe, "#reports", class: "list-group-item list-group-item-success text-center", "data-toggle" => "collapse", "data-parent" => "#MainMenu" %>
-    <div class="collapse" id="reports">
-      <%= link_to '<i class="fa fa-bank fa-fw"></i>&nbsp;Stores'.html_safe, stores_reports_path , class: "list-group-item" %>
-      <%= link_to '<i class="fa fa-medkit fa-fw"></i>&nbsp;Drugs'.html_safe, drugs_reports_path , class: "list-group-item" %>
-    </div>
+        <div class="collapse" id="reports">
+          <%= link_to '<i class="fa fa-bank fa-fw"></i>&nbsp;Stores'.html_safe, stores_reports_path, class: "list-group-item" %>
+          <%= link_to '<i class="fa fa-medkit fa-fw"></i>&nbsp;Drugs'.html_safe, drugs_reports_path, class: "list-group-item" %>
+          <%= link_to '<i class="fa fa-medkit fa-fw"></i>&nbsp;Requisition'.html_safe, reports_requisition_path, class: "list-group-item" %>
+          <%= link_to '<i class="fa fa-money fa-fw"></i>&nbsp;Sales'.html_safe, sales_reports_path, class: "list-group-item" %>
+          <%= link_to '<i class="fa fa-truck fa-fw"></i>&nbsp;Supplies'.html_safe, supplies_reports_path, class: "list-group-item" %>
+          <%= link_to '<i class="fa fa-file fa-fw"></i>&nbsp;Daily Sales'.html_safe, reports_daily_path, class: "list-group-item" %>
+        </div>
 
     <% if can? :manage, User %>
         <%= link_to '<i class="fa fa-plus-square fa-fw x3 blue"></i>&nbsp;</br>PIMS Management <br/><i class="fa fa-caret-down"></i>'.html_safe, "#application", class: "list-group-item list-group-item-success text-center", "data-toggle" => "collapse", "data-parent" => "#MainMenu" %>
@@ -44,7 +48,7 @@
     <% if can? :manage, Supply %>
         <%= link_to '<i class="fa fa-exchange fa-fw x3 blue"></i>&nbsp;</br>Items Management <br/><i class="fa fa-caret-down"></i>'.html_safe, "#item", class: "list-group-item list-group-item-success text-center", "data-toggle" => "collapse", "data-parent" => "#MainMenu" %>
         <div class="collapse" id="item">
-          <% if can? :manage , Vendor %>
+          <% if can? :manage, Vendor %>
               <%= link_to '<i class="fa fa-sign-in fa-fw blue"></i>&nbsp;Supply'.html_safe, supplies_path, class: "list-group-item" %>
           <% end %>
 
@@ -53,11 +57,11 @@
           <% end %>
           <%= link_to '<i class="fa fa-archive fa-fw blue"></i>&nbsp;Inventory'.html_safe, inventory_index_path, class: "list-group-item" %>
 
-          <% if (can? :manage , :all)  or (current_store and current_store.store_type.name.downcase.include? "main store")  %>
+          <% if (can? :manage, :all) or (current_store and current_store.store_type.name.downcase.include? "main store") %>
               <%= link_to '<i class="fa fa-phone fa-fw blue"></i>&nbsp;Service Request'.html_safe, service_request_supplies_path, class: "list-group-item" %>
           <% end %>
 
-          <% if (can? :manage , :all)  or (current_store.parent.blank?)  %>
+          <% if (can? :manage, :all) or (current_store.parent.blank?) %>
               <%= link_to '<i class="fa fa-exchange fa-fw blue"></i>&nbsp;Transfer batches'.html_safe, transfer_drugs_supplies_path, class: "list-group-item" %>
           <% end %>
           <% if can? :manage, Store %>
@@ -70,14 +74,14 @@
 
 
         </div>
-     <% elsif can? :manage , Inventory%>
+    <% elsif can? :manage, Inventory %>
         <%= link_to '<i class="fa fa-exchange fa-fw x3 blue"></i>&nbsp;</br>Items Management <br/><i class="fa fa-caret-down"></i>'.html_safe, "#item", class: "list-group-item list-group-item-success text-center", "data-toggle" => "collapse", "data-parent" => "#MainMenu" %>
-            <div class="collapse" id="item">
-              <%= link_to '<i class="fa fa-archive fa-fw blue"></i>&nbsp;Inventory'.html_safe, inventory_index_path, class: "list-group-item" %>
-              <% if can? :manage , Receipt %>
-                  <%= link_to '<i class="fa fa-thumbs-up fa-fw blue"></i>&nbsp;Confirm Delivery'.html_safe, receipts_path, class: "list-group-item" %>
-              <% end %>
-            </div>
+        <div class="collapse" id="item">
+          <%= link_to '<i class="fa fa-archive fa-fw blue"></i>&nbsp;Inventory'.html_safe, inventory_index_path, class: "list-group-item" %>
+          <% if can? :manage, Receipt %>
+              <%= link_to '<i class="fa fa-thumbs-up fa-fw blue"></i>&nbsp;Confirm Delivery'.html_safe, receipts_path, class: "list-group-item" %>
+          <% end %>
+        </div>
 
     <% end %>
     <% if can? :manage, Patient %>
@@ -108,11 +112,11 @@
 
 
 <script type="text/javascript">
-    <% if flash[:prescription_created] %>
-      $(document).ready(function(){
-          window.open("<%= flash[:prescription_created] %>",'_newtab');
-      });
-    <% end %>
+  <% if flash[:prescription_created] %>
+  $(document).ready(function () {
+    window.open("<%= flash[:prescription_created] %>", '_newtab');
+  });
+  <% end %>
 </script>
  
 

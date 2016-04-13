@@ -32,11 +32,11 @@
     .row
       .col-sm-6
       .col-sm-3
-        span SubTotal
+        h5 SubTotal
       .col-sm-3.text-right
         = f.hidden_field :subtotal , :value => @prescription.subtotal
         #subtotal_value
-          = @prescription.subtotal || 0.00
+          h5 = @prescription.subtotal || 0.00
 
 
 
@@ -55,11 +55,11 @@
     .row
       .col-sm-6
       .col-sm-3
-        strong Grand Total
+        h5 Grand Total
       .col-sm-3.text-right
         = f.hidden_field :total , :value => nil
         #grand_total
-          = @prescription.total || 0.00
+          h5 = @prescription.total || 0.00
 
 
 

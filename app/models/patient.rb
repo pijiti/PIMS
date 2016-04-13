@@ -35,4 +35,7 @@ class Patient < ActiveRecord::Base
 		self.patient_mobile = patient_mobile.strip
 	end
 
+	def name
+		@name ||= "#{firstname} #{surname}"
+	end
 end

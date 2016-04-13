@@ -46,17 +46,28 @@ class PrescriptionsController < ApplicationController
     logger.debug "=====#{params[:prescription_batch].symbolize_keys}======"
     @prescription_batch = PrescriptionBatch.find(params[:id])
     if @prescription_batch.update(prescription_batch_params)
-      @prescription_batch.update(:approved => true)
-      @prescription_batch.prescription.update(:status => "COLLATION COMPLETED") if @prescription_batch.prescription.prescription_batches.where(:approved => nil).blank?
-      redirect_to collate_prescriptions_path, :notice => "Assigned the batch successfully"
+
+      sum_units = 0
+      @prescription_batch.collation_batches.each do |b|
+        sum_units += b.units.to_i if b.units
+      end
+      if sum_units != @prescription_batch.qty.to_i
+        redirect_to collate_prescriptions_path, :notice => "Quantity assigned does not match the billed quantity"
+      else
+        @prescription_batch.update(:approved => true)
+        @prescription_batch.prescription.update(:status => "COLLATION COMPLETED") if @prescription_batch.prescription.prescription_batches.where(:approved => nil).blank?
+        redirect_to collate_prescriptions_path, :notice => "Assigned the batch successfully"
+      end
+
     else
       redirect_to collate_prescriptions_path, :notice => "Assigned the batch failed"
     end
   end
 
   def index
-    b = Inventory.where(:store_id => current_store.try(:id) , :id => InventoryBatch.where.not(:units => 0).pluck(:inventory_id)).pluck(:brand_id)
+    b = Inventory.where(:store_id => current_store.try(:id) , :id => InventoryBatch.where(:expired => nil).where.not(:units => 0).pluck(:inventory_id)).pluck(:brand_id)
     @brands = Brand.includes(:pharm_item).order('pharm_items.name ASC').where(:id => b)
+    logger.debug "==============BRANDS===> #{@brands.ids.sort}"
     @patient_id = params[:patient_id]
     @prescriptions = Prescription.where(:patient_id => params[:patient_id]).order('code DESC')
     @patient = Patient.find_by_id(@patient_id) if @patient_id
@@ -101,7 +112,8 @@ class PrescriptionsController < ApplicationController
 
 
   def edit
-    @brands = Brand.includes(:pharm_item).order('pharm_items.name ASC').all
+    b = Inventory.where(:store_id => current_store.try(:id) , :id => InventoryBatch.where(:expired => nil).where.not(:units => 0).pluck(:inventory_id)).pluck(:brand_id)
+    @brands = Brand.includes(:pharm_item).order('pharm_items.name ASC').where(:id => b)
     @patient_id = params[:patient_id]
     @patient = Patient.find_by_id(@patient_id) if @patient_id
   end

@@ -158,13 +158,18 @@ module ApplicationHelper
 
   def order_more_btn(i, s)
     units_counter = generic_drug_count(i.pharm_item, s)
+    res = ""
     if units_counter == 0  or units_counter.nil?
-      "btn-danger"
+      res = "btn-danger"
     elsif (s.parent.blank? and !units_counter.blank? and units_counter > i.brand.try(:main_restock_level)) or (!units_counter.blank? and units_counter > i.brand.try(:dispensary_restock_level))
-      "btn-success"
+      res = "btn-success"
     else
-      "btn-warning"
+      res = "btn-warning"
     end
+    p_units_counter = generic_drug_count(i.pharm_item, s.parent)
+    logger.debug "parent units counter ====> #{p_units_counter}"
+    res << " disabled" if  (p_units_counter.blank? or p_units_counter <= 0) and !s.parent.blank?
+    res
   end
 
   ######Supply helpers end##########

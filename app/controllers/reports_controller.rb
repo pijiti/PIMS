@@ -205,7 +205,6 @@ class ReportsController < ApplicationController
       end
 
     end
-
   end
 
   def requisition_filter

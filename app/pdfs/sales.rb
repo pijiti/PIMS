@@ -10,6 +10,7 @@ class Sales
     @current_user  = current_user
     @current_store = current_store
     @receipts      = receipts
+    @receipts_size = @receipts.count
     @total         = total
     @manage_report = manage_report
     @dest          = dest
@@ -19,7 +20,7 @@ class Sales
     create_grid
     write_page_headers
     write_store_info
-    write_service_requests
+    write_receipt_info
     # write_page_footers
     @document.render_file @dest
     @dest
@@ -80,14 +81,39 @@ class Sales
       @document.pad_top 5 do
         @document.move_down 50
         @document.bounding_box([0, @document.cursor], width: @document.bounds.right) do
-         
+          @document.pad_top 2.5 do
+            @document.text_box "Date & Time: #{Time.now.strftime('%d-%m-%Y  at %I:%M%p')}", {
+                size: 8,
+                at: [@document.bounds.right - 260, @document.bounds.top + 30],
+                width: 230,
+                height: 40,
+                inline_format: true,
+                align: :right,
+                valign: :center,
+                leading: 5
+            }
+          end
+
+          @document.pad_top 5 do
+            @document.indent 1 do
+              @document.text_box "Store Name: #{@current_store.try(:name)}", {
+                  size: 8,
+                  at: [@document.cursor + 15, @document.bounds.top + 15],
+                  inline_format: true,
+                  leading: 0,
+                  width: 230,
+                  height: 40,
+                  color: '000000'
+              }
+            end
+          end
         end
       end
     end
   end
 
-  def write_service_requests
-    p @document.bounds.right
+  def write_receipt_info
+    receipts_count = @receipts_size
     page_content do
       @document.move_down 60
       @document.pad_top 10 do
@@ -95,7 +121,7 @@ class Sales
         @document.table get_table_data, {
             header: true,
             position: :center,
-            width: @document.bounds.right + 200,
+            width: @document.bounds.right,
             cell_style: {
                 padding: [4, 10, 10, 10],
                 size: 10,
@@ -108,10 +134,14 @@ class Sales
             c.font_style = :bold
             c.border_width = 2
             c.border_color = '000000'
+            c.size = 6
+          end
+          (1..receipts_count).each do |r|
+            row(r).size = 6
           end
         end
       end
-      # write_signature_content
+      write_signature_content
     end
   end
 
@@ -162,17 +192,26 @@ class Sales
 
   def get_inner_table(receipt)
     inner_table = []
-    inner_table.push [
-                             'Brand',
-                             'Units'
-                         ]
+    inner_table << ['Brand','Units']
+    batch_count = 0
     receipt.prescription_batches.each do |pb|
-      inner_table.push [
-          pb.brand.drug_prescription_info,
-          pb.qty
-      ]
+      batch_count += 1
+      inner_table << [pb.brand.drug_prescription_info,pb.qty]
     end
-    inner_table
+    @document.make_table (inner_table), {
+            header: true,
+            position: :center,
+            width: 150,
+            column_widths: [120,30]
+        } do
+          row(0).style do |c|
+            c.font_style = :bold
+            c.size = 6
+          end
+          (1..batch_count).each do |r|
+            row(r).size = 6
+          end
+        end
   end
 
   #
@@ -208,13 +247,13 @@ class Sales
     @document.text_box "", {
         align: :left,
         at: [@document.bounds.left + 50, @document.cursor + 62],
-        size: 10,
+        size: 8,
         style: :italic
     }
     @document.text_box "In Charge Name", {
         align: :left,
         at: [@document.bounds.left + 50, @document.cursor + 42],
-        size: 10,
+        size: 8,
         style: :italic
     }
 
@@ -225,7 +264,7 @@ class Sales
     @document.text_box "Receiver Name", {
         align: :left,
         at: [@document.bounds.left + 350, @document.cursor + 42],
-        size: 10,
+        size: 8,
         style: :italic
     }
 
@@ -236,7 +275,7 @@ class Sales
     @document.text_box "In Charge Signature & Date", {
         align: :left,
         at: [@document.bounds.left + 50, @document.cursor - 20],
-        size: 10,
+        size: 8,
         style: :italic
     }
 
@@ -247,7 +286,7 @@ class Sales
     @document.text_box "Receiver's Signature & Date", {
         align: :left,
         at: [@document.bounds.left + 350, @document.cursor - 20],
-        size: 10,
+        size: 8,
         style: :italic
     }
   end

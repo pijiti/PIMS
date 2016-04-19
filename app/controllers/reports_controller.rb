@@ -73,6 +73,27 @@ class ReportsController < ApplicationController
     daily_filter
   end
 
+  # download sales pdf
+  def download_sales_pdf
+    date          = DateTime.now
+    @start_time   = Time.new(date.year, date.month, params[:date])
+    @end_time     = @start_time + 24.hours
+    manage_report = can? :manage, "Report"
+    
+    daily_filter
+
+    file_name   = "#{current_store.try(:name)}_Sales_#{Time.now}.pdf"
+    file_path   = "#{$pdf_files_location}/#{file_name}"
+    sales_pdf   = Sales.new(file_path,current_user,current_store,@receipts,@total_value,manage_report)
+    file_pdf    = sales_pdf.generate()
+
+    @file        = reports_url+"/download?file=#{file_name}"
+    render template: "reports/download"
+  end
+
+  def download
+    send_file("#{$pdf_files_location}/#{params[:file]}")
+  end
 
   # requistion made for every month
   def requisition
@@ -207,7 +228,6 @@ class ReportsController < ApplicationController
       end
 
     end
-
   end
 
   def requisition_filter

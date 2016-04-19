@@ -14,6 +14,8 @@ Rails.application.routes.draw do
       post 'sales_filter_by_month'
       post 'filter_by_month'
       post 'sales_filter_by_date'
+      post 'download_sales_pdf'
+      get 'download'
     end
   end
 

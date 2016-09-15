@@ -42,7 +42,7 @@ class ReportsController < ApplicationController
   # for daily reports page
   def sales_filter_by_date
     date = DateTime.now
-    @start_time = Time.new(date.year, date.month, params[:date])
+    @start_time=DateTime.strptime(params[:date], "%d/%m/%Y")
     @end_time = @start_time + 24.hours
     daily_filter
   end

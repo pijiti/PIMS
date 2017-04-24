@@ -19,7 +19,8 @@ class ReportsController < ApplicationController
   # for daily reports page
   def sales_filter_by_date
     date = DateTime.now
-    @start_time = Time.new(date.year, date.month, params[:date])
+    @start_time = Time.new(date.year, date.month, params[:date].split('/')[0])
+@start_time=DateTime.strptime(params[:date], "%d/%m/%Y")
     @end_time = @start_time + 24.hours
     daily_filter
   end
@@ -176,6 +177,8 @@ class ReportsController < ApplicationController
     @receipts = Prescription.where(:status => "DISPENSED", :id => p).where("date(updated_at) = ?", current_date)
 
     @total_value = 0
+    logger.info "=====#{@receipts}===="
+    logger.info "=====#{current_date}===="
     @receipts.each do |r|
       if can? :manage, "Report"
         @total_value += r.total.to_f.round(2) rescue 0

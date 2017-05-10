@@ -6,12 +6,12 @@ class User < ActiveRecord::Base
   belongs_to :staff_category
   has_many :supplies
   has_many :hospital_units
-  has_many :alerts , :dependent => :destroy
+  has_many :alerts, :dependent => :destroy
 
 
   before_create :default_password, :user_active_status, :capitalize_attr
   before_update :user_active_status
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable , :timeoutable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :timeoutable
 
   validates_presence_of :first_name, :last_name, :username
   validates_uniqueness_of :username
@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
   #end
 
   def get_alerts
-    self.alerts.includes(:order,:store).order('created_at DESC')
+    self.alerts.includes(:order, :store).order('created_at DESC')
   end
 
   def unread_alerts
@@ -53,7 +53,11 @@ class User < ActiveRecord::Base
   end
 
   def full_name
-    "#{title.try(:name)}" + "  "+ " #{first_name}"+"  "+ "#{last_name}"
+    if title.try(:name)
+      "#{title.try(:name)}" + "  "+ " #{first_name}"+" "+ "#{last_name}"
+    else
+        "#{first_name}"+" "+ "#{last_name}"
+    end
   end
 
   def status
@@ -99,7 +103,7 @@ class User < ActiveRecord::Base
   end
 
   def user_active_status
-    if  self.validity_changed?
+    if self.validity_changed?
       self.valid_duration = Time.now - 1.day if self.validity == "None"
       self.valid_duration = Time.now + 50.years if self.validity == "Always"
       self.valid_duration = Time.now + 7.days if self.validity == "7days"

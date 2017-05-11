@@ -38,4 +38,9 @@ class Patient < ActiveRecord::Base
 	def name
 		@name ||= "#{firstname} #{surname}"
 	end
+
+	def initial
+		"#{surname} #{firstname.try(:first)}"
+	end
+
 end

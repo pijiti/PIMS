@@ -11,6 +11,15 @@ class ApplicationController < ActionController::Base
   helper_method :current_store
   #before_action :authenticate_user!
 
+  layout :layout_resource
+
+  def layout_resource
+    if params[:controller] == "devise/passwords"
+      # logger.debug "=== Controller : #{params[:controller]}"
+      'login'
+    end
+  end
+
   def check_session
     if current_user and !current_user.has_role? "Admin" and current_store
       current_time = Time.zone.now

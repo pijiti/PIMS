@@ -25,7 +25,9 @@ section#devise-sessions-new
                     
                     = f.check_box :remember_me
                     span Remember me
-             
+
+               = link_to "Forgot your password?", new_password_path(resource_name), style: "float: right" 
+
              .actions
               = f.button :submit, 'Sign In', class: "btn-medium btn-primary"
       

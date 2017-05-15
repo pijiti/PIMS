@@ -97,7 +97,7 @@ Rails.application.configure do
       port:                  587,
       domain:               'sshondopharmacy.com.ng',
       :user_name            => 'pims@sshondopharmacy.com.ng',
-      :password             => 'omega3/6',
+      :password             => 'pims@123',
       :authentication       => :login,
   }
   #config.assets.precompile =  ['favicon.ico' ,'*.js', '*.css', '*.css.erb' , '*.png' , '*.jpg' , '*.ttf' , '*.woff']

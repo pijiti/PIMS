@@ -29,8 +29,17 @@ class PrescriptionsController < ApplicationController
     @prescriptions = Prescription.includes(:prescription_batches, :doctor, :patient).where(:status => ["COLLATION COMPLETED", "DISPENSED"], :id => PrescriptionBatch.where(:store => current_store).pluck(:prescription_id).uniq).order('code DESC')
   end
 
-  def collate
-    @prescriptions = Prescription.includes(:prescription_batches, :doctor, :patient).where(:id => PrescriptionBatch.where(:store => current_store).pluck(:prescription_id).uniq).order('code DESC')
+  def filter
+    
+    @filter = Prescription.new(:from_date => params[:prescription][:from_date] , :to_date => params[:prescription][:to_date]  , :status => params[:prescription][:status] )
+    if @filter.status == "ALL"
+    status = ["DISPENSED", "COLLATION_PENDING", "COLLATION_COMPLETED" ]
+    else
+      status = @filter.status
+    end
+
+    @prescriptions = Prescription.joins(:prescription_batches).includes(:doctor, :hospital_unit, :patient, prescription_batches: [ :collation_batches, :store, brand: [:pharm_item, :unit_dose, :marketer], inventory_batches: [  :collation_batches , batch: [brand: [:pharm_item, :unit_dose, :marketer]]]]).where(:status => status).where("prescriptions.created_at > ? and prescriptions.updated_at < ? ", Time.strptime(@filter.from_date, "%d/%m/%Y"), Time.strptime(@filter.to_date, "%d/%m/%Y") ).where("prescription_batches.store_id = #{current_store.id} ").distinct.order('code DESC')
+
     @prescriptions.each do |prescription|
       prescription.prescription_batches.each do |p|
         next if !p.inventory_batches.blank?
@@ -40,6 +49,37 @@ class PrescriptionsController < ApplicationController
         end
       end
     end
+
+    render "collate"
+  end
+
+  def collate
+    # @prescriptions = Prescription.includes(:prescription_batches, :doctor, :patient).where(:id => PrescriptionBatch.where(:store => current_store).pluck(:prescription_id).uniq).order('code DESC')
+    # @prescriptions.each do |prescription|
+    #   prescription.prescription_batches.each do |p|
+    #     next if !p.inventory_batches.blank?
+    #     InventoryBatch.includes(:batch).where(:expired => nil, :inventory => Inventory.where(:brand_id => p.brand_id, :store => p.store)).each do |inventory_batch|
+    #       next if inventory_batch.units.to_i == 0
+    #       p.inventory_batches << inventory_batch
+    #     end
+    #   end
+    # end
+    @filter = Prescription.new(:from_date => (Time.now).strftime('%d/%m/%Y') , :to_date => Time.now.strftime('%d/%m/%Y')  , :status => "ALL")
+    @prescriptions = Prescription.joins(:prescription_batches).includes(:doctor, :hospital_unit, :patient, prescription_batches: [ :collation_batches, :store, brand: [:pharm_item, :unit_dose, :marketer], inventory_batches: [  :collation_batches , batch: [brand: [:pharm_item, :unit_dose, :marketer]]]]).where("prescriptions.created_at > ? ", Time.strptime(@filter.from_date, "%d/%m/%Y")).where("prescription_batches.store_id = #{current_store.id} ").distinct.order('code DESC')
+
+    @prescriptions.each do |prescription|
+      prescription.prescription_batches.each do |p|
+        next if !p.inventory_batches.blank?
+        InventoryBatch.includes(:batch).where(:expired => nil, :inventory => Inventory.where(:brand_id => p.brand_id, :store => p.store)).each do |inventory_batch|
+          next if inventory_batch.units.to_i == 0
+          p.inventory_batches << inventory_batch
+        end
+      end
+    end
+
+
+
+    
   end
 
   def complete_collation

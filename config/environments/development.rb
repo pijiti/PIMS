@@ -28,7 +28,7 @@ Rails.application.configure do
   # number of complex assets.
   config.assets.debug = false
   config.assets.logger = false
-  config.log_level = :debug
+  config.log_level = :info
 
   # Adds additional error checking when serving assets at runtime.
   # Checks for improperly declared sprockets dependencies.

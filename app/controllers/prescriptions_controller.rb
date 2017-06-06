@@ -26,7 +26,22 @@ class PrescriptionsController < ApplicationController
   end
 
   def dispense
-    @prescriptions = Prescription.includes(:prescription_batches, :doctor, :patient).where(:status => ["COLLATION COMPLETED", "DISPENSED"], :id => PrescriptionBatch.where(:store => current_store).pluck(:prescription_id).uniq).order('code DESC')
+    @filter = Prescription.new(:from_date => (Time.now).strftime('%d/%m/%Y') , :to_date => Time.now.strftime('%d/%m/%Y')  , :status => "ALL")
+    # @prescriptions = Prescription.includes(:prescription_batches, :doctor, :patient).where(:status => ["COLLATION COMPLETED", "DISPENSED"], :id => PrescriptionBatch.where(:store => current_store).pluck(:prescription_id).uniq).order('code DESC')
+    @prescriptions =Prescription.joins(:prescription_batches).includes(:doctor, :hospital_unit, :patient, prescription_batches: [ :collation_batches, :store, brand: [:pharm_item, :unit_dose, :marketer], inventory_batches: [  :collation_batches , batch: [brand: [:pharm_item, :unit_dose, :marketer]]]]).where(:status => ["COLLATION COMPLETED", "DISPENSED"]).where("prescriptions.created_at > ? ", Time.strptime(@filter.from_date, "%d/%m/%Y").beginning_of_day).where("prescription_batches.store_id = #{current_store.id} ").distinct.order('code DESC')
+  end
+
+  def filter_dispense
+    @filter = Prescription.new(:from_date => params[:prescription][:from_date] , :to_date => params[:prescription][:to_date]  , :status => params[:prescription][:status] )
+    if @filter.status.blank?
+      status = ["DISPENSED", "COLLATION_COMPLETED" ]
+    else
+      status = @filter.status
+    end
+
+    @prescriptions = Prescription.joins(:prescription_batches).includes(:doctor, :hospital_unit, :patient, prescription_batches: [ :collation_batches, :store, brand: [:pharm_item, :unit_dose, :marketer], inventory_batches: [  :collation_batches , batch: [brand: [:pharm_item, :unit_dose, :marketer]]]]).where(:status => status).where("prescriptions.created_at >= ? and prescriptions.updated_at <= ? ", Time.strptime(@filter.from_date, "%d/%m/%Y").beginning_of_day, Time.strptime(@filter.to_date, "%d/%m/%Y").end_of_day ).where("prescription_batches.store_id = #{current_store.id} ").distinct.order('code DESC')
+
+    render "dispense"
   end
 
   def filter
@@ -38,7 +53,7 @@ class PrescriptionsController < ApplicationController
       status = @filter.status
     end
 
-    @prescriptions = Prescription.joins(:prescription_batches).includes(:doctor, :hospital_unit, :patient, prescription_batches: [ :collation_batches, :store, brand: [:pharm_item, :unit_dose, :marketer], inventory_batches: [  :collation_batches , batch: [brand: [:pharm_item, :unit_dose, :marketer]]]]).where(:status => status).where("prescriptions.created_at > ? and prescriptions.updated_at < ? ", Time.strptime(@filter.from_date, "%d/%m/%Y"), Time.strptime(@filter.to_date, "%d/%m/%Y") ).where("prescription_batches.store_id = #{current_store.id} ").distinct.order('code DESC')
+    @prescriptions = Prescription.joins(:prescription_batches).includes(:doctor, :hospital_unit, :patient, prescription_batches: [ :collation_batches, :store, brand: [:pharm_item, :unit_dose, :marketer], inventory_batches: [  :collation_batches , batch: [brand: [:pharm_item, :unit_dose, :marketer]]]]).where(:status => status).where("prescriptions.created_at >= ? and prescriptions.updated_at <= ? ", Time.strptime(@filter.from_date, "%d/%m/%Y").beginning_of_day, Time.strptime(@filter.to_date, "%d/%m/%Y").end_of_day ).where("prescription_batches.store_id = #{current_store.id} ").distinct.order('code DESC')
 
     @prescriptions.each do |prescription|
       prescription.prescription_batches.each do |p|
@@ -65,7 +80,7 @@ class PrescriptionsController < ApplicationController
     #   end
     # end
     @filter = Prescription.new(:from_date => (Time.now).strftime('%d/%m/%Y') , :to_date => Time.now.strftime('%d/%m/%Y')  , :status => "ALL")
-    @prescriptions = Prescription.joins(:prescription_batches).includes(:doctor, :hospital_unit, :patient, prescription_batches: [ :collation_batches, :store, brand: [:pharm_item, :unit_dose, :marketer], inventory_batches: [  :collation_batches , batch: [brand: [:pharm_item, :unit_dose, :marketer]]]]).where("prescriptions.created_at > ? ", Time.strptime(@filter.from_date, "%d/%m/%Y")).where("prescription_batches.store_id = #{current_store.id} ").distinct.order('code DESC')
+    @prescriptions = Prescription.joins(:prescription_batches).includes(:doctor, :hospital_unit, :patient, prescription_batches: [ :collation_batches, :store, brand: [:pharm_item, :unit_dose, :marketer], inventory_batches: [  :collation_batches , batch: [brand: [:pharm_item, :unit_dose, :marketer]]]]).where("prescriptions.created_at > ? ", Time.strptime(@filter.from_date, "%d/%m/%Y").beginning_of_day).where("prescription_batches.store_id = #{current_store.id} ").distinct.order('code DESC')
 
     @prescriptions.each do |prescription|
       prescription.prescription_batches.each do |p|

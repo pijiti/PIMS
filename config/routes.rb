@@ -89,6 +89,7 @@ Rails.application.routes.draw do
   resources :prescriptions do
     collection do
       post 'filter'
+      post 'filter_dispense'
       get 'search'
       get 'collate'
       get 'dispense'

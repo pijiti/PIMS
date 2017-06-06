@@ -1,4 +1,24 @@
 h3.text-center Dispense prescriptions
+.filter
+  = simple_form_for(@filter, :url => filter_dispense_prescriptions_path, :method => "post") do |f|
+    table.table
+      thead
+        tr
+          th From date
+          th To date
+          th Status
+      tbody
+        td
+          = f.text_field :from_date, :data => {:provide => 'datepicker', "date-format" => "dd/mm/yyyy"}, :input_html => {class: 'datepicker string required form-control input-sm form-group'}, as: :string, label: false
+        td
+          = f.text_field :to_date, :data => {:provide => 'datepicker', "date-format" => "dd/mm/yyyy"}, :input_html => {class: 'datepicker string required form-control input-sm form-group'}, as: :string, label: false
+        td
+          = f.input :status, collection: ["DISPENSED", "COLLATION COMPLETED"], label: false
+    .text-center
+      = f.submit :class => "btn btn-success btn-tiny", :value => "filter"
+
+hr
+
 section#pims-index
   table.table.table-striped.table-condensed.collation_data_table
     thead

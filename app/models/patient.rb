@@ -43,4 +43,8 @@ class Patient < ActiveRecord::Base
 		"#{surname} #{firstname.try(:first)}"
 	end
 
+	def initial_reverse
+		" #{firstname.try(:first)} #{surname}"
+	end
+
 end

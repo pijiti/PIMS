@@ -9,11 +9,11 @@
     <th>Hospital Unit</th>
     <th>Transaction date</th>
     <th>Items bought</th>
-    <th>Subtotal(N)</th>
     <% if can? :manage , "Report" %>
-    <th>Surcharges(N)</th>
-    <th>Total(N)</th>
+      <th>Subtotal(N)</th>
+      <th>Surcharges(N)</th>
     <% end %>
+    <th>Total(N)</th>
 
     </thead>
 
@@ -41,11 +41,12 @@
 
             </table>
           </td>
-          <td style="text-align: right"><%= number_to_currency r.subtotal ,unit: "" %></td>
+
           <% if can? :manage , "Report" %>
+              <td style="text-align: right"><%= number_to_currency r.subtotal ,unit: "" %></td>
               <td style="text-align: right"><%= number_to_currency r.surcharges ,unit: "" %></td>
-              <td style="text-align: right"><%= number_to_currency r.total ,unit: "" %></td>
           <% end  %>
+          <td style="text-align: right"><%= number_to_currency r.total ,unit: "" %></td>
         </tr>
     <% end %>
     </tbody>

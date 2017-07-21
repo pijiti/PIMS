@@ -3,8 +3,8 @@ class ReportsController < ApplicationController
 
   # download sales pdf
   def download_sales_pdf
-    date          = DateTime.now
-    @start_time   = Time.new(date.year, date.month, params[:date])
+    # date          = DateTime.now
+    @start_time   = Date.strptime(params[:date] , "%d/%m/%Y")
     @end_time     = @start_time + 24.hours
     manage_report = can? :manage, "Report"
 
@@ -203,11 +203,11 @@ class ReportsController < ApplicationController
     logger.info "=====#{@receipts}===="
     logger.info "=====#{current_date}===="
     @receipts.each do |r|
-      if can? :manage, "Report"
+      # if can? :manage, "Report"
         @total_value += r.total.to_f.round(2) rescue 0
-      else
-        @total_value += r.subtotal.to_f.round(2) rescue 0
-      end
+      # else
+      #   @total_value += r.subtotal.to_f.round(2) rescue 0
+      # end
 
     end
   end

@@ -174,49 +174,53 @@ class Sales
 
   def get_table_data
     formatted_table = []
-    if @manage_report
+    if @manage_report.blank?
+      # others
       formatted_table.push [
-                               'Name of Patient',
-                               'Patient number',
-                               'Transaction date',
-                               'Items bought',
-                               'Subtotal(N)',
-                               'Surcharges(N)',
+                               'Patient details',
+                               'Drug details',
                                'Total(N)'
                            ]
     else
+      # admin
       formatted_table.push [
-                               'Name of Patient',
-                               'Hospital Unit',
-                               'Transaction date',
-                               'Items bought',
-                               'Subtotal(N)'
+                               'Patient details',
+                               'Drug details',
+                               'Subtotal(N)',
+                               'Surcharges(N)',
+                               'Total(N)'
+
                            ]
     end
     @receipts.each do |r|
       if @manage_report
         formatted_table.push [
-                                 r.patient.initial,
-                                 r.patient.try(:hospital_number),
-                                 r.updated_at.strftime(" %m-%d-%Y  at %I:%M%p"),
-                                 get_inner_table(r),
-                                 number_to_currency(r.subtotal, unit: ""),
-                                 number_to_currency(r.surcharges, unit: ""),
-                                 number_to_currency(r.total, unit: "")
+                                 "#{r.patient.try(:initial_reverse)} (#{r.patient.try(:hospital_number)})" ,
+                                 drug_details(r),
+                                 number_to_currency(r.subtotal.to_f.round(2) ,unit: ""),
+                                 number_to_currency(r.surcharges.to_f.round(2) ,unit: ""),
+                                 number_to_currency(r.total.to_f.round(2) ,unit: "")
                              ]
       else
         formatted_table.push [
-                                 r.patient.name,
-                                 r.hospital_unit.try(:name),
-                                 r.updated_at.strftime(" %m-%d-%Y  at %I:%M%p"),
-                                 get_inner_table(r),
-                                 number_to_currency(r.subtotal, unit: "")
+                                 "#{r.patient.try(:initial_reverse)} (#{r.patient.try(:hospital_number)})" ,
+                                 drug_details(r),
+                                 number_to_currency(r.total.to_f.round(2) ,unit: "")
                              ]
       end
     end
     formatted_table
   end
 
+  def drug_details(receipt)
+    details = []
+    receipt.prescription_batches.each do |pb|
+      details << "#{pb.brand.name}(#{pb.qty})"
+    end
+    details.join ','
+  end
+
+  # not used
   def get_inner_table(receipt)
     inner_table = []
     inner_table << ['Brand', 'Units']

@@ -99,7 +99,7 @@ Rails.application.configure do
       domain:               'sshondopharmacy.com.ng',
       :user_name            => 'pims@sshondopharmacy.com.ng',
       :password             => 'pims@123',
-      :authentication       => :plain,
+      :authentication       => 'plain',
   }
   #config.assets.precompile =  ['favicon.ico' ,'*.js', '*.css', '*.css.erb' , '*.png' , '*.jpg' , '*.ttf' , '*.woff']
 

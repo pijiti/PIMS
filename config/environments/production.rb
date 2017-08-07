@@ -94,9 +94,9 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
       :enable_starttls_auto => true,
-      address:              'smtp.zoho.com',
-      port:                  587,
-      domain:               'sshondopharmacy.com.ng',
+      :address =>             'smtp.zoho.com',
+      :port =>                  587,
+      :domain  =>            'sshondopharmacy.com.ng',
       :user_name            => 'pims@sshondopharmacy.com.ng',
       :password             => 'pims@123',
       :authentication       => 'plain',

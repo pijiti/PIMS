@@ -11,6 +11,7 @@ table.table.order_data_table
            th Service
   tbody
     - @service_requests.each do |s|
+        - next if s.pharm_item.blank?
         tr.data-rows
           td
             - if [ "SERVICE_COMPLETE" , "DELIVERY_COMPLETE" ].include? s.order.try(:status)

@@ -157,6 +157,7 @@ class SuppliesController < ApplicationController
   def service_request
     #admin can see all service requests
     alert = params[:alert]
+    @filter = ServiceRequest.new(:status => "ALL" , :created_at => Time.now.strftime("%d/%m/%Y"))
     if !alert.blank?
       a = Alert.find_by_id(alert)
       a.update(:status => "READ")
@@ -164,16 +165,15 @@ class SuppliesController < ApplicationController
     end
 
     if can? :manage, :all
-      @service_requests ||= ServiceRequest.includes(:order, :pharm_item, :request_store, :from_store).where(:order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id).uniq).order("orders.created_at DESC").order('pharm_items.name ASC')
+      @service_requests ||= ServiceRequest.includes(:order, :pharm_item, :request_store, :from_store).where("orders.created_at > ?", Time.now.strftime("%d/%m/%Y")).where(:order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id).uniq).order("orders.created_at DESC").order('pharm_items.name ASC')
       @stores = Store.all
     else
       @service_requests ||= ServiceRequest.includes(:order , :pharm_item, :request_store, :from_store).where(:request_store => current_store, :order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id)).order("orders.created_at DESC").order('pharm_items.name ASC')
       @stores = Store.where(:id => current_store.id)
     end
 
-
     @pharm_items = PharmItem.includes(:brands).all
-    @filter = ServiceRequest.new(:status => "ALL")
+
   end
 
 
@@ -193,7 +193,7 @@ class SuppliesController < ApplicationController
     end
     @service_requests = @service_requests.includes(:order, :pharm_item, :request_store).where(:from_store_id => from_store).order("orders.created_at DESC").order('pharm_items.name ASC') if !from_store.blank?
     @service_requests = @service_requests.includes(:order,:pharm_item, :request_store).where(:pharm_item_id => generic_drug).order("orders.created_at DESC").order('pharm_items.name ASC') if !generic_drug.blank?
-    @service_requests = @service_requests.includes(:order,:pharm_item, :request_store).where("created_at > ?", Time.strptime(requests_from, "%d/%m/%Y")).order("orders.created_at DESC").order('pharm_items.name ASC') if !requests_from.blank?
+    @service_requests = @service_requests.includes(:order,:pharm_item, :request_store).where("orders.created_at > ?", Time.strptime(requests_from, "%d/%m/%Y")).order("orders.created_at DESC").order('pharm_items.name ASC') if !requests_from.blank?
     @service_requests = @service_requests.includes(:order,:pharm_item, :request_store).where(:status => status).order("orders.created_at DESC").order('pharm_items.name ASC') if !status.blank? and status != "ALL"
   end
 

@@ -2,6 +2,32 @@ class PrescriptionsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_prescription, only: [:show, :edit, :update, :destroy, :complete_dispense, :print_pdf]
 
+	# return drugs
+  def return
+    @filter = Prescription.new(:code => "PIMS-" ,:from_date => (Time.now).strftime('%d/%m/%Y') , :to_date => Time.now.strftime('%d/%m/%Y') )
+    # @prescriptions = Prescription.includes(:prescription_batches, :doctor, :patient).where(:status => ["COLLATION COMPLETED", "DISPENSED"], :id => PrescriptionBatch.where(:store => current_store).pluck(:prescription_id).uniq).order('code DESC')
+    @prescriptions = Prescription.joins(:prescription_batches)
+                     .includes(:doctor, :hospital_unit, :patient, prescription_batches: [ :collation_batches, :store, brand: [:pharm_item, :unit_dose, :marketer], inventory_batches: [  :collation_batches , batch: [brand: [:pharm_item, :unit_dose, :marketer]]]])
+										 .where(:status => ["DISPENSED"])
+										 .where("prescriptions.created_at > ? ", Time.strptime(@filter.from_date, "%d/%m/%Y").beginning_of_day)
+										 .where("prescription_batches.store_id = #{current_store.id} ")
+										 .distinct.order('code DESC')
+    @filter = Prescription.new(:code => "PIMS-" )
+  end
+
+  def filter_return
+
+    @filter = Prescription.new(:code => params[:prescription][:code]  , :status => "DISPENSED")
+
+    @prescriptions = Prescription.joins(:prescription_batches)
+                     .includes(:doctor, :hospital_unit, :patient, prescription_batches: [ :collation_batches, :store, brand: [:pharm_item, :unit_dose, :marketer], inventory_batches: [  :collation_batches , batch: [brand: [:pharm_item, :unit_dose, :marketer]]]])
+                     .where(:status => "DISPENSED")
+										 .where("code like ? " ,"%#{@filter.code}%")
+                     .where("prescription_batches.store_id = #{current_store.id} ")
+                     .distinct.order('code DESC')
+
+    render "return"
+  end
 
   def complete_dispense
     errors = []

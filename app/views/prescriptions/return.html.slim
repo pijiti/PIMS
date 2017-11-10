@@ -1,0 +1,32 @@
+h3.text-center Return Drugs
+.filter
+  = simple_form_for(@filter, :url => filter_return_prescriptions_path, :method => "post") do |f|
+    table.table
+      thead
+        tr
+          th Prescription code
+      tbody
+        td
+          = f.input :code , :input_html => {class: 'string form-control input-sm form-group'}  , label: false
+        
+    .text-center
+      = f.submit :class => "btn btn-success btn-tiny", :value => "filter"
+
+hr
+
+section#pims-index
+  table.table.table-striped.table-condensed.collation_data_table
+    thead
+      tr
+      th Prescription code
+      th Patient name
+      th Prescription batches
+      th Refund amount
+      th Accept Refund
+
+    tbody.prescriptions
+      - @prescriptions.each do |prescription|
+        - @prescription =  prescription
+        = render "return_prescription"
+
+

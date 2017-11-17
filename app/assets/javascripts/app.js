@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-
+    $("input,select,textarea").not("[type=submit]").jqBootstrapValidation();
     $('#select_order').on("change", function () {
         var val =  $(this).val();
         $.ajax({
@@ -108,6 +108,20 @@ $(document).ready(function () {
         return parseFloat(sub_total.toFixed(2));
     }
 
+    function return_subtotal_calculation() {
+        sub_total = 0;
+        $('.return_prescription_qty:visible').each(function (i, obj) {
+            //Do not calculate if rate is NA or prescription qty is blank
+            var selector_id = ($(obj).attr('id'));
+            var row_id = selector_id.split('_')[1];
+            if (($('#prescriptionrate_' + row_id).val() != "NA") && $('#prescriptionqty_' + row_id).val() != '') {
+                sub_total += parseInt($(this).val()) * parseFloat($('#prescriptionrate_' + row_id).val());
+
+            }
+        });
+        return parseFloat(sub_total.toFixed(2));
+    }
+
     function total_calculation() {
         sub_total = 0;
         surcharge = 0;
@@ -187,8 +201,22 @@ $(document).ready(function () {
 
     }
 
+
+    function return_qty_change() {
+        var sub_total = return_subtotal_calculation();
+        var total = sub_total;
+        total = Math.floor(total.toFixed(2));
+        // if(total%5 != 0)
+        //     total = total + (5 - total%5);
+        $('#grand_total').html('<h5>' + total + '.00</h5>');
+        $('#prescription_total').val(total);
+    }
+
     $('.prescription_batch').change(prescription_batch_change);
     $('.prescription_qty').change(prescription_qty_change);
+
+    $('.return_prescription_qty').change(return_qty_change);
+
 
     $('#prescription_batches').bind('cocoon:after-insert',
         function (e, prescription_batch) {

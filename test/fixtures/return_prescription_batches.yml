@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  pharm_item_id: 
+  brand_id: 
+  qty: MyString
+  rate: MyString
+  prescription_id: 
+  return_id: 
+
+two:
+  pharm_item_id: 
+  brand_id: 
+  qty: MyString
+  rate: MyString
+  prescription_id: 
+  return_id: 

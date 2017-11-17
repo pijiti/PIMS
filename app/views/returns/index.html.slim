@@ -1,0 +1,31 @@
+h1 Listing returns
+
+table
+  thead
+    tr
+      th Prescription
+      th Subtotal
+      th Total
+      th Surcharges
+      th Return date
+      th User
+      th
+      th
+      th
+
+  tbody
+    - @returns.each do |return|
+      tr
+        td = return.prescription_id
+        td = return.subtotal
+        td = return.total
+        td = return.surcharges
+        td = return.return_date
+        td = return.user_id
+        td = link_to 'Show', return
+        td = link_to 'Edit', edit_return_path(return)
+        td = link_to 'Destroy', return, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+= link_to 'New Return', new_return_path

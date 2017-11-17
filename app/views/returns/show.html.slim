@@ -1,0 +1,24 @@
+p#notice = notice
+
+p
+  strong Prescription:
+  = @return.prescription_id
+p
+  strong Subtotal:
+  = @return.subtotal
+p
+  strong Total:
+  = @return.total
+p
+  strong Surcharges:
+  = @return.surcharges
+p
+  strong Return date:
+  = @return.return_date
+p
+  strong User:
+  = @return.user_id
+
+= link_to 'Edit', edit_return_path(@return)
+'|
+= link_to 'Back', returns_path

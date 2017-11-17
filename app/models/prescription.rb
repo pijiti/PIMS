@@ -11,6 +11,7 @@ class Prescription < ActiveRecord::Base
   belongs_to :patient
   belongs_to :doctor, class_name: "User"
   has_many :prescription_batches, :dependent => :destroy
+  has_many :return_prescription_batches, :dependent => :destroy
 
   validates_presence_of :prescription_date, :subtotal, :total, :patient, :doctor
   # validates :hospital_unit, presence: { message: "Clinic is required" }

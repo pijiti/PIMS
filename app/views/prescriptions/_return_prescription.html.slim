@@ -63,4 +63,4 @@ tr
     = @prescription.refunded_amount
   td
     - if @prescription.status == "DISPENSED"
-      = button_tag "Return", :class => "btn-sm btn btn-success", "data-confirm" => "Are you sure that you want to dispense the drugs ?", :onclick => "dispense_form_submit('edit_prescription_#{@prescription.id}')"
+      = link_to "Return", new_return_path(id: @prescription), :class => "btn-sm btn btn-success"

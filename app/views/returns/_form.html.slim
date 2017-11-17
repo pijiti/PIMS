@@ -1,0 +1,58 @@
+= simple_form_for @return, :html => {class: "form-inline"} do |f|
+      = f.hidden_field :prescription_id
+      = f.hidden_field :user_id 
+      table.table
+        thead
+          tr
+            th Prescriber
+            th Clinic
+            th Prescription Date
+        tbody
+          tr
+            td = @prescription.doctor.try(:full_name)
+            td = @prescription.hospital_unit.try(:name)
+            td = prescription_date_display(@prescription)
+
+
+      hr
+      table.table.table-striped.table-condensed
+        thead
+          th Brand
+          th Rate
+          th Quantity
+        tbody#prescription_batches
+          - @prescription_batch_counter = 0
+          - @prescription.prescription_batches.each do |batch|
+            = f.simple_fields_for :prescription_batches, batch do |batch_form|
+              - @batch = batch
+              = render 'return_prescription_batch_fields', :f => batch_form, :batch => batch
+              - @prescription_batch_counter += 1
+      #Total
+        .row
+          .col-sm-6
+          .col-sm-3
+            h5 SubTotal
+          .col-sm-3.text-right
+            = f.hidden_field :subtotal, :value => @prescription.subtotal
+            #subtotal_value
+              h5 = @prescription.subtotal || 0.00
+
+
+          
+
+        .row
+          .col-sm-6
+          .col-sm-3
+            h5 Grand Total
+          .col-sm-3.text-right
+            = f.hidden_field :total, :value => nil
+            #grand_total
+              h5 = @prescription.total || 0.00
+
+
+      .row
+        br
+        .col-sm-2.col-md-offset-5
+          span.text-center
+            = f.button :submit, :class => "btn btn-success btn-md btn-block", :value => "Issue refund"
+      hr

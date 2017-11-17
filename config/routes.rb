@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :returns
+
   get 'reports/drugs'
   get 'reports/requisition'
   get 'reports/daily'
@@ -90,9 +92,11 @@ Rails.application.routes.draw do
     collection do
       post 'filter'
       post 'filter_dispense'
+      post 'filter_return'
       get 'search'
       get 'collate'
       get 'dispense'
+			get 'return'
     end
     member do
       get 'print_pdf'

@@ -7,10 +7,10 @@ class ReturnsController < ApplicationController
     @returns = Return.all
   end
 
-  # GET /returns/1
-  # GET /returns/1.json
-  def show
-  end
+  # # GET /returns/1
+  # # GET /returns/1.json
+  # def show
+  # end
 
   # GET /returns/new
   def new
@@ -23,18 +23,20 @@ class ReturnsController < ApplicationController
     @brands = Brand.includes(:pharm_item).order('pharm_items.name ASC').where(:id => @prescription.prescription_batches.pluck(:brand_id))
   end
 
-  # GET /returns/1/edit
-  def edit
-  end
+  # # GET /returns/1/edit
+  # def edit
+  # end
 
   # POST /returns
   # POST /returns.json
   def create
     @return = Return.new(return_params)
-
+    @return.user_id = current_user.try(:id)
+    @return.store_id = current_store.try(:id)
+    @return.return_date = Time.now
     respond_to do |format|
       if @return.save
-        format.html { redirect_to @return, notice: 'Return was successfully created.' }
+        format.html { redirect_to return_prescriptions_path, notice: 'Return was successfully processed.' }
         format.json { render :show, status: :created, location: @return }
       else
         format.html { render :new }
@@ -57,15 +59,15 @@ class ReturnsController < ApplicationController
     end
   end
 
-  # DELETE /returns/1
-  # DELETE /returns/1.json
-  def destroy
-    @return.destroy
-    respond_to do |format|
-      format.html { redirect_to returns_url, notice: 'Return was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
+  # # DELETE /returns/1
+  # # DELETE /returns/1.json
+  # def destroy
+  #   @return.destroy
+  #   respond_to do |format|
+  #     format.html { redirect_to returns_url, notice: 'Return was successfully destroyed.' }
+  #     format.json { head :no_content }
+  #   end
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -75,6 +77,6 @@ class ReturnsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def return_params
-      params.require(:return).permit(:prescription_id_id, :subtotal, :total, :surcharges, :return_date, :user_id)
+      params.require(:return).permit(:prescription_id, :subtotal, :total, :surcharges, :return_date, :user_id, :store_id, return_prescription_batches_attributes: [:id, :brand_id , :qty, :rate , :pharm_item_id, :prescription_id, :_destroy])
     end
 end

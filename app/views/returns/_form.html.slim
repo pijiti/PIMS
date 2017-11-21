@@ -22,37 +22,25 @@
           th Quantity
         tbody#prescription_batches
           - @prescription_batch_counter = 0
-          - @prescription.prescription_batches.each do |batch|
-            = f.simple_fields_for :prescription_batches, batch do |batch_form|
+          - @return.return_prescription_batches.each do |batch|
+            = f.simple_fields_for :return_prescription_batches, batch do |batch_form|
               - @batch = batch
               = render 'return_prescription_batch_fields', :f => batch_form, :batch => batch
               - @prescription_batch_counter += 1
       #Total
-        .row
-          .col-sm-6
-          .col-sm-3
-            h5 SubTotal
-          .col-sm-3.text-right
-            = f.hidden_field :subtotal, :value => @prescription.subtotal
-            #subtotal_value
-              h5 = @prescription.subtotal || 0.00
-
-
-          
 
         .row
           .col-sm-6
           .col-sm-3
-            h5 Grand Total
+            h5 Refund amount
           .col-sm-3.text-right
-            = f.hidden_field :total, :value => nil
+            = f.hidden_field :total, :value => refund_total_calculation(@return)
             #grand_total
-              h5 = @prescription.total || 0.00
+              h5 = "N #{refund_total_calculation(@return) || 0.00}"
 
 
-      .row
         br
-        .col-sm-2.col-md-offset-5
-          span.text-center
-            = f.button :submit, :class => "btn btn-success btn-md btn-block", :value => "Issue refund"
+        p.text-center.btn-toolbar
+          = f.button :submit, :class => "btn btn-success btn-md ", :value => "Issue refund"
+          = link_to "Cancel", return_prescriptions_path, :class => "btn btn-default btn-md "
       hr

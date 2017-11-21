@@ -62,5 +62,5 @@ tr
   td
     = @prescription.refunded_amount
   td
-    - if @prescription.status == "DISPENSED"
+    - if @prescription.status == "DISPENSED" and  @prescription.refunded_amount == "0"
       = link_to "Return", new_return_path(id: @prescription), :class => "btn-sm btn btn-success"

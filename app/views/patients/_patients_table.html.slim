@@ -34,10 +34,11 @@ table.table.data_table
           td.add-prescription
             - if !current_store.try(:parent).blank?
                = link_to 'Add Prescription', prescriptions_path(patient_id: patient)
-          td
+          td.actions
                 - @patient = patient
                 /= link_to 'Edit', edit_patient_path(patient)
-                a href="#" class="btn btn-sm " data-toggle="modal" data-target="#order_#{patient.id}"  Edit
+                a href="#" class="" data-toggle="modal" data-target="#order_#{patient.id}"  
+                  i class="fa fa-pencil"
                 div[id="order_#{patient.id}" class="modal" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
                   .modal-dialog role="document"
                     .modal-content
@@ -51,6 +52,6 @@ table.table.data_table
 
                       .modal-footer
                         button.btn.btn-default data-dismiss="modal" type="button"  Close
-          td.destroy = link_to 'Destroy', patient, method: :delete, data: { confirm: 'Are you sure?' }
+          td.actions.destroy = link_to 'Destroy', patient, method: :delete, data: { confirm: 'Are you sure?' }
 
 

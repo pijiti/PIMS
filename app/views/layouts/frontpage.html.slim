@@ -3,7 +3,8 @@ html
 
 	= render 'layouts/head'
 	body
-			.container
-				= render 'shared/frontpagenavbar'
-				= yield
+			
+			= render 'shared/frontpagenavbar'
+			= yield
+			= render 'shared/footer'
 

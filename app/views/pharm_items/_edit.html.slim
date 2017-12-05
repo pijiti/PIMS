@@ -1,7 +1,7 @@
 .pharm-item-edit-form.well  data-id = @pharm_item.id
     h5 = "Update #{@pharm_item.name}" + "'s " + "record."
     = simple_form_for @pharm_item, remote: true  do |f|
-          table.table.data_table
+          table.table.data_table.pharmaDataTable
             thead
                   tr
                     th.col-sm-3.text-center Name
@@ -15,7 +15,7 @@
 
           hr
             h4.text-center Brands
-          table.table.table-striped.table-condensed
+          table.table.table-striped.table-condensed.pharmaDataTable
                   thead
                     tr
                       th.col-sm-2.text-center Name

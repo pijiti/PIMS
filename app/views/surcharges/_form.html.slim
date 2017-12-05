@@ -10,6 +10,7 @@
         td   =f.input :name , label: false
         td   =f.input :charge_type, as: :select, collection: Surcharge::SURCHARGE_TYPES, prompt: "Charge Type" , label: false
         td   = f.input :active , label: "Active"
+
   hr
     h4.text-center Surcharge Items
   table.table.table-striped.table-condensed
@@ -18,6 +19,7 @@
         th.col-sm-4.text-center Name
         th.col-sm-4.text-center Value
         th.col-sm-4.text-center Description
+        th
     tbody#surcharge-items
         =f.simple_fields_for :surcharge_items do |surcharge_item|
           = render 'surcharge_item_fields', f: surcharge_item

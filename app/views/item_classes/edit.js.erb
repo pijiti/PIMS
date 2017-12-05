@@ -1,1 +1,1 @@
-$(".item-class[data-id='<%= @item_class.id %>']").replaceWith('<%=j render 'edit', item_class: @item_class%>');
+$(".item-class[data-id='<%= @item_class.id %>']").html('<td colspan="4"><%=j render 'edit', item_class: @item_class%></td>');

@@ -8,9 +8,10 @@ newErrorNotify.notifyRemove();
 
 <% else %>
 
-$(".store-edit-form[data-id='<%= @store.id %>']").replaceWith('<%=j render @store%>');
+$(".store[data-id='<%= @store.id %>']").html('<td colspan="8"><%=j render "stores/store", :store => @store%></td>');
 var newSuccessNotify = $("<%=j render 'notifies/notify', msg: "#{@store.name} "  + "record has been updated" %>");
 application.find('#application-main-body-yield').prepend(newSuccessNotify);
 newSuccessNotify.notifyRemove();
 
 <%end%>
+

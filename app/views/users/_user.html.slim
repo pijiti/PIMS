@@ -6,22 +6,26 @@
                       td = user.validity_status
                       td = user.valid_duration.try(:strftime ,"%d-%m-%y" )
                       td
-                            a.link-roles href='#' = "#{user.roles.count}"
+                          .reletive
+                            a.link-roles href='javascript:void(0);' = "#{user.roles.count}"
 
-                            table.table.table-striped.table-condensed.roles.hide
-                                thead
-                                  tr
-                                    th Role
-                                    th Store
-                                tbody
+                            .customDropdown.roles.hide
+                                h5
+                                  label Role
+                                  label Store
+                                ul
                                 -user.roles.each do |role|
-                                  tr
-                                    td.name = role.try(:name)
-                                    td.store-name = role.resource.try(:name)
+                                  li
+                                    span.name = role.try(:name)
+                                    span.store-name = role.resource.try(:name)
+                      td.actions
+                         a href=password_reset_user_path(user) data-method='patch' data-confirm='Are you sure?'  data-remote=true  
+                            i class="fa fa-lock"
 
-                      td.text-right
-                         a.btn.btn-info.btn-xs href=password_reset_user_path(user) data-method='patch' data-confirm='Are you sure?'  data-remote=true  Change Password
+                         a href=edit_user_path(user) data-remote='true'
+                            i class="fa fa-pencil"
+               
+                         a href = user_path(user) data-confirm='Are you sure?' data-method = 'delete' data-remote = 'true'
+                            i class="fa fa-trash-o"
 
-                         a.btn.btn-primary.btn-xs href=edit_user_path(user) data-remote='true'   Edit
-                         /a.btn.btn-danger.btn-xs href=user_path(user) data-method='delete'   data-remote='true'   Destroy
-                         = link_to 'Destroy', user_path(user) ,:remote => true, method: :delete, data: { confirm: 'Are you sure?' } , class: "btn btn-danger btn-xs"
+                            

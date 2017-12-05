@@ -3,7 +3,7 @@
 section#pims-index
     .item-conc-units-form
        =render 'form'
-    .text-right
+    .downloadExcel
         a href = item_concentration_units_path(:format => 'xlsx')  Download Excel
     -if @item_concentration_units.size == 0
      = "There are no records available for listing"
@@ -14,7 +14,8 @@ section#pims-index
     		  tr
     		  th Strength Unit
     		  th Description
-    		  th
+    		  th.text-right
+                 i class="fa fa-unsorted"
     	
     	tbody.item-conc-units
     		 - @item_concentration_units.each do |item_concentration_unit| 

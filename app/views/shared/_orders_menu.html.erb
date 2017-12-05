@@ -15,35 +15,41 @@
 </a>
 <ul class="dropdown-menu">
   <% orders.each do |order| %>
-      <li>
-         <%= order.number %>
-        <br>
+      <div class="cartListItem">
+         <h5><%= order.number %></h5>
+
         <table class="table">
-          <tr>
-            <th>Drug</th>
-            <th>Brand</th>
-            <th>Qty</th>
-            <th>Remove</th>
-          </tr>
+          <thead>
+            <tr>
+              <th>Drug</th>
+              <th>Brand</th>
+              <th>Qty</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
          <tbody>
          <% order.service_requests.each do |s|%>
              <tr>
                <td><%= s.pharm_item.name %></td>
                <td><%= s.brand.nil? ? "Any" : s.brand.name %></td>
                <td><%= s.qty %></td>
-               <td><%= link_to "Remove" , remove_items_supplies_path(:id => order.id, :service_id => s.id) , :remote => true%></td>
+               <td class="text-center"><%= link_to  remove_items_supplies_path(:id => order.id, :service_id => s.id) , :remote => true do %>
+                 <i class="fa fa-trash-o"></i>
+                 <% end  %>
+
+               </td>
              </tr>
          <% end %>
          </tbody>
         </table>
+      <li role="separator" class="divider" style="background-color:#e7e7e7;"></li>
         <%= form_for(Supply.new , :url => order_supplies_path , :method => :post ) do |supply_form| %>
             <%= supply_form.hidden_field :order_number , :value => order.id %>
             <%= supply_form.hidden_field :store_id , :value => order.from_store_id %>
             <%= supply_form.hidden_field :parent_store_id , :value => order.from_store.parent_store %>
             <%= supply_form.submit :class => "btn btn-primary btn-sm complete_order" , :value => "Checkout Order" %>
         <%end%>
-      </li>
-      <li role="separator" class="divider" style="background-color:#e7e7e7;"></li>
+      </div>
   <% end %>
 
 </ul>

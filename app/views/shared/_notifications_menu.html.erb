@@ -8,10 +8,14 @@
   </i>
 </a>
 <ul class="dropdown-menu list-group">
+  <div class="notificationHead">
+      <%= link_to "Mark all as read", mark_all_as_read_alerts_path, :remote => true, :class => "text-align-left" %>
+      <%= link_to "Clear read notifications", clear_alerts_path, :remote => true %>
+  </div>
+  <div class="notificationList">
   <% if current_user and !current_user.unread_alerts.blank? %>
       <% current_user.unread_alerts.each do |a| %>
-          <li style="padding: 0px;background-color:#e7e7e7;">
-
+          <li>
            <% if a.alert_type == "EXPIRY" %>
                <a href="<%= expired_drugs_supplies_path(:store_id => a.store_id , :alert_id => a.id , :batch_id => a.inventory_batch.try(:batch_id)) %>">
            <% elsif a.alert_type == "ORDER"  %>
@@ -21,16 +25,15 @@
            <% elsif a.alert_type == "SERVICED" %>
                 <a href="<%= receipts_path %>">
            <% end %>
-
             <strong> <%= a.message %> </strong>
            </a>
           </li>
-          <li role="separator" class="divider"  style="background-color:#e7e7e7;"></li>
+          <li role="separator" class="divider"></li>
       <% end %>
   <% end %>
   <!--Read alerts-->
   <% current_user.read_alerts.each do |a| %>
-      <li style="padding: 0px;" >
+      <li class="readmessages">
         <% if a.alert_type == "EXPIRY" %>
             <a href="<%= expired_drugs_supplies_path(:store_id => a.store_id , :batch_id => a.inventory_batch.try(:batch_id)) %>">
         <% elsif a.alert_type == "ORDER"  %>
@@ -45,11 +48,5 @@
       </li>
       <li role="separator" class="divider"></li>
   <% end %>
-  <p>
-    <%= link_to "Mark all as read", mark_all_as_read_alerts_path, :remote => true, :class => "text-align-left" %>
-  </p>
-
-  <p>
-    <%= link_to "Clear read notifications", clear_alerts_path, :remote => true %>
-  </p>
+  </div>
 </ul>

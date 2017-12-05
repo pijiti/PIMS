@@ -1,2 +1,2 @@
-$(".vendor[data-id='<%= @vendor.id %>']").replaceWith('<%=j render 'edit', vendor: @vendor %>');
+$(".vendor[data-id='<%= @vendor.id %>']").html('<td colspan="4"><%=j render 'edit', vendor: @vendor %></td>');
 

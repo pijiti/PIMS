@@ -10,6 +10,8 @@ tr.vendor data-id = vendor.id
                 li ="Contact Email : #{ vendor.contact_email}"
                 li ="Vendor Category : #{ vendor.vendor_category.try(:name)}"
                 li ="Contact Email : #{ vendor.store.try(:name)}"
-       td.text-right
-            a.btn.btn-primary.btn-xs href = edit_vendor_path(vendor) data-remote='true'  Edit
-            a.btn.btn-danger.btn-xs href = vendor_path(vendor) data-method='delete'   data-remote='true'  Destroy
+       td.actions
+            a href = edit_vendor_path(vendor) data-remote='true'
+              i class="fa fa-pencil"
+            a href = vendor_path(vendor) data-method='delete'   data-remote='true'
+              i class="fa fa-lock"

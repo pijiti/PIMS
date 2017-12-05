@@ -8,7 +8,7 @@ newErrorNotify.notifyRemove();
 
 <% else %>
 
-$(".staff-category-edit-form[data-id='<%= @staff_category.id %>']").replaceWith('<%=j render @staff_category %>');
+$(".staff-category[data-id='<%= @staff_category.try(:id) %>']").html('<td colspan="2"><%=j render "staff_categories/staff_category", :staff_category => @staff_category %></td>');
 var newSuccessNotify = $("<%=j render 'notifies/notify', msg: "#{@staff_category.name} "  + "record has been updated" %>");
 application.find('#application-main-body-yield').prepend(newSuccessNotify);
 newSuccessNotify.notifyRemove();

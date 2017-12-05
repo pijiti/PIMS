@@ -3,7 +3,7 @@
 section#pims-index    
          .hospitals-form
             = render 'form'
-         .text-right
+         .downloadExcel
             a href = hospital_units_path(:format => 'xlsx')  Download Excel        
         
          table.table.table-striped.table-condensed.data_table
@@ -11,9 +11,8 @@ section#pims-index
               tr
               th Hospital Unit
               th Description
-              th
-        
-        
+              th.text-right
+                 i class="fa fa-unsorted"
         
           tbody.hospital-units
              - @hospital_units.each  do |hospital_unit|

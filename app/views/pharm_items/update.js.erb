@@ -8,7 +8,7 @@ newErrorNotify.notifyRemove();
 
 <% else %>
 
-$(".pharm-item-edit-form[data-id='<%= @pharm_item.id %>']").replaceWith('<%=j render @pharm_item %>');
+$(".pharm-item[data-id='<%= @pharm_item.try(:id) %>']").html('<td colspan="4"><%=j render "pharm_items/pharm_item", :pharm_item => @pharm_item %></td>');
 var newSuccessNotify = $("<%=j render 'notifies/notify', msg: "#{@pharm_item.name} "  + "record has been updated" %>");
 application.find('#application-main-body-yield').prepend(newSuccessNotify);
 newSuccessNotify.notifyRemove();

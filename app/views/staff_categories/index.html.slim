@@ -6,7 +6,7 @@ section#pims-index
         .staff-categories-form
             = render 'form'
             
-        .text-right  
+        .downloadExcel  
             a href = staff_categories_path(:format => 'xlsx')  Download Excel
         
         table.table.table-striped.table-condensed.data_table
@@ -14,7 +14,8 @@ section#pims-index
             tr
               th Name
               th Description
-              th
+              th.text-right
+                 i class="fa fa-unsorted"
         
           tbody.staff-categories
             - @staff_categories.each do |staff_category| 

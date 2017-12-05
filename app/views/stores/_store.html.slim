@@ -6,20 +6,21 @@
         td = store.try(:open_time).try(:strftime , "%I:%M%p" )
         td = store.try(:close_time).try(:strftime , "%I:%M%p" )
         td 
-            a.link-roles href ='#' = "#{store.store_roles.try(:count)}"
-            table.table.table-striped.table-condensed.roles.hide
-             thead
-                tr
-                    th Name
-             tbody
+           .reletive 
+            a.link-roles href ='javascript:void(0);' = "#{store.store_roles.try(:count)}"
+            .customDropdown.roles.hide
+             h5 Name
+             ul
                -store.store_roles.try(:each) do |role|
-                tr
-                    td = role
+                li
+                     = role
                 
         /!td = store.try(:open_time).strftime('%R')
         /!td = store.try(:close_time).strftime('%R')
-        td.text-right
-            a.btn.btn-primary.btn-xs  href = edit_store_path(store) data-remote='true'  Edit
+        td.actions
+            a  href = edit_store_path(store) data-remote='true'
+                i class="fa fa-pencil"
             /control deletion of stores
             - if store.inventories.blank?
-              a.btn.btn-danger.btn-xs  href = store_path( store) data-method='delete' data-confirm='Are you sure ?'  data-remote='true'  Destroy
+              a href = store_path( store) data-method='delete' data-confirm='Are you sure ?'  data-remote='true'  
+                i class="fa fa-trash-o"

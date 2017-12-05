@@ -134,25 +134,25 @@
                             <%= link_to 'Dispense'.html_safe, dispense_prescriptions_path, class: "list-group-item" %>
                         <% end %>
                         <%#= link_to '<i class="fa fa-repeat fa-fw blue"></i>Request Items'.html_safe, requests_path, class: "list-group-item" %>
-                        <%= link_to 'Return'.html_safe, new_user_profile_path, class: "list-group-item" %>
+                        <%= link_to 'Return'.html_safe, return_prescriptions_path, class: "list-group-item" %>
                       </div>
                   <% end %>
                 </li>
-                <li>
-                  <% if can? :manage, Surcharge %>
-                      <%= link_to 'Audit '.html_safe, "#audit", class: "list-group-item text-center" %>
-                  <% end %>
-                </li>
+                <!-- <li>
+                  <%# if can? :manage, Surcharge %>
+                      <%#= link_to 'Audit '.html_safe, "#audit", class: "list-group-item text-center" %>
+                  <%# end %>
+                </li> -->
                 <li>
                   <%= link_to 'Notifications '.html_safe, get_notifications_alerts_path, class: "list-group-item text-center" %>
                 </li>
-                <li>
-                  <%= link_to 'My Account '.html_safe, "#account", class: "list-group-item list-group-item-success text-center", "data-parent" => "#MainMenu" %>
+                <!-- <li>
+                  <%#= link_to 'My Account '.html_safe, "#account", class: "list-group-item list-group-item-success text-center", "data-parent" => "#MainMenu" %>
                   <div class="collapse last" id="account2">
-                    <%= link_to 'User Information'.html_safe, user_profiles_path, class: "list-group-item" %>
-                    <%= link_to 'Password'.html_safe, user_profiles_path, class: "list-group-item" %>
+                    <%#= link_to 'User Information'.html_safe, user_profiles_path, class: "list-group-item" %>
+                    <%#= link_to 'Password'.html_safe, user_profiles_path, class: "list-group-item" %>
                   </div>
-                </li>
+                </li> -->
               </ul>
             </div>
           </div>

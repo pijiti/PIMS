@@ -1,34 +1,29 @@
-
 section#devise-sessions-new.loginWrapper
- 
-   #devise-sessions-new-header
-       h2 Pharmaceutical Items Management System
-       h4 State Specialist Hospital,Ondo
-   #devise-sessions-new-header-inner-homepath.loginLogo
-          = link_to "Home",root_path 
-   .loginbox       
-     #devise-sessions-new-header-inner-label
-            h1 User Login
-            
-     #devise-sessions-new-body
-          
-          = simple_form_for(resource,
-                                         as: resource_name, 
-                                         url: session_path(resource_name)) do |f|
-               = f.input :username, placeholder: 'Your registered mobile number'
-               = f.input :password
-               
-               .checkbox
-                 - if devise_mapping.rememberable?
-                    = f.check_box :remember_me
-                    span Remember me
+  #devise-sessions-new-header
+    h2 Pharmaceutical Items Management System
+    h4 State Specialist Hospital,Ondo
 
-               = link_to "Forgot your password?", new_password_path(resource_name), style: "float: right" 
+  #devise-sessions-new-header-inner-homepath.loginLogo
+    = link_to "Home",root_path 
 
-             .actions
-              = f.button :submit, 'Sign In', class: "btn-medium btn-primary"
-      
-   footer#devise-sessions-new-footer
-      
+  .loginbox       
+    #devise-sessions-new-header-inner-label
+      h1 User Login
+
+    #devise-sessions-new-body
+      = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+        = f.input :username, placeholder: 'Your registered mobile number'
+        = f.input :password               
+        .checkbox
+          - if devise_mapping.rememberable?
+            = f.check_box :remember_me
+            span Remember me
+
+          = link_to "Forgot your password?", new_password_path(resource_name), style: "float: right" 
+
+        .actions
+          = f.button :submit, 'Sign In', class: "btn-medium btn-primary"
+
+    footer#devise-sessions-new-footer
       #devise-sessions-new-footer-inner    
         = render "devise/shared/links"

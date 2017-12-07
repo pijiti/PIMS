@@ -1,0 +1,71 @@
+tr
+
+  td.user
+    a tabindex="0" href="#" data-toggle="popover" data-html="true" data-trigger="focus" title="#{@return_approval.prescription.try(:code)}" data-content="Doctor- Dr. #{@return_approval.prescription.doctor.try(:first_name)}  #{@return_approval.prescription.doctor.try(:last_name)} <br/> Hospital - #{@return_approval.prescription.hospital_unit.try(:name)} <br/> Prescription date - #{@return_approval.prescription.prescription_date.strftime("%d/%m/%Y")} <br/> Total - N #{ @return_approval.prescription.total}"
+      = @return_approval.prescription.try(:code)
+
+  td
+    a tabindex="0" href="#" data-toggle="popover" data-trigger="focus" title="#{@return_approval.prescription.patient.try(:firstname)} #{@return_approval.prescription.patient.try(:surname)}" data-html="true" data-content="Hospital number - #{@return_approval.prescription.patient.try(:hospital_number)} <br/> Mobile - #{@return_approval.prescription.patient.try(:mobile)} <br/> Age - #{@return_approval.prescription.patient.try(:age)} <br/> Next of kin -  #{ @return_approval.prescription.patient.try(:nok_name)} <br/>  Next of kin mobile - #{@return_approval.prescription.patient.try(:nok_mobile)}"
+      = "#{@return_approval.prescription.patient.try(:firstname)} #{@return_approval.prescription.patient.try(:surname)}"
+  /td.batch = prescription.try(:batches).try(:size)
+  td
+    table.table.table-striped.table-condensed
+      thead
+        tr
+          th Store
+          th Brand
+          th Total Units
+          th Returned Units
+          th Collation
+      tbody
+        / = simple_form_for(@return_approval.prescription, :url => complete_dispense_prescription_path(@return_approval.prescription), :method => :post) do |f|
+        - @return_approval.prescription.prescription_batches.each do |p|
+            tr
+              td
+                = p.store.try(:name)
+              td
+                = p.brand.drug_prescription_info
+              td
+                = p.qty
+              td 
+                = @return_approval.return_prescription_batches.where(brand_id: p.brand_id).try(:last).try(:qty)
+              td
+                a href="#" data-toggle="modal" data-target="#myModal_#{p.id}"  View Collation
+                div[id="myModal_#{p.id}" class="modal" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
+                  .modal-dialog role="document"
+                    .modal-content
+                      .modal-header
+                        button.close.approval-close aria-label="Close" data-dismiss="modal" type="button"
+                          span aria-hidden="true"  &times;
+                        h4#myModalLabel.modal-title Collation of #{p.qty} units of #{p.brand.drug_prescription_info} from #{p.store.try(:name)}
+                      .modal-body
+                        table.table.table-striped.table-condensed.batches.batches_modal_table
+                          thead
+                            tr
+                              th Brand
+                              th Batch number
+                              th Expiry Date
+                              th Units
+
+                          tbody
+                            - p.collation_batches.each do |collation_batch|
+                              - next if collation_batch.units.blank?
+                              - inventory_batch = collation_batch.inventory_batch
+                              - batch = inventory_batch.batch
+                              tr
+                                td = batch.brand.drug_prescription_info
+                                td = batch.batch_number
+                                td = batch.expiry_date.strftime("%d/%m/%Y")
+                                td
+                                  = collation_batch.units
+                                    /= batch_form.hidden_field :store_id , :value => s.from_store.id
+
+  td
+    = @return_approval.prescription.subtotal
+  td
+    = @return_approval.prescription.refunded_amount
+  td
+    = User.find(@return_approval.user_id).try(:first_name)
+  td
+    / - if @return_approval.prescription.status == "DISPENSED" and  @return_approval.prescription.refunded_amount == "0"
+    = link_to "Approved", approve_return_return_path(id: @return_approval), :class => "btn-sm btn btn-success"

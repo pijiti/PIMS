@@ -1,6 +1,6 @@
 class PimsConfigsController < ApplicationController
-  load_and_authorize_resource
-  # before_action :set_pims_config, only: [:show, :edit, :update, :destroy]
+  authorize_resource
+  before_action :set_pims_config, only: [:show, :edit, :update, :destroy]
 
   # GET /pims_configs
   # GET /pims_configs.json

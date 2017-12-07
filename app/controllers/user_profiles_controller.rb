@@ -1,6 +1,6 @@
 class UserProfilesController < ApplicationController
-  load_and_authorize_resource
-  # before_action :set_user_profile, only: [:show, :edit, :update, :destroy]
+  authorize_resource
+  before_action :set_user_profile, only: [:show, :edit, :update, :destroy]
 
 
 

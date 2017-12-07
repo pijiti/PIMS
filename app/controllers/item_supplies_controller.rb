@@ -1,8 +1,8 @@
 class ItemSuppliesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_supply, only: [:index,:create,:new]
-  load_and_authorize_resource
-  # before_action :set_item_supply, only: [:edit,:update,:destroy]
+  authorize_resource
+  before_action :set_item_supply, only: [:edit,:update,:destroy]
   before_action :set_all_item_supply, only: [:index]
 
 

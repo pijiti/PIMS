@@ -1,7 +1,7 @@
 class ItemConcentrationUnitsController < ApplicationController
   before_action :authenticate_user!
-  load_and_authorize_resource
-  # before_action :set_item_concentration_unit, only: [:show, :edit, :update, :destroy]
+  authorize_resource
+  before_action :set_item_concentration_unit, only: [:show, :edit, :update, :destroy]
 
 
   def index

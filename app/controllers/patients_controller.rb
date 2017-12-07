@@ -1,7 +1,7 @@
 class PatientsController < ApplicationController
   before_action :authenticate_user!
-  load_and_authorize_resource
-  # before_action :set_patient, only: [:show, :edit, :update, :destroy]
+  authorize_resource
+  before_action :set_patient, only: [:show, :edit, :update, :destroy]
 
   def filter
     @patients = Patient.all

@@ -1,7 +1,7 @@
 class SurchargesController < ApplicationController
   before_action :authenticate_user!
-  load_and_authorize_resource
-  # before_action :set_surcharge, only: [:edit, :update, :destroy]
+  authorize_resource
+  before_action :set_surcharge, only: [:edit, :update, :destroy]
   before_action :set_all_surcharges, only: [:index]
   #respond_to :html
 

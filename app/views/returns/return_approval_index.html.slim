@@ -1,0 +1,18 @@
+h3.text-center Approval
+
+section#pims-index
+  table.table.table-striped.table-condensed.collation_data_table
+    thead
+      tr
+      th Prescription code
+      th Patient name
+      th Prescription batches
+      th Total amount
+      th Refund amount(N)
+      th Refund Accept by
+      th Approval
+
+    tbody.prescriptions
+      - @return_approvals.each do |return_approval|
+        - @return_approval = return_approval
+        = render "return_prescription"

@@ -1,6 +1,13 @@
 Rails.application.routes.draw do
 
-  resources :returns
+  resources :returns do
+    collection do
+      get 'return_approval_index'
+    end
+    member do
+      get 'approve_return'
+    end
+  end
 
   get 'reports/drugs'
   get 'reports/requisition'

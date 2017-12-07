@@ -14,6 +14,7 @@ class ReturnsController < ApplicationController
 
   # GET /returns/new
   def new
+    @prev_return = Return.find_by_prescription_id(params[:id])
     @return = Return.new(prescription_id: params[:id] , user_id: current_user.id)
     @prescription = Prescription.find_by_id(params[:id])
     @prescription.prescription_batches.each do |pb|
@@ -57,6 +58,18 @@ class ReturnsController < ApplicationController
         format.json { render json: @return.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def return_approval_index
+    @return_approvals = Return.where(approved: false)
+    authorize! :return_approval, @return_approvals
+  end
+
+  def approve_return
+    return_row = Return.find(params[:id])
+    authorize! :return_approval, return_row
+    return_row.update(approved: true)
+    redirect_to return_approval_index_returns_path
   end
 
   # # DELETE /returns/1

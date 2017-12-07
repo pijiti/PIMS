@@ -1,8 +1,9 @@
 class PrescriptionsController < ApplicationController
   before_action :authenticate_user!
-  load_and_authorize_resource
-  # before_action :set_prescription, only: [:show, :edit, :update, :destroy, :complete_dispense, :print_pdf]
-
+  # load_and_authorize_resource
+  before_action :set_prescription, only: [:show, :edit, :update, :destroy, :complete_dispense, :print_pdf]
+  authorize_resource
+  
 	# return drugs
   def return
     begin

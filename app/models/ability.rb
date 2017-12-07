@@ -8,6 +8,7 @@ class Ability
     #   current_store ||= Store.find(session[:active_store]) if session[:active_store]
        if user.has_role? "Admin"
          can :manage, :all
+         can :return_approval, Return
          # can :manage , "Report"
        end
 

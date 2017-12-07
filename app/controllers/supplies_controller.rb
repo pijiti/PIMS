@@ -2,8 +2,8 @@ class SuppliesController < ApplicationController
   before_action :authenticate_user!
 
   # rescue_from ActiveRecord::RecordNotFound, with:  :invalid_supplier
-  load_and_authorize_resource
-  # before_action :set_supply, only: [:edit, :update, :destroy, :submit, :approval]
+  authorize_resource
+  before_action :set_supply, only: [:edit, :update, :destroy, :submit, :approval]
   before_action :set_all_supplies, only: [:index, :create, :update, :destroy]
   #before_action :set_store, only: [:new,:index]
   respond_to :html, :js, :csv

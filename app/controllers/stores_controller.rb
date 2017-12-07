@@ -1,7 +1,7 @@
 class StoresController < ApplicationController
   before_action :authenticate_user!
-  load_and_authorize_resource
-  # before_action :set_store, only: [:show, :edit, :update, :destroy]
+  authorize_resource
+  before_action :set_store, only: [:show, :edit, :update, :destroy]
 
   #set active store from topbar
   def set_active_store

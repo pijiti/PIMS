@@ -1,3 +1,8 @@
+-unless @prev_return.nil?
+	-return_prescription_batch = @prev_return.return_prescription_batches.where(brand_id: batch.brand_id)
+	-unless return_prescription_batch.nil? 
+		-rp_batch_qty = return_prescription_batch.last.qty.to_i
+
 tr.nested-fields
 
         td  = f.input :brand_id, collection: [batch.brand], :readonly => true, value_method: :id, label_method: :drug_prescription_info, label: false, prompt: "Select Drug" , :input_html => {id: "prescriptionbatch_#{@prescription_batch_counter}" ,  class: "prescription_batch"}
@@ -5,7 +10,7 @@ tr.nested-fields
         td
            div.control-group
             div.controls
-              = f.input :qty, label: false, placeholder: "Quantity", as: :string, :placeholder => "" ,:input_html => {required: true, id: "prescriptionqty_#{@prescription_batch_counter}" , min: 0 , max: batch.qty , class: "return_prescription_qty" , min_dispensable: @batch.brand.try(:min_dispensable) || "0"}
+              = f.input :qty, label: false, placeholder: "Quantity", as: :string, :placeholder => "" ,:input_html => {required: true, id: "prescriptionqty_#{@prescription_batch_counter}" , min: 0 , max: rp_batch_qty.blank? ? batch.qty : (batch.qty.to_i - rp_batch_qty), class: "return_prescription_qty" , min_dispensable: @batch.brand.try(:min_dispensable) || "0", value: rp_batch_qty.blank? ? batch.qty : (batch.qty.to_i - rp_batch_qty)}
               
         td  = f.input :store_id , as: :hidden ,  input_html: {value:  current_store.try(:id)}
 

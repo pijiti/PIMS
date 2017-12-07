@@ -1,6 +1,6 @@
 class StaffCategoriesController < ApplicationController
-  load_and_authorize_resource
-  # before_action :set_staff_category, only: [:show, :edit, :update, :destroy]
+  authorize_resource
+  before_action :set_staff_category, only: [:show, :edit, :update, :destroy]
 
 
   def index

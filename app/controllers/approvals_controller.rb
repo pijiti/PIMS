@@ -11,6 +11,9 @@ class ApprovalsController < ApplicationController
     elsif can? :manage, Store
       @submitted_supplies = Supply.where(:store => current_store).where.not(:approval_status => "NOT SENT").order("updated_at DESC")
     end
+
+    authorize! :read, @submitted_supplies
+
   end
 
   def submitted_item

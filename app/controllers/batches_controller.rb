@@ -10,6 +10,8 @@ class BatchesController < ApplicationController
     @batch = Batch.new
     @brands = Brand.includes(:pharm_item, :item_concentration_unit, :unit_dose , :marketer).order('name ASC').all
     @batches = Batch.includes(:brand).where(:approval_status => "APPROVED").all
+
+    authorize! :manage, @batches
   end
 
   #Back door creation. Ramp up batches

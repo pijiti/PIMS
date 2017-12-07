@@ -31,8 +31,12 @@
                 <li>
                   <%= link_to 'Reports'.html_safe, "#reports", class: "list-group-item list-group-item-success text-center", "data-parent" => "#MainMenu" %>
                   <div class="collapse" id="reports">
-                    <%= link_to 'Stores'.html_safe, stores_reports_path, class: "list-group-item" %>
-                    <%= link_to 'Drugs'.html_safe, drugs_reports_path, class: "list-group-item" %>
+                    <%= link_to 'Stores', stores_reports_path, class: "list-group-item" %>
+                    <%= link_to 'Drugs', drugs_reports_path, class: "list-group-item" %>
+                    <%= link_to 'Requisition', reports_requisition_path, class: "list-group-item" %>
+                    <%= link_to 'Sales', sales_reports_path, class: "list-group-item" %>
+                    <%= link_to 'Supplies', supplies_reports_path, class: "list-group-item" %>
+                    <%= link_to 'Daily Sales', reports_daily_path, class: "list-group-item" %>
                   </div>
                 </li>
                 <li>

@@ -5,19 +5,40 @@
                       /td = user.validity
                       td = user.validity_status
                       td = user.valid_duration.try(:strftime ,"%d-%m-%y" )
-                      td
-                          .reletive
-                            a.link-roles href='javascript:void(0);' = "#{user.roles.count}"
+                      / td
+                      /     .reletive
+                      /       a.link-roles href='javascript:void(0);' = "#{user.roles.count}"
 
-                            .customDropdown.roles.hide
-                                h5
-                                  label Role
-                                  label Store
-                                ul
-                                -user.roles.each do |role|
-                                  li
-                                    span.name = role.try(:name)
-                                    span.store-name = role.resource.try(:name)
+                      /       .customDropdown.roles.hide
+                      /           h5
+                      /             label Role
+                      /             label Store
+                      /           ul
+                      /           -user.roles.each do |role|
+                      /             li
+                      /               span.name = role.try(:name)
+                      /               span.store-name = role.resource.try(:name)                      
+                      td
+                        li.dropdown.userDropdown style="list-style: none;"
+                          a.dropdown-toggle data-toggle="dropdown" href="#" = "#{user.roles.count}"
+                          ul.dropdown-menu role="menu" 
+                            table.table.table-striped.table-condensed
+                              thead
+                                tr
+                                  th Role
+                                  th Store
+                              tbody
+                              -if user.roles.blank?
+                                tr
+                                  td.name = "---"
+                                  td.store-name = "---"
+                              else
+                              -user.roles.each do |role|
+                                tr
+                                  td.name style="text-align: left;" = role.try(:name).blank? ? "---" : role.name
+                                  td.store-name style="text-align: left;" = role.try(:resource).try(:name).blank? ? "---" : role.resource.name
+                              end
+
                       td.actions
                          a href=password_reset_user_path(user) data-method='patch' data-confirm='Are you sure?'  data-remote=true  
                             i class="fa fa-lock"

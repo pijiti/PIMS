@@ -7,6 +7,10 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_filter :check_session
 
+  rescue_from CanCan::AccessDenied do |exception|
+    render :file => "#{Rails.root}/public/403.html", :status => 403, :layout => false
+  end
+
   alias_method :me, :current_user
   helper_method :current_store
   #before_action :authenticate_user!

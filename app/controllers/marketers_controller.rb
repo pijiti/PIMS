@@ -1,6 +1,7 @@
 class MarketersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_marketer, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource
+  # before_action :set_marketer, only: [:show, :edit, :update, :destroy]
 
   def index
     @marketers = Marketer.all

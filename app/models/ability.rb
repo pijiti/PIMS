@@ -8,7 +8,7 @@ class Ability
     #   current_store ||= Store.find(session[:active_store]) if session[:active_store]
        if user.has_role? "Admin"
          can :manage, :all
-         can :manage , "Report"
+         # can :manage , "Report"
        end
 
        if user.has_role? "Pharmacist" , current_store
@@ -16,6 +16,8 @@ class Ability
          can :manage , Prescription
          can :manage , Inventory
          can :manage , Receipt
+         cannot :manage , LostDrug
+         cannot :manage , Batch
        end
 
        if user.has_role? "Pharmacy Technician" , current_store

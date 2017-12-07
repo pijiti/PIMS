@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user! , :except => [:password_reset , :password_edit , :password_change ]
-  before_action :set_user, except: [:index, :password_edit, :password_change]
+  load_and_authorize_resource
+  # before_action :set_user, except: [:index, :password_edit, :password_change]
 
 
   def index

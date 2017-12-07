@@ -1,8 +1,8 @@
 class StoreTypesController < ApplicationController
 
-
 	#before_action :set_store, only: [:create]
-  before_action :set_store_type, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource
+  # before_action :set_store_type, only: [:show, :edit, :update, :destroy]
 
 
   def index

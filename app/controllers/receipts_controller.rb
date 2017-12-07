@@ -1,5 +1,7 @@
 class ReceiptsController < ApplicationController
   before_action :authenticate_user!, :except => [:generate_pdf, :order_receipt]
+  # load_and_authorize_resource
+  authorize_resource
   before_action :set_receipt, only: [:show, :edit, :update, :destroy]
 
 
@@ -67,6 +69,7 @@ class ReceiptsController < ApplicationController
   #
   def lost_drugs
     @lost_drugs = LostDrug.includes(:receipt, receipt: [:from_store, :to_store, batch: [:brand]]).all
+    authorize! :manage, @lost_drugs
   end
 
   # GET /receipts

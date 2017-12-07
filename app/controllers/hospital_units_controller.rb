@@ -1,6 +1,7 @@
 class HospitalUnitsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_hospital_unit, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource
+  # before_action :set_hospital_unit, only: [:show, :edit, :update, :destroy]
   respond_to :html,:pdf,:js
 
 

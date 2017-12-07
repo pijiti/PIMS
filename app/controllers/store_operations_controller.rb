@@ -1,6 +1,7 @@
 class StoreOperationsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_store_operation, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource
+  # before_action :set_store_operation, only: [:show, :edit, :update, :destroy]
 
 
   def index

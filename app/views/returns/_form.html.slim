@@ -18,14 +18,20 @@
       table.table.table-striped.table-condensed
         thead
           th Brand
-          th Rate
-          th Quantity
+          th Batch number
+          th Expiry Date
+          th Total units
+          th Return units
         tbody#prescription_batches
           - @prescription_batch_counter = 0
           - @return.return_prescription_batches.each do |batch|
             = f.simple_fields_for :return_prescription_batches, batch do |batch_form|
               - @batch = batch
-              = render 'return_prescription_batch_fields', :f => batch_form, :batch => batch
+              = batch_form.input :store_id, as: :hidden,  input_html: {value:  current_store.try(:id)}
+
+              - batch.return_collation_batches.each do |rcb|
+                = batch_form.simple_fields_for :return_collation_batches, rcb do |rcb_form|
+                  = render 'return_prescription_batch_fields_alt', :ff => batch_form, rp_batch: batch, rcb_obj: rcb
               - @prescription_batch_counter += 1
       #Total
 

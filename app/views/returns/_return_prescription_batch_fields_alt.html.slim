@@ -1,0 +1,19 @@
+/ -unless @prev_return.nil?
+/ 	-return_prescription_batch = @prev_return.return_prescription_batches.where(brand_id: batch.brand_id)
+/ 	-unless return_prescription_batch.nil? 
+/ 		-rp_batch_qty = return_prescription_batch.last.qty.to_i
+
+tr.nested-fields
+        - batch = rcb_obj.collation_batch.inventory_batch.batch
+        - tot_units = rcb_obj.collation_batch.units
+        td = rp_batch.brand.drug_prescription_info
+        td = batch.batch_number
+        td = batch.expiry_date.strftime("%d/%m/%Y")
+        td = tot_units.blank? ? 0 : tot_units
+        td
+          div.control-group
+            div.controls
+              - if tot_units.blank?
+                = ff.input :qty, label: false, as: :string, :input_html => {id: "prescriptionqty_#{@prescription_batch_counter}", class: "return_prescription_qty", value: "0", readonly: true}
+              - else  
+                = ff.input :qty, label: false, placeholder: "Quantity", as: :string, input_html: {required: true, id: "prescriptionqty_#{@prescription_batch_counter}", min: 0, class: "return_prescription_qty"}

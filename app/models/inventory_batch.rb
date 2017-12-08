@@ -3,7 +3,7 @@ class InventoryBatch < ActiveRecord::Base
   belongs_to :batch
   has_many :collation_batches , :dependent => :destroy
   has_many :alerts , :dependent => :destroy
-
+  has_many :return_collation_batches
 
   attr_accessor :allot , :store_id , :pharm_item_id , :batch_number
 

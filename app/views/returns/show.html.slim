@@ -1,0 +1,15 @@
+section#pims-index
+  table.table.table-striped.table-condensed.collation_data_table
+    thead
+      tr
+      th Prescription code
+      th Patient name
+      th Prescription batches
+      th Total amount
+      th Refund amount(N)
+      th Refund Accept by
+
+    tbody.prescriptions
+      - @return.each do |r|
+        - @r = r
+        = render "show_return_prescription"

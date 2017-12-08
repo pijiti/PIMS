@@ -1,5 +1,5 @@
 class ReturnsController < ApplicationController
-  before_action :set_return, only: [:show, :edit, :update, :destroy]
+  before_action :set_return, only: [:edit, :update, :destroy]
 
   # GET /returns
   # GET /returns.json
@@ -9,8 +9,9 @@ class ReturnsController < ApplicationController
 
   # # GET /returns/1
   # # GET /returns/1.json
-  # def show
-  # end
+  def show
+    @return = Return.where(prescription_id: params[:id])
+  end
 
   # GET /returns/new
   def new
@@ -18,7 +19,10 @@ class ReturnsController < ApplicationController
     @return = Return.new(prescription_id: params[:id] , user_id: current_user.id)
     @prescription = Prescription.find_by_id(params[:id])
     @prescription.prescription_batches.each do |pb|
-      @return.return_prescription_batches.new(pharm_item_id: pb.pharm_item_id, brand_id: pb.brand_id , qty: pb.qty, rate: pb.rate , prescription_id: @prescription.id)
+      return_prescription_batch = @return.return_prescription_batches.new(prescription_batch_id: pb.id, pharm_item_id: pb.pharm_item_id, brand_id: pb.brand_id, rate: pb.rate , prescription_id: @prescription.id)
+      pb.collation_batches.each do |cb|
+        return_prescription_batch.return_collation_batches.new(collation_batch_id: cb.id, prescription_batch_id: cb.prescription_batch_id, inventory_batch_id: cb.inventory_batch_id)
+      end
     end
 
     @brands = Brand.includes(:pharm_item).order('pharm_items.name ASC').where(:id => @prescription.prescription_batches.pluck(:brand_id))
@@ -90,6 +94,6 @@ class ReturnsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def return_params
-      params.require(:return).permit(:prescription_id, :subtotal, :total, :surcharges, :return_date, :user_id, :store_id, return_prescription_batches_attributes: [:id, :brand_id , :qty, :rate , :pharm_item_id, :prescription_id, :_destroy])
+      params.require(:return).permit(:prescription_id, :subtotal, :total, :surcharges, :return_date, :user_id, :store_id, return_collation_batches_attributes: [:id, :brand_id , :qty, :rate , :pharm_item_id, :prescription_id, :_destroy, return_prescription_batches_attributes: [:id, :return_prescription_batch_id, :collation_batch_id, :prescription_batch_id, :inventory_batch_id, :units]])
     end
 end

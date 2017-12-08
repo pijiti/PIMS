@@ -1,0 +1,68 @@
+tr
+
+  td.user
+    a tabindex="0" href="#" data-toggle="popover" data-html="true" data-trigger="focus" title="#{@r.prescription.try(:code)}" data-content="Doctor- Dr. #{@r.prescription.doctor.try(:first_name)}  #{@r.prescription.doctor.try(:last_name)} <br/> Hospital - #{@r.prescription.hospital_unit.try(:name)} <br/> Prescription date - #{@r.prescription.prescription_date.strftime("%d/%m/%Y")} <br/> Total - N #{ @r.prescription.total}"
+      = @r.prescription.try(:code)
+
+  td
+    a tabindex="0" href="#" data-toggle="popover" data-trigger="focus" title="#{@r.prescription.patient.try(:firstname)} #{@r.prescription.patient.try(:surname)}" data-html="true" data-content="Hospital number - #{@r.prescription.patient.try(:hospital_number)} <br/> Mobile - #{@r.prescription.patient.try(:mobile)} <br/> Age - #{@r.prescription.patient.try(:age)} <br/> Next of kin -  #{ @r.prescription.patient.try(:nok_name)} <br/>  Next of kin mobile - #{@r.prescription.patient.try(:nok_mobile)}"
+      = "#{@r.prescription.patient.try(:firstname)} #{@r.prescription.patient.try(:surname)}"
+  /td.batch = prescription.try(:batches).try(:size)
+  td
+    table.table.table-striped.table-condensed
+      thead
+        tr
+          th Store
+          th Brand
+          th Total Units
+          th Returned Units
+          th Collation
+      tbody
+        / = simple_form_for(@r.prescription, :url => complete_dispense_prescription_path(@r.prescription), :method => :post) do |f|
+        - @r.prescription.prescription_batches.each do |p|
+            tr
+              td
+                = p.store.try(:name)
+              td
+                = p.brand.drug_prescription_info
+              td
+                = p.qty
+              td 
+                = @r.return_prescription_batches.where(brand_id: p.brand_id).try(:last).try(:qty)
+              td
+                a href="#" data-toggle="modal" data-target="#myModal_#{p.id}"  View Collation
+                div[id="myModal_#{p.id}" class="modal" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
+                  .modal-dialog role="document"
+                    .modal-content
+                      .modal-header
+                        button.close.approval-close aria-label="Close" data-dismiss="modal" type="button"
+                          span aria-hidden="true"  &times;
+                        h4#myModalLabel.modal-title Collation of #{p.qty} units of #{p.brand.drug_prescription_info} from #{p.store.try(:name)}
+                      .modal-body
+                        table.table.table-striped.table-condensed.batches.batches_modal_table
+                          thead
+                            tr
+                              th Brand
+                              th Batch number
+                              th Expiry Date
+                              th Units
+
+                          tbody
+                            - p.collation_batches.each do |collation_batch|
+                              - next if collation_batch.units.blank?
+                              - inventory_batch = collation_batch.inventory_batch
+                              - batch = inventory_batch.batch
+                              tr
+                                td = batch.brand.drug_prescription_info
+                                td = batch.batch_number
+                                td = batch.expiry_date.strftime("%d/%m/%Y")
+                                td
+                                  = collation_batch.units
+                                    /= batch_form.hidden_field :store_id , :value => s.from_store.id
+
+  td
+    = @r.prescription.subtotal
+  td
+    = @r.prescription.refunded_amount
+  td
+    = User.find(@r.user_id).try(:first_name)

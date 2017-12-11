@@ -1,6 +1,7 @@
 = simple_form_for @return, :html => {class: "form-inline"} do |f|
       = f.hidden_field :prescription_id
-      = f.hidden_field :user_id 
+      = f.hidden_field :user_id
+
       table.table
         thead
           tr
@@ -20,19 +21,34 @@
           th Brand
           th Batch number
           th Expiry Date
+          th Amount
           th Total units
-          th Return units
+          th Return units          
         tbody#prescription_batches
           - @prescription_batch_counter = 0
           - @return.return_prescription_batches.each do |batch|
-            = f.simple_fields_for :return_prescription_batches, batch do |batch_form|
+            - @prescription_batch_counter += 1
+            = f.simple_fields_for :return_prescription_batches, batch do |batch_form|            
               - @batch = batch
-              = batch_form.input :store_id, as: :hidden,  input_html: {value:  current_store.try(:id)}
+
+              = batch_form.hidden_field :prescription_batch_id, as: :hidden
+              = batch_form.hidden_field :pharm_item_id, as: :hidden
+              = batch_form.hidden_field :brand_id, as: :hidden
+              = batch_form.hidden_field :prescription_id, as: :hidden
+
+              = batch_form.input :store_id, as: :hidden, input_html: {value:  current_store.try(:id)}              
+              = batch_form.input :qty, as: :hidden, input_html: { class: "prescription_batch_#{@prescription_batch_counter}_qty", value: "0"}
 
               - batch.return_collation_batches.each do |rcb|
                 = batch_form.simple_fields_for :return_collation_batches, rcb do |rcb_form|
-                  = render 'return_prescription_batch_fields_alt', :ff => batch_form, rp_batch: batch, rcb_obj: rcb
-              - @prescription_batch_counter += 1
+                  - @bat_form = batch_form
+
+                  = rcb_form.hidden_field :collation_batch_id
+                  = rcb_form.hidden_field :prescription_batch_id
+                  = rcb_form.hidden_field :inventory_batch_id
+
+                  = render 'return_prescription_batch_fields_alt', :ff => rcb_form, rp_batch: batch, rcb_obj: rcb
+
       #Total
 
         .row
@@ -40,9 +56,13 @@
           .col-sm-3
             h5 Refund amount
           .col-sm-3.text-right
-            = f.hidden_field :total, :value => refund_total_calculation(@return)
+            / = f.hidden_field :total, :value => refund_total_calculation(@return)
+            - prev_ret_tot_amt = 0
+            - unless @prev_return.blank? and @prev_return.last.blank?
+                - prev_ret_tot_amt = @prev_return.last.total.blank? ? 0 : @prev_return.last.total
+            = f.hidden_field :total, class: "total_refund_amount", value: prev_ret_tot_amt
             #grand_total
-              h5 = "N #{refund_total_calculation(@return) || 0.00}"
+              h5.total_refund_amount N 0.00
 
 
         br

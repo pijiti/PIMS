@@ -14,55 +14,36 @@ tr
         tr
           th Store
           th Brand
+          th Batch number
+          th Expiry date
           th Total Units
           th Returned Units
-          th Collation
       tbody
         / = simple_form_for(@r.prescription, :url => complete_dispense_prescription_path(@r.prescription), :method => :post) do |f|
-        - @r.prescription.prescription_batches.each do |p|
-            tr
-              td
-                = p.store.try(:name)
-              td
-                = p.brand.drug_prescription_info
-              td
-                = p.qty
-              td 
-                = @r.return_prescription_batches.where(brand_id: p.brand_id).try(:last).try(:qty)
-              td
-                a href="#" data-toggle="modal" data-target="#myModal_#{p.id}"  View Collation
-                div[id="myModal_#{p.id}" class="modal" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
-                  .modal-dialog role="document"
-                    .modal-content
-                      .modal-header
-                        button.close.approval-close aria-label="Close" data-dismiss="modal" type="button"
-                          span aria-hidden="true"  &times;
-                        h4#myModalLabel.modal-title Collation of #{p.qty} units of #{p.brand.drug_prescription_info} from #{p.store.try(:name)}
-                      .modal-body
-                        table.table.table-striped.table-condensed.batches.batches_modal_table
-                          thead
-                            tr
-                              th Brand
-                              th Batch number
-                              th Expiry Date
-                              th Units
-
-                          tbody
-                            - p.collation_batches.each do |collation_batch|
-                              - next if collation_batch.units.blank?
-                              - inventory_batch = collation_batch.inventory_batch
-                              - batch = inventory_batch.batch
-                              tr
-                                td = batch.brand.drug_prescription_info
-                                td = batch.batch_number
-                                td = batch.expiry_date.strftime("%d/%m/%Y")
-                                td
-                                  = collation_batch.units
-                                    /= batch_form.hidden_field :store_id , :value => s.from_store.id
+        - rf_amount = 0
+        - @r.return_prescription_batches.each do |rpb|
+            - rf_amount += rpb.rate.to_f * rpb.qty.to_i
+            - rpb.return_collation_batches.each do |rcb|
+                - unless rcb.units.blank? or rcb.units == "0"
+                  tr
+                    td
+                      = rpb.store.try(:name)
+                    td
+                      = rpb.brand.drug_prescription_info
+                    td
+                      = rcb.inventory_batch.batch.batch_number
+                    td
+                      = rcb.inventory_batch.batch.expiry_date.strftime("%d/%m/%Y")
+                    td
+                      = rcb.collation_batch.units
+                    td 
+                      / = @r.return_prescription_batches.where(brand_id: rpb.brand_id).try(:last).try(:qty)
+                      = rcb.units
 
   td
     = @r.prescription.subtotal
   td
-    = @r.prescription.refunded_amount
+    / = @r.prescription.refunded_amount
+    = rf_amount
   td
     = User.find(@r.user_id).try(:first_name)

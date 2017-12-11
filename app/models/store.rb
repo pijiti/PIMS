@@ -9,6 +9,7 @@ class Store < ActiveRecord::Base
 	has_many :supplies, :dependent => :destroy
 	has_many :inventories, :dependent => :destroy
 	has_many :returns, :dependent => :destroy
+	has_many :return_prescription_batch, dependent: :destroy
 	belongs_to :store_operation
 
 	validates_presence_of :close_time, :open_time, :store_roles

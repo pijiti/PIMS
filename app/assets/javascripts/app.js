@@ -215,7 +215,7 @@ $(document).ready(function () {
     $('.prescription_batch').change(prescription_batch_change);
     $('.prescription_qty').change(prescription_qty_change);
 
-    $('.return_prescription_qty').change(return_qty_change);
+    // $('.return_prescription_qty').change(return_qty_change);
 
 
     $('#prescription_batches').bind('cocoon:after-insert',

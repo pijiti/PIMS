@@ -15,7 +15,7 @@ class ReturnsController < ApplicationController
 
   # GET /returns/new
   def new
-    @prev_return = Return.find_by_prescription_id(params[:id])
+    @prev_return = Return.where(prescription_id: params[:id])
     @return = Return.new(prescription_id: params[:id] , user_id: current_user.id)
     @prescription = Prescription.find_by_id(params[:id])
     @prescription.prescription_batches.each do |pb|
@@ -94,6 +94,7 @@ class ReturnsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def return_params
-      params.require(:return).permit(:prescription_id, :subtotal, :total, :surcharges, :return_date, :user_id, :store_id, return_collation_batches_attributes: [:id, :brand_id , :qty, :rate , :pharm_item_id, :prescription_id, :_destroy, return_prescription_batches_attributes: [:id, :return_prescription_batch_id, :collation_batch_id, :prescription_batch_id, :inventory_batch_id, :units]])
+      # params.require(:return).permit(:prescription_id, :subtotal, :total, :surcharges, :return_date, :user_id, :store_id, return_collation_batches_attributes: [:id, :brand_id , :qty, :rate , :pharm_item_id, :prescription_id, :_destroy, return_prescription_batches_attributes: [:id, :return_prescription_batch_id, :collation_batch_id, :prescription_batch_id, :inventory_batch_id, :units]])
+      params.require(:return).permit(:prescription_id, :store_id, :subtotal, :total, :surcharges, :return_date, :user_id, :store_id, return_prescription_batches_attributes: [:prescription_batch_id, :id, :store_id, :brand_id , :qty, :rate , :pharm_item_id, :prescription_id, :_destroy, return_collation_batches_attributes: [:id, :return_prescription_batch_id, :collation_batch_id, :prescription_batch_id, :inventory_batch_id, :units]])
     end
 end

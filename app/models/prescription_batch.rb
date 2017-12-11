@@ -8,7 +8,7 @@ class PrescriptionBatch < ActiveRecord::Base
   has_many :inventory_batches, :through => :collation_batches
   accepts_nested_attributes_for :inventory_batches, :allow_destroy => true, reject_if: :all_blank
   accepts_nested_attributes_for :collation_batches, :allow_destroy => true, reject_if: :all_blank
-
+  has_many :return_collation_batches, dependent: :destroy
   validates :qty, presence: true, numericality: {greater_than: 0}
   validates_presence_of :rate, :store_id
   validate :rate_blank_check

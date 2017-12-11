@@ -1,9 +1,13 @@
 class Return < ActiveRecord::Base
   belongs_to :prescription
-  has_many :return_prescription_batches , :dependent => :destroy
+  has_many :return_prescription_batches, :dependent => :destroy
   accepts_nested_attributes_for :return_prescription_batches, allow_destroy: true
-  after_create :refund_total_update
+  after_create :update_prescription_refunded_amount
 
+  def update_prescription_refunded_amount
+    self.prescription.update refunded_amount: self.total.to_f
+    self.save
+  end
 
   def refund_total_update
     total = 0

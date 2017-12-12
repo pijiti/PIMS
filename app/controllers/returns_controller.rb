@@ -10,6 +10,7 @@ class ReturnsController < ApplicationController
   # # GET /returns/1
   # # GET /returns/1.json
   def show
+    @prescription = Prescription.find_by_id(params[:id])
     @return = Return.where(prescription_id: params[:id])
   end
 
@@ -41,7 +42,8 @@ class ReturnsController < ApplicationController
     @return.return_date = Time.now
     respond_to do |format|
       if @return.save
-        format.html { redirect_to return_prescriptions_path, notice: 'Return was successfully processed.' }
+        format.html { redirect_to return_path(id: @return.prescription), notice: 'Return was successfully processed.' }
+        # format.html { redirect_to return_prescriptions_path, notice: 'Return was successfully processed.' }
         format.json { render :show, status: :created, location: @return }
       else
         format.html { render :new }

@@ -7,18 +7,20 @@
           tr
             th Prescriber
             th Clinic
+            th Ptient name
             th Prescription Date
         tbody
           tr
             td = @prescription.doctor.try(:full_name)
             td = @prescription.hospital_unit.try(:name)
+            td = @prescription.patient.try(:firstname)
             td = prescription_date_display(@prescription)
 
 
       hr
       table.table.table-striped.table-condensed
         thead
-          th Brand
+          th.text-center Brand
           th Batch number
           th Expiry Date
           th Amount
@@ -53,14 +55,14 @@
       #Total
 
         .row
-          .col-sm-6
-          .col-sm-3
-            h5 Refund amount
-          .col-sm-3.text-right
-            / = f.hidden_field :total, :value => refund_total_calculation(@return)
-            = f.hidden_field :total, class: "total_refund_amount", value: "0"
-            #grand_total
-              h5.total_refund_amount N 0.00
+          .col-sm-3.col-sm-offset-9
+            .col-sm-8.text-right
+              h5 Refund amount
+            .col-sm-4.text-right
+              / = f.hidden_field :total, :value => refund_total_calculation(@return)
+              = f.hidden_field :total, class: "total_refund_amount", value: "0"
+              #grand_total
+                h5.total_refund_amount N 0.00
 
 
         br

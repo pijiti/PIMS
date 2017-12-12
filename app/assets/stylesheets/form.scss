@@ -861,3 +861,7 @@ table td .remove_fields {
 		display: block;
 		margin: 0 auto;
 }
+
+th {
+	vertical-align: inherit !important;
+}

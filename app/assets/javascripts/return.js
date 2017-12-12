@@ -20,7 +20,7 @@ $(document).ready(function() {
       tot_amount += (tot_qty * batch_rate);
       tot_qty = 0;      
     }
-    $('.total_refund_amount').val(tot_amount);
-    $('h5.total_refund_amount').text("N "+tot_amount);
+    $('.total_refund_amount').val(tot_amount.toFixed(2));
+    $('h5.total_refund_amount').text("N "+tot_amount.toFixed(2));
   });
 });

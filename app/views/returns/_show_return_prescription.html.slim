@@ -44,6 +44,8 @@ tr
     = @r.prescription.subtotal
   td
     / = @r.prescription.refunded_amount
-    = rf_amount
+    = "%.2f" % rf_amount.to_f
   td
     = User.find(@r.user_id).try(:first_name)
+  td
+    = @r.approved ? "YES" : "NO"

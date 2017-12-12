@@ -14,5 +14,5 @@ section#pims-index
 
     tbody.prescriptions
       - @return_approvals.each do |return_approval|
-        - @return_approval = return_approval
+        - @r = return_approval
         = render "return_prescription"

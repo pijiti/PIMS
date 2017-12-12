@@ -72,6 +72,14 @@ class ReturnsController < ApplicationController
   def approve_return
     return_row = Return.find(params[:id])
     authorize! :return_approval, return_row
+    return_row.return_prescription_batches.each do |rpb|
+      rpb.return_collation_batches.each do |rcb|
+        inv_batch = rcb.inventory_batch
+        logger.debug "=== [BEFORE]inv_batch_units : #{inv_batch.units}"
+        inv_batch.update(units: (inv_batch.units + rcb.units.to_i))
+        logger.debug "=== [AFTER]inv_batch_units : #{inv_batch.units}"
+      end
+    end
     return_row.update(approved: true)
     redirect_to return_approval_index_returns_path
   end

@@ -1,20 +1,29 @@
-/ -unless @prev_return.nil?
-/ 	-return_prescription_batch = @prev_return.return_prescription_batches.where(brand_id: batch.brand_id)
-/ 	-unless return_prescription_batch.nil? 
-/ 		-rp_batch_qty = return_prescription_batch.last.qty.to_i
+- batch = rcb_obj.collation_batch.inventory_batch.batch
+- tot_units = rcb_obj.collation_batch.units
+- prev_units = 0
+- unless @prev_return.blank?
+  - @prev_return.each do |pr|
+    - pr.return_prescription_batches.each do |rpb|
+      - rcb_inv = rpb.return_collation_batches.find_by_inventory_batch_id(rcb_obj.inventory_batch_id)
+      - rcb_inv_units = rcb_inv.blank? ? 0 : rcb_inv.units.to_i 
+      - prev_units += rcb_inv_units
 
+- if (prev_units == 0)
+  - max_units = tot_units.to_i
+- else 
+  - max_units = (tot_units.to_i - prev_units)
+  
 tr.nested-fields
-        - batch = rcb_obj.collation_batch.inventory_batch.batch
-        - tot_units = rcb_obj.collation_batch.units
         td = rp_batch.brand.drug_prescription_info
         td = batch.batch_number
         td = batch.expiry_date.strftime("%d/%m/%Y")
         td = @bat_form.input :rate, label: false, input_html: { class: "prescription_batch_#{@prescription_batch_counter}_rate", readonly: true}
         td = tot_units.blank? ? 0 : tot_units
+        td = prev_units
         td
           div.control-group
             div.controls
-              - if tot_units.blank?
+              - if tot_units.blank? or max_units == 0
                 = ff.input :units, label: false, as: :integer, :input_html => {id: "batch_counter_#{@prescription_batch_counter}", class: "prescriptionqty_#{@prescription_batch_counter} return_prescription_qty", value: "0", readonly: true}
               - else  
-                = ff.input :units, label: false, placeholder: "Quantity", as: :integer, input_html: {required: true, min: 0, id: "batch_counter_#{@prescription_batch_counter}", class: "prescriptionqty_#{@prescription_batch_counter} return_prescription_qty"}
+                = ff.input :units, label: false, placeholder: "Quantity", as: :integer, input_html: {required: true, min: 0, max: max_units, id: "batch_counter_#{@prescription_batch_counter}", class: "prescriptionqty_#{@prescription_batch_counter} return_prescription_qty"}

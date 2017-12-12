@@ -5,7 +5,12 @@ class Return < ActiveRecord::Base
   after_create :update_prescription_refunded_amount
 
   def update_prescription_refunded_amount
-    self.prescription.update refunded_amount: self.total.to_f
+    prev_return_refund_amount = 0
+    prev_return = Return.where(prescription_id: self.prescription.id).where.not(id: self.id)
+    if !prev_return.blank? and !prev_return.last.blank? and !prev_return.last.prescription.blank? and !prev_return.last.prescription.refunded_amount.blank?
+      prev_return_refund_amount = prev_return.last.prescription.refunded_amount
+    end
+    self.prescription.update refunded_amount: ("%.2f" % (self.total.to_f + prev_return_refund_amount.to_f))
     self.save
   end
 

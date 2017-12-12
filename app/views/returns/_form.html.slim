@@ -23,7 +23,8 @@
           th Expiry Date
           th Amount
           th Total units
-          th Return units          
+          th Previously returned units
+          th Return units
         tbody#prescription_batches
           - @prescription_batch_counter = 0
           - @return.return_prescription_batches.each do |batch|
@@ -57,10 +58,7 @@
             h5 Refund amount
           .col-sm-3.text-right
             / = f.hidden_field :total, :value => refund_total_calculation(@return)
-            - prev_ret_tot_amt = 0
-            - unless @prev_return.blank? and @prev_return.last.blank?
-                - prev_ret_tot_amt = @prev_return.last.total.blank? ? 0 : @prev_return.last.total
-            = f.hidden_field :total, class: "total_refund_amount", value: prev_ret_tot_amt
+            = f.hidden_field :total, class: "total_refund_amount", value: "0"
             #grand_total
               h5.total_refund_amount N 0.00
 

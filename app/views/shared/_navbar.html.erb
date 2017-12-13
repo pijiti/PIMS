@@ -140,7 +140,7 @@
                         <%#= link_to '<i class="fa fa-repeat fa-fw blue"></i>Request Items'.html_safe, requests_path, class: "list-group-item" %>
                         <%= link_to 'Return'.html_safe, return_prescriptions_path, class: "list-group-item" %>
                         <% if can? :return_approval, Return %>
-                          <%= link_to 'Return approval', return_approval_index_returns_path, class: "list-group-item" %>
+                          <%= link_to 'Return approvals', return_approval_index_returns_path, class: "list-group-item" %>
                         <% end %>
                       </div>
                   <% end %>

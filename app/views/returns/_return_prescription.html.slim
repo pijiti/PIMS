@@ -51,4 +51,4 @@ tr
     = @r.try(:user).try(:first_name)
   td
     / - if @return_approval.prescription.status == "DISPENSED" and  @return_approval.prescription.refunded_amount == "0"
-    = link_to "Approved", approve_return_return_path(id: @r), :class => "btn-sm btn btn-success"
+    = link_to "Approve ?", approve_return_return_path(id: @r), :class => "btn-sm btn btn-success"

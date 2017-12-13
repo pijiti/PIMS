@@ -60,6 +60,14 @@ class User < ActiveRecord::Base
     end
   end
 
+  def prescriber_name
+    if title.try(:name)
+      "#{title.try(:name).capitalize}" + "  "+ " #{last_name.capitalize unless last_name.blank?}"+" "+ "#{first_name.capitalize.slice(0) unless first_name.blank?}"
+    else
+      "#{last_name.capitalize unless last_name.blank?}"+" "+ "#{first_name.capitalize.slice(0) unless first_name.blank?}"
+    end
+  end
+
   def status
     if self.valid_duration >= Time.now
       "Active"

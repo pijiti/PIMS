@@ -69,6 +69,7 @@ class ReturnsController < ApplicationController
   def return_approval_index
     @return_approvals = Return.where(approved: false)
     authorize! :return_approval, @return_approvals
+    Alert.find(params[:alert_id]).update(status: "READ") if params[:alert_id].present?
   end
 
   def approve_return

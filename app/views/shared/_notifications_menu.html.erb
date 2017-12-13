@@ -16,15 +16,17 @@
   <% if current_user and !current_user.unread_alerts.blank? %>
       <% current_user.unread_alerts.each do |a| %>
           <li>
-           <% if a.alert_type == "EXPIRY" %>
-               <a href="<%= expired_drugs_supplies_path(:store_id => a.store_id , :alert_id => a.id , :batch_id => a.inventory_batch.try(:batch_id)) %>">
-           <% elsif a.alert_type == "ORDER"  %>
-                <a href="<%= service_request_supplies_path(:alert => a.id) %>">
+            <% if a.alert_type == "EXPIRY" %>
+              <a href="<%= expired_drugs_supplies_path(:store_id => a.store_id , :alert_id => a.id , :batch_id => a.inventory_batch.try(:batch_id)) %>">
+            <% elsif a.alert_type == "ORDER"  %>
+              <a href="<%= service_request_supplies_path(:alert => a.id) %>">
             <% elsif a.alert_type == "CUSTOM"  %>
-                <a href="<%= get_notifications_alerts_path(:alert_id => a.id) %>" class="list-group-item list-group-item-success">
-           <% elsif a.alert_type == "SERVICED" %>
-                <a href="<%= receipts_path %>">
-           <% end %>
+              <a href="<%= get_notifications_alerts_path(:alert_id => a.id) %>" class="list-group-item list-group-item-success">
+            <% elsif a.alert_type == "SERVICED" %>
+              <a href="<%= receipts_path %>">
+            <% elsif a.alert_type == "RETURN" %>
+              <a href="<%= return_approval_index_returns_path(alert_id: a.id) %>">
+            <% end %>
             <strong> <%= a.message %> </strong>
            </a>
           </li>

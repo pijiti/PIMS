@@ -10,7 +10,7 @@ table.table
       th Prescription Date
   tbody
     tr
-      td = @prescription.doctor.try(:full_name)
+      td = @prescription.doctor.try(:prescriber_name)
       td = @prescription.hospital_unit.try(:name)
       td.user
         a tabindex="0" href="#" data-toggle="popover" data-html="true" data-trigger="focus" title="#{@prescription.try(:code)}" data-content="Doctor- Dr. #{@prescription.doctor.try(:first_name)}  #{@prescription.doctor.try(:last_name)} <br/> Hospital - #{@prescription.hospital_unit.try(:name)} <br/> Prescription date - #{@prescription.prescription_date.strftime("%d/%m/%Y")} <br/> Total - N #{ @prescription.total}"

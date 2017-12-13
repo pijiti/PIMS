@@ -7,11 +7,11 @@
           tr
             th Prescriber
             th Clinic
-            th Ptient name
+            th Patient name
             th Prescription Date
         tbody
           tr
-            td = @prescription.doctor.try(:full_name)
+            td = @prescription.doctor.try(:prescriber_name)
             td = @prescription.hospital_unit.try(:name)
             td = @prescription.patient.try(:firstname)
             td = prescription_date_display(@prescription)

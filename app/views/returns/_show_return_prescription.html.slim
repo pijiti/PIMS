@@ -35,7 +35,7 @@ tr
   / td
     = @r.prescription.subtotal
   td
-    = @r.return_date.strftime("%d/%m/%Y %I:%m %p")
+    = @r.return_date.strftime("%d/%m/%Y %I:%M %p")
   td
     / = @r.prescription.refunded_amount
     = "%.2f" % rf_amount.to_f

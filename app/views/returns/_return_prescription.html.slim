@@ -43,12 +43,12 @@ tr
                       = rcb.units
 
   td
-    = @r.prescription.subtotal
+    = @r.try(:prescription).try(:subtotal)
   td
     / = @r.prescription.refunded_amount
     = "%.2f" % rf_amount.to_f
   td
-    = User.find(@r.user_id).try(:first_name)
+    = @r.try(:user).try(:first_name)
   td
     / - if @return_approval.prescription.status == "DISPENSED" and  @return_approval.prescription.refunded_amount == "0"
     = link_to "Approved", approve_return_return_path(id: @r), :class => "btn-sm btn btn-success"

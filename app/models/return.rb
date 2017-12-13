@@ -1,5 +1,6 @@
 class Return < ActiveRecord::Base
   belongs_to :prescription
+  belongs_to :user
   has_many :return_prescription_batches, :dependent => :destroy
   accepts_nested_attributes_for :return_prescription_batches, allow_destroy: true
   after_create :update_prescription_refunded_amount

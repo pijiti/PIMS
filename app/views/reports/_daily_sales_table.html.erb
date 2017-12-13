@@ -2,6 +2,7 @@
   <div class="row">
     <button class="marginTop10 pull-right btn btn-xs btn-success" onclick="javascript: download_pdf();">Download PDF</button>
     <h4>Sales for the day: <%= number_to_currency @total_value, unit: "N " %></h4>
+    <h4>Returns for the day: <%= number_to_currency @total_return_amount, unit: "N " %></h4>
   </div>
   <table class="table table-striped data_table table-condensed">
     <thead>

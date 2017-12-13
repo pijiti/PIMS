@@ -152,7 +152,7 @@ class ReportsController < ApplicationController
   end
 
   def sales_filter
-    p = PrescriptionBatch.where(:store_id => current_store.try(:id)).pluck(:prescription_id)
+    p = PrescriptionBatch.where(:store_id => current_store.try(:id)).pluck(:prescription_id)    
     @receipts = {}
 
     current_date = @start_time.beginning_of_month.to_date
@@ -160,25 +160,29 @@ class ReportsController < ApplicationController
 
     @weekly_receipts = []
     weekly_total = 0
+    weekly_return = 0
     weeks = 0
     31.times do |i|
       break if current_date.month != current_month
 
       # all_receipts = receipts.where("date(updated_at) = ?", current_date)
       all_receipts = Prescription.where(:status => "DISPENSED", :id => p).where("date(updated_at) = ?", current_date)
+      return_amount = Return.where(store_id: current_store.try(:id)).where("return_date = '#{current_date}'").sum(:total)
 
       total_value = 0
       all_receipts.each do |r|
         total_value += r.subtotal.to_f.round(2) rescue 0
       end
 
-      @receipts[current_date] = total_value.round(2)
+      @receipts[current_date] = [total_value.round(2), return_amount]
       weekly_total += total_value.round(2)
+      weekly_return += return_amount.round(2)
       # weekly
       if (i+1) % 7 == 0
-        @weekly_receipts << weekly_total.round(2)
+        @weekly_receipts << [weekly_total.round(2), weekly_return.round(2)]
         # resetting
         weekly_total = 0
+        weekly_return = 0
         weeks += 1
       end
 
@@ -186,7 +190,7 @@ class ReportsController < ApplicationController
       current_date = current_date.next
     end
 
-    @weekly_receipts << weekly_total
+    @weekly_receipts << [weekly_total, weekly_return]
   end
 
 
@@ -210,6 +214,7 @@ class ReportsController < ApplicationController
       # end
 
     end
+    @total_return_amount = Return.where(store_id: current_store.try(:id)).where("return_date >= '#{@start_time}' and return_date < '#{@end_time}'").sum(:total)
   end
 
   def requisition_filter

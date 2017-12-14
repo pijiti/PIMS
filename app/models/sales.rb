@@ -20,7 +20,8 @@ class Sales
   end
 
   def generate
-    create_grid
+    # @document.stroke_axis
+    # create_grid
     write_page_headers
     write_store_info
     write_receipt_info
@@ -47,8 +48,8 @@ class Sales
   # Private: Write the top header section to all pages utilizing the first two grid rows and all columns.
   #
   def write_page_headers
-    @document.repeat([1]) do
-      @document.grid([0, 0], [6, 11]).bounding_box do
+    # @document.repeat([1]) do
+    #   @document.grid([0, 0], [6, 11]).bounding_box do
         @document.text_box "<strong><font size='17'>State Specialist Hospital,Ondo.\nPharmacy Department</font></strong>\n<font size='11'>Sales</font>", {
             align: :center,
             valign: :top,
@@ -57,8 +58,8 @@ class Sales
             size: 10,
             at: [@document.bounds.left, @document.bounds.top - 12]
         }
-      end
-    end
+    #   end
+    # end
   end
 
   #
@@ -81,9 +82,9 @@ class Sales
   end
 
   def write_store_info
-    page_content do
+    # page_content do
       @document.pad_top 5 do
-        @document.move_down 50
+        @document.move_down 100
         @document.bounding_box([0, @document.cursor], width: @document.bounds.right) do
           @document.pad_top 2.5 do
             @document.text_box "Date & Time: #{Time.now.strftime('%d-%m-%Y  at %I:%M%p')}", {
@@ -152,13 +153,13 @@ class Sales
           end
         end
       end
-    end
+    # end
   end
 
   def write_receipt_info
     receipts_count = @receipts_size
-    page_content do
-      @document.move_down 60
+    # page_content do
+      # @document.move_down 150
       @document.pad_top 10 do
         column_widths = @manage_report ? [40, 130, 100, 40, 40, 40, 30] : [60, 100, 80, 140, 30]
         @document.table get_table_data, {
@@ -179,13 +180,15 @@ class Sales
             c.border_color = '000000'
             c.size = 10
           end
-          (1..receipts_count).each do |r|
-            row(r).size = 8
+          if receipts_count > 1
+            (1..receipts_count).each do |r|
+              row(r).size = 8
+            end
           end
         end
       end
       #write_signature_content
-    end
+    # end
   end
 
   def get_table_data
@@ -229,7 +232,7 @@ class Sales
   end
 
   def write_return_info
-
+    @document.move_down 30
     @document.text "<font size='11'>Returns</font>", {
         align: :center,
         valign: :top,
@@ -246,8 +249,7 @@ class Sales
       end
     end
 
-    page_content do
-      @document.move_up 20
+    # page_content do
       @document.pad_top 10 do
         @document.table get_return_data, {
             header: true,
@@ -271,8 +273,7 @@ class Sales
             row(r).size = 8
           end
         end
-      end
-      #write_signature_content
+      # end
     end
 
   end

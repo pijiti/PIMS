@@ -6,7 +6,7 @@ include ActionView::Helpers::NumberHelper
 # pdf generator
 class Sales
 
-  def initialize(dest, current_user, current_store, receipts, total, manage_report)
+  def initialize(dest, current_user, current_store, receipts, total, manage_report, total_returns, total_return_amount)
     @document = Prawn::Document.new
     @current_user = current_user
     @current_store = current_store
@@ -15,6 +15,8 @@ class Sales
     @total = total
     @manage_report = manage_report
     @dest = dest
+    @total_returns = total_returns
+    @total_return_amount = total_return_amount
   end
 
   def generate
@@ -22,6 +24,7 @@ class Sales
     write_page_headers
     write_store_info
     write_receipt_info
+    write_return_info
     # write_page_footers
     @document.render_file @dest
     @dest
@@ -98,6 +101,19 @@ class Sales
             @document.text_box "Total sales for the day - N #{@total}", {
                 size: 8,
                 at: [@document.bounds.right - 260, @document.bounds.top + 22],
+                width: 230,
+                height: 40,
+                inline_format: true,
+                align: :right,
+                valign: :center,
+                leading: 5
+            }
+          end
+
+          @document.pad_top 2.5 do
+            @document.text_box "Total returns for the day - N #{@total_return_amount}", {
+                size: 8,
+                at: [@document.bounds.right - 260, @document.bounds.top + 13],
                 width: 230,
                 height: 40,
                 inline_format: true,
@@ -210,6 +226,84 @@ class Sales
       end
     end
     formatted_table
+  end
+
+  def write_return_info
+
+    @document.text "<font size='11'>Returns</font>", {
+        align: :center,
+        valign: :top,
+        leading: 5,
+        inline_format: true,
+        size: 10
+    }
+
+    return_count = 0
+    
+    @total_returns.each do |r|
+      r.return_prescription_batches.each do |rpb|
+        return_count += 1
+      end
+    end
+
+    page_content do
+      @document.move_up 20
+      @document.pad_top 10 do
+        @document.table get_return_data, {
+            header: true,
+            position: :center,
+            width: @document.bounds.right,
+            cell_style: {
+                padding: [4, 10, 10, 10],
+                size: 10,
+                border_width: 1,
+                border_color: '000000',
+                valign: :center
+            }
+        } do
+          row(0).style do |c|
+            c.font_style = :bold
+            c.border_width = 2
+            c.border_color = '000000'
+            c.size = 10
+          end
+          (1..return_count).each do |r|
+            row(r).size = 8
+          end
+        end
+      end
+      #write_signature_content
+    end
+
+  end
+
+  def get_return_data    
+    formatted_table = []
+    formatted_table.push ['Patient details', 'Drug details', 'Refund amount(N)']
+    @total_returns.each do |r|       
+      formatted_table.push [
+                              "#{r.prescription.patient.try(:initial_reverse)} (#{r.prescription.patient.try(:hospital_number)})",
+                              return_drug_details(r),
+                              "%.2f" % return_refund_amount(r)
+                            ]
+    end                          
+    formatted_table
+  end
+
+  def return_drug_details(return_obj)
+    details = []
+    return_obj.return_prescription_batches.each do |rpb|
+      details << "#{rpb.brand.name}(#{rpb.qty})"
+    end
+    details.join ','
+  end
+
+  def return_refund_amount(return_obj)
+    rf_amount = 0
+    return_obj.return_prescription_batches.each do |rpb|
+      rf_amount += rpb.rate.to_f * rpb.qty.to_i
+    end
+    rf_amount.to_f
   end
 
   def drug_details(receipt)

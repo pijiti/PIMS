@@ -12,7 +12,7 @@ class ReportsController < ApplicationController
 
     file_name   = "#{current_store.try(:name).split(' ').join('_')}_Sales.pdf"
     file_path   = "#{$pdf_files_location}/#{file_name}"
-    sales_pdf   = Sales.new(file_path,current_user,current_store,@receipts,@total_value,manage_report)
+    sales_pdf   = Sales.new(file_path,current_user,current_store,@receipts,@total_value,manage_report,@total_returns,@total_return_amount)
     file_pdf    = sales_pdf.generate()
 
     @file        = reports_url+"/download?file=#{file_name}"
@@ -214,7 +214,8 @@ class ReportsController < ApplicationController
       # end
 
     end
-    @total_return_amount = Return.where(store_id: current_store.try(:id)).where("return_date >= '#{@start_time}' and return_date < '#{@end_time}'").sum(:total)
+    @total_returns = Return.where(store_id: current_store.try(:id)).where("return_date >= '#{@start_time}' and return_date < '#{@end_time}'")
+    @total_return_amount = @total_returns.sum(:total)
   end
 
   def requisition_filter

@@ -133,12 +133,16 @@ module ApplicationHelper
 
   #calculate total money lost in expired drugs from expired batches
   def total_money_lost_in_expired_drugs(ibatches)
-    amount = 0
-    ibatches.each do |ib|
-      next if ib.units == 0 or ib.expired.blank?
-      amount += rate_per_unit(ib.batch) * ib.units
+    if ibatches.blank?
+      "0.00"  
+    else  
+      amount = 0
+      ibatches.each do |ib|
+        next if ib.units == 0 or ib.expired.blank?
+        amount += rate_per_unit(ib.batch) * ib.units
+      end
+      "%.2f" % amount
     end
-    "%.2f" % amount
   end
 
   def vendors_from_inventories(pharm_item)

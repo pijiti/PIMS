@@ -54,6 +54,7 @@ class SuppliesController < ApplicationController
 
   #from sidebar
   def expired_drugs
+    authorize! :manage_expired_drugs, current_user
     from_store = params[:store_id]
     generic_drug = params[:pharm_item_id]
     batch_id = params[:batch_id]
@@ -64,7 +65,7 @@ class SuppliesController < ApplicationController
       @batches = Batch.all.pluck(:batch_number, :id)
     else
       InventoryBatch.includes(:inventory, :batch).where(:inventory => current_store.inventories, :expired => true)
-      @batches = Batch.where(:id => @inventory_batches.pluck(:id)).pluck(:batch_number, :id)
+      @batches = Batch.where(:id => @inventory_batches.pluck(:id)).pluck(:batch_number, :id) unless @inventory_batches.blank?
     end
     @inventory_batches = @inventory_batches.includes(:inventory, :batch).where(:inventory => Store.find(from_store).inventories) if !from_store.blank?
     @inventory_batches = @inventory_batches.includes(:inventory, :batch).where(:batch => Batch.where(:pharm_item_id => generic_drug)) if !generic_drug.blank?

@@ -9,13 +9,14 @@ table.table.data_table.expiredDrugsDataTable
            th Rate per unit
            th Units(Packs)
   tbody
-    - @inventory_batches.each do |s|
-        - next if s.units.to_i == 0
-        tr.data-rows
-          td = s.inventory.store.try(:name)
-          td = s.batch.pharm_item.name
-          td = s.batch.brand.detailed_info
-          td = s.batch.batch_number
-          td = s.batch.expiry_date.strftime("%d/%m/%Y")
-          td = rate_per_unit(s.batch)
-          td = "#{s.units}(#{(pack_and_units(s.units.to_i, s.batch.brand.pack_size.to_i))})"
+    - unless @inventory_batches.blank?
+      - @inventory_batches.each do |s|
+          - next if s.units.to_i == 0
+          tr.data-rows
+            td = s.inventory.store.try(:name)
+            td = s.batch.pharm_item.name
+            td = s.batch.brand.detailed_info
+            td = s.batch.batch_number
+            td = s.batch.expiry_date.strftime("%d/%m/%Y")
+            td = rate_per_unit(s.batch)
+            td = "#{s.units}(#{(pack_and_units(s.units.to_i, s.batch.brand.pack_size.to_i))})"

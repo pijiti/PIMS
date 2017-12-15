@@ -29,8 +29,9 @@ class Ability
        end
 
        if user.has_role? "Store Keeper" , current_store
-         can :manage , Supply
+         can :manage, Supply
          can :manage, Alert
+         cannot :manage_expired_drugs, User 
        end
 
        if user.has_role? "Store Manager" , current_store

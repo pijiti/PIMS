@@ -214,7 +214,7 @@ class ReportsController < ApplicationController
       # end
 
     end
-    @total_returns = Return.where(store_id: current_store.try(:id)).where("return_date >= '#{@start_time}' and return_date < '#{@end_time}'")
+    @total_returns = Return.where(store_id: current_store.try(:id)).where("return_date = '#{@start_time}'")
     @total_return_amount = @total_returns.sum(:total)
   end
 

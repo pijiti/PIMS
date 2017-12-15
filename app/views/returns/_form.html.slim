@@ -67,6 +67,6 @@
 
         br
         p.text-center.btn-toolbar
-          = f.button :submit, :class => "btn btn-success btn-md ", :value => "Issue refund"
+          = f.button :submit, :class => "btn btn-success btn-md issue_refund_btn", :value => "Issue refund", disabled: true
           = link_to "Cancel", return_prescriptions_path, :class => "btn btn-default btn-md "
       hr

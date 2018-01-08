@@ -24,6 +24,6 @@ tr.nested-fields
           div.control-group
             div.controls
               - if tot_units.blank? or max_units == 0
-                = ff.input :units, label: false, as: :integer, :input_html => {id: "batch_counter_#{@prescription_batch_counter}", class: "prescriptionqty_#{@prescription_batch_counter} return_prescription_qty", value: "0", readonly: true}
+                = ff.input :units, label: false, as: :integer, :input_html => {id: "batch_counter_#{@prescription_batch_counter}", class: "prescriptionqty_#{@prescription_batch_counter} return_prescription_qty", value: "0", readonly: true, style: "width: 100px;"}
               - else  
-                = ff.input :units, label: false, placeholder: "Quantity", as: :integer, input_html: {required: true, min: 0, max: max_units, id: "batch_counter_#{@prescription_batch_counter}", class: "prescriptionqty_#{@prescription_batch_counter} return_prescription_qty"}
+                = ff.input :units, label: false, placeholder: "Quantity", as: :integer, input_html: {required: true, min: 0, max: max_units, id: "batch_counter_#{@prescription_batch_counter}", class: "prescriptionqty_#{@prescription_batch_counter} return_prescription_qty", style: "width: 100px;"}

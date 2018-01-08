@@ -11,11 +11,6 @@ $(document).ready(function() {
         field_value = null ? 0 : ($(this).val() || 0);
         tot_qty += parseInt(field_value);
       });
-      if (tot_qty > 0) {
-        $('.issue_refund_btn').removeAttr('disabled');
-      } else {
-        $('.issue_refund_btn').attr('disabled', 'disabled');
-      }
       batch_rate = $(".prescription_batch_"+i+"_rate").val();
       batch_rate = parseFloat(batch_rate);
       $(".prescription_batch_"+i+"_qty").val(tot_qty);
@@ -25,6 +20,11 @@ $(document).ready(function() {
       tot_amount += (tot_qty * batch_rate);
       tot_qty = 0;      
     }
+    if (tot_amount > 0) {
+        $('.issue_refund_btn').removeAttr('disabled');
+      } else {
+        $('.issue_refund_btn').attr('disabled', 'disabled');
+      }
     $('.total_refund_amount').val(tot_amount.toFixed(2));
     $('h5.total_refund_amount').text("N "+tot_amount.toFixed(2));
   });

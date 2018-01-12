@@ -65,11 +65,27 @@ class ReturnsController < ApplicationController
       end
     end
   end
-
+  
   def return_approval_index
-    @return_approvals = Return.where(approved: false)
     authorize! :return_approval, @return_approvals
-    Alert.find(params[:alert_id]).update(status: "READ") if params[:alert_id].present?
+    if !filter_return_params.blank?
+      @filter_return = Return.new(filter_return_params)
+      logger.debug "=== from_date : #{from_date = @filter_return.from_date}"
+      logger.debug "=== to_date : #{last_date = @filter_return.to_date}"
+      logger.debug "=== return_status : #{return_status = @filter_return.return_status}"
+      @return_approvals = Return.where("created_at >= ? and created_at <= ?", from_date.to_date, last_date.to_date)
+      if !return_status.blank?
+        if return_status == "All"
+          @return_approvals = Return.all if @return_approvals.blank?
+        else  
+          @return_approvals = @return_approvals.blank? ? Return.where(approved: (return_status == "Approved")) : @return_approvals.where(approved: (return_status == "Approved"))
+        end
+      end      
+    else
+      @filter_return = Return.new
+      @return_approvals = Return.where(approved: false)
+      Alert.find(params[:alert_id]).update(status: "READ") if params[:alert_id].present?
+    end
   end
 
   def approve_return
@@ -101,6 +117,10 @@ class ReturnsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_return
       @return = Return.find(params[:id])
+    end
+
+    def filter_return_params
+      params.require(:return).permit(:return_status , :from_date , :to_date) if params.has_key?(:return)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

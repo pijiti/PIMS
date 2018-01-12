@@ -1,4 +1,25 @@
 h3.text-center Return approvals
+.filter
+  = simple_form_for(@filter_return, url: return_approval_index_returns_path, method: :get) do |f|
+    table.table
+      thead
+        tr
+          th From date
+          th To date
+          th Status
+      tbody
+        td
+          = f.text_field :from_date ,  :data => { :provide  => 'datepicker', "date-format" => "dd/mm/yyyy" } , :input_html => {class: 'datepicker string required form-control input-sm form-group'}, placeholder: 'Enter a from date', as: :string , label: false
+        td
+          = f.text_field :to_date ,  :data => { :provide  => 'datepicker', "date-format" => "dd/mm/yyyy" } , :input_html => {class: 'datepicker string required form-control input-sm form-group'}, placeholder: 'Enter a to date', as: :string , label: false
+        td
+          = f.input :return_status, collection: ["All", "Approved", "Unapproved"], include_blank: "Choose status", label: false
+    .text-center
+      = f.submit :class => "btn btn-success btn-tiny", :value => "filter"
+
+hr
+
+/ h3.text-center Return approvals
 
 section#pims-index
   table.table.table-striped.table-condensed.collation_data_table
@@ -10,9 +31,8 @@ section#pims-index
       th Total amount
       th Refund amount(N)
       th Return Accepted by
+      th Return Store
       th.text-center Approval
 
     tbody.prescriptions
-      - @return_approvals.each do |return_approval|
-        - @r = return_approval
-        = render "return_prescription"
+      = render "return_prescription"

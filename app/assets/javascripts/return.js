@@ -1,5 +1,13 @@
 $(document).ready(function() {
   $(".return_prescription_qty").change(function(){
+    //  validation
+      if (parseInt($(this).attr('min_dispensable')) > parseInt($(this).val()))
+          alert("Minimum dispensable for the selected drug is " + $(this).attr('min_dispensable'));
+      else if((parseInt($(this).val()) % parseInt($(this).attr('min_dispensable'))) != 0)
+      {
+          alert("Drugs must be dispensed in multiples of " + $(this).attr('min_dispensable'));
+      }
+
     var field_value, i, tot_qty, batch_rate, tot_amount;
     tot_qty = 0;
     tot_amount = 0.0;
@@ -28,4 +36,6 @@ $(document).ready(function() {
     $('.total_refund_amount').val(tot_amount.toFixed(2));
     $('h5.total_refund_amount').text("N "+tot_amount.toFixed(2));
   });
+
+
 });

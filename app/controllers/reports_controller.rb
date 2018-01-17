@@ -166,8 +166,8 @@ class ReportsController < ApplicationController
       break if current_date.month != current_month
 
       # all_receipts = receipts.where("date(updated_at) = ?", current_date)
-      all_receipts = Prescription.where(:status => "DISPENSED", :id => p).where("date(updated_at) = ?", current_date)
-      return_amount = Return.where(store_id: current_store.try(:id)).where("return_date = '#{current_date}'").sum(:total)
+      all_receipts = Prescription.where(:status => "DISPENSED", :id => p).where("date(created_at) = ?", current_date)
+      return_amount = Return.where(store_id: current_store.try(:id)).where("date(return_date) = ?", current_date).sum(:total)
 
       total_value = 0
       all_receipts.each do |r|
@@ -201,7 +201,7 @@ class ReportsController < ApplicationController
     current_date = @start_time.to_date
 
     # all_receipts = receipts.where("date(updated_at) = ?", current_date)
-    @receipts = Prescription.where(:status => "DISPENSED", :id => p).where("date(updated_at) = ?", current_date)
+    @receipts = Prescription.where(:status => "DISPENSED", :id => p).where("date(created_at) = ?", current_date)
 
     @total_value = 0
     logger.info "=====#{@receipts}===="
@@ -214,7 +214,7 @@ class ReportsController < ApplicationController
       # end
 
     end
-    @total_returns = Return.where(store_id: current_store.try(:id)).where("return_date = '#{@start_time}'")
+    @total_returns = Return.where(store_id: current_store.try(:id)).where("date(return_date) = ?", current_date)
     @total_return_amount = @total_returns.sum(:total)
   end
 

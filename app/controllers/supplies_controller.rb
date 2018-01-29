@@ -2,6 +2,7 @@ class SuppliesController < ApplicationController
   before_action :authenticate_user!
 
   # rescue_from ActiveRecord::RecordNotFound, with:  :invalid_supplier
+  skip_authorize_resource only: :order
   authorize_resource
   before_action :set_supply, only: [:edit, :update, :destroy, :submit, :approval]
   before_action :set_all_supplies, only: [:index, :create, :update, :destroy]
@@ -201,56 +202,57 @@ class SuppliesController < ApplicationController
 
   #order when drug stock is less. ordered for dispensary store
   def order
-    s = Store.find_by_id(params[:supply][:store_id])
-    ps = Store.find_by_id(params[:supply][:parent_store_id])
-    p = PharmItem.find_by_id(params[:supply][:pharm_item_id])
-    b = Brand.find_by_id(params[:supply][:brand_id])
-    qty = params[:supply][:order_qty]
-    order = params[:supply][:order_number]
-    @order = Order.find_by_id(order) if !order.blank?
+    if can? :manage, :all or can? :order_drug_stock, current_user
+      s = Store.find_by_id(params[:supply][:store_id])
+      ps = Store.find_by_id(params[:supply][:parent_store_id])
+      p = PharmItem.find_by_id(params[:supply][:pharm_item_id])
+      b = Brand.find_by_id(params[:supply][:brand_id])
+      qty = params[:supply][:order_qty]
+      order = params[:supply][:order_number]
+      @order = Order.find_by_id(order) if !order.blank?
 
-    #if not from navbar and qty is blank
-    if (qty.blank? or qty.to_i <= 0) and params[:commit] != "Checkout Order"
-      redirect_to(inventory_index_path, :notice => "Ordering failed. Quantity value invalid") and return
-    end
-
-    if @order.blank?
-      @order = Order.create(:ordered_by => current_user , :from_store => s, :number => "#{PimsConfig.find_by_property_name('order_number_prefix').property_value}-#{Sequence.last.number}")
-      Sequence.last.update(:number => Sequence.last.number.to_i + 1)
-      order = @order.id
-    end
-
-    #if not from navbar
-    if params[:commit] != "Checkout Order"
-      #create service request
-      sr = ServiceRequest.create(:from_store => s, :request_store => ps, :qty => qty, :pharm_item => p, :brand => b, :order_id => order)
-    end
-
-    #check if adding to existing order
-    if params[:commit] == "Complete Order" or params[:commit] == "Checkout Order"
-      @order.update(:status => "ORDER_COMPLETE")
-
-      User.with_any_role({:name => "Admin"}, {:name => "Store Manager", :resource => ps}, {:name => "Store Keeper", :resource => ps}).each do |u|
-        #create alerts
-        Alert.create(:store => ps, :user => u, :status => "UNREAD", :order => @order, :alert_type => "ORDER",
-                     :message => "#{@order.service_requests.count} drugs with order code #{@order.number} has been ordered from #{s.name}")
-        if u.email and Rails.env == "production"
-          begin
-            UserMailer.delay.order_from_central_store(u, qty, p, s, b, @order)
-              #send_sms(u.username, "Hello #{u.first_name},Drug #{p.name} has been requested from #{s.name}")
-          rescue => e
-            ExceptionNotifier.notify_exception(e)
-          end
-        else
-          UserMailer.delay.order_from_central_store(User.find_by_email("vigneshp.ceg@gmail.com"), qty, p, s, b, @order)
-        end
+      #if not from navbar and qty is blank
+      if (qty.blank? or qty.to_i <= 0) and params[:commit] != "Checkout Order"
+        redirect_to(inventory_index_path, :notice => "Ordering failed. Quantity value invalid") and return
       end
-      @notice = "Notified the central store about the order #{@order.number}"
 
-    else
-      @notice = "Added to cart of order #{@order.number}"
+      if @order.blank?
+        @order = Order.create(:ordered_by => current_user , :from_store => s, :number => "#{PimsConfig.find_by_property_name('order_number_prefix').property_value}-#{Sequence.last.number}")
+        Sequence.last.update(:number => Sequence.last.number.to_i + 1)
+        order = @order.id
+      end
+
+      #if not from navbar
+      if params[:commit] != "Checkout Order"
+        #create service request
+        sr = ServiceRequest.create(:from_store => s, :request_store => ps, :qty => qty, :pharm_item => p, :brand => b, :order_id => order)
+      end
+
+      #check if adding to existing order
+      if params[:commit] == "Complete Order" or params[:commit] == "Checkout Order"
+        @order.update(:status => "ORDER_COMPLETE")
+
+        User.with_any_role({:name => "Admin"}, {:name => "Store Manager", :resource => ps}, {:name => "Store Keeper", :resource => ps}).each do |u|
+          #create alerts
+          Alert.create(:store => ps, :user => u, :status => "UNREAD", :order => @order, :alert_type => "ORDER",
+                       :message => "#{@order.service_requests.count} drugs with order code #{@order.number} has been ordered from #{s.name}")
+          if u.email and Rails.env == "production"
+            begin
+              UserMailer.delay.order_from_central_store(u, qty, p, s, b, @order)
+                #send_sms(u.username, "Hello #{u.first_name},Drug #{p.name} has been requested from #{s.name}")
+            rescue => e
+              ExceptionNotifier.notify_exception(e)
+            end
+          else
+            UserMailer.delay.order_from_central_store(User.find_by_email("vigneshp.ceg@gmail.com"), qty, p, s, b, @order)
+          end
+        end
+        @notice = "Notified the central store about the order #{@order.number}"
+
+      else
+        @notice = "Added to cart of order #{@order.number}"
+      end
     end
-
 
     redirect_to inventory_index_path, :notice => @notice
   end

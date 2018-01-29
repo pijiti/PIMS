@@ -99,7 +99,7 @@
                         <% if can? :manage, Store %>
                             <%= link_to 'Approval'.html_safe, approval_index_approvals_path, class: "list-group-item" %>
                         <% end %>
-                        <%= link_to 'Inventory'.html_safe, inventory_index_path, class: "list-group-item" %>
+                        <%= link_to 'Inventory'.html_safe, inventory_index_path, class: "list-group-item" if can? :manage, :all or can? :order_drug_stock, current_user %>
 
                         <% if (can? :manage, :all) or (current_store and current_store.store_type.name.downcase.include? "main store") %>
                             <%= link_to 'Service Request'.html_safe, service_request_supplies_path, class: "list-group-item" %>

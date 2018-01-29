@@ -26,6 +26,7 @@ class Ability
          can :manage , Prescription
          can :manage , Inventory
          can :manage , Receipt
+         can :order_drug_stock, User
        end
 
        if user.has_role? "Store Keeper" , current_store
@@ -40,6 +41,7 @@ class Ability
          can :manage , Store
          can :manage, Alert
          can :manage, "Report"
+         can :order_drug_stock, User
        end
 
        #current store must be central for accepting orders

@@ -168,7 +168,7 @@ class SuppliesController < ApplicationController
     end
 
     if can? :manage, :all
-      @service_requests ||= ServiceRequest.includes(:order, :pharm_item, :request_store, :from_store).where("orders.created_at > ?", Time.now.strftime("%d/%m/%Y")).where(:order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id).uniq).order("orders.created_at DESC").order('pharm_items.name ASC')
+      @service_requests ||= ServiceRequest.includes(:order, :pharm_item, :request_store, :from_store).where("orders.created_at > ?", Time.now).where(:order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id).uniq).order("orders.created_at DESC").order('pharm_items.name ASC')
       @stores = Store.all
     else
       @service_requests ||= ServiceRequest.includes(:order , :pharm_item, :request_store, :from_store).where(:request_store => current_store, :order_id => Order.where.not(:status => "ORDER_INCOMPLETE").pluck(:id)).order("orders.created_at DESC").order('pharm_items.name ASC')

@@ -152,8 +152,7 @@ class SuppliesController < ApplicationController
     else
       flash[:notice] = "Quantity issued can't be greater than the requested quantity. Please try again"
     end
-
-    redirect_to service_request_supplies_path
+    # redirect_to service_request_supplies_path
   end
 
   #central store services requests from dispensary store
@@ -176,7 +175,6 @@ class SuppliesController < ApplicationController
     end
 
     @pharm_items = PharmItem.includes(:brands).all
-
   end
 
 

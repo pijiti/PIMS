@@ -19,7 +19,7 @@ h3.text-center Service Requests
         td
             = f.input :created_at , :data => { :provide  => 'datepicker', "date-format" => "dd/mm/yyyy" } , :input_html => {class: 'datepicker string required form-control input-sm form-group' }, as: :string , label: false
     .text-center
-      = button_tag 'filter', class: "btn btn-success btn-tiny filterBtn"
+      = button_tag 'filter', class: "btn btn-success btn-tiny filterBtn service_req_filter_btn"
 
 hr
 

@@ -30,10 +30,10 @@ table.table.order_data_table
           td
               - if ![ "COMPLETED" , "AWAITING DELIVERY CONFIRMATION" ].include? s.status
                  a href="#" data-toggle="modal" data-target="#requests_#{s.id}"  Service Request
-                 = form_for(Supply.new , :url => transfer_batches_supplies_path , :method => :post ) do |supply_form|
+                 = form_for(Supply.new , :url => transfer_batches_supplies_path , :method => :post, remote: true) do |supply_form|
                        = supply_form.hidden_field :service_request_id , :value => s.id
                        /! Modal
-                       div[id="requests_#{s.id}" class="modal modal-approvals" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
+                       div[id="requests_#{s.id}" class="modal modal-approvals service_request_modal" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"]
                          .modal-dialog role="document"
                            .modal-content
                              .modal-header
@@ -77,4 +77,4 @@ table.table.order_data_table
                                                 /td = link_to  'Disapprove', submitted_item_approval_path( batch)
 
                              .modal-footer
-                               = supply_form.submit :class => "btn-sm btn btn-success" , :value => "Complete allotment"
+                               = supply_form.submit :class => "btn-sm btn btn-success" , :value => "Complete allotment", onclick: "$('.service_request_modal').modal('hide');"
